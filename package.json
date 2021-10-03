@@ -2,6 +2,16 @@
   "name": "meal-planner",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev:server": "npx prisma generate --watch"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
@@ -20,12 +30,6 @@
     "react-scripts": "4.0.3",
     "typescript": "^4.4.3",
     "web-vitals": "^1.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "prisma": "^3.1.1"
+    "prisma": "^3.1.1",
+    "ts-node": "^10.2.1"
   }
 }
