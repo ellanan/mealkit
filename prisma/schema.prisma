@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// run 'prisma generate' to re-generate Prisma Client to ensure the code
+// inside node_modules/.prisma/client gets updated after updating data model
+
+model User {
+  id       String @id @default(uuid())
+  username String
+  email    String @unique
+  password String
+}
+
+model IngredientType {
+  id         String       @id @default(uuid())
+  name       String       @unique
+  Ingredient Ingredient[]
+}
+
+model Ingredient {
+  id               String         @id @default(uuid())
+  ingredientType   IngredientType @relation(fields: [ingredientTypeId], references: [id])
+  ingredientTypeId String
+  Recipe           Recipe?        @relation(fields: [recipeId], references: [id])
+  recipeId         String?
+}
+
+model Recipe {
+  id          String         @id @default(uuid())
+  category    RecipeCategory @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  ingredients Ingredient[]
+}
+
+model RecipeCategory {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  Recipe Recipe[]
+}
+
+model GroceryList {
+  id   String @id @default(uuid())
+  name String
+}
