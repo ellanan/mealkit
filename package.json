@@ -9,7 +9,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev:server": "npx prisma generate --watch",
-    "client-codegen": "graphql-codegen --config codegen.yml"
+    "client-codegen": "graphql-codegen --config codegen.yml",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
