@@ -7,14 +7,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev:server": "npx prisma generate --watch"
+    "dev:server": "npx prisma generate --watch",
+    "client-codegen": "graphql-codegen --config codegen.yml"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.15",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@graphql-codegen/cli": "^2.2.0",
     "@prisma/client": "^3.1.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -53,6 +56,11 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.2.0",
+    "@graphql-codegen/typescript": "2.2.2",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.1.4",
+    "@graphql-codegen/typescript-document-nodes": "2.1.4",
+    "@graphql-codegen/typescript-operations": "2.1.6",
     "prisma": "^3.1.1",
     "ts-node": "^10.2.1"
   }
