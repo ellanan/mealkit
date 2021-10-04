@@ -1,0 +1,47 @@
+type Ingredient {
+  id: ID!
+  name: String!
+  type: IngredientType
+}
+
+type IngredientType {
+  id: ID!
+  name: String!
+}
+
+type Mutation {
+  createIngredient(
+    """id of the ingredient type"""
+    ingredientTypeId: ID
+
+    """name of the newly created ingredient"""
+    name: String
+  ): Ingredient
+  createIngredientType: IngredientType
+}
+
+type Query {
+  allUsers: [User]
+  ingredientTypes: [IngredientType]
+  ingredients: [Ingredient]
+  recipeCategories: [RecipeCategory]
+  recipes: [Recipe]
+}
+
+type Recipe {
+  category: RecipeCategory
+  id: ID!
+  ingredients: [Ingredient]
+  name: String!
+}
+
+type RecipeCategory {
+  id: ID!
+  name: String!
+}
+
+type User {
+  email: String
+  id: ID!
+  username: String
+}
