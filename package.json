@@ -58,10 +58,11 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.2.0",
+    "@graphql-codegen/schema-ast": "2.2.0",
     "@graphql-codegen/typescript": "2.2.2",
-    "@graphql-codegen/typescript-apollo-client-helpers": "^2.1.4",
     "@graphql-codegen/typescript-document-nodes": "2.1.4",
     "@graphql-codegen/typescript-operations": "2.1.6",
+    "@graphql-codegen/typescript-react-apollo": "^2.1.4",
     "prisma": "^3.1.1",
     "ts-node": "^10.2.1",
     "vercel": "^23.1.2"
