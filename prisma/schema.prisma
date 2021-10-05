@@ -11,7 +11,7 @@ generator client {
 // inside node_modules/.prisma/client gets updated after updating data model
 
 model User {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(cuid())
   username String
   email    String   @unique
   password String
@@ -19,38 +19,36 @@ model User {
 }
 
 model IngredientType {
-  id          Int          @id @default(autoincrement())
+  id          String       @id @default(cuid())
   name        String       @unique
   ingredients Ingredient[]
 }
 
 model Ingredient {
-  id               Int            @id @default(autoincrement())
+  id               String         @id @default(cuid())
   name             String
   ingredientType   IngredientType @relation(fields: [ingredientTypeId], references: [id])
-  ingredientTypeId Int
-
-  recipe   Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId Int?
+  ingredientTypeId String
+  recipe           Recipe[]
 }
 
 model Recipe {
-  id          Int            @id @default(autoincrement())
+  id          String          @id @default(cuid())
   name        String
-  category    RecipeCategory @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  category    RecipeCategory? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
   ingredients Ingredient[]
-  user        User?          @relation(fields: [userId], references: [id])
-  userId      Int?
+  user        User?           @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model RecipeCategory {
-  id     Int      @id @default(autoincrement())
+  id     String   @id @default(cuid())
   name   String   @unique
   recipe Recipe[]
 }
 
 model GroceryList {
-  id   Int    @id @default(autoincrement())
+  id   String @id @default(cuid())
   name String
 }
