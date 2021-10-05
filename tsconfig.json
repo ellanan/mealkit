@@ -7,7 +7,7 @@
     }
   },
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2018",
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,7 +28,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
-    "generated/nexus-typegen.d.ts"
+    "generated/nexus-typegen.d.ts",
+    "api/**/*",
+    "src"
   ]
 }
