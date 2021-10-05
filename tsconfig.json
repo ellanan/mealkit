@@ -28,6 +28,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "generated/nexus-typegen.d.ts"
   ]
 }
