@@ -1,16 +1,17 @@
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './apolloClient';
 
+import { MainHeader } from './components/MainHeader';
 import { Recipes } from './components/Recipes';
-import { CreateRecipe } from './components/CreateRecipe';
+import { Footer } from './components/Footer';
 
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
       <div>
-        <h1>meal planner</h1>
-        <CreateRecipe />
+        <MainHeader />
         <Recipes />
+        <Footer />
       </div>
     </ApolloProvider>
   );
