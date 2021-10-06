@@ -14,9 +14,11 @@ type IngredientType {
 }
 
 type Mutation {
-  createIngredient(ingredientTypeId: ID, name: String): Ingredient
-  createIngredientType(name: String): IngredientType
-  createRecipe(name: String): Recipe
+  addIngredientToRecipe(ingredientId: ID!, recipeId: ID!): Recipe
+  createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
+  createIngredientType(name: String!): IngredientType
+  createRecipe(name: String!): Recipe
+  removeIngredientFromRecipe(ingredientId: ID!, recipeId: ID!): Recipe
 }
 
 type Query {

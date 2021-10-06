@@ -56,7 +56,7 @@ export const Ingredient = objectType({
     t.nonNull.string('name');
     t.field('type', {
       type: 'IngredientType',
-      async resolve(src) {
+      resolve: async (src) => {
         return await prisma.ingredientType.findUnique({
           where: {
             id: src.ingredientTypeId,
@@ -82,24 +82,36 @@ export const Recipes = objectType({
     t.nonNull.string('name');
     t.field('category', {
       type: 'RecipeCategory',
-      async resolve(parent) {
-        return await prisma.recipeCategory.findUnique({
-          where: {
-            id: parent.categoryId,
-          },
-        });
+      resolve: async (parent) => {
+        return (
+          (
+            await prisma.recipe.findUnique({
+              where: {
+                id: parent.id,
+              },
+              include: {
+                category: true,
+              },
+            })
+          )?.category ?? null
+        );
       },
     });
     t.list.field('ingredients', {
       type: 'Ingredient',
-      async resolve(parent) {
-        return prisma.ingredient.findMany({
-          where: {
-            recipeId: {
-              equals: parent.id,
-            },
-          },
-        });
+      resolve: async (parent) => {
+        return (
+          (
+            await prisma.recipe.findUnique({
+              where: {
+                id: parent.id,
+              },
+              include: {
+                ingredients: true,
+              },
+            })
+          )?.ingredients ?? null
+        );
       },
     });
   },

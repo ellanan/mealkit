@@ -3,7 +3,7 @@
  * Do not make changes to this file directly
  */
 
-
+import type * as PrismaClient from ".prisma/client"
 
 
 
@@ -28,29 +28,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Ingredient: { // root type
-    id: string; // ID!
-    name: string; // String!
-  }
-  IngredientType: { // root type
-    id: string; // ID!
-    name: string; // String!
-  }
+  Ingredient: PrismaClient.Ingredient;
+  IngredientType: PrismaClient.IngredientType;
   Mutation: {};
   Query: {};
-  Recipe: { // root type
-    id: string; // ID!
-    name: string; // String!
-  }
-  RecipeCategory: { // root type
-    id: string; // ID!
-    name: string; // String!
-  }
-  User: { // root type
-    email?: string | null; // String
-    id: string; // ID!
-    username?: string | null; // String
-  }
+  Recipe: PrismaClient.Recipe;
+  RecipeCategory: PrismaClient.RecipeCategory;
+  User: PrismaClient.User;
 }
 
 export interface NexusGenInterfaces {
@@ -74,9 +58,11 @@ export interface NexusGenFieldTypes {
     name: string; // String!
   }
   Mutation: { // field return type
+    addIngredientToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     createIngredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    removeIngredientFromRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
     allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
@@ -113,9 +99,11 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
   }
   Mutation: { // field return type name
+    addIngredientToRecipe: 'Recipe'
     createIngredient: 'Ingredient'
     createIngredientType: 'IngredientType'
     createRecipe: 'Recipe'
+    removeIngredientFromRecipe: 'Recipe'
   }
   Query: { // field return type name
     allUsers: 'User'
@@ -143,15 +131,23 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    addIngredientToRecipe: { // args
+      ingredientId: string; // ID!
+      recipeId: string; // ID!
+    }
     createIngredient: { // args
-      ingredientTypeId?: string | null; // ID
-      name?: string | null; // String
+      ingredientTypeId: string; // ID!
+      name: string; // String!
     }
     createIngredientType: { // args
-      name?: string | null; // String
+      name: string; // String!
     }
     createRecipe: { // args
-      name?: string | null; // String
+      name: string; // String!
+    }
+    removeIngredientFromRecipe: { // args
+      ingredientId: string; // ID!
+      recipeId: string; // ID!
     }
   }
 }
