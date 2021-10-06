@@ -8,8 +8,11 @@ import * as queryTypes from './graphqlTypes/queryTypes';
 const schema = makeSchema({
   types: [...Object.values(queryTypes), ...Object.values(mutationTypes)],
   outputs: {
-    typegen: join(process.cwd(), 'generated', 'nexus-typegen.d.ts'), // 2
-    schema: join(process.cwd(), 'generated', 'schema.graphql'), // 3
+    typegen: join(process.cwd(), 'generated', 'nexus-typegen.d.ts'),
+    schema: join(process.cwd(), 'generated', 'schema.graphql'),
+  },
+  sourceTypes: {
+    modules: [{ module: '.prisma/client', alias: 'PrismaClient' }],
   },
 });
 
