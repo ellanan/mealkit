@@ -78,6 +78,7 @@ async function main() {
   const recipes = await prisma.recipe.create({
     data: {
       name: 'salted sliced turkey',
+      content: 'some contents here',
       category: {
         connect: {
           id: recipeCategoryIds.chinese,
