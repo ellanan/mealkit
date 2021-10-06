@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import cuid from 'cuid';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -18,9 +20,9 @@ async function main() {
   });
 
   const ingredientTypeIds = {
-    seasoning: 1,
-    deli: 2,
-    dairy: 3,
+    seasoning: cuid(),
+    deli: cuid(),
+    dairy: cuid(),
   };
 
   const ingredientTypes = await prisma.ingredientType.createMany({
@@ -56,8 +58,8 @@ async function main() {
   ]);
 
   const recipeCategoryIds = {
-    american: 1,
-    chinese: 2,
+    american: cuid(),
+    chinese: cuid(),
   };
 
   const recipeCategories = await prisma.recipeCategory.createMany({
@@ -76,8 +78,16 @@ async function main() {
   const recipes = await prisma.recipe.create({
     data: {
       name: 'salted sliced turkey',
-      categoryId: recipeCategoryIds.chinese,
-      userId: alice.id,
+      category: {
+        connect: {
+          id: recipeCategoryIds.chinese,
+        },
+      },
+      user: {
+        connect: {
+          id: alice.id,
+        },
+      },
       ingredients: {
         connect: [
           {
@@ -91,7 +101,7 @@ async function main() {
     },
   });
 
-  console.log({ alice, ingredientTypes, recipes });
+  console.log({ alice, ingredientTypes, recipes, recipeCategories });
 }
 
 main()
