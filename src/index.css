@@ -16,8 +16,20 @@ body,
 
 body {
   background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #fff;
 }
 
 a {
   text-decoration: none;
+  color: #000;
+}
+
+li {
+  list-style: none;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
 }
