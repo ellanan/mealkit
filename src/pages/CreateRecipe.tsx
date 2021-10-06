@@ -20,6 +20,7 @@ export const CreateRecipe = () => {
 
   return (
     <>
+      <h1>create recipe page</h1>
       <button
         onClick={() => {
           createRecipe({
@@ -29,7 +30,7 @@ export const CreateRecipe = () => {
           });
         }}
       >
-        add recipe
+        create recipe
       </button>
     </>
   );

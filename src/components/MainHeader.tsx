@@ -1,23 +1,31 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-
-import { CreateRecipe } from './CreateRecipe';
+import { NavLink } from 'react-router-dom';
 
 export const MainHeader = () => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: row;
-      `}
-    >
+    <nav>
       <h1>MealKit</h1>
-      <button>home</button>
-      <CreateRecipe />
-      <button>recipes</button>
-      <button>meal plan</button>
-      <button>grocery list</button>
-      <button>login</button>
-    </div>
+      <ul>
+        <li>
+          <NavLink to='/'>home</NavLink>
+        </li>
+        <li>
+          <NavLink to='/createrecipe'>create recipe</NavLink>
+        </li>
+        <li>
+          <NavLink to='/recipes'>recipes</NavLink>
+        </li>
+        <li>
+          <NavLink to='/mealplan'>meal plan</NavLink>
+        </li>
+        <li>
+          <NavLink to='/grocerylist'>grocery list</NavLink>
+        </li>
+        <li>
+          <NavLink to='/login'>login</NavLink>
+        </li>
+      </ul>
+    </nav>
   );
 };
