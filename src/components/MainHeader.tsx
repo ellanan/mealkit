@@ -1,5 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+// /** @jsxImportSource @emotion/react */
+// import { css } from '@emotion/react';
 import { NavLink } from 'react-router-dom';
 
 export const MainHeader = () => {

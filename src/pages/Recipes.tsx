@@ -57,11 +57,11 @@ export const Recipes = () => {
 
   return (
     <>
+      <h1>recipes page</h1>
       {data?.recipes?.map((recipe) => {
         if (!recipe) return null;
         return (
           <div key={recipe.id}>
-            <h1>recipes page</h1>
             <h2>
               {recipe.name} - {recipe.category?.name}
             </h2>
