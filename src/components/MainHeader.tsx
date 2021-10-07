@@ -16,7 +16,9 @@ export const MainHeader = () => {
         align-items: center;
       `}
     >
-      <h1>MealKit</h1>
+      <NavLink to='/'>
+        <h1>MealKit</h1>
+      </NavLink>
       <ul
         css={css`
           display: flex;
