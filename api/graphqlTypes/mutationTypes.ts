@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { idArg, mutationType, nonNull, stringArg } from 'nexus';
+import { idArg, mutationType, nonNull, stringArg, list } from 'nexus';
 
 const prisma = new PrismaClient();
 
@@ -43,11 +43,19 @@ export const Mutation = mutationType({
       type: 'Recipe',
       args: {
         name: nonNull(stringArg()),
+        content: nonNull(stringArg()),
+        ingredientIds: nonNull(list(nonNull(idArg()))),
       },
       resolve: async (_parent, args) => {
         return prisma.recipe.create({
           data: {
             name: args.name,
+            content: args.content,
+            ingredients: {
+              connect: args.ingredientIds.map((ingredientId) => ({
+                id: ingredientId,
+              })),
+            },
           },
         });
       },
