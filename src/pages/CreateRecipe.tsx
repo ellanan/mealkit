@@ -8,12 +8,15 @@ interface CreateRecipeForm {
   content: string;
 }
 
+const initalFormDataState = {
+  recipeName: '',
+  ingredients: [],
+  content: '',
+};
+
 export const CreateRecipe = () => {
-  const [formData, setFormData] = useState<CreateRecipeForm>({
-    recipeName: '',
-    ingredients: [],
-    content: '',
-  });
+  const [formData, setFormData] =
+    useState<CreateRecipeForm>(initalFormDataState);
 
   const { data: ingredientsData, error: errorLoadingIngredients } =
     useQuery<GraphQLTypes.IngredientsQuery>(gql`
@@ -80,6 +83,7 @@ export const CreateRecipe = () => {
           }).then((response) => {
             console.log('created recipe', response.data?.createRecipe?.id);
           });
+          setFormData(initalFormDataState);
         }}
       >
         <ul>
@@ -88,6 +92,7 @@ export const CreateRecipe = () => {
             <br />
             <input
               type='text'
+              value={formData.recipeName}
               onChange={(e) => {
                 const recipeName = e.target.value;
                 setFormData((prev) => {
@@ -100,6 +105,7 @@ export const CreateRecipe = () => {
             <label>content</label>
             <br />
             <textarea
+              value={formData.content}
               name='content'
               rows={5}
               cols={100}
