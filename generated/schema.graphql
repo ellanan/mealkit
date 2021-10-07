@@ -22,17 +22,17 @@ type Mutation {
 }
 
 type Query {
-  allUsers: [User]
-  ingredientTypes: [IngredientType]
-  ingredients: [Ingredient]
-  recipeCategories: [RecipeCategory]
-  recipes: [Recipe]
+  allUsers: [User!]!
+  ingredientTypes: [IngredientType!]!
+  ingredients: [Ingredient!]!
+  recipeCategories: [RecipeCategory!]!
+  recipes: [Recipe!]!
 }
 
 type Recipe {
   category: RecipeCategory
   id: ID!
-  ingredients: [Ingredient]
+  ingredients: [Ingredient!]
   name: String!
 }
 

@@ -65,16 +65,16 @@ export interface NexusGenFieldTypes {
     removeIngredientFromRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
-    allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
-    ingredientTypes: Array<NexusGenRootTypes['IngredientType'] | null> | null; // [IngredientType]
-    ingredients: Array<NexusGenRootTypes['Ingredient'] | null> | null; // [Ingredient]
-    recipeCategories: Array<NexusGenRootTypes['RecipeCategory'] | null> | null; // [RecipeCategory]
-    recipes: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
+    allUsers: NexusGenRootTypes['User'][]; // [User!]!
+    ingredientTypes: NexusGenRootTypes['IngredientType'][]; // [IngredientType!]!
+    ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
+    recipeCategories: NexusGenRootTypes['RecipeCategory'][]; // [RecipeCategory!]!
+    recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
   Recipe: { // field return type
     category: NexusGenRootTypes['RecipeCategory'] | null; // RecipeCategory
     id: string; // ID!
-    ingredients: Array<NexusGenRootTypes['Ingredient'] | null> | null; // [Ingredient]
+    ingredients: NexusGenRootTypes['Ingredient'][] | null; // [Ingredient!]
     name: string; // String!
   }
   RecipeCategory: { // field return type

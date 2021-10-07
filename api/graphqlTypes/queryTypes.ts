@@ -5,27 +5,27 @@ const prisma = new PrismaClient();
 
 export const Query = queryType({
   definition(t) {
-    t.list.field('allUsers', {
+    t.nonNull.list.nonNull.field('allUsers', {
       type: 'User',
       resolve: () => prisma.user.findMany(),
     });
 
-    t.list.field('ingredients', {
+    t.nonNull.list.nonNull.field('ingredients', {
       type: 'Ingredient',
       resolve: () => prisma.ingredient.findMany(),
     });
 
-    t.list.field('ingredientTypes', {
+    t.nonNull.list.nonNull.field('ingredientTypes', {
       type: 'IngredientType',
       resolve: () => prisma.ingredientType.findMany(),
     });
 
-    t.list.field('recipes', {
+    t.nonNull.list.nonNull.field('recipes', {
       type: 'Recipe',
       resolve: () => prisma.recipe.findMany(),
     });
 
-    t.list.field('recipeCategories', {
+    t.nonNull.list.nonNull.field('recipeCategories', {
       type: 'RecipeCategory',
       resolve: () => prisma.recipeCategory.findMany(),
     });
@@ -97,7 +97,7 @@ export const Recipes = objectType({
         );
       },
     });
-    t.list.field('ingredients', {
+    t.list.nonNull.field('ingredients', {
       type: 'Ingredient',
       resolve: async (parent) => {
         return (
