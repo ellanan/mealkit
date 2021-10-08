@@ -5,10 +5,8 @@ import type * as GraphQLTypes from '../generated/graphql';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { SearchForm } from '../components/SearchForm';
-
 export const Recipes = () => {
-  const [showRecipeDetails, setShowRecipeDetails] = useState(false);
+  const [search, setSearch] = useState<string>('');
 
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
     query Recipes {
@@ -43,7 +41,7 @@ export const Recipes = () => {
   }
 
   return (
-    <>
+    <div>
       <NavLink
         to='/recipes/create-recipe'
         css={css`
@@ -55,32 +53,34 @@ export const Recipes = () => {
       >
         create recipe
       </NavLink>
-      <SearchForm />
-      {data?.recipes?.map((recipe) => {
-        if (!recipe) return null;
-        return (
-          <div key={recipe.id}>
-            <h2>
+      <form>
+        <label htmlFor='name'>search recipes</label>
+        <input
+          type='text'
+          id='name'
+          onChange={(e) => {
+            e.preventDefault();
+            setSearch(e.target.value);
+          }}
+        />
+      </form>
+      {data?.recipes
+        .filter((recipe) =>
+          recipe.name.toLowerCase().includes(search.toLowerCase())
+        )
+        .map((recipe) => (
+          <div>
+            <h3 key={recipe.id}>
               {recipe.name} - {recipe.category?.name}
-            </h2>
-            {showRecipeDetails ? (
-              <ul>
-                <span>ingredients:</span>
-                {recipe.ingredients?.map((ingredient) => (
-                  <li key={ingredient?.name}>{ingredient?.name}</li>
-                ))}
-              </ul>
-            ) : null}
-            <button
-              onClick={() => {
-                setShowRecipeDetails(true);
-              }}
-            >
-              show details
-            </button>
+            </h3>
+            <ul>
+              <span>ingredients:</span>
+              {recipe.ingredients?.map((ingredient) => (
+                <li key={ingredient?.name}>{ingredient?.name}</li>
+              ))}
+            </ul>
           </div>
-        );
-      })}
-    </>
+        ))}
+    </div>
   );
 };
