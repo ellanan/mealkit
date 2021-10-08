@@ -1,7 +1,15 @@
-import { useQuery, useMutation, gql } from '@apollo/client';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import { useQuery, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import { SearchForm } from '../components/SearchForm';
 
 export const Recipes = () => {
+  const [showRecipeDetails, setShowRecipeDetails] = useState(false);
+
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
     query Recipes {
       ingredientTypes {
@@ -30,34 +38,24 @@ export const Recipes = () => {
       }
     }
   `);
-
-  const [
-    addIngredientToRecipe,
-    {
-      loading: isAddingIngredientToRecipe,
-      error: errorAddingIngredientToRecipe,
-    },
-  ] = useMutation<
-    GraphQLTypes.AddIngredientToRecipeMutation,
-    GraphQLTypes.AddIngredientToRecipeMutationVariables
-  >(gql`
-    mutation AddIngredientToRecipe($ingredientId: ID!, $recipeId: ID!) {
-      addIngredientToRecipe(ingredientId: $ingredientId, recipeId: $recipeId) {
-        id
-        ingredients {
-          id
-        }
-      }
-    }
-  `);
-
   if (error) {
     throw error;
   }
 
   return (
     <>
-      <h1>recipes page</h1>
+      <NavLink
+        to='/recipes/create-recipe'
+        css={css`
+          padding: 0.1em;
+          border: 2px solid #000;
+          border-radius: 10px;
+          background-color: yellow;
+        `}
+      >
+        create recipe
+      </NavLink>
+      <SearchForm />
       {data?.recipes?.map((recipe) => {
         if (!recipe) return null;
         return (
@@ -65,23 +63,20 @@ export const Recipes = () => {
             <h2>
               {recipe.name} - {recipe.category?.name}
             </h2>
-            ingredients:
-            <ul>
-              {recipe.ingredients?.map((ingredient) => (
-                <li>{ingredient?.name}</li>
-              ))}
-            </ul>
+            {showRecipeDetails ? (
+              <ul>
+                <span>ingredients:</span>
+                {recipe.ingredients?.map((ingredient) => (
+                  <li key={ingredient?.name}>{ingredient?.name}</li>
+                ))}
+              </ul>
+            ) : null}
             <button
               onClick={() => {
-                addIngredientToRecipe({
-                  variables: {
-                    ingredientId: '1',
-                    recipeId: recipe.id,
-                  },
-                });
+                setShowRecipeDetails(true);
               }}
             >
-              add salt
+              show details
             </button>
           </div>
         );

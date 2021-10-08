@@ -29,13 +29,10 @@ export const MainHeader = () => {
         `}
       >
         <Li>
-          <NavLink to='/createrecipe'>create recipe</NavLink>
+          <NavLink to='/'>meal plan</NavLink>
         </Li>
         <Li>
           <NavLink to='/recipes'>recipes</NavLink>
-        </Li>
-        <Li>
-          <NavLink to='/mealplan'>meal plan</NavLink>
         </Li>
         <Li>
           <NavLink to='/grocerylist'>grocery list</NavLink>

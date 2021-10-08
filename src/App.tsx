@@ -16,17 +16,18 @@ const App = () => {
     <ApolloProvider client={apolloClient}>
       <MainHeader />
       <Switch>
-        <Route path='/createrecipe' component={CreateRecipe} />
+        <Route exact path='/' component={MealPlan} />
         <Route exact path='/recipes' component={Recipes} />
+        <Route exact path='/recipes/create-recipe' component={CreateRecipe} />
         <Route
+          exact
           path='/recipes/:recipeId'
           render={({ match }) => (
             <SingleRecipe recipeId={match.params.recipeId} />
           )}
         />
-        <Route path='/mealplan' component={MealPlan} />
-        <Route path='/grocerylist' component={GroceryList} />
-        <Route path='/login' component={Login} />
+        <Route exact path='/grocerylist' component={GroceryList} />
+        <Route exact path='/login' component={Login} />
       </Switch>
       <Footer />
     </ApolloProvider>
