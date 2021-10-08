@@ -3,7 +3,6 @@ import { apolloClient } from './apolloClient';
 import { Route, Switch } from 'react-router-dom';
 
 import { MainHeader } from './components/MainHeader';
-import { Home } from './pages/Home';
 import { CreateRecipe } from './pages/CreateRecipe';
 import { Recipes } from './pages/Recipes';
 import { SingleRecipe } from './pages/SingleRecipe';
@@ -17,7 +16,6 @@ const App = () => {
     <ApolloProvider client={apolloClient}>
       <MainHeader />
       <Switch>
-        <Route exact path='/' component={Home} />
         <Route path='/createrecipe' component={CreateRecipe} />
         <Route exact path='/recipes' component={Recipes} />
         <Route

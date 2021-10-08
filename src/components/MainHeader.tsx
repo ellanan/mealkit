@@ -29,9 +29,6 @@ export const MainHeader = () => {
         `}
       >
         <Li>
-          <NavLink to='/'>home</NavLink>
-        </Li>
-        <Li>
           <NavLink to='/createrecipe'>create recipe</NavLink>
         </Li>
         <Li>
