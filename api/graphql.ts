@@ -1,5 +1,8 @@
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-micro';
+import cors from 'micro-cors';
+import { send } from 'micro';
+
 import { makeSchema } from 'nexus';
 import { join } from 'path';
 import * as mutationTypes from './graphqlTypes/mutationTypes';
@@ -28,8 +31,11 @@ export const config = {
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default server.start().then(() =>
-  server.createHandler({
+export default server.start().then(() => {
+  const handler = server.createHandler({
     path: '/api/graphql',
-  })
-);
+  });
+  return cors()((req, res) =>
+    req.method === 'OPTIONS' ? send(res, 200, 'ok') : handler(req, res)
+  );
+});
