@@ -6,6 +6,7 @@ import { MainHeader } from './components/MainHeader';
 import { Home } from './pages/Home';
 import { CreateRecipe } from './pages/CreateRecipe';
 import { Recipes } from './pages/Recipes';
+import { SingleRecipe } from './pages/SingleRecipe';
 import { MealPlan } from './pages/MealPlan';
 import { GroceryList } from './pages/GroceryList';
 import { Login } from './pages/Login';
@@ -16,24 +17,18 @@ const App = () => {
     <ApolloProvider client={apolloClient}>
       <MainHeader />
       <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route path='/createrecipe'>
-          <CreateRecipe />
-        </Route>
-        <Route path='/recipes'>
-          <Recipes />
-        </Route>
-        <Route path='/mealplan'>
-          <MealPlan />
-        </Route>
-        <Route path='/grocerylist'>
-          <GroceryList />
-        </Route>
-        <Route path='/login'>
-          <Login />
-        </Route>
+        <Route exact path='/' component={Home} />
+        <Route path='/createrecipe' component={CreateRecipe} />
+        <Route exact path='/recipes' component={Recipes} />
+        <Route
+          path='/recipes/:recipeId'
+          render={({ match }) => (
+            <SingleRecipe recipeId={match.params.recipeId} />
+          )}
+        />
+        <Route path='/mealplan' component={MealPlan} />
+        <Route path='/grocerylist' component={GroceryList} />
+        <Route path='/login' component={Login} />
       </Switch>
       <Footer />
     </ApolloProvider>

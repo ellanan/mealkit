@@ -68,6 +68,7 @@ export interface NexusGenFieldTypes {
     allUsers: NexusGenRootTypes['User'][]; // [User!]!
     ingredientTypes: NexusGenRootTypes['IngredientType'][]; // [IngredientType!]!
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
+    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipeCategories: NexusGenRootTypes['RecipeCategory'][]; // [RecipeCategory!]!
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
@@ -109,6 +110,7 @@ export interface NexusGenFieldTypeNames {
     allUsers: 'User'
     ingredientTypes: 'IngredientType'
     ingredients: 'Ingredient'
+    recipe: 'Recipe'
     recipeCategories: 'RecipeCategory'
     recipes: 'Recipe'
   }
@@ -149,6 +151,11 @@ export interface NexusGenArgTypes {
     }
     removeIngredientFromRecipe: { // args
       ingredientId: string; // ID!
+      recipeId: string; // ID!
+    }
+  }
+  Query: {
+    recipe: { // args
       recipeId: string; // ID!
     }
   }

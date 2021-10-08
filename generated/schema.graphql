@@ -25,6 +25,7 @@ type Query {
   allUsers: [User!]!
   ingredientTypes: [IngredientType!]!
   ingredients: [Ingredient!]!
+  recipe(recipeId: ID!): Recipe
   recipeCategories: [RecipeCategory!]!
   recipes: [Recipe!]!
 }

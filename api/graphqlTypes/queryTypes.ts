@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { objectType, queryType } from 'nexus';
+import { nonNull, objectType, queryType, idArg } from 'nexus';
 
 const prisma = new PrismaClient();
 
@@ -23,6 +23,17 @@ export const Query = queryType({
     t.nonNull.list.nonNull.field('recipes', {
       type: 'Recipe',
       resolve: () => prisma.recipe.findMany(),
+    });
+
+    t.field('recipe', {
+      type: 'Recipe',
+      args: {
+        recipeId: nonNull(idArg()),
+      },
+      resolve: async (_parent, args) =>
+        prisma.recipe.findUnique({
+          where: { id: args.recipeId },
+        }),
     });
 
     t.nonNull.list.nonNull.field('recipeCategories', {
