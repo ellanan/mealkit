@@ -31,6 +31,7 @@ export interface NexusGenObjects {
   Ingredient: PrismaClient.Ingredient;
   IngredientType: PrismaClient.IngredientType;
   MealPlan: PrismaClient.MealPlan;
+  MealPlanEntry: PrismaClient.MealPlanEntry;
   Mutation: {};
   Query: {};
   Recipe: PrismaClient.Recipe;
@@ -60,6 +61,13 @@ export interface NexusGenFieldTypes {
   }
   MealPlan: { // field return type
     id: string; // ID!
+    schedule: Array<NexusGenRootTypes['MealPlanEntry'] | null>; // [MealPlanEntry]!
+  }
+  MealPlanEntry: { // field return type
+    date: string | null; // String
+    id: string | null; // ID
+    mealType: string | null; // String
+    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Mutation: { // field return type
     addIngredientToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
@@ -108,6 +116,13 @@ export interface NexusGenFieldTypeNames {
   }
   MealPlan: { // field return type name
     id: 'ID'
+    schedule: 'MealPlanEntry'
+  }
+  MealPlanEntry: { // field return type name
+    date: 'String'
+    id: 'ID'
+    mealType: 'String'
+    recipe: 'Recipe'
   }
   Mutation: { // field return type name
     addIngredientToRecipe: 'Recipe'
@@ -145,6 +160,12 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  MealPlan: {
+    schedule: { // args
+      endDate: string; // String!
+      startDate: string; // String!
+    }
+  }
   Mutation: {
     addIngredientToRecipe: { // args
       ingredientId: string; // ID!

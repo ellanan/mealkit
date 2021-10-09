@@ -15,6 +15,14 @@ type IngredientType {
 
 type MealPlan {
   id: ID!
+  schedule(endDate: String!, startDate: String!): [MealPlanEntry]!
+}
+
+type MealPlanEntry {
+  date: String
+  id: ID
+  mealType: String
+  recipe: Recipe
 }
 
 type Mutation {
