@@ -35,15 +35,15 @@ model Ingredient {
 }
 
 model Recipe {
-  id             String               @id @default(cuid())
+  id             String          @id @default(cuid())
   name           String
-  category       RecipeCategory?      @relation(fields: [categoryId], references: [id])
+  category       RecipeCategory? @relation(fields: [categoryId], references: [id])
   categoryId     String?
   ingredients    Ingredient[]
-  user           User?                @relation(fields: [userId], references: [id])
+  user           User?           @relation(fields: [userId], references: [id])
   userId         String?
   content        String?
-  ScheduledEntry DailyScheduleEntry[]
+  ScheduledEntry MealPlanEntry[]
 }
 
 model RecipeCategory {
@@ -59,25 +59,18 @@ model GroceryList {
 
 model MealPlan {
   id       String          @id @default(cuid())
-  schedule DailySchedule[]
+  schedule MealPlanEntry[]
   users    User[]
 }
 
-model DailySchedule {
-  id         String               @id @default(cuid())
-  date       DateTime             @db.Date
-  schedule   DailyScheduleEntry[]
-  MealPlan   MealPlan             @relation(fields: [mealPlanId], references: [id])
+model MealPlanEntry {
+  id         String   @id @default(cuid())
+  date       DateTime @db.Date
+  mealType   MealType
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
   mealPlanId String
-}
-
-model DailyScheduleEntry {
-  id              String        @id @default(cuid())
-  mealType        MealType
-  recipe          Recipe        @relation(fields: [recipeId], references: [id])
-  recipeId        String
-  dailySchedule   DailySchedule @relation(fields: [dailyScheduleId], references: [id])
-  dailyScheduleId String
+  recipe     Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId   String
 }
 
 enum MealType {
