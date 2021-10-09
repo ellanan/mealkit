@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { idArg, mutationType, nonNull, stringArg, list } from 'nexus';
+import { arg, idArg, mutationType, nonNull, stringArg, list } from 'nexus';
+import { NexusMealType } from './MealPlan';
 
 const prisma = new PrismaClient();
 
@@ -100,6 +101,36 @@ export const Mutation = mutationType({
                 id: args.ingredientId,
               },
             },
+          },
+        });
+      },
+    });
+
+    t.field('addRecipeToMealPlan', {
+      type: 'MealPlanEntry',
+      args: {
+        mealPlanId: nonNull(idArg()),
+        recipeId: nonNull(idArg()),
+        date: nonNull(stringArg()),
+        mealType: arg({
+          type: nonNull(NexusMealType),
+        }),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.mealPlanEntry.create({
+          data: {
+            date: new Date(args.date).toISOString(),
+            mealPlan: {
+              connect: {
+                id: args.mealPlanId,
+              },
+            },
+            recipe: {
+              connect: {
+                id: args.recipeId,
+              },
+            },
+            mealType: args.mealType,
           },
         });
       },
