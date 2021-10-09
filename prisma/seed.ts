@@ -11,6 +11,9 @@ async function main() {
       email: 'alice@example.com',
       password: 'password123',
       username: 'alice',
+      mealPlan: {
+        create: {},
+      },
       recipes: {
         createMany: {
           data: [],
