@@ -24,5 +24,20 @@ export const User = objectType({
         });
       },
     });
+    t.field('mealPlan', {
+      type: 'MealPlan',
+      resolve(parent) {
+        return prisma.user
+          .findUnique({
+            where: {
+              id: parent.id,
+            },
+            include: {
+              mealPlan: true,
+            },
+          })
+          .then((user) => user!.mealPlan);
+      },
+    });
   },
 });

@@ -13,6 +13,10 @@ type IngredientType {
   name: String!
 }
 
+type MealPlan {
+  id: ID!
+}
+
 type Mutation {
   addIngredientToRecipe(ingredientId: ID!, recipeId: ID!): Recipe
   createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
@@ -46,6 +50,7 @@ type RecipeCategory {
 type User {
   email: String
   id: ID!
+  mealPlan: MealPlan
   recipes: [Recipe]!
   username: String
 }

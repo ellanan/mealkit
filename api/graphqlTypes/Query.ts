@@ -6,6 +6,7 @@ export * from './IngredientType';
 export * from './Recipe';
 export * from './RecipeCategory';
 export * from './User';
+export * from './MealPlan';
 
 const prisma = new PrismaClient();
 
