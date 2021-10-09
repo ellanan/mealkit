@@ -5,8 +5,8 @@ import { send } from 'micro';
 
 import { makeSchema } from 'nexus';
 import { join } from 'path';
-import * as mutationTypes from './graphqlTypes/mutationTypes';
-import * as queryTypes from './graphqlTypes/queryTypes';
+import * as mutationTypes from './graphqlTypes/Mutation';
+import * as queryTypes from './graphqlTypes/Query';
 import { Context } from './contextModule';
 
 const schema = makeSchema({
