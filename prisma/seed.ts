@@ -23,47 +23,45 @@ async function main() {
     },
   });
 
-  const ingredientTypeIds = {
-    seasoning: cuid(),
-    deli: cuid(),
-    dairy: cuid(),
-  };
-
-  const ingredientTypes = await prisma.ingredientType.createMany({
-    data: [
-      {
-        id: ingredientTypeIds.seasoning,
+  const [seasoning, deli] = await Promise.all([
+    prisma.ingredientType.upsert({
+      where: {
+        id: 'ckuk47d080000u7rz2dpwgqah',
+      },
+      update: {},
+      create: {
         name: 'seasoning',
       },
-      {
-        id: ingredientTypeIds.deli,
+    }),
+    prisma.ingredientType.upsert({
+      where: {
+        id: 'ckuk47d090001u7rz16qi19sl',
+      },
+      update: {},
+      create: {
         name: 'deli',
       },
-      {
-        id: ingredientTypeIds.dairy,
-        name: 'dairy',
-      },
-    ],
-  });
+    }),
+  ]);
 
   const [salt, slicedTurkey] = await Promise.all([
     prisma.ingredient.create({
       data: {
         name: 'salt',
-        ingredientTypeId: ingredientTypeIds.seasoning,
+        ingredientTypeId: seasoning.id,
       },
     }),
     prisma.ingredient.create({
       data: {
         name: 'sliced turkey',
-        ingredientTypeId: ingredientTypeIds.deli,
+        ingredientTypeId: deli.id,
       },
     }),
   ]);
 
   const recipeCategoryIds = {
-    american: cuid(),
-    chinese: cuid(),
+    american: 'ckuk47dte0003u7rz15wvhr1c',
+    chinese: 'ckuk47dte0004u7rzhc1vfist',
   };
 
   const recipeCategories = await prisma.recipeCategory.createMany({
@@ -77,10 +75,15 @@ async function main() {
         name: 'chinese',
       },
     ],
+    skipDuplicates: true,
   });
 
-  const recipes = await prisma.recipe.create({
-    data: {
+  const saltedSlicedTurkeyRecipe = await prisma.recipe.upsert({
+    where: {
+      id: 'ckuk47dyc0029u7rz8ojx9u8b',
+    },
+    update: {},
+    create: {
       name: 'salted sliced turkey',
       content: 'some contents here',
       category: {
@@ -106,7 +109,33 @@ async function main() {
     },
   });
 
-  console.log({ alice, ingredientTypes, recipes, recipeCategories });
+  const mealPlanEntry = await prisma.mealPlanEntry.upsert({
+    where: {
+      id: 'somemealplanid',
+    },
+    update: {},
+    create: {
+      date: new Date('2021-01-01').toISOString(),
+      mealType: 'BREAKFAST',
+      mealPlan: {
+        connect: {
+          id: alice.mealPlanId,
+        },
+      },
+      recipe: {
+        connect: {
+          id: saltedSlicedTurkeyRecipe.id,
+        },
+      },
+    },
+  });
+
+  console.log({
+    alice,
+    saltedSlicedTurkeyRecipe,
+    recipeCategories,
+    mealPlanEntry,
+  });
 }
 
 main()
