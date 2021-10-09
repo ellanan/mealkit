@@ -69,8 +69,8 @@ export const Recipes = () => {
           recipe.name.toLowerCase().includes(search.toLowerCase())
         )
         .map((recipe) => (
-          <div>
-            <h3 key={recipe.id}>
+          <div key={recipe.id}>
+            <h3>
               {recipe.name} - {recipe.category?.name}
             </h3>
             <ul>
