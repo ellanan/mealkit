@@ -4,7 +4,7 @@
  */
 
 import type * as PrismaClient from ".prisma/client"
-
+import type { Context as ContextModule } from "./../api/contextModule"
 
 
 
@@ -192,7 +192,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: any;
+  context: ContextModule;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;

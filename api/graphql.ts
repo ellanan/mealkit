@@ -7,6 +7,7 @@ import { makeSchema } from 'nexus';
 import { join } from 'path';
 import * as mutationTypes from './graphqlTypes/mutationTypes';
 import * as queryTypes from './graphqlTypes/queryTypes';
+import { Context } from './contextModule';
 
 const schema = makeSchema({
   types: [...Object.values(queryTypes), ...Object.values(mutationTypes)],
@@ -17,10 +18,22 @@ const schema = makeSchema({
   sourceTypes: {
     modules: [{ module: '.prisma/client', alias: 'PrismaClient' }],
   },
+  contextType: {
+    module: join(process.cwd(), 'api', 'contextModule.ts'),
+    alias: 'ContextModule',
+    export: 'Context',
+  },
 });
 
 const server = new ApolloServer({
   schema,
+  context: (): Context => {
+    return {
+      currentUser: {
+        id: 'ckuk47cjl0000u7rzs57upv7s',
+      },
+    };
+  },
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
 });
 
