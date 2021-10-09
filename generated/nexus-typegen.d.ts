@@ -86,6 +86,7 @@ export interface NexusGenFieldTypes {
   User: { // field return type
     email: string | null; // String
     id: string; // ID!
+    recipes: Array<NexusGenRootTypes['Recipe'] | null>; // [Recipe]!
     username: string | null; // String
   }
 }
@@ -129,6 +130,7 @@ export interface NexusGenFieldTypeNames {
   User: { // field return type name
     email: 'String'
     id: 'ID'
+    recipes: 'Recipe'
     username: 'String'
   }
 }

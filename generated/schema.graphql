@@ -46,5 +46,6 @@ type RecipeCategory {
 type User {
   email: String
   id: ID!
+  recipes: [Recipe]!
   username: String
 }
