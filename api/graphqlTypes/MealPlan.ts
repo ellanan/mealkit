@@ -1,7 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-import { nonNull, objectType, stringArg } from 'nexus';
+import { MealType, PrismaClient } from '@prisma/client';
+import { enumType, nonNull, objectType, stringArg } from 'nexus';
 
 const prisma = new PrismaClient();
+
+export const NexusMealType = enumType({
+  name: 'MealType',
+  members: MealType,
+});
 
 export const MealPlanEntry = objectType({
   name: 'MealPlanEntry',
@@ -13,7 +18,9 @@ export const MealPlanEntry = objectType({
         return parent.date.toISOString();
       },
     });
-    t.string('mealType');
+    t.field('mealType', {
+      type: 'MealType',
+    });
     t.field('recipe', {
       type: 'Recipe',
       resolve(parent) {

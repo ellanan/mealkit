@@ -17,6 +17,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  MealType: PrismaClient.MealType
 }
 
 export interface NexusGenScalars {
@@ -47,7 +48,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
   Ingredient: { // field return type
@@ -66,11 +67,12 @@ export interface NexusGenFieldTypes {
   MealPlanEntry: { // field return type
     date: string | null; // String
     id: string | null; // ID
-    mealType: string | null; // String
+    mealType: NexusGenEnums['MealType'] | null; // MealType
     recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Mutation: { // field return type
     addIngredientToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    addRecipeToMealPlan: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
     createIngredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
@@ -121,11 +123,12 @@ export interface NexusGenFieldTypeNames {
   MealPlanEntry: { // field return type name
     date: 'String'
     id: 'ID'
-    mealType: 'String'
+    mealType: 'MealType'
     recipe: 'Recipe'
   }
   Mutation: { // field return type name
     addIngredientToRecipe: 'Recipe'
+    addRecipeToMealPlan: 'MealPlanEntry'
     createIngredient: 'Ingredient'
     createIngredientType: 'IngredientType'
     createRecipe: 'Recipe'
@@ -171,6 +174,12 @@ export interface NexusGenArgTypes {
       ingredientId: string; // ID!
       recipeId: string; // ID!
     }
+    addRecipeToMealPlan: { // args
+      date: string; // String!
+      mealPlanId: string; // ID!
+      mealType: NexusGenEnums['MealType']; // MealType!
+      recipeId: string; // ID!
+    }
     createIngredient: { // args
       ingredientTypeId: string; // ID!
       name: string; // String!
@@ -205,7 +214,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

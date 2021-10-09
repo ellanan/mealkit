@@ -21,12 +21,19 @@ type MealPlan {
 type MealPlanEntry {
   date: String
   id: ID
-  mealType: String
+  mealType: MealType
   recipe: Recipe
+}
+
+enum MealType {
+  BREAKFAST
+  DINNER
+  LUNCH
 }
 
 type Mutation {
   addIngredientToRecipe(ingredientId: ID!, recipeId: ID!): Recipe
+  addRecipeToMealPlan(date: String!, mealPlanId: ID!, mealType: MealType!, recipeId: ID!): MealPlanEntry
   createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
   createIngredientType(name: String!): IngredientType
   createRecipe(content: String!, ingredientIds: [ID!]!, name: String!): Recipe
