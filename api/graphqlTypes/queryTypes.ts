@@ -5,6 +5,16 @@ const prisma = new PrismaClient();
 
 export const Query = queryType({
   definition(t) {
+    t.field('currentUser', {
+      type: 'User',
+      resolve: (_parent, _args, context) =>
+        prisma.user.findUnique({
+          where: {
+            id: context.currentUser?.id,
+          },
+        }),
+    });
+
     t.nonNull.list.nonNull.field('allUsers', {
       type: 'User',
       resolve: () => prisma.user.findMany(),

@@ -66,6 +66,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     allUsers: NexusGenRootTypes['User'][]; // [User!]!
+    currentUser: NexusGenRootTypes['User'] | null; // User
     ingredientTypes: NexusGenRootTypes['IngredientType'][]; // [IngredientType!]!
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
     recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
@@ -108,6 +109,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     allUsers: 'User'
+    currentUser: 'User'
     ingredientTypes: 'IngredientType'
     ingredients: 'Ingredient'
     recipe: 'Recipe'
