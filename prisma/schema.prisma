@@ -11,11 +11,13 @@ generator client {
 // inside node_modules/.prisma/client gets updated after updating data model
 
 model User {
-  id       String   @id @default(cuid())
-  username String
-  email    String   @unique
-  password String
-  recipes  Recipe[]
+  id         String   @id @default(cuid())
+  username   String
+  email      String   @unique
+  password   String
+  recipes    Recipe[]
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
+  mealPlanId String
 }
 
 model IngredientType {
@@ -33,14 +35,15 @@ model Ingredient {
 }
 
 model Recipe {
-  id          String          @id @default(cuid())
-  name        String
-  category    RecipeCategory? @relation(fields: [categoryId], references: [id])
-  categoryId  String?
-  ingredients Ingredient[]
-  user        User?           @relation(fields: [userId], references: [id])
-  userId      String?
-  content     String?
+  id             String                @id @default(cuid())
+  name           String
+  category       RecipeCategory?       @relation(fields: [categoryId], references: [id])
+  categoryId     String?
+  ingredients    Ingredient[]
+  user           User?                 @relation(fields: [userId], references: [id])
+  userId         String?
+  content        String?
+  ScheduledEntry ScheduledDailyEntry[]
 }
 
 model RecipeCategory {
@@ -52,4 +55,33 @@ model RecipeCategory {
 model GroceryList {
   id   String @id @default(cuid())
   name String
+}
+
+model MealPlan {
+  id       String          @id @default(cuid())
+  schedule DailySchedule[]
+  users    User[]
+}
+
+model DailySchedule {
+  id         String                @id @default(cuid())
+  date       DateTime              @db.Date
+  schedule   ScheduledDailyEntry[]
+  MealPlan   MealPlan              @relation(fields: [mealPlanId], references: [id])
+  mealPlanId String
+}
+
+model ScheduledDailyEntry {
+  id              String        @id @default(cuid())
+  mealType        MealType
+  recipe          Recipe        @relation(fields: [recipeId], references: [id])
+  recipeId        String
+  dailySchedule   DailySchedule @relation(fields: [dailyScheduleId], references: [id])
+  dailyScheduleId String
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
 }
