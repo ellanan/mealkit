@@ -8,6 +8,7 @@ async function main() {
     where: { email: 'alice@example.com' },
     update: {},
     create: {
+      id: 'ckuk47cjl0000u7rzs57upv7s',
       email: 'alice@example.com',
       password: 'password123',
       username: 'alice',
