@@ -37,6 +37,7 @@ type Mutation {
   createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
   createIngredientType(name: String!): IngredientType
   createRecipe(content: String!, ingredientIds: [ID!]!, name: String!): Recipe
+  deleteMealPlanEntry(mealPlanId: ID!): MealPlanEntry
   removeIngredientFromRecipe(ingredientId: ID!, recipeId: ID!): Recipe
 }
 

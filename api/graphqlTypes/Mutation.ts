@@ -135,5 +135,19 @@ export const Mutation = mutationType({
         });
       },
     });
+
+    t.field('deleteMealPlanEntry', {
+      type: 'MealPlanEntry',
+      args: {
+        mealPlanId: nonNull(idArg()),
+      },
+      resolve: (_parent, args) => {
+        return prisma.mealPlanEntry.delete({
+          where: {
+            id: args.mealPlanId,
+          },
+        });
+      },
+    });
   },
 });
