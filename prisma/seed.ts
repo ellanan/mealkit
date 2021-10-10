@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import cuid from 'cuid';
 
 const prisma = new PrismaClient();
 
