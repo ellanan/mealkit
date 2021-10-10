@@ -27,18 +27,54 @@ export type IngredientType = {
   name: Scalars['String'];
 };
 
+export type MealPlan = {
+  __typename?: 'MealPlan';
+  id: Scalars['ID'];
+  schedule: Array<Maybe<MealPlanEntry>>;
+};
+
+
+export type MealPlanScheduleArgs = {
+  endDate: Scalars['String'];
+  startDate: Scalars['String'];
+};
+
+export type MealPlanEntry = {
+  __typename?: 'MealPlanEntry';
+  date?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  mealType?: Maybe<MealType>;
+  recipe?: Maybe<Recipe>;
+};
+
+export enum MealType {
+  Breakfast = 'BREAKFAST',
+  Dinner = 'DINNER',
+  Lunch = 'LUNCH'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   addIngredientToRecipe?: Maybe<Recipe>;
+  addRecipeToMealPlan?: Maybe<MealPlanEntry>;
   createIngredient?: Maybe<Ingredient>;
   createIngredientType?: Maybe<IngredientType>;
   createRecipe?: Maybe<Recipe>;
+  deleteMealPlanEntry?: Maybe<MealPlanEntry>;
   removeIngredientFromRecipe?: Maybe<Recipe>;
 };
 
 
 export type MutationAddIngredientToRecipeArgs = {
   ingredientId: Scalars['ID'];
+  recipeId: Scalars['ID'];
+};
+
+
+export type MutationAddRecipeToMealPlanArgs = {
+  date: Scalars['String'];
+  mealPlanId: Scalars['ID'];
+  mealType: MealType;
   recipeId: Scalars['ID'];
 };
 
@@ -61,6 +97,11 @@ export type MutationCreateRecipeArgs = {
 };
 
 
+export type MutationDeleteMealPlanEntryArgs = {
+  mealPlanId: Scalars['ID'];
+};
+
+
 export type MutationRemoveIngredientFromRecipeArgs = {
   ingredientId: Scalars['ID'];
   recipeId: Scalars['ID'];
@@ -69,6 +110,7 @@ export type MutationRemoveIngredientFromRecipeArgs = {
 export type Query = {
   __typename?: 'Query';
   allUsers: Array<User>;
+  currentUser?: Maybe<User>;
   ingredientTypes: Array<IngredientType>;
   ingredients: Array<Ingredient>;
   recipe?: Maybe<Recipe>;
@@ -99,13 +141,10 @@ export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  mealPlan?: Maybe<MealPlan>;
+  recipes: Array<Maybe<Recipe>>;
   username?: Maybe<Scalars['String']>;
 };
-
-export type RecipesForSearchPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RecipesForSearchPageQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredients?: Array<{ __typename?: 'Ingredient', id: string, name: string }> | null | undefined }> };
 
 export type IngredientsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -121,6 +160,14 @@ export type CreateRecipeMutationVariables = Exact<{
 
 export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe?: { __typename?: 'Recipe', id: string } | null | undefined };
 
+export type MealScheduleQueryVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id?: string | null | undefined, date?: string | null | undefined, mealType?: MealType | null | undefined, recipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined } | null | undefined> } | null | undefined } | null | undefined };
+
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -134,49 +181,6 @@ export type SingleRecipeQueryVariables = Exact<{
 export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined };
 
 
-export const RecipesForSearchPageDocument = gql`
-    query RecipesForSearchPage {
-  recipes {
-    id
-    name
-    category {
-      id
-      name
-    }
-    ingredients {
-      id
-      name
-    }
-  }
-}
-    `;
-
-/**
- * __useRecipesForSearchPageQuery__
- *
- * To run a query within a React component, call `useRecipesForSearchPageQuery` and pass it any options that fit your needs.
- * When your component renders, `useRecipesForSearchPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useRecipesForSearchPageQuery({
- *   variables: {
- *   },
- * });
- */
-export function useRecipesForSearchPageQuery(baseOptions?: Apollo.QueryHookOptions<RecipesForSearchPageQuery, RecipesForSearchPageQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RecipesForSearchPageQuery, RecipesForSearchPageQueryVariables>(RecipesForSearchPageDocument, options);
-      }
-export function useRecipesForSearchPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecipesForSearchPageQuery, RecipesForSearchPageQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RecipesForSearchPageQuery, RecipesForSearchPageQueryVariables>(RecipesForSearchPageDocument, options);
-        }
-export type RecipesForSearchPageQueryHookResult = ReturnType<typeof useRecipesForSearchPageQuery>;
-export type RecipesForSearchPageLazyQueryHookResult = ReturnType<typeof useRecipesForSearchPageLazyQuery>;
-export type RecipesForSearchPageQueryResult = Apollo.QueryResult<RecipesForSearchPageQuery, RecipesForSearchPageQueryVariables>;
 export const IngredientsDocument = gql`
     query Ingredients {
   ingredients {
@@ -247,6 +251,54 @@ export function useCreateRecipeMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateRecipeMutationHookResult = ReturnType<typeof useCreateRecipeMutation>;
 export type CreateRecipeMutationResult = Apollo.MutationResult<CreateRecipeMutation>;
 export type CreateRecipeMutationOptions = Apollo.BaseMutationOptions<CreateRecipeMutation, CreateRecipeMutationVariables>;
+export const MealScheduleDocument = gql`
+    query MealSchedule($startDate: String!, $endDate: String!) {
+  currentUser {
+    id
+    mealPlan {
+      id
+      schedule(startDate: $startDate, endDate: $endDate) {
+        id
+        date
+        mealType
+        recipe {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMealScheduleQuery__
+ *
+ * To run a query within a React component, call `useMealScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMealScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMealScheduleQuery({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useMealScheduleQuery(baseOptions: Apollo.QueryHookOptions<MealScheduleQuery, MealScheduleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MealScheduleQuery, MealScheduleQueryVariables>(MealScheduleDocument, options);
+      }
+export function useMealScheduleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MealScheduleQuery, MealScheduleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MealScheduleQuery, MealScheduleQueryVariables>(MealScheduleDocument, options);
+        }
+export type MealScheduleQueryHookResult = ReturnType<typeof useMealScheduleQuery>;
+export type MealScheduleLazyQueryHookResult = ReturnType<typeof useMealScheduleLazyQuery>;
+export type MealScheduleQueryResult = Apollo.QueryResult<MealScheduleQuery, MealScheduleQueryVariables>;
 export const RecipesDocument = gql`
     query Recipes {
   ingredientTypes {

@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { DateTime, Interval } from 'luxon';
+import { useQuery, gql } from '@apollo/client';
+import type * as GraphQLTypes from '../generated/graphql';
+import { Fragment } from 'react';
 
 export const MealPlan = () => {
   const startDate = DateTime.now().startOf('week');
@@ -10,7 +13,39 @@ export const MealPlan = () => {
     .splitBy({ days: 1 })
     .map((d: Interval) => d.start);
 
-  console.log(interval);
+  const { data, error } = useQuery<
+    GraphQLTypes.MealScheduleQuery,
+    GraphQLTypes.MealScheduleQueryVariables
+  >(
+    gql`
+      query MealSchedule($startDate: String!, $endDate: String!) {
+        currentUser {
+          id
+          mealPlan {
+            id
+            schedule(startDate: $startDate, endDate: $endDate) {
+              id
+              date
+              mealType
+              recipe {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    `,
+    {
+      variables: {
+        startDate: startDate.toISO(),
+        endDate: endDate.toISO(),
+      },
+    }
+  );
+  if (error) {
+    throw error;
+  }
 
   return (
     <>
@@ -24,32 +59,48 @@ export const MealPlan = () => {
         <h2>
           {interval[0].monthLong} {interval[0].year}
         </h2>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-          `}
-        >
-          {interval.map((day) => (
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                padding: 10px;
-                border: 1px solid #000;
-              `}
-              key={day.toISO()}
-            >
-              <span>{day.weekdayShort}</span>
-              <span>{day.day}</span>
-            </div>
-          ))}
-        </div>
       </div>
+      <table>
+        <thead>
+          <tr>
+            {interval.map((day) => (
+              <th key={day.toISO()}>
+                <span>{day.weekdayShort}</span>
+                <span>{day.day}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {['BREAKFAST', 'LUNCH', 'DINNER'].map((mealType) => (
+            <Fragment key={mealType}>
+              <tr>
+                <td colSpan={interval.length}>{mealType}</td>
+              </tr>
+              <tr>
+                {interval.map((day) => {
+                  const mealPlanEntries =
+                    data?.currentUser?.mealPlan?.schedule.filter((entry) => {
+                      return (
+                        entry?.mealType === mealType &&
+                        entry.date &&
+                        day.toISODate() ===
+                          DateTime.fromISO(entry.date).toISODate()
+                      );
+                    });
+                  return (
+                    <td key={day.toISO()}>
+                      {mealPlanEntries?.map((entry) => (
+                        <div key={entry?.id}>{entry?.recipe?.name}</div>
+                      ))}
+                    </td>
+                  );
+                })}
+              </tr>
+            </Fragment>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };
