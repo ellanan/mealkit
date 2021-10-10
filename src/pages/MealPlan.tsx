@@ -42,6 +42,7 @@ export const MealPlan = () => {
                 padding: 10px;
                 border: 1px solid #000;
               `}
+              key={day.toISO()}
             >
               <span>{day.weekdayShort}</span>
               <span>{day.day}</span>
