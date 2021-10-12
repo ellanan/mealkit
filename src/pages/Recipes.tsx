@@ -10,18 +10,6 @@ export const Recipes = () => {
 
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
     query Recipes {
-      ingredientTypes {
-        id
-        name
-      }
-      ingredients {
-        id
-        name
-        type {
-          id
-          name
-        }
-      }
       recipes {
         id
         name
