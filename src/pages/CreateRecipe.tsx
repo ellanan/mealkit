@@ -1,5 +1,6 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
+import Select from 'react-select';
 import { useState } from 'react';
 
 interface CreateRecipeForm {
@@ -53,21 +54,6 @@ export const CreateRecipe = () => {
     throw errorCreatingRecipe;
   }
 
-  // const [createIngredient, { error: errorCreatingIngredient }] = useMutation<
-  //   GraphQLTypes.CreateIngredientMutation,
-  //   GraphQLTypes.CreateIngredientMutationVariables
-  // >(gql`
-  //   mutation CreateIngredient($name: String!, $ingredientTypeId: ID!) {
-  //     createIngredient(name: $name, ingredientTypeId: $ingredientTypeId) {
-  //       id
-  //       name
-  //     }
-  //   }
-  // `);
-  // if (errorCreatingIngredient) {
-  //   throw errorCreatingIngredient;
-  // }
-
   return (
     <>
       <h1>create recipe page</h1>
@@ -120,34 +106,39 @@ export const CreateRecipe = () => {
           <li>
             <label>ingredients</label>
             <br />
-            <select
-              onChange={(e) => {
-                const ingredient = ingredientsData?.ingredients?.find(
-                  ({ id }) => id === e.target.value
-                );
-                if (ingredient) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    ingredients: prev.ingredients.concat(ingredient),
-                  }));
-                }
-              }}
-            >
-              {ingredientsData?.ingredients?.map((ingredient) => {
-                return (
-                  <option
-                    key={ingredient?.id}
-                    value={ingredient.id}
-                    disabled={formData.ingredients.some(
-                      (ingredientWeAlreadyHave) =>
-                        ingredientWeAlreadyHave.id === ingredient.id
-                    )}
-                  >
-                    {ingredient?.name}
-                  </option>
-                );
+            <Select
+              options={ingredientsData?.ingredients?.map((ingredient) => {
+                return { value: ingredient.id, label: ingredient.name };
               })}
-            </select>
+              onChange={(newValue) => {
+                if (!newValue) {
+                  console.log(`no newValue`);
+                  return;
+                }
+                const newIngredientId = newValue.value;
+                const newIngredient = ingredientsData?.ingredients?.find(
+                  ({ id }) => id === newIngredientId
+                );
+                if (!newIngredient) {
+                  console.log(
+                    `ingredient with id ${newIngredientId} not found`
+                  );
+                  return;
+                }
+                setFormData((prev) => ({
+                  ...prev,
+                  ingredients: prev.ingredients.concat(newIngredient),
+                }));
+              }}
+              isOptionDisabled={({ value }) =>
+                formData.ingredients.some(
+                  (ingredientWeAlreadyHave) =>
+                    ingredientWeAlreadyHave.id === value
+                )
+              }
+              isSearchable
+              placeholder='add ingredient'
+            />
             <ul>
               {formData.ingredients.map((ingredient) => {
                 return <li key={ingredient.id}>{ingredient.name}</li>;
