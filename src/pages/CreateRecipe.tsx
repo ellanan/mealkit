@@ -5,12 +5,14 @@ import { useState } from 'react';
 
 interface CreateRecipeForm {
   recipeName: string;
+  imageUrl: string | null;
   ingredients: Array<{ id: string; name: string }>;
   content: string;
 }
 
 const initalFormDataState = {
   recipeName: '',
+  imageUrl: null,
   ingredients: [],
   content: '',
 };
@@ -38,11 +40,13 @@ export const CreateRecipe = () => {
   >(gql`
     mutation CreateRecipe(
       $name: String!
+      $imageUrl: String
       $content: String!
       $ingredientIds: [ID!]!
     ) {
       createRecipe(
         name: $name
+        imageUrl: $imageUrl
         content: $content
         ingredientIds: $ingredientIds
       ) {
@@ -63,6 +67,7 @@ export const CreateRecipe = () => {
           createRecipe({
             variables: {
               name: formData.recipeName,
+              imageUrl: formData.imageUrl,
               content: formData.content,
               ingredientIds: formData.ingredients.map(({ id }) => id),
             },
@@ -84,6 +89,39 @@ export const CreateRecipe = () => {
                   setFormData((prev) => {
                     return { ...prev, recipeName };
                   });
+                }}
+              />
+            </label>
+          </li>
+          <li>
+            <label>
+              image <br />
+              <input
+                type='file'
+                onChange={async (e) => {
+                  const fileToUpload = e.target.files?.[0];
+                  if (!fileToUpload) return;
+
+                  const formdata = new FormData();
+                  formdata.append('image', fileToUpload, fileToUpload.name);
+
+                  const response = await fetch(
+                    'https://api.imgur.com/3/image',
+                    {
+                      method: 'POST',
+                      headers: {
+                        Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
+                      },
+                      body: formdata,
+                      redirect: 'follow',
+                    }
+                  ).then((response) => response.json());
+                  console.log(response);
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    imageUrl: response.data.link,
+                  }));
                 }}
               />
             </label>
