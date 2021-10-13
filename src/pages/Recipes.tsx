@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -26,6 +26,27 @@ export const Recipes = () => {
   `);
   if (error) {
     throw error;
+  }
+
+  const [
+    removeIngredientFromRecipe,
+    { error: errorRemovingIngredientFromRecipe },
+  ] = useMutation<
+    GraphQLTypes.RemoveIngredientFromRecipeMutation,
+    GraphQLTypes.RemoveIngredientFromRecipeMutationVariables
+  >(gql`
+    mutation RemoveIngredientFromRecipe($recipeId: ID!, $ingredientId: ID!) {
+      removeIngredientFromRecipe(
+        recipeId: $recipeId
+        ingredientId: $ingredientId
+      ) {
+        id
+        name
+      }
+    }
+  `);
+  if (errorRemovingIngredientFromRecipe) {
+    throw errorRemovingIngredientFromRecipe;
   }
 
   return (
@@ -64,7 +85,22 @@ export const Recipes = () => {
             <ul>
               <span>ingredients:</span>
               {recipe.ingredients?.map((ingredient) => (
-                <li key={ingredient?.name}>{ingredient?.name}</li>
+                <div>
+                  <li key={ingredient?.name}>{ingredient?.name}</li>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      removeIngredientFromRecipe({
+                        variables: {
+                          recipeId: recipe.id,
+                          ingredientId: ingredient.id,
+                        },
+                      });
+                    }}
+                  >
+                    remove ingredient
+                  </button>
+                </div>
               ))}
             </ul>
           </div>
