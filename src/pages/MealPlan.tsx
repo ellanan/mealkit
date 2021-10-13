@@ -1,14 +1,15 @@
 import { DateTime, Interval } from 'luxon';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
-import { Fragment, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
 
-// @ts-ignore
-window.DateTime = DateTime;
-
 export const MealPlan = () => {
+  const [startDate, setStartDate] = useState<DateTime>(
+    DateTime.now().startOf('week')
+  );
+  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
     date: string | null;
@@ -16,9 +17,6 @@ export const MealPlan = () => {
     mealType: null,
     date: null,
   });
-
-  const startDate = DateTime.now().startOf('week');
-  const endDate = startDate.endOf('week');
 
   const interval = Interval.fromDateTimes(startDate, endDate)
     .splitBy({ days: 1 })
@@ -64,14 +62,27 @@ export const MealPlan = () => {
       <h2>
         {interval[0].monthLong} {interval[0].year}
       </h2>
+      <button
+        onClick={() => {
+          setStartDate(startDate.minus({ weeks: 1 }));
+        }}
+      >
+        previous week
+      </button>
+      <button
+        onClick={() => {
+          setStartDate(startDate.plus({ weeks: 1 }));
+        }}
+      >
+        next week
+      </button>
       <table>
         <thead>
           <tr>
-            <th></th>
+            <th />
             {interval.map((day) => (
               <th key={day.toISO()}>
-                <span>{day.weekdayShort}</span>
-                <span>{day.day}</span>
+                <span>{`${day.weekdayShort} - ${day.monthShort} ${day.day}`}</span>
               </th>
             ))}
           </tr>
