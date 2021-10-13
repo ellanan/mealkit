@@ -74,71 +74,74 @@ export const CreateRecipe = () => {
       >
         <ul>
           <li>
-            <label>recipe name</label>
-            <br />
-            <input
-              type='text'
-              value={formData.recipeName}
-              onChange={(e) => {
-                const recipeName = e.target.value;
-                setFormData((prev) => {
-                  return { ...prev, recipeName };
-                });
-              }}
-            />
+            <label>
+              recipe name <br />
+              <input
+                type='text'
+                value={formData.recipeName}
+                onChange={(e) => {
+                  const recipeName = e.target.value;
+                  setFormData((prev) => {
+                    return { ...prev, recipeName };
+                  });
+                }}
+              />
+            </label>
           </li>
           <li>
-            <label>content</label>
-            <br />
-            <textarea
-              value={formData.content}
-              name='content'
-              rows={5}
-              cols={100}
-              onChange={(e) => {
-                const content = e.target.value;
-                setFormData((prev) => {
-                  return { ...prev, content };
-                });
-              }}
-            ></textarea>
+            <label>
+              content <br />
+              <textarea
+                value={formData.content}
+                name='content'
+                rows={5}
+                cols={100}
+                onChange={(e) => {
+                  const content = e.target.value;
+                  setFormData((prev) => {
+                    return { ...prev, content };
+                  });
+                }}
+              />
+            </label>
           </li>
           <li>
-            <label>ingredients</label>
-            <br />
-            <Select
-              options={ingredientsData?.ingredients?.map((ingredient) => {
-                return { value: ingredient.id, label: ingredient.name };
-              })}
-              onChange={(newValue) => {
-                if (!newValue) {
-                  console.log(`no newValue`);
-                  return;
-                }
-                const newIngredientId = newValue.value;
-                const newIngredient = ingredientsData?.ingredients?.find(
-                  ({ id }) => id === newIngredientId
-                );
-                if (!newIngredient) {
-                  console.log(
-                    `ingredient with id ${newIngredientId} not found`
+            <label>
+              ingredients <br />
+              <Select
+                options={ingredientsData?.ingredients?.map((ingredient) => {
+                  return { value: ingredient.id, label: ingredient.name };
+                })}
+                onChange={(newValue) => {
+                  if (!newValue) {
+                    console.log(`no newValue`);
+                    return;
+                  }
+                  const newIngredientId = newValue.value;
+                  const newIngredient = ingredientsData?.ingredients?.find(
+                    ({ id }) => id === newIngredientId
                   );
-                  return;
+                  if (!newIngredient) {
+                    console.log(
+                      `ingredient with id ${newIngredientId} not found`
+                    );
+                    return;
+                  }
+                  setFormData((prev) => ({
+                    ...prev,
+                    ingredients: prev.ingredients.concat(newIngredient),
+                  }));
+                }}
+                isOptionDisabled={({ value }) =>
+                  formData.ingredients.some(
+                    (ingredientWeAlreadyHave) =>
+                      ingredientWeAlreadyHave.id === value
+                  )
                 }
-                setFormData((prev) => ({
-                  ...prev,
-                  ingredients: prev.ingredients.concat(newIngredient),
-                }));
-              }}
-              isOptionDisabled={({ value }) =>
-                formData.ingredients.some(
-                  (ingredientWeAlreadyHave) =>
-                    ingredientWeAlreadyHave.id === value
-                )
-              }
-              isSearchable
-              placeholder='add ingredient'
-            />
+                isSearchable
+                placeholder='add ingredient'
+              />
+            </label>
             <ul>
               {formData.ingredients.map((ingredient) => {
                 return <li key={ingredient.id}>{ingredient.name}</li>;
