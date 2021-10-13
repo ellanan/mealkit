@@ -8,6 +8,7 @@ export const Recipe = objectType({
   definition(t) {
     t.nonNull.id('id');
     t.nonNull.string('name');
+    t.string('imageUrl');
     t.field('category', {
       type: 'RecipeCategory',
       resolve: async (parent) => {

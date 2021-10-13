@@ -91,6 +91,7 @@ export interface NexusGenFieldTypes {
   Recipe: { // field return type
     category: NexusGenRootTypes['RecipeCategory'] | null; // RecipeCategory
     id: string; // ID!
+    imageUrl: string | null; // String
     ingredients: NexusGenRootTypes['Ingredient'][] | null; // [Ingredient!]
     name: string; // String!
   }
@@ -148,6 +149,7 @@ export interface NexusGenFieldTypeNames {
   Recipe: { // field return type name
     category: 'RecipeCategory'
     id: 'ID'
+    imageUrl: 'String'
     ingredients: 'Ingredient'
     name: 'String'
   }
@@ -191,6 +193,7 @@ export interface NexusGenArgTypes {
     }
     createRecipe: { // args
       content: string; // String!
+      imageUrl?: string | null; // String
       ingredientIds: string[]; // [ID!]!
       name: string; // String!
     }

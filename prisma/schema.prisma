@@ -37,6 +37,7 @@ model Ingredient {
 model Recipe {
   id             String          @id @default(cuid())
   name           String
+  imageUrl       String?
   category       RecipeCategory? @relation(fields: [categoryId], references: [id])
   categoryId     String?
   ingredients    Ingredient[]

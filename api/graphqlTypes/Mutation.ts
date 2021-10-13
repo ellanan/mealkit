@@ -44,6 +44,7 @@ export const Mutation = mutationType({
       type: 'Recipe',
       args: {
         name: nonNull(stringArg()),
+        imageUrl: stringArg(),
         content: nonNull(stringArg()),
         ingredientIds: nonNull(list(nonNull(idArg()))),
       },
@@ -51,6 +52,7 @@ export const Mutation = mutationType({
         return prisma.recipe.create({
           data: {
             name: args.name,
+            imageUrl: args.imageUrl,
             content: args.content,
             ingredients: {
               connect: args.ingredientIds.map((ingredientId) => ({

@@ -36,7 +36,7 @@ type Mutation {
   addRecipeToMealPlan(date: String!, mealPlanId: ID!, mealType: MealType!, recipeId: ID!): MealPlanEntry
   createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
   createIngredientType(name: String!): IngredientType
-  createRecipe(content: String!, ingredientIds: [ID!]!, name: String!): Recipe
+  createRecipe(content: String!, imageUrl: String, ingredientIds: [ID!]!, name: String!): Recipe
   deleteMealPlanEntry(mealPlanId: ID!): MealPlanEntry
   removeIngredientFromRecipe(ingredientId: ID!, recipeId: ID!): Recipe
 }
@@ -54,6 +54,7 @@ type Query {
 type Recipe {
   category: RecipeCategory
   id: ID!
+  imageUrl: String
   ingredients: [Ingredient!]
   name: String!
 }
