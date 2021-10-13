@@ -182,7 +182,24 @@ export const CreateRecipe = () => {
             </label>
             <ul>
               {formData.ingredients.map((ingredient) => {
-                return <li key={ingredient.id}>{ingredient.name}</li>;
+                return (
+                  <div style={{ display: 'flex' }}>
+                    <li key={ingredient.id}>{ingredient.name}</li>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFormData((prev) => ({
+                          ...prev,
+                          ingredients: prev.ingredients.filter((ing) => {
+                            return ingredient.id !== ing.id;
+                          }),
+                        }));
+                      }}
+                    >
+                      remove ingredient
+                    </button>
+                  </div>
+                );
               })}
             </ul>
           </li>
