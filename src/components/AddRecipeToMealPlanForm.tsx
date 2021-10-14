@@ -23,10 +23,6 @@ export const AddRecipeToMealPlanForm = ({
             id
             name
           }
-          ingredients {
-            id
-            name
-          }
         }
       }
     `);

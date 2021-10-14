@@ -6,14 +6,18 @@ import { useState } from 'react';
 interface CreateRecipeForm {
   recipeName: string;
   imageUrl: string | null;
-  ingredients: Array<{ id: string; name: string }>;
+  ingredientQuantities: Array<{
+    ingredient: { id: string; name: string };
+    unit: string;
+    amount: number;
+  }>;
   content: string;
 }
 
-const initalFormDataState = {
+const initalFormDataState: CreateRecipeForm = {
   recipeName: '',
   imageUrl: null,
-  ingredients: [],
+  ingredientQuantities: [],
   content: '',
 };
 
@@ -42,13 +46,13 @@ export const CreateRecipe = () => {
       $name: String!
       $imageUrl: String
       $content: String!
-      $ingredientIds: [ID!]!
+      $ingredientQuantities: [IngredientQuantityInput!]!
     ) {
       createRecipe(
         name: $name
         imageUrl: $imageUrl
         content: $content
-        ingredientIds: $ingredientIds
+        ingredientQuantities: $ingredientQuantities
       ) {
         id
       }
@@ -84,7 +88,13 @@ export const CreateRecipe = () => {
               name: formData.recipeName,
               imageUrl: formData.imageUrl,
               content: formData.content,
-              ingredientIds: formData.ingredients.map(({ id }) => id),
+              ingredientQuantities: formData.ingredientQuantities.map(
+                ({ ingredient, amount, unit }) => ({
+                  amount,
+                  unit,
+                  ingredientId: ingredient.id,
+                })
+              ),
             },
           }).then((response) => {
             console.log('created recipe', response.data?.createRecipe?.id);
@@ -188,7 +198,11 @@ export const CreateRecipe = () => {
                       createIngredientResponse.data.createIngredient;
                     setFormData((prev) => ({
                       ...prev,
-                      ingredients: prev.ingredients.concat(newIngredient),
+                      ingredientQuantities: prev.ingredientQuantities.concat({
+                        ingredient: newIngredient,
+                        amount: 1,
+                        unit: 'g',
+                      }),
                     }));
                     return;
                   }
@@ -203,13 +217,16 @@ export const CreateRecipe = () => {
                   }
                   setFormData((prev) => ({
                     ...prev,
-                    ingredients: prev.ingredients.concat(newIngredient),
+                    ingredientQuantities: prev.ingredientQuantities.concat({
+                      ingredient: newIngredient,
+                      amount: 1,
+                      unit: 'g',
+                    }),
                   }));
                 }}
                 isOptionDisabled={({ value }) =>
-                  formData.ingredients.some(
-                    (ingredientWeAlreadyHave) =>
-                      ingredientWeAlreadyHave.id === value
+                  formData.ingredientQuantities.some(
+                    ({ ingredient }) => ingredient.id === value
                   )
                 }
                 isSearchable
@@ -217,26 +234,80 @@ export const CreateRecipe = () => {
               />
             </label>
             <ul>
-              {formData.ingredients.map((ingredient) => {
-                return (
-                  <div style={{ display: 'flex' }} key={ingredient.id}>
-                    <li>{ingredient.name}</li>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setFormData((prev) => ({
-                          ...prev,
-                          ingredients: prev.ingredients.filter((ing) => {
-                            return ingredient.id !== ing.id;
-                          }),
-                        }));
-                      }}
-                    >
-                      remove ingredient
-                    </button>
-                  </div>
-                );
-              })}
+              {formData.ingredientQuantities.map(
+                ({ unit, amount, ingredient }) => {
+                  return (
+                    <div style={{ display: 'flex' }} key={ingredient.id}>
+                      <li>
+                        <input
+                          type='number'
+                          value={amount}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              ingredientQuantities:
+                                prev.ingredientQuantities.map(
+                                  (prevIngredientQuantity) => {
+                                    if (
+                                      prevIngredientQuantity.ingredient.id !==
+                                      ingredient.id
+                                    ) {
+                                      return prevIngredientQuantity;
+                                    }
+                                    return {
+                                      ...prevIngredientQuantity,
+                                      amount: Number(e.target.value),
+                                    };
+                                  }
+                                ),
+                            }));
+                          }}
+                        />
+
+                        <input
+                          type='text'
+                          value={unit}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              ingredientQuantities:
+                                prev.ingredientQuantities.map(
+                                  (prevIngredientQuantity) => {
+                                    if (
+                                      prevIngredientQuantity.ingredient.id !==
+                                      ingredient.id
+                                    ) {
+                                      return prevIngredientQuantity;
+                                    }
+                                    return {
+                                      ...prevIngredientQuantity,
+                                      unit: e.target.value,
+                                    };
+                                  }
+                                ),
+                            }));
+                          }}
+                        />
+                        {ingredient.name}
+                      </li>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFormData((prev) => ({
+                            ...prev,
+                            ingredientQuantities:
+                              prev.ingredientQuantities.filter(
+                                ({ ingredient: { id } }) => ingredient.id !== id
+                              ),
+                          }));
+                        }}
+                      >
+                        remove ingredient
+                      </button>
+                    </div>
+                  );
+                }
+              )}
             </ul>
           </li>
         </ul>

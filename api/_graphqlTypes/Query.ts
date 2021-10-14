@@ -5,6 +5,7 @@ export * from './Ingredient';
 export * from './IngredientType';
 export * from './Recipe';
 export * from './RecipeCategory';
+export * from './RecipeIngredientQuantity';
 export * from './User';
 export * from './MealPlan';
 

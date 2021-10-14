@@ -7,6 +7,7 @@ import {
   nullable,
   stringArg,
   list,
+  inputObjectType,
 } from 'nexus';
 import { NexusMealType } from './MealPlan';
 
@@ -58,7 +59,15 @@ export const Mutation = mutationType({
         name: nonNull(stringArg()),
         imageUrl: stringArg(),
         content: nonNull(stringArg()),
-        ingredientIds: nonNull(list(nonNull(idArg()))),
+        ingredientQuantities: nonNull(
+          list(
+            nonNull(
+              arg({
+                type: nonNull(IngredientQuantityInput),
+              })
+            )
+          )
+        ),
       },
       resolve: async (_parent, args) => {
         return prisma.recipe.create({
@@ -66,21 +75,27 @@ export const Mutation = mutationType({
             name: args.name,
             imageUrl: args.imageUrl,
             content: args.content,
-            ingredients: {
-              connect: args.ingredientIds.map((ingredientId) => ({
-                id: ingredientId,
-              })),
+            ingredientQuantities: {
+              createMany: {
+                data: args.ingredientQuantities.map(
+                  ({ unit, amount, ingredientId }) => ({
+                    unit,
+                    amount,
+                    ingredientId,
+                  })
+                ),
+              },
             },
           },
         });
       },
     });
 
-    t.field('addIngredientToRecipe', {
+    t.field('addIngredientQuantityToRecipe', {
       type: 'Recipe',
       args: {
         recipeId: nonNull(idArg()),
-        ingredientId: nonNull(idArg()),
+        ingredientQuantity: nonNull(IngredientQuantityInput),
       },
       resolve: async (_parent, args) => {
         return prisma.recipe.update({
@@ -88,9 +103,11 @@ export const Mutation = mutationType({
             id: args.recipeId,
           },
           data: {
-            ingredients: {
-              connect: {
-                id: args.ingredientId,
+            ingredientQuantities: {
+              create: {
+                amount: args.ingredientQuantity.amount,
+                unit: args.ingredientQuantity.unit,
+                ingredientId: args.ingredientQuantity.ingredientId,
               },
             },
           },
@@ -110,9 +127,12 @@ export const Mutation = mutationType({
             id: args.recipeId,
           },
           data: {
-            ingredients: {
-              disconnect: {
-                id: args.ingredientId,
+            ingredientQuantities: {
+              delete: {
+                ingredientId_recipeId: {
+                  ingredientId: args.ingredientId,
+                  recipeId: args.recipeId,
+                },
               },
             },
           },
@@ -163,5 +183,14 @@ export const Mutation = mutationType({
         });
       },
     });
+  },
+});
+
+export const IngredientQuantityInput = inputObjectType({
+  name: 'IngredientQuantityInput',
+  definition(t) {
+    t.nonNull.string('unit');
+    t.nonNull.int('amount');
+    t.nonNull.string('ingredientId');
   },
 });

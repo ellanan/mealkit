@@ -26,8 +26,8 @@ export const Recipe = objectType({
         );
       },
     });
-    t.list.nonNull.field('ingredients', {
-      type: 'Ingredient',
+    t.list.nonNull.field('ingredientQuantities', {
+      type: 'RecipeIngredientQuantity',
       resolve: async (parent) => {
         return (
           (
@@ -36,10 +36,10 @@ export const Recipe = objectType({
                 id: parent.id,
               },
               include: {
-                ingredients: true,
+                ingredientQuantities: true,
               },
             })
-          )?.ingredients ?? null
+          )?.ingredientQuantities ?? null
         );
       },
     });

@@ -44,16 +44,26 @@ async function main() {
   ]);
 
   const [salt, slicedTurkey] = await Promise.all([
-    prisma.ingredient.create({
-      data: {
+    prisma.ingredient.upsert({
+      update: {},
+      create: {
+        id: 'salt',
         name: 'salt',
         ingredientTypeId: seasoning.id,
       },
+      where: {
+        id: 'salt',
+      },
     }),
-    prisma.ingredient.create({
-      data: {
+    prisma.ingredient.upsert({
+      update: {},
+      create: {
+        id: 'slicedTurkey',
         name: 'sliced turkey',
         ingredientTypeId: deli.id,
+      },
+      where: {
+        id: 'slicedTurkey',
       },
     }),
   ]);
@@ -77,35 +87,65 @@ async function main() {
     skipDuplicates: true,
   });
 
+  const saltedSlicedTurkeyRecipeData = {
+    name: 'salted sliced turkey',
+    content: 'some contents here',
+    category: {
+      connect: {
+        id: recipeCategoryIds.chinese,
+      },
+    },
+    user: {
+      connect: {
+        id: alice.id,
+      },
+    },
+    ingredientQuantities: {
+      connectOrCreate: [
+        {
+          create: {
+            ingredient: {
+              connect: {
+                id: salt.id,
+              },
+            },
+            unit: 'tsp',
+            amount: 2,
+          },
+          where: {
+            ingredientId_recipeId: {
+              ingredientId: salt.id,
+              recipeId: 'ckuk47dyc0029u7rz8ojx9u8b',
+            },
+          },
+        },
+        {
+          create: {
+            ingredient: {
+              connect: {
+                id: slicedTurkey.id,
+              },
+            },
+            unit: 'gram',
+            amount: 200,
+          },
+          where: {
+            ingredientId_recipeId: {
+              ingredientId: slicedTurkey.id,
+              recipeId: 'ckuk47dyc0029u7rz8ojx9u8b',
+            },
+          },
+        },
+      ],
+    },
+  };
+
   const saltedSlicedTurkeyRecipe = await prisma.recipe.upsert({
     where: {
       id: 'ckuk47dyc0029u7rz8ojx9u8b',
     },
-    update: {},
-    create: {
-      name: 'salted sliced turkey',
-      content: 'some contents here',
-      category: {
-        connect: {
-          id: recipeCategoryIds.chinese,
-        },
-      },
-      user: {
-        connect: {
-          id: alice.id,
-        },
-      },
-      ingredients: {
-        connect: [
-          {
-            id: salt.id,
-          },
-          {
-            id: slicedTurkey.id,
-          },
-        ],
-      },
-    },
+    update: saltedSlicedTurkeyRecipeData,
+    create: saltedSlicedTurkeyRecipeData,
   });
 
   const mealPlanEntry = await prisma.mealPlanEntry.upsert({

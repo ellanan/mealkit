@@ -21,6 +21,12 @@ export type Ingredient = {
   type?: Maybe<IngredientType>;
 };
 
+export type IngredientQuantityInput = {
+  amount: Scalars['Int'];
+  ingredientId: Scalars['String'];
+  unit: Scalars['String'];
+};
+
 export type IngredientType = {
   __typename?: 'IngredientType';
   id: Scalars['ID'];
@@ -55,7 +61,7 @@ export enum MealType {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addIngredientToRecipe?: Maybe<Recipe>;
+  addIngredientQuantityToRecipe?: Maybe<Recipe>;
   addRecipeToMealPlan?: Maybe<MealPlanEntry>;
   createIngredient: Ingredient;
   createIngredientType?: Maybe<IngredientType>;
@@ -65,8 +71,8 @@ export type Mutation = {
 };
 
 
-export type MutationAddIngredientToRecipeArgs = {
-  ingredientId: Scalars['ID'];
+export type MutationAddIngredientQuantityToRecipeArgs = {
+  ingredientQuantity: IngredientQuantityInput;
   recipeId: Scalars['ID'];
 };
 
@@ -93,7 +99,7 @@ export type MutationCreateIngredientTypeArgs = {
 export type MutationCreateRecipeArgs = {
   content: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
-  ingredientIds: Array<Scalars['ID']>;
+  ingredientQuantities: Array<IngredientQuantityInput>;
   name: Scalars['String'];
 };
 
@@ -129,7 +135,7 @@ export type Recipe = {
   category?: Maybe<RecipeCategory>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
-  ingredients?: Maybe<Array<Ingredient>>;
+  ingredientQuantities?: Maybe<Array<RecipeIngredientQuantity>>;
   name: Scalars['String'];
 };
 
@@ -137,6 +143,14 @@ export type RecipeCategory = {
   __typename?: 'RecipeCategory';
   id: Scalars['ID'];
   name: Scalars['String'];
+};
+
+export type RecipeIngredientQuantity = {
+  __typename?: 'RecipeIngredientQuantity';
+  amount: Scalars['Int'];
+  ingredient?: Maybe<Ingredient>;
+  recipe?: Maybe<Recipe>;
+  unit: Scalars['String'];
 };
 
 export type User = {
@@ -151,7 +165,7 @@ export type User = {
 export type RecipesAvailableQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesAvailableQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredients?: Array<{ __typename?: 'Ingredient', id: string, name: string }> | null | undefined }> };
+export type RecipesAvailableQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
 export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
@@ -172,7 +186,7 @@ export type CreateRecipeMutationVariables = Exact<{
   name: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   content: Scalars['String'];
-  ingredientIds: Array<Scalars['ID']> | Scalars['ID'];
+  ingredientQuantities: Array<IngredientQuantityInput> | IngredientQuantityInput;
 }>;
 
 
@@ -196,7 +210,7 @@ export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typena
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredients?: Array<{ __typename?: 'Ingredient', id: string, name: string }> | null | undefined }> };
+export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
 export type RemoveIngredientFromRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -220,10 +234,6 @@ export const RecipesAvailableDocument = gql`
     id
     name
     category {
-      id
-      name
-    }
-    ingredients {
       id
       name
     }
@@ -334,12 +344,12 @@ export type IngredientsQueryHookResult = ReturnType<typeof useIngredientsQuery>;
 export type IngredientsLazyQueryHookResult = ReturnType<typeof useIngredientsLazyQuery>;
 export type IngredientsQueryResult = Apollo.QueryResult<IngredientsQuery, IngredientsQueryVariables>;
 export const CreateRecipeDocument = gql`
-    mutation CreateRecipe($name: String!, $imageUrl: String, $content: String!, $ingredientIds: [ID!]!) {
+    mutation CreateRecipe($name: String!, $imageUrl: String, $content: String!, $ingredientQuantities: [IngredientQuantityInput!]!) {
   createRecipe(
     name: $name
     imageUrl: $imageUrl
     content: $content
-    ingredientIds: $ingredientIds
+    ingredientQuantities: $ingredientQuantities
   ) {
     id
   }
@@ -363,7 +373,7 @@ export type CreateRecipeMutationFn = Apollo.MutationFunction<CreateRecipeMutatio
  *      name: // value for 'name'
  *      imageUrl: // value for 'imageUrl'
  *      content: // value for 'content'
- *      ingredientIds: // value for 'ingredientIds'
+ *      ingredientQuantities: // value for 'ingredientQuantities'
  *   },
  * });
  */
@@ -462,10 +472,6 @@ export const RecipesDocument = gql`
     id
     name
     category {
-      id
-      name
-    }
-    ingredients {
       id
       name
     }

@@ -17,10 +17,14 @@ export const Recipes = () => {
           id
           name
         }
-        ingredients {
-          id
-          name
-        }
+        # ingredientQuantities {
+        #   amount
+        #   unit
+        #   ingredient {
+        #     id
+        #     name
+        #   }
+        # }
       }
     }
   `);
@@ -82,7 +86,18 @@ export const Recipes = () => {
             <h3>
               {recipe.name} - {recipe.category?.name}
             </h3>
-            <ul>
+            <NavLink
+              to={`/recipes/${recipe.id}`}
+              css={css`
+                padding: 0.1em;
+                border: 2px solid #000;
+                border-radius: 10px;
+                background-color: yellow;
+              `}
+            >
+              recipe details
+            </NavLink>
+            {/* <ul>
               <span>ingredients:</span>
               {recipe.ingredients?.map((ingredient) => (
                 <div key={ingredient?.name}>
@@ -102,7 +117,7 @@ export const Recipes = () => {
                   </button>
                 </div>
               ))}
-            </ul>
+            </ul> */}
           </div>
         ))}
     </div>

@@ -14,6 +14,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  IngredientQuantityInput: { // input type
+    amount: number; // Int!
+    ingredientId: string; // String!
+    unit: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -37,6 +42,7 @@ export interface NexusGenObjects {
   Query: {};
   Recipe: PrismaClient.Recipe;
   RecipeCategory: PrismaClient.RecipeCategory;
+  RecipeIngredientQuantity: PrismaClient.RecipeIngredientQuantity;
   User: PrismaClient.User;
 }
 
@@ -71,7 +77,7 @@ export interface NexusGenFieldTypes {
     recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Mutation: { // field return type
-    addIngredientToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    addIngredientQuantityToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     addRecipeToMealPlan: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
     createIngredient: NexusGenRootTypes['Ingredient']; // Ingredient!
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
@@ -92,12 +98,18 @@ export interface NexusGenFieldTypes {
     category: NexusGenRootTypes['RecipeCategory'] | null; // RecipeCategory
     id: string; // ID!
     imageUrl: string | null; // String
-    ingredients: NexusGenRootTypes['Ingredient'][] | null; // [Ingredient!]
+    ingredientQuantities: NexusGenRootTypes['RecipeIngredientQuantity'][] | null; // [RecipeIngredientQuantity!]
     name: string; // String!
   }
   RecipeCategory: { // field return type
     id: string; // ID!
     name: string; // String!
+  }
+  RecipeIngredientQuantity: { // field return type
+    amount: number; // Int!
+    ingredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
+    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    unit: string; // String!
   }
   User: { // field return type
     email: string | null; // String
@@ -129,7 +141,7 @@ export interface NexusGenFieldTypeNames {
     recipe: 'Recipe'
   }
   Mutation: { // field return type name
-    addIngredientToRecipe: 'Recipe'
+    addIngredientQuantityToRecipe: 'Recipe'
     addRecipeToMealPlan: 'MealPlanEntry'
     createIngredient: 'Ingredient'
     createIngredientType: 'IngredientType'
@@ -150,12 +162,18 @@ export interface NexusGenFieldTypeNames {
     category: 'RecipeCategory'
     id: 'ID'
     imageUrl: 'String'
-    ingredients: 'Ingredient'
+    ingredientQuantities: 'RecipeIngredientQuantity'
     name: 'String'
   }
   RecipeCategory: { // field return type name
     id: 'ID'
     name: 'String'
+  }
+  RecipeIngredientQuantity: { // field return type name
+    amount: 'Int'
+    ingredient: 'Ingredient'
+    recipe: 'Recipe'
+    unit: 'String'
   }
   User: { // field return type name
     email: 'String'
@@ -174,8 +192,8 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
-    addIngredientToRecipe: { // args
-      ingredientId: string; // ID!
+    addIngredientQuantityToRecipe: { // args
+      ingredientQuantity: NexusGenInputs['IngredientQuantityInput']; // IngredientQuantityInput!
       recipeId: string; // ID!
     }
     addRecipeToMealPlan: { // args
@@ -194,7 +212,7 @@ export interface NexusGenArgTypes {
     createRecipe: { // args
       content: string; // String!
       imageUrl?: string | null; // String
-      ingredientIds: string[]; // [ID!]!
+      ingredientQuantities: NexusGenInputs['IngredientQuantityInput'][]; // [IngredientQuantityInput!]!
       name: string; // String!
     }
     deleteMealPlanEntry: { // args
@@ -220,7 +238,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

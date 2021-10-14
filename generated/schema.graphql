@@ -8,6 +8,12 @@ type Ingredient {
   type: IngredientType
 }
 
+input IngredientQuantityInput {
+  amount: Int!
+  ingredientId: String!
+  unit: String!
+}
+
 type IngredientType {
   id: ID!
   name: String!
@@ -32,11 +38,11 @@ enum MealType {
 }
 
 type Mutation {
-  addIngredientToRecipe(ingredientId: ID!, recipeId: ID!): Recipe
+  addIngredientQuantityToRecipe(ingredientQuantity: IngredientQuantityInput!, recipeId: ID!): Recipe
   addRecipeToMealPlan(date: String!, mealPlanId: ID!, mealType: MealType!, recipeId: ID!): MealPlanEntry
   createIngredient(ingredientTypeId: ID, name: String!): Ingredient!
   createIngredientType(name: String!): IngredientType
-  createRecipe(content: String!, imageUrl: String, ingredientIds: [ID!]!, name: String!): Recipe
+  createRecipe(content: String!, imageUrl: String, ingredientQuantities: [IngredientQuantityInput!]!, name: String!): Recipe
   deleteMealPlanEntry(mealPlanId: ID!): MealPlanEntry
   removeIngredientFromRecipe(ingredientId: ID!, recipeId: ID!): Recipe
 }
@@ -55,13 +61,20 @@ type Recipe {
   category: RecipeCategory
   id: ID!
   imageUrl: String
-  ingredients: [Ingredient!]
+  ingredientQuantities: [RecipeIngredientQuantity!]
   name: String!
 }
 
 type RecipeCategory {
   id: ID!
   name: String!
+}
+
+type RecipeIngredientQuantity {
+  amount: Int!
+  ingredient: Ingredient
+  recipe: Recipe
+  unit: String!
 }
 
 type User {

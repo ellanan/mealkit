@@ -27,24 +27,35 @@ model IngredientType {
 }
 
 model Ingredient {
-  id               String          @id @default(cuid())
-  name             String
-  ingredientType   IngredientType? @relation(fields: [ingredientTypeId], references: [id])
-  ingredientTypeId String?
-  recipe           Recipe[]
+  id                       String                     @id @default(cuid())
+  name                     String
+  ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id])
+  ingredientTypeId         String?
+  RecipeIngredientQuantity RecipeIngredientQuantity[]
+}
+
+model RecipeIngredientQuantity {
+  unit         String
+  amount       Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  recipeId     String
+
+  @@id([ingredientId, recipeId])
 }
 
 model Recipe {
-  id             String          @id @default(cuid())
-  name           String
-  imageUrl       String?
-  category       RecipeCategory? @relation(fields: [categoryId], references: [id])
-  categoryId     String?
-  ingredients    Ingredient[]
-  user           User?           @relation(fields: [userId], references: [id])
-  userId         String?
-  content        String?
-  ScheduledEntry MealPlanEntry[]
+  id                   String                     @id @default(cuid())
+  name                 String
+  imageUrl             String?
+  category             RecipeCategory?            @relation(fields: [categoryId], references: [id])
+  categoryId           String?
+  ingredientQuantities RecipeIngredientQuantity[]
+  user                 User?                      @relation(fields: [userId], references: [id])
+  userId               String?
+  content              String?
+  mealPlanEntries      MealPlanEntry[]
 }
 
 model RecipeCategory {
