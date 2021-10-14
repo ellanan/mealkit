@@ -218,7 +218,7 @@ export type SingleRecipeQueryVariables = Exact<{
 }>;
 
 
-export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined };
+export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities?: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient?: { __typename?: 'Ingredient', id: string, name: string } | null | undefined }> | null | undefined } | null | undefined };
 
 
 export const RecipesAvailableDocument = gql`
@@ -503,6 +503,20 @@ export const SingleRecipeDocument = gql`
   recipe(recipeId: $recipeId) {
     id
     name
+    imageUrl
+    content
+    category {
+      id
+      name
+    }
+    ingredientQuantities {
+      unit
+      amount
+      ingredient {
+        id
+        name
+      }
+    }
   }
 }
     `;
