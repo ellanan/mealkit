@@ -58,7 +58,7 @@ export const Mutation = mutationType({
       args: {
         name: nonNull(stringArg()),
         imageUrl: stringArg(),
-        content: nonNull(stringArg()),
+        content: stringArg(),
         ingredientQuantities: nonNull(
           list(
             nonNull(

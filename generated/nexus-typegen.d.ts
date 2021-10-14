@@ -210,7 +210,7 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     createRecipe: { // args
-      content: string; // String!
+      content?: string | null; // String
       imageUrl?: string | null; // String
       ingredientQuantities: NexusGenInputs['IngredientQuantityInput'][]; // [IngredientQuantityInput!]!
       name: string; // String!
