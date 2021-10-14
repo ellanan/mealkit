@@ -1,5 +1,13 @@
 import { PrismaClient } from '@prisma/client';
-import { arg, idArg, mutationType, nonNull, stringArg, list } from 'nexus';
+import {
+  arg,
+  idArg,
+  mutationType,
+  nonNull,
+  nullable,
+  stringArg,
+  list,
+} from 'nexus';
 import { NexusMealType } from './MealPlan';
 
 const prisma = new PrismaClient();
@@ -7,20 +15,24 @@ const prisma = new PrismaClient();
 export const Mutation = mutationType({
   definition(t) {
     t.field('createIngredient', {
-      type: 'Ingredient',
+      type: nonNull('Ingredient'),
       args: {
         name: nonNull(stringArg()),
-        ingredientTypeId: nonNull(idArg()),
+        ingredientTypeId: nullable(idArg()),
       },
       resolve: async (_parent, args) => {
         return prisma.ingredient.create({
           data: {
             name: args.name,
-            ingredientType: {
-              connect: {
-                id: args.ingredientTypeId,
-              },
-            },
+            ...(args.ingredientTypeId
+              ? {
+                  ingredientType: {
+                    connect: {
+                      id: args.ingredientTypeId,
+                    },
+                  },
+                }
+              : null),
           },
         });
       },

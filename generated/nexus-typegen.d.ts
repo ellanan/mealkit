@@ -73,7 +73,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addIngredientToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     addRecipeToMealPlan: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
-    createIngredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
+    createIngredient: NexusGenRootTypes['Ingredient']; // Ingredient!
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     deleteMealPlanEntry: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
@@ -185,7 +185,7 @@ export interface NexusGenArgTypes {
       recipeId: string; // ID!
     }
     createIngredient: { // args
-      ingredientTypeId: string; // ID!
+      ingredientTypeId?: string | null; // ID
       name: string; // String!
     }
     createIngredientType: { // args

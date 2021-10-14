@@ -34,7 +34,7 @@ enum MealType {
 type Mutation {
   addIngredientToRecipe(ingredientId: ID!, recipeId: ID!): Recipe
   addRecipeToMealPlan(date: String!, mealPlanId: ID!, mealType: MealType!, recipeId: ID!): MealPlanEntry
-  createIngredient(ingredientTypeId: ID!, name: String!): Ingredient
+  createIngredient(ingredientTypeId: ID, name: String!): Ingredient!
   createIngredientType(name: String!): IngredientType
   createRecipe(content: String!, imageUrl: String, ingredientIds: [ID!]!, name: String!): Recipe
   deleteMealPlanEntry(mealPlanId: ID!): MealPlanEntry

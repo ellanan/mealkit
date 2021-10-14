@@ -27,10 +27,10 @@ model IngredientType {
 }
 
 model Ingredient {
-  id               String         @id @default(cuid())
+  id               String          @id @default(cuid())
   name             String
-  ingredientType   IngredientType @relation(fields: [ingredientTypeId], references: [id])
-  ingredientTypeId String
+  ingredientType   IngredientType? @relation(fields: [ingredientTypeId], references: [id])
+  ingredientTypeId String?
   recipe           Recipe[]
 }
 
