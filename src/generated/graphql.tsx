@@ -97,7 +97,7 @@ export type MutationCreateIngredientTypeArgs = {
 
 
 export type MutationCreateRecipeArgs = {
-  content: Scalars['String'];
+  content?: Maybe<Scalars['String']>;
   imageUrl?: Maybe<Scalars['String']>;
   ingredientQuantities: Array<IngredientQuantityInput>;
   name: Scalars['String'];
@@ -133,6 +133,7 @@ export type QueryRecipeArgs = {
 export type Recipe = {
   __typename?: 'Recipe';
   category?: Maybe<RecipeCategory>;
+  content?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   ingredientQuantities?: Maybe<Array<RecipeIngredientQuantity>>;
