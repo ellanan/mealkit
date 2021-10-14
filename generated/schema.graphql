@@ -59,6 +59,7 @@ type Query {
 
 type Recipe {
   category: RecipeCategory
+  content: String
   id: ID!
   imageUrl: String
   ingredientQuantities: [RecipeIngredientQuantity!]

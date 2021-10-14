@@ -9,6 +9,7 @@ export const Recipe = objectType({
     t.nonNull.id('id');
     t.nonNull.string('name');
     t.string('imageUrl');
+    t.string('content');
     t.field('category', {
       type: 'RecipeCategory',
       resolve: async (parent) => {
