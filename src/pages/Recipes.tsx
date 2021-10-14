@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -17,40 +17,11 @@ export const Recipes = () => {
           id
           name
         }
-        # ingredientQuantities {
-        #   amount
-        #   unit
-        #   ingredient {
-        #     id
-        #     name
-        #   }
-        # }
       }
     }
   `);
   if (error) {
     throw error;
-  }
-
-  const [
-    removeIngredientFromRecipe,
-    { error: errorRemovingIngredientFromRecipe },
-  ] = useMutation<
-    GraphQLTypes.RemoveIngredientFromRecipeMutation,
-    GraphQLTypes.RemoveIngredientFromRecipeMutationVariables
-  >(gql`
-    mutation RemoveIngredientFromRecipe($recipeId: ID!, $ingredientId: ID!) {
-      removeIngredientFromRecipe(
-        recipeId: $recipeId
-        ingredientId: $ingredientId
-      ) {
-        id
-        name
-      }
-    }
-  `);
-  if (errorRemovingIngredientFromRecipe) {
-    throw errorRemovingIngredientFromRecipe;
   }
 
   return (
@@ -97,27 +68,6 @@ export const Recipes = () => {
             >
               recipe details
             </NavLink>
-            {/* <ul>
-              <span>ingredients:</span>
-              {recipe.ingredients?.map((ingredient) => (
-                <div key={ingredient?.name}>
-                  <li>{ingredient?.name}</li>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      removeIngredientFromRecipe({
-                        variables: {
-                          recipeId: recipe.id,
-                          ingredientId: ingredient.id,
-                        },
-                      });
-                    }}
-                  >
-                    remove ingredient
-                  </button>
-                </div>
-              ))}
-            </ul> */}
           </div>
         ))}
     </div>
