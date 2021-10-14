@@ -1,6 +1,6 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
-import Select from 'react-select';
+import Creatable from 'react-select/creatable';
 import { useState } from 'react';
 
 interface CreateRecipeForm {
@@ -56,6 +56,21 @@ export const CreateRecipe = () => {
   `);
   if (errorCreatingRecipe) {
     throw errorCreatingRecipe;
+  }
+
+  const [createIngredient, { error: errorCreatingIngredient }] = useMutation<
+    GraphQLTypes.CreateIngredientMutation,
+    GraphQLTypes.CreateIngredientMutationVariables
+  >(gql`
+    mutation CreateIngredient($name: String!) {
+      createIngredient(name: $name) {
+        id
+        name
+      }
+    }
+  `);
+  if (errorCreatingIngredient) {
+    throw errorCreatingIngredient;
   }
 
   return (
@@ -146,23 +161,44 @@ export const CreateRecipe = () => {
           <li>
             <label>
               ingredients <br />
-              <Select
+              <Creatable
                 options={ingredientsData?.ingredients?.map((ingredient) => {
                   return { value: ingredient.id, label: ingredient.name };
                 })}
-                onChange={(newValue) => {
-                  if (!newValue) {
-                    console.log(`no newValue`);
+                onChange={async (newValue, actionMeta) => {
+                  if (!newValue || !newValue.value) {
+                    console.log(`no newValue`, actionMeta);
                     return;
                   }
+
+                  if (actionMeta.action === 'create-option') {
+                    const createIngredientResponse = await createIngredient({
+                      variables: {
+                        name: newValue.value,
+                      },
+                    });
+                    if (!createIngredientResponse.data?.createIngredient) {
+                      console.log(
+                        `failed to create ingredient`,
+                        createIngredientResponse
+                      );
+                      return;
+                    }
+                    const newIngredient =
+                      createIngredientResponse.data.createIngredient;
+                    setFormData((prev) => ({
+                      ...prev,
+                      ingredients: prev.ingredients.concat(newIngredient),
+                    }));
+                    return;
+                  }
+
                   const newIngredientId = newValue.value;
                   const newIngredient = ingredientsData?.ingredients?.find(
                     ({ id }) => id === newIngredientId
                   );
                   if (!newIngredient) {
-                    console.log(
-                      `ingredient with id ${newIngredientId} not found`
-                    );
+                    console.log(`ingredient ${newValue.label} not found`);
                     return;
                   }
                   setFormData((prev) => ({
