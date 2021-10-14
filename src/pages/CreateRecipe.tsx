@@ -183,8 +183,8 @@ export const CreateRecipe = () => {
             <ul>
               {formData.ingredients.map((ingredient) => {
                 return (
-                  <div style={{ display: 'flex' }}>
-                    <li key={ingredient.id}>{ingredient.name}</li>
+                  <div style={{ display: 'flex' }} key={ingredient.id}>
+                    <li>{ingredient.name}</li>
                     <button
                       onClick={(e) => {
                         e.preventDefault();

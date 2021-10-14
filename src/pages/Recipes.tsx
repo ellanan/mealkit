@@ -85,8 +85,8 @@ export const Recipes = () => {
             <ul>
               <span>ingredients:</span>
               {recipe.ingredients?.map((ingredient) => (
-                <div>
-                  <li key={ingredient?.name}>{ingredient?.name}</li>
+                <div key={ingredient?.name}>
+                  <li>{ingredient?.name}</li>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
