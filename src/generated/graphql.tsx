@@ -212,14 +212,6 @@ export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
-export type RemoveIngredientFromRecipeMutationVariables = Exact<{
-  recipeId: Scalars['ID'];
-  ingredientId: Scalars['ID'];
-}>;
-
-
-export type RemoveIngredientFromRecipeMutation = { __typename?: 'Mutation', removeIngredientFromRecipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined };
-
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
 }>;
@@ -505,41 +497,6 @@ export function useRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Re
 export type RecipesQueryHookResult = ReturnType<typeof useRecipesQuery>;
 export type RecipesLazyQueryHookResult = ReturnType<typeof useRecipesLazyQuery>;
 export type RecipesQueryResult = Apollo.QueryResult<RecipesQuery, RecipesQueryVariables>;
-export const RemoveIngredientFromRecipeDocument = gql`
-    mutation RemoveIngredientFromRecipe($recipeId: ID!, $ingredientId: ID!) {
-  removeIngredientFromRecipe(recipeId: $recipeId, ingredientId: $ingredientId) {
-    id
-    name
-  }
-}
-    `;
-export type RemoveIngredientFromRecipeMutationFn = Apollo.MutationFunction<RemoveIngredientFromRecipeMutation, RemoveIngredientFromRecipeMutationVariables>;
-
-/**
- * __useRemoveIngredientFromRecipeMutation__
- *
- * To run a mutation, you first call `useRemoveIngredientFromRecipeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveIngredientFromRecipeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeIngredientFromRecipeMutation, { data, loading, error }] = useRemoveIngredientFromRecipeMutation({
- *   variables: {
- *      recipeId: // value for 'recipeId'
- *      ingredientId: // value for 'ingredientId'
- *   },
- * });
- */
-export function useRemoveIngredientFromRecipeMutation(baseOptions?: Apollo.MutationHookOptions<RemoveIngredientFromRecipeMutation, RemoveIngredientFromRecipeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveIngredientFromRecipeMutation, RemoveIngredientFromRecipeMutationVariables>(RemoveIngredientFromRecipeDocument, options);
-      }
-export type RemoveIngredientFromRecipeMutationHookResult = ReturnType<typeof useRemoveIngredientFromRecipeMutation>;
-export type RemoveIngredientFromRecipeMutationResult = Apollo.MutationResult<RemoveIngredientFromRecipeMutation>;
-export type RemoveIngredientFromRecipeMutationOptions = Apollo.BaseMutationOptions<RemoveIngredientFromRecipeMutation, RemoveIngredientFromRecipeMutationVariables>;
 export const SingleRecipeDocument = gql`
     query SingleRecipe($recipeId: ID!) {
   recipe(recipeId: $recipeId) {
