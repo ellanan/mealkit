@@ -85,6 +85,7 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
           id
           name
           imageUrl
+          content
         }
       }
     `
@@ -247,12 +248,11 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
         </li>
         <li>
           <label>
-            image <br />
             {recipeDetails?.recipe?.imageUrl && (
               <img
                 src={recipeDetails.recipe.imageUrl}
                 alt=''
-                style={{ maxWidth: '100%', maxHeight: 400 }}
+                style={{ maxWidth: '100%', maxHeight: 300 }}
               />
             )}
             <input
@@ -362,7 +362,14 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
               ({ unit, amount, ingredient }) => {
                 return (
                   <div style={{ display: 'flex' }} key={ingredient.id}>
-                    <li>
+                    <li
+                      css={css`
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding-right: 10px;
+                      `}
+                    >
                       <Editable
                         defaultValue={`${amount}`}
                         onSubmit={(newValue) => {
@@ -374,6 +381,9 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
                             },
                           });
                         }}
+                        css={css`
+                          padding-right: 10px;
+                        `}
                       >
                         <EditablePreview />
                         <EditableInput type='number' />
@@ -390,6 +400,9 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
                             },
                           });
                         }}
+                        css={css`
+                          padding-right: 10px;
+                        `}
                       >
                         <EditablePreview />
                         <EditableInput type='text' />
