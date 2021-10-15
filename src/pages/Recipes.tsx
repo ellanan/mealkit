@@ -55,11 +55,13 @@ export const Recipes = () => {
         )
         .map((recipe) => (
           <div key={recipe.id}>
-            <img
-              src={`${recipe.imageUrl}`}
-              alt=''
-              style={{ width: '180px', height: '180px' }}
-            />
+            {recipe.imageUrl ? (
+              <img
+                src={`${recipe.imageUrl}`}
+                alt=''
+                style={{ width: '180px', height: '180px' }}
+              />
+            ) : null}
             <h3>
               {recipe.name} - {recipe.category?.name}
             </h3>
