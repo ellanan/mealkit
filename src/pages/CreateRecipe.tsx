@@ -1,6 +1,7 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
+import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react';
 
 interface CreateRecipeForm {
@@ -154,15 +155,24 @@ export const CreateRecipe = () => {
           <li>
             <label>
               content <br />
-              <textarea
+              <Editor
+                apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
                 value={formData.content}
-                name='content'
-                rows={5}
-                cols={100}
-                onChange={(e) => {
-                  const content = e.target.value;
+                init={{
+                  height: 200,
+                  menubar: false,
+                  plugins: ['wordcount'],
+                  toolbar:
+                    'undo redo | formatselect | ' +
+                    'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | help',
+                  content_style:
+                    'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                }}
+                onEditorChange={(newcontent) => {
                   setFormData((prev) => {
-                    return { ...prev, content };
+                    return { ...prev, content: newcontent };
                   });
                 }}
               />

@@ -10,8 +10,13 @@ import {
   EditablePreview,
   Spinner,
 } from '@chakra-ui/react';
+import { Editor } from '@tinymce/tinymce-react';
+import { useState } from 'react';
 
 export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
+  const [isEditingRecipeContent, setIsEditingRecipeContent] =
+    useState<boolean>(false);
+  const [recipeContent, setRecipeContent] = useState<string>('');
   const {
     data: recipeDetails,
     loading: loadingRecipeDetails,
@@ -284,26 +289,73 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
           </label>
         </li>
         <li>
-          <label>
-            content <br />
-            {recipeDetails?.recipe?.content !== undefined &&
-              recipeDetails?.recipe?.content !== null && (
-                <Editable
-                  defaultValue={recipeDetails.recipe.content}
-                  onSubmit={(newValue) => {
-                    editRecipe({
-                      variables: {
-                        recipeId,
-                        content: newValue,
-                      },
-                    });
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              await editRecipe({
+                variables: {
+                  recipeId,
+                  content: recipeContent,
+                },
+              });
+              setIsEditingRecipeContent(false);
+            }}
+          >
+            <label
+              tabIndex={0}
+              css={css`
+                position: relative;
+              `}
+              onClick={() => {
+                if (!isEditingRecipeContent) {
+                  setIsEditingRecipeContent(true);
+                }
+              }}
+            >
+              content <br />
+              {!isEditingRecipeContent && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: recipeDetails?.recipe?.content ?? '',
                   }}
-                >
-                  <EditablePreview />
-                  <EditableInput />
-                </Editable>
+                />
               )}
-          </label>
+              {recipeDetails?.recipe?.content !== undefined &&
+                recipeDetails?.recipe?.content !== null &&
+                isEditingRecipeContent && (
+                  <div>
+                    <Editor
+                      apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                      initialValue={recipeDetails.recipe.content}
+                      init={{
+                        height: 200,
+                        menubar: false,
+                        plugins: ['wordcount'],
+                        toolbar:
+                          'undo redo | formatselect | ' +
+                          'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
+                          'alignright alignjustify | bullist numlist outdent indent | ' +
+                          'removeformat | help',
+                        content_style:
+                          'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                      }}
+                      onEditorChange={(newcontent) => {
+                        setRecipeContent(newcontent);
+                      }}
+                    />
+                    <Button
+                      onClick={() => {
+                        setIsEditingRecipeContent(false);
+                        setRecipeContent(recipeDetails?.recipe?.content ?? '');
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type='submit'>Save</Button>
+                  </div>
+                )}
+            </label>
+          </form>
         </li>
         <li>
           <label>
