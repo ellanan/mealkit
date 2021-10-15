@@ -11,6 +11,9 @@ export const Ingredient = objectType({
     t.field('type', {
       type: 'IngredientType',
       resolve: async (src) => {
+        if (!src.ingredientTypeId) {
+          return null;
+        }
         return await prisma.ingredientType.findUnique({
           where: {
             id: src.ingredientTypeId,
