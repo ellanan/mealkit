@@ -13,6 +13,7 @@ export const Recipes = () => {
       recipes {
         id
         name
+        imageUrl
         category {
           id
           name
@@ -54,6 +55,11 @@ export const Recipes = () => {
         )
         .map((recipe) => (
           <div key={recipe.id}>
+            <img
+              src={`${recipe.imageUrl}`}
+              alt=''
+              style={{ width: '180px', height: '180px' }}
+            />
             <h3>
               {recipe.name} - {recipe.category?.name}
             </h3>
@@ -63,7 +69,7 @@ export const Recipes = () => {
                 padding: 0.1em;
                 border: 2px solid #000;
                 border-radius: 10px;
-                background-color: yellow;
+                background-color: #00ffbf;
               `}
             >
               recipe details

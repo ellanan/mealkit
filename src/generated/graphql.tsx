@@ -229,7 +229,7 @@ export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typena
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
+export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -246,7 +246,7 @@ export type EditRecipeMutationVariables = Exact<{
 }>;
 
 
-export type EditRecipeMutation = { __typename?: 'Mutation', editRecipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined };
+export type EditRecipeMutation = { __typename?: 'Mutation', editRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined } | null | undefined };
 
 export type AddIngredientQuantityToRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -518,6 +518,7 @@ export const RecipesDocument = gql`
   recipes {
     id
     name
+    imageUrl
     category {
       id
       name
@@ -612,6 +613,8 @@ export const EditRecipeDocument = gql`
   ) {
     id
     name
+    imageUrl
+    content
   }
 }
     `;
