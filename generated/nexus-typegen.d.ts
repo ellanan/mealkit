@@ -83,7 +83,9 @@ export interface NexusGenFieldTypes {
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     deleteMealPlanEntry: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
+    editRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     removeIngredientFromRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    updateIngredientQuantityInRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
     allUsers: NexusGenRootTypes['User'][]; // [User!]!
@@ -108,8 +110,8 @@ export interface NexusGenFieldTypes {
   }
   RecipeIngredientQuantity: { // field return type
     amount: number; // Int!
-    ingredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
-    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    recipe: NexusGenRootTypes['Recipe']; // Recipe!
     unit: string; // String!
   }
   User: { // field return type
@@ -148,7 +150,9 @@ export interface NexusGenFieldTypeNames {
     createIngredientType: 'IngredientType'
     createRecipe: 'Recipe'
     deleteMealPlanEntry: 'MealPlanEntry'
+    editRecipe: 'Recipe'
     removeIngredientFromRecipe: 'Recipe'
+    updateIngredientQuantityInRecipe: 'Recipe'
   }
   Query: { // field return type name
     allUsers: 'User'
@@ -220,9 +224,21 @@ export interface NexusGenArgTypes {
     deleteMealPlanEntry: { // args
       mealPlanId: string; // ID!
     }
+    editRecipe: { // args
+      content?: string | null; // String
+      imageUrl?: string | null; // String
+      name?: string | null; // String
+      recipeId: string; // String!
+    }
     removeIngredientFromRecipe: { // args
       ingredientId: string; // ID!
       recipeId: string; // ID!
+    }
+    updateIngredientQuantityInRecipe: { // args
+      amount?: number | null; // Int
+      ingredientId: string; // ID!
+      recipeId: string; // ID!
+      unit?: string | null; // String
     }
   }
   Query: {

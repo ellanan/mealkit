@@ -8,7 +8,10 @@ import {
   stringArg,
   list,
   inputObjectType,
+  intArg,
 } from 'nexus';
+import _ from 'lodash';
+
 import { NexusMealType } from './MealPlan';
 
 const prisma = new PrismaClient();
@@ -91,6 +94,31 @@ export const Mutation = mutationType({
       },
     });
 
+    t.field('editRecipe', {
+      type: 'Recipe',
+      args: {
+        recipeId: nonNull(stringArg()),
+        name: nullable(stringArg()),
+        imageUrl: nullable(stringArg()),
+        content: nullable(stringArg()),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.recipe.update({
+          where: {
+            id: args.recipeId,
+          },
+          data: _.omitBy(
+            {
+              name: args.name,
+              imageUrl: args.imageUrl,
+              content: args.content,
+            },
+            _.isNil
+          ),
+        });
+      },
+    });
+
     t.field('addIngredientQuantityToRecipe', {
       type: 'Recipe',
       args: {
@@ -133,6 +161,42 @@ export const Mutation = mutationType({
                   ingredientId: args.ingredientId,
                   recipeId: args.recipeId,
                 },
+              },
+            },
+          },
+        });
+      },
+    });
+
+    t.field('updateIngredientQuantityInRecipe', {
+      type: 'Recipe',
+      args: {
+        recipeId: nonNull(idArg()),
+        ingredientId: nonNull(idArg()),
+        amount: nullable(intArg()),
+        unit: nullable(stringArg()),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.recipe.update({
+          where: {
+            id: args.recipeId,
+          },
+          data: {
+            ingredientQuantities: {
+              update: {
+                where: {
+                  ingredientId_recipeId: {
+                    ingredientId: args.ingredientId,
+                    recipeId: args.recipeId,
+                  },
+                },
+                data: _.omitBy(
+                  {
+                    amount: args.amount,
+                    unit: args.unit,
+                  },
+                  _.isNil
+                ),
               },
             },
           },
