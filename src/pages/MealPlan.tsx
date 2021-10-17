@@ -87,26 +87,21 @@ export const MealPlan = () => {
           next week
         </Button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th />
-            {interval.map((day) => (
-              <th key={day.toISO()}>
-                <span>{`${day.weekdayShort} - ${day.monthShort} ${day.day}`}</span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {[
-            GraphQLTypes.MealType.Breakfast,
-            GraphQLTypes.MealType.Lunch,
-            GraphQLTypes.MealType.Dinner,
-          ].map((mealType) => (
-            <tr key={mealType}>
-              <td valign='top'>{mealType}</td>
-              {interval.map((day) => {
+      <div
+        css={css`
+          display: flex;
+          flex-direction: row;
+        `}
+      >
+        {interval.map((day) => {
+          return (
+            <div key={day.toISO()}>
+              <h2>{`${day.weekdayShort} - ${day.monthShort} ${day.day}`}</h2>
+              {[
+                GraphQLTypes.MealType.Breakfast,
+                GraphQLTypes.MealType.Lunch,
+                GraphQLTypes.MealType.Dinner,
+              ].map((mealType) => {
                 const mealPlanEntries =
                   data?.currentUser?.mealPlan?.schedule.filter((entry) => {
                     return (
@@ -119,39 +114,41 @@ export const MealPlan = () => {
                     );
                   });
                 return (
-                  <td
-                    key={day.toISO()}
-                    valign='top'
-                    css={css`
-                      .addRecipe {
-                        opacity: 0;
-                      }
-                      &:hover .addRecipe {
-                        opacity: 1;
-                      }
-                    `}
-                  >
-                    <Button
-                      className='addRecipe'
-                      onClick={() => {
-                        setMealTypeAndDate({
-                          mealType,
-                          date: day.toISODate(),
-                        });
-                      }}
+                  <div key={mealType}>
+                    <h3>{mealType}</h3>
+                    <div
+                      key={day.toISO()}
+                      css={css`
+                        .addRecipe {
+                          opacity: 0;
+                        }
+                        &:hover .addRecipe {
+                          opacity: 1;
+                        }
+                      `}
                     >
-                      add recipe to meal
-                    </Button>
-                    {mealPlanEntries?.map((entry) => (
-                      <div key={entry?.id}>{entry?.recipe?.name}</div>
-                    ))}
-                  </td>
+                      <Button
+                        className='addRecipe'
+                        onClick={() => {
+                          setMealTypeAndDate({
+                            mealType,
+                            date: day.toISODate(),
+                          });
+                        }}
+                      >
+                        add recipe to meal
+                      </Button>
+                      {mealPlanEntries?.map((entry) => (
+                        <div key={entry?.id}>{entry?.recipe?.name}</div>
+                      ))}
+                    </div>
+                  </div>
                 );
               })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </div>
+          );
+        })}
+      </div>
       {JSON.stringify({ mealTypeAndDate })}
       {data?.currentUser?.mealPlan?.id &&
         mealTypeAndDate?.date &&
