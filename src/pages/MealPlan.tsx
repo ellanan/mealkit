@@ -1,6 +1,9 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { DateTime, Interval } from 'luxon';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
+import { Button } from '@chakra-ui/button';
 import { useMemo, useState } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
@@ -62,20 +65,28 @@ export const MealPlan = () => {
       <h2>
         {interval[0].monthLong} {interval[0].year}
       </h2>
-      <button
-        onClick={() => {
-          setStartDate(startDate.minus({ weeks: 1 }));
-        }}
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        `}
       >
-        previous week
-      </button>
-      <button
-        onClick={() => {
-          setStartDate(startDate.plus({ weeks: 1 }));
-        }}
-      >
-        next week
-      </button>
+        <Button
+          onClick={() => {
+            setStartDate(startDate.minus({ weeks: 1 }));
+          }}
+        >
+          previous week
+        </Button>
+        <Button
+          onClick={() => {
+            setStartDate(startDate.plus({ weeks: 1 }));
+          }}
+        >
+          next week
+        </Button>
+      </div>
       <table>
         <thead>
           <tr>
@@ -108,8 +119,20 @@ export const MealPlan = () => {
                     );
                   });
                 return (
-                  <td key={day.toISO()} valign='top'>
-                    <button
+                  <td
+                    key={day.toISO()}
+                    valign='top'
+                    css={css`
+                      .addRecipe {
+                        opacity: 0;
+                      }
+                      &:hover .addRecipe {
+                        opacity: 1;
+                      }
+                    `}
+                  >
+                    <Button
+                      className='addRecipe'
                       onClick={() => {
                         setMealTypeAndDate({
                           mealType,
@@ -118,7 +141,7 @@ export const MealPlan = () => {
                       }}
                     >
                       add recipe to meal
-                    </button>
+                    </Button>
                     {mealPlanEntries?.map((entry) => (
                       <div key={entry?.id}>{entry?.recipe?.name}</div>
                     ))}
