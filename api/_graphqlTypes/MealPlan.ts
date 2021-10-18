@@ -11,17 +11,17 @@ export const NexusMealType = enumType({
 export const MealPlanEntry = objectType({
   name: 'MealPlanEntry',
   definition(t) {
-    t.id('id');
-    t.field('date', {
+    t.nonNull.id('id');
+    t.nonNull.field('date', {
       type: 'String',
       resolve(parent) {
         return parent.date.toISOString();
       },
     });
-    t.field('mealType', {
+    t.nonNull.field('mealType', {
       type: 'MealType',
     });
-    t.field('recipe', {
+    t.nonNull.field('recipe', {
       type: 'Recipe',
       resolve(parent) {
         return prisma.recipe.findUnique({
@@ -38,7 +38,7 @@ export const MealPlan = objectType({
   name: 'MealPlan',
   definition(t) {
     t.nonNull.id('id');
-    t.nonNull.list.field('schedule', {
+    t.nonNull.list.nonNull.field('schedule', {
       type: 'MealPlanEntry',
       args: {
         startDate: nonNull(stringArg()),

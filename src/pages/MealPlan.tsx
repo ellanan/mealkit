@@ -124,7 +124,7 @@ export const MealPlan = () => {
                 const mealPlanEntries =
                   data?.currentUser?.mealPlan?.schedule.filter((entry) => {
                     return (
-                      entry?.mealType === mealType &&
+                      entry.mealType === mealType &&
                       entry.date &&
                       day.toISODate() ===
                         DateTime.fromISO(entry.date, {
@@ -162,16 +162,16 @@ export const MealPlan = () => {
 
                     {mealPlanEntries?.map((entry) => (
                       <div
-                        key={entry?.id}
+                        key={entry.id}
                         css={css`
                           display: flex;
                           flex-direction: column;
                         `}
                       >
-                        {entry?.recipe?.imageUrl !== null && (
+                        {entry.recipe.imageUrl !== null && (
                           <img
-                            src={entry?.recipe?.imageUrl}
-                            alt={`${entry?.recipe?.name}`}
+                            src={entry.recipe.imageUrl}
+                            alt={`${entry.recipe.name}`}
                             width={100}
                             height={100}
                             style={{ borderRadius: '10px' }}
@@ -182,8 +182,8 @@ export const MealPlan = () => {
                             display: flex;
                           `}
                         >
-                          {entry?.recipe?.name}
-                          <NavLink to={`/recipes/${entry?.recipe?.id}`}>
+                          {entry.recipe.name}
+                          <NavLink to={`/recipes/${entry.recipe.id}`}>
                             <div
                               css={css`
                                 .viewIndicator {
@@ -217,18 +217,14 @@ export const MealPlan = () => {
                             <Button
                               size='xs'
                               variant='unstyled'
-                              aria-label={`delete ${entry?.recipe?.name} from meal plan`}
+                              aria-label={`delete ${entry.recipe.name} from meal plan`}
                               onClick={(e) => {
                                 e.preventDefault();
-                                entry?.id
-                                  ? deleteMealPlanEntryMutation({
-                                      variables: {
-                                        mealPlanId: entry?.id,
-                                      },
-                                    })
-                                  : new Error(
-                                      'error deleting recipe from meal plan'
-                                    );
+                                deleteMealPlanEntryMutation({
+                                  variables: {
+                                    mealPlanId: entry.id,
+                                  },
+                                });
                               }}
                             >
                               <DeleteIcon

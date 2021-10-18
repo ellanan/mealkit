@@ -68,13 +68,13 @@ export interface NexusGenFieldTypes {
   }
   MealPlan: { // field return type
     id: string; // ID!
-    schedule: Array<NexusGenRootTypes['MealPlanEntry'] | null>; // [MealPlanEntry]!
+    schedule: NexusGenRootTypes['MealPlanEntry'][]; // [MealPlanEntry!]!
   }
   MealPlanEntry: { // field return type
-    date: string | null; // String
-    id: string | null; // ID
-    mealType: NexusGenEnums['MealType'] | null; // MealType
-    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    date: string; // String!
+    id: string; // ID!
+    mealType: NexusGenEnums['MealType']; // MealType!
+    recipe: NexusGenRootTypes['Recipe']; // Recipe!
   }
   Mutation: { // field return type
     addIngredientQuantityToRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe

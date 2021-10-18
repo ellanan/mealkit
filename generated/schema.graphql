@@ -21,14 +21,14 @@ type IngredientType {
 
 type MealPlan {
   id: ID!
-  schedule(endDate: String!, startDate: String!): [MealPlanEntry]!
+  schedule(endDate: String!, startDate: String!): [MealPlanEntry!]!
 }
 
 type MealPlanEntry {
-  date: String
-  id: ID
-  mealType: MealType
-  recipe: Recipe
+  date: String!
+  id: ID!
+  mealType: MealType!
+  recipe: Recipe!
 }
 
 enum MealType {
