@@ -11,7 +11,8 @@
     "db:seed": "npx ts-node prisma/seed.ts",
     "dev:server": "npx prisma generate --watch",
     "client-codegen": "graphql-codegen --config codegen.yml",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "rebuild-schema": "ts-node --transpile-only api/_helpers/makeSchema.ts"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
