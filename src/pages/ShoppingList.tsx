@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
@@ -127,7 +129,14 @@ export const ShoppingList = () => {
         <div
           key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
         >
-          {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
+          <div
+            css={css`
+              font-weight: 700;
+            `}
+          >
+            {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
+          </div>
+
           <ul>
             {Object.values(
               _.groupBy(
@@ -136,11 +145,16 @@ export const ShoppingList = () => {
               )
             ).map((ingredientQuantities) => {
               return (
-                <li key={ingredientQuantities[0].ingredient.id}>
-                  {_.sumBy(ingredientQuantities, (x) => x.amount)}
-                  {ingredientQuantities[0].unit}
-                  {ingredientQuantities[0].ingredient.name}
-                  {/* <pre>{JSON.stringify(things, null, '    ')}</pre> */}
+                <li
+                  key={ingredientQuantities[0].ingredient.id}
+                  css={css`
+                    margin-left: 1em;
+                  `}
+                >
+                  {` - ${_.sumBy(ingredientQuantities, (x) => x.amount)}
+                    ${ingredientQuantities[0].unit}
+                    ${ingredientQuantities[0].ingredient.name}
+                    `}
                 </li>
               );
             })}
