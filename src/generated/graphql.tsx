@@ -224,7 +224,14 @@ export type MealScheduleQueryVariables = Exact<{
 }>;
 
 
-export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id?: string | null | undefined, date?: string | null | undefined, mealType?: MealType | null | undefined, recipe?: { __typename?: 'Recipe', id: string, name: string } | null | undefined } | null | undefined> } | null | undefined } | null | undefined };
+export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id?: string | null | undefined, date?: string | null | undefined, mealType?: MealType | null | undefined, recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } | null | undefined } | null | undefined> } | null | undefined } | null | undefined };
+
+export type DeleteMealPlanEntryMutationMutationVariables = Exact<{
+  mealPlanId: Scalars['ID'];
+}>;
+
+
+export type DeleteMealPlanEntryMutationMutation = { __typename?: 'Mutation', deleteMealPlanEntry?: { __typename?: 'MealPlanEntry', id?: string | null | undefined } | null | undefined };
 
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -486,6 +493,7 @@ export const MealScheduleDocument = gql`
         recipe {
           id
           name
+          imageUrl
         }
       }
     }
@@ -521,6 +529,39 @@ export function useMealScheduleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type MealScheduleQueryHookResult = ReturnType<typeof useMealScheduleQuery>;
 export type MealScheduleLazyQueryHookResult = ReturnType<typeof useMealScheduleLazyQuery>;
 export type MealScheduleQueryResult = Apollo.QueryResult<MealScheduleQuery, MealScheduleQueryVariables>;
+export const DeleteMealPlanEntryMutationDocument = gql`
+    mutation DeleteMealPlanEntryMutation($mealPlanId: ID!) {
+  deleteMealPlanEntry(mealPlanId: $mealPlanId) {
+    id
+  }
+}
+    `;
+export type DeleteMealPlanEntryMutationMutationFn = Apollo.MutationFunction<DeleteMealPlanEntryMutationMutation, DeleteMealPlanEntryMutationMutationVariables>;
+
+/**
+ * __useDeleteMealPlanEntryMutationMutation__
+ *
+ * To run a mutation, you first call `useDeleteMealPlanEntryMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMealPlanEntryMutationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMealPlanEntryMutationMutation, { data, loading, error }] = useDeleteMealPlanEntryMutationMutation({
+ *   variables: {
+ *      mealPlanId: // value for 'mealPlanId'
+ *   },
+ * });
+ */
+export function useDeleteMealPlanEntryMutationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMealPlanEntryMutationMutation, DeleteMealPlanEntryMutationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMealPlanEntryMutationMutation, DeleteMealPlanEntryMutationMutationVariables>(DeleteMealPlanEntryMutationDocument, options);
+      }
+export type DeleteMealPlanEntryMutationMutationHookResult = ReturnType<typeof useDeleteMealPlanEntryMutationMutation>;
+export type DeleteMealPlanEntryMutationMutationResult = Apollo.MutationResult<DeleteMealPlanEntryMutationMutation>;
+export type DeleteMealPlanEntryMutationMutationOptions = Apollo.BaseMutationOptions<DeleteMealPlanEntryMutationMutation, DeleteMealPlanEntryMutationMutationVariables>;
 export const RecipesDocument = gql`
     query Recipes {
   recipes {

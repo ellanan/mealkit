@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { DateTime, Interval } from 'luxon';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
-import { Button } from '@chakra-ui/button';
+import { Button } from '@chakra-ui/react';
+import { AddIcon, DeleteIcon, ViewIcon } from '@chakra-ui/icons';
+import { NavLink } from 'react-router-dom';
 import { useMemo, useState } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
 import { ShoppingList } from './ShoppingList';
-import { AddIcon } from '@chakra-ui/icons';
 
 export const MealPlan = () => {
   const [startDate, setStartDate] = useState<DateTime>(
@@ -44,6 +45,7 @@ export const MealPlan = () => {
               recipe {
                 id
                 name
+                imageUrl
               }
             }
           }
@@ -59,6 +61,21 @@ export const MealPlan = () => {
   );
   if (error) {
     throw error;
+  }
+
+  const [deleteMealPlanEntryMutation, { error: errorDeletingMealPlanEntry }] =
+    useMutation<
+      GraphQLTypes.DeleteMealPlanEntryMutationMutation,
+      GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
+    >(gql`
+      mutation DeleteMealPlanEntryMutation($mealPlanId: ID!) {
+        deleteMealPlanEntry(mealPlanId: $mealPlanId) {
+          id
+        }
+      }
+    `);
+  if (errorDeletingMealPlanEntry) {
+    throw errorDeletingMealPlanEntry;
   }
 
   return (
@@ -139,15 +156,92 @@ export const MealPlan = () => {
                       aria-label={`add recipe to ${mealType}`}
                       display='flex'
                     >
-                      {mealType}{' '}
+                      {mealType}
                       <AddIcon className='addIndicator' w={2} h={2} ml={1} />
                     </Button>
 
-                    <div key={day.toISO()}>
-                      {mealPlanEntries?.map((entry) => (
-                        <div key={entry?.id}>{entry?.recipe?.name}</div>
-                      ))}
-                    </div>
+                    {mealPlanEntries?.map((entry) => (
+                      <div
+                        key={entry?.id}
+                        css={css`
+                          display: flex;
+                          flex-direction: column;
+                        `}
+                      >
+                        {entry?.recipe?.imageUrl !== null && (
+                          <img
+                            src={entry?.recipe?.imageUrl}
+                            alt={`${entry?.recipe?.name}`}
+                            width={100}
+                            height={100}
+                            style={{ borderRadius: '10px' }}
+                          />
+                        )}
+                        <div
+                          css={css`
+                            display: flex;
+                          `}
+                        >
+                          {entry?.recipe?.name}
+                          <NavLink to={`/recipes/${entry?.recipe?.id}`}>
+                            <div
+                              css={css`
+                                .viewIndicator {
+                                  opacity: 0;
+                                }
+                                &:hover .viewIndicator {
+                                  opacity: 1;
+                                }
+                              `}
+                            >
+                              <ViewIcon
+                                className='viewIndicator'
+                                w={3}
+                                h={3}
+                                ml={1}
+                              />
+                            </div>
+                          </NavLink>
+                          <div
+                            css={css`
+                              .deleteIndicator {
+                                opacity: 0;
+                              }
+                              &:hover .deleteIndicator {
+                                opacity: 1;
+                                display: flex;
+                                align-items: center;
+                              }
+                            `}
+                          >
+                            <Button
+                              size='xs'
+                              variant='unstyled'
+                              aria-label={`delete ${entry?.recipe?.name} from meal plan`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                entry?.id
+                                  ? deleteMealPlanEntryMutation({
+                                      variables: {
+                                        mealPlanId: entry?.id,
+                                      },
+                                    })
+                                  : new Error(
+                                      'error deleting recipe from meal plan'
+                                    );
+                              }}
+                            >
+                              <DeleteIcon
+                                className='deleteIndicator'
+                                w={3}
+                                h={3}
+                                ml={1}
+                              />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 );
               })}
@@ -155,7 +249,6 @@ export const MealPlan = () => {
           );
         })}
       </div>
-      {JSON.stringify({ mealTypeAndDate })}
       {data?.currentUser?.mealPlan?.id &&
         mealTypeAndDate?.date &&
         mealTypeAndDate?.mealType && (
