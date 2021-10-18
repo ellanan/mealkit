@@ -2,6 +2,7 @@ import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
+import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 
 interface CreateRecipeForm {
@@ -197,6 +198,7 @@ export const CreateRecipe = () => {
                         name: newValue.value,
                       },
                     });
+
                     if (!createIngredientResponse.data?.createIngredient) {
                       console.log(
                         `failed to create ingredient`,
@@ -204,6 +206,7 @@ export const CreateRecipe = () => {
                       );
                       return;
                     }
+
                     const newIngredient =
                       createIngredientResponse.data.createIngredient;
                     setFormData((prev) => ({
@@ -300,7 +303,7 @@ export const CreateRecipe = () => {
                         />
                         {ingredient.name}
                       </li>
-                      <button
+                      <Button
                         onClick={(e) => {
                           e.preventDefault();
                           setFormData((prev) => ({
@@ -313,7 +316,7 @@ export const CreateRecipe = () => {
                         }}
                       >
                         remove ingredient
-                      </button>
+                      </Button>
                     </div>
                   );
                 }
@@ -321,7 +324,7 @@ export const CreateRecipe = () => {
             </ul>
           </li>
         </ul>
-        <button type='submit'>create recipe</button>
+        <Button type='submit'>create recipe</Button>
       </form>
     </>
   );
