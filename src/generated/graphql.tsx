@@ -154,7 +154,7 @@ export type Recipe = {
   content?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
-  ingredientQuantities?: Maybe<Array<RecipeIngredientQuantity>>;
+  ingredientQuantities: Array<RecipeIngredientQuantity>;
   name: Scalars['String'];
 };
 
@@ -231,12 +231,20 @@ export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
+export type ShoppingListQueryVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type ShoppingListQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id?: string | null | undefined, date?: string | null | undefined, mealType?: MealType | null | undefined, recipe?: { __typename?: 'Recipe', id: string, name: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined } }> } | null | undefined } | null | undefined> } | null | undefined } | null | undefined };
+
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
 }>;
 
 
-export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities?: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> | null | undefined } | null | undefined };
+export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined };
 
 export type EditRecipeMutationVariables = Exact<{
   recipeId: Scalars['String'];
@@ -254,7 +262,7 @@ export type AddIngredientQuantityToRecipeMutationVariables = Exact<{
 }>;
 
 
-export type AddIngredientQuantityToRecipeMutation = { __typename?: 'Mutation', addIngredientQuantityToRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities?: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> | null | undefined } | null | undefined };
+export type AddIngredientQuantityToRecipeMutation = { __typename?: 'Mutation', addIngredientQuantityToRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined };
 
 export type RemoveIngredientFromRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -262,7 +270,7 @@ export type RemoveIngredientFromRecipeMutationVariables = Exact<{
 }>;
 
 
-export type RemoveIngredientFromRecipeMutation = { __typename?: 'Mutation', removeIngredientFromRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities?: Array<{ __typename?: 'RecipeIngredientQuantity', ingredient: { __typename?: 'Ingredient', id: string } }> | null | undefined } | null | undefined };
+export type RemoveIngredientFromRecipeMutation = { __typename?: 'Mutation', removeIngredientFromRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', ingredient: { __typename?: 'Ingredient', id: string } }> } | null | undefined };
 
 export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -272,7 +280,7 @@ export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
 }>;
 
 
-export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities?: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> | null | undefined } | null | undefined };
+export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
 
 
 export const RecipesAvailableDocument = gql`
@@ -553,6 +561,66 @@ export function useRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Re
 export type RecipesQueryHookResult = ReturnType<typeof useRecipesQuery>;
 export type RecipesLazyQueryHookResult = ReturnType<typeof useRecipesLazyQuery>;
 export type RecipesQueryResult = Apollo.QueryResult<RecipesQuery, RecipesQueryVariables>;
+export const ShoppingListDocument = gql`
+    query ShoppingList($startDate: String!, $endDate: String!) {
+  currentUser {
+    id
+    mealPlan {
+      id
+      schedule(startDate: $startDate, endDate: $endDate) {
+        id
+        date
+        mealType
+        recipe {
+          id
+          name
+          ingredientQuantities {
+            unit
+            amount
+            ingredient {
+              id
+              name
+              type {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useShoppingListQuery__
+ *
+ * To run a query within a React component, call `useShoppingListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShoppingListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShoppingListQuery({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useShoppingListQuery(baseOptions: Apollo.QueryHookOptions<ShoppingListQuery, ShoppingListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShoppingListQuery, ShoppingListQueryVariables>(ShoppingListDocument, options);
+      }
+export function useShoppingListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShoppingListQuery, ShoppingListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShoppingListQuery, ShoppingListQueryVariables>(ShoppingListDocument, options);
+        }
+export type ShoppingListQueryHookResult = ReturnType<typeof useShoppingListQuery>;
+export type ShoppingListLazyQueryHookResult = ReturnType<typeof useShoppingListLazyQuery>;
+export type ShoppingListQueryResult = Apollo.QueryResult<ShoppingListQuery, ShoppingListQueryVariables>;
 export const SingleRecipeDocument = gql`
     query SingleRecipe($recipeId: ID!) {
   recipe(recipeId: $recipeId) {

@@ -101,7 +101,7 @@ export interface NexusGenFieldTypes {
     content: string | null; // String
     id: string; // ID!
     imageUrl: string | null; // String
-    ingredientQuantities: NexusGenRootTypes['RecipeIngredientQuantity'][] | null; // [RecipeIngredientQuantity!]
+    ingredientQuantities: NexusGenRootTypes['RecipeIngredientQuantity'][]; // [RecipeIngredientQuantity!]!
     name: string; // String!
   }
   RecipeCategory: { // field return type

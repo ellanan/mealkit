@@ -64,7 +64,7 @@ type Recipe {
   content: String
   id: ID!
   imageUrl: String
-  ingredientQuantities: [RecipeIngredientQuantity!]
+  ingredientQuantities: [RecipeIngredientQuantity!]!
   name: String!
 }
 
