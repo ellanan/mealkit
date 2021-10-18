@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
 import { DateTime } from 'luxon';
 import createPersistedState from 'use-persisted-state';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import _ from 'lodash';
 
 const useRawShoppingListPersistedState = createPersistedState('shopping list');
@@ -43,6 +43,7 @@ const useShoppingListPersistedState = () => {
 
 export const ShoppingList = () => {
   const [range, setRange] = useShoppingListPersistedState();
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
 
   const { data, error } = useQuery<
     GraphQLTypes.ShoppingListQuery,
@@ -99,17 +100,24 @@ export const ShoppingList = () => {
 
   return (
     <>
-      <DateRange
-        weekStartsOn={1}
-        editableDateInputs={false}
-        onChange={(item) => {
-          setRange(item[range.key]);
-        }}
-        moveRangeOnFirstSelection={false}
-        ranges={[range]}
-        showMonthAndYearPickers={false}
-        showDateDisplay={false}
-      />
+      <button onClick={() => setShowCalendar((prevState) => !prevState)}>
+        {`shopping list for ${[range.startDate.toLocaleDateString()]} to ${[
+          range.endDate.toLocaleDateString(),
+        ]}`}
+      </button>
+      {showCalendar ? (
+        <DateRange
+          weekStartsOn={1}
+          editableDateInputs={false}
+          onChange={(item) => {
+            setRange(item[range.key]);
+          }}
+          moveRangeOnFirstSelection={false}
+          ranges={[range]}
+          showMonthAndYearPickers={false}
+          showDateDisplay={false}
+        />
+      ) : null}
       {Object.values(
         _.groupBy(
           ingredientQuantities,
