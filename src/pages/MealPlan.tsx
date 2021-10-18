@@ -7,6 +7,8 @@ import { Button } from '@chakra-ui/button';
 import { useMemo, useState } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
+import { ShoppingList } from './ShoppingList';
+import { AddIcon } from '@chakra-ui/icons';
 
 export const MealPlan = () => {
   const [startDate, setStartDate] = useState<DateTime>(
@@ -114,30 +116,34 @@ export const MealPlan = () => {
                     );
                   });
                 return (
-                  <div key={mealType}>
-                    <h3>{mealType}</h3>
-                    <div
-                      key={day.toISO()}
-                      css={css`
-                        .addRecipe {
-                          opacity: 0;
-                        }
-                        &:hover .addRecipe {
-                          opacity: 1;
-                        }
-                      `}
+                  <div
+                    key={mealType}
+                    css={css`
+                      .addIndicator {
+                        opacity: 0;
+                      }
+                      &:hover .addIndicator {
+                        opacity: 1;
+                      }
+                    `}
+                  >
+                    <Button
+                      size='xs'
+                      variant='unstyled'
+                      onClick={() => {
+                        setMealTypeAndDate({
+                          mealType,
+                          date: day.toISODate(),
+                        });
+                      }}
+                      aria-label={`add recipe to ${mealType}`}
+                      display='flex'
                     >
-                      <Button
-                        className='addRecipe'
-                        onClick={() => {
-                          setMealTypeAndDate({
-                            mealType,
-                            date: day.toISODate(),
-                          });
-                        }}
-                      >
-                        add recipe to meal
-                      </Button>
+                      {mealType}{' '}
+                      <AddIcon className='addIndicator' w={2} h={2} ml={1} />
+                    </Button>
+
+                    <div key={day.toISO()}>
                       {mealPlanEntries?.map((entry) => (
                         <div key={entry?.id}>{entry?.recipe?.name}</div>
                       ))}
@@ -159,6 +165,7 @@ export const MealPlan = () => {
             mealType={mealTypeAndDate.mealType}
           />
         )}
+      <ShoppingList />
     </>
   );
 };

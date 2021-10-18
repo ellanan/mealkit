@@ -8,7 +8,7 @@ import { CreateRecipe } from './pages/CreateRecipe';
 import { Recipes } from './pages/Recipes';
 import { SingleRecipeDetails } from './pages/SingleRecipeDetails';
 import { MealPlan } from './pages/MealPlan';
-import { GroceryList } from './pages/GroceryList';
+import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
 import { Footer } from './components/Footer';
 
@@ -28,7 +28,7 @@ const App = () => {
               <SingleRecipeDetails recipeId={match.params.recipeId} />
             )}
           />
-          <Route exact path='/grocerylist' component={GroceryList} />
+          <Route exact path='/grocerylist' component={ShoppingList} />
           <Route exact path='/login' component={Login} />
         </Switch>
         <Footer />
