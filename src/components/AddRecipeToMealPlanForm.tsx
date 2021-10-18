@@ -1,5 +1,6 @@
 import { useQuery, useMutation, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
+import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 
 export const AddRecipeToMealPlanForm = ({
@@ -58,15 +59,18 @@ export const AddRecipeToMealPlanForm = ({
   return (
     <>
       <form>
-        <label htmlFor='name'>search recipes</label>
-        <input
-          type='text'
-          id='name'
-          onChange={(e) => {
-            e.preventDefault();
-            setSearchRecipe(e.target.value);
-          }}
-        />
+        <label htmlFor='name'>
+          search recipes
+          <input
+            type='text'
+            id='name'
+            onChange={(e) => {
+              e.preventDefault();
+              setSearchRecipe(e.target.value);
+            }}
+          />
+        </label>
+
         {recipesData?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
@@ -74,7 +78,7 @@ export const AddRecipeToMealPlanForm = ({
           .map((recipe) => (
             <div key={recipe.name}>
               <h3>{recipe.name}</h3>
-              <button
+              <Button
                 onClick={(e) => {
                   e.preventDefault();
                   addRecipeToMealPlanMutation({
@@ -88,7 +92,7 @@ export const AddRecipeToMealPlanForm = ({
                 }}
               >
                 add to meal plan
-              </button>
+              </Button>
             </div>
           ))}
       </form>
