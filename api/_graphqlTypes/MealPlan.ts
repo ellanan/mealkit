@@ -23,12 +23,18 @@ export const MealPlanEntry = objectType({
     });
     t.nonNull.field('recipe', {
       type: 'Recipe',
-      resolve(parent) {
-        return prisma.recipe.findUnique({
+      resolve: async (parent) => {
+        const recipe = await prisma.recipe.findUnique({
           where: {
             id: parent.recipeId,
           },
         });
+        if (!recipe) {
+          throw new Error(
+            `Could not find recipe for ${JSON.stringify(parent)}`
+          );
+        }
+        return recipe;
       },
     });
   },

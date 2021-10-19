@@ -3,10 +3,6 @@ import { ApolloServer } from 'apollo-server-micro';
 import cors from 'micro-cors';
 import { send } from 'micro';
 
-import { makeSchema } from 'nexus';
-import { join } from 'path';
-import * as mutationTypes from './_graphqlTypes/Mutation';
-import * as queryTypes from './_graphqlTypes/Query';
 import { Context } from './contextModule';
 import { schema } from './_helpers/makeSchema';
 
