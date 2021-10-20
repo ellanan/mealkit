@@ -52,6 +52,7 @@ export const Query = queryType({
         prisma.recipe.findUnique({
           where: { id: args.recipeId },
           include: {
+            category: true,
             ingredientQuantities: {
               include: {
                 ingredient: true,
