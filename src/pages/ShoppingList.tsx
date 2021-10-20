@@ -118,6 +118,7 @@ export const ShoppingList = () => {
           ranges={[range]}
           showMonthAndYearPickers={false}
           showDateDisplay={false}
+          rangeColors={['#ebb39b']}
         />
       ) : null}
       {Object.values(
