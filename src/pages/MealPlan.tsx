@@ -84,8 +84,8 @@ export const MealPlan = () => {
     GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
   >(
     gql`
-      mutation DeleteMealPlanEntryMutation($mealPlanId: ID!) {
-        deleteMealPlanEntry(mealPlanId: $mealPlanId) {
+      mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
+        deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
           id
         }
       }
@@ -362,7 +362,7 @@ export const MealPlan = () => {
                             e.preventDefault();
                             deleteMealPlanEntryMutation({
                               variables: {
-                                mealPlanId: entry.id,
+                                mealPlanEntryId: entry.id,
                               },
                               optimisticResponse: {
                                 deleteMealPlanEntry: {

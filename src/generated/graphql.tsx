@@ -107,7 +107,7 @@ export type MutationCreateRecipeArgs = {
 
 
 export type MutationDeleteMealPlanEntryArgs = {
-  mealPlanId: Scalars['ID'];
+  mealPlanEntryId: Scalars['ID'];
 };
 
 
@@ -227,7 +227,7 @@ export type MealScheduleQueryVariables = Exact<{
 export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } }> } | null | undefined } | null | undefined };
 
 export type DeleteMealPlanEntryMutationMutationVariables = Exact<{
-  mealPlanId: Scalars['ID'];
+  mealPlanEntryId: Scalars['ID'];
 }>;
 
 
@@ -537,8 +537,8 @@ export type MealScheduleQueryHookResult = ReturnType<typeof useMealScheduleQuery
 export type MealScheduleLazyQueryHookResult = ReturnType<typeof useMealScheduleLazyQuery>;
 export type MealScheduleQueryResult = Apollo.QueryResult<MealScheduleQuery, MealScheduleQueryVariables>;
 export const DeleteMealPlanEntryMutationDocument = gql`
-    mutation DeleteMealPlanEntryMutation($mealPlanId: ID!) {
-  deleteMealPlanEntry(mealPlanId: $mealPlanId) {
+    mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
+  deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
     id
   }
 }
@@ -558,7 +558,7 @@ export type DeleteMealPlanEntryMutationMutationFn = Apollo.MutationFunction<Dele
  * @example
  * const [deleteMealPlanEntryMutationMutation, { data, loading, error }] = useDeleteMealPlanEntryMutationMutation({
  *   variables: {
- *      mealPlanId: // value for 'mealPlanId'
+ *      mealPlanEntryId: // value for 'mealPlanEntryId'
  *   },
  * });
  */

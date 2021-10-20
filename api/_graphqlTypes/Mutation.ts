@@ -47,7 +47,7 @@ export const Mutation = mutationType({
       args: {
         name: nonNull(stringArg()),
       },
-      async resolve(_parent, args) {
+      resolve: async (_parent, args) => {
         return prisma.ingredientType.create({
           data: {
             name: args.name,
@@ -237,12 +237,12 @@ export const Mutation = mutationType({
     t.field('deleteMealPlanEntry', {
       type: 'MealPlanEntry',
       args: {
-        mealPlanId: nonNull(idArg()),
+        mealPlanEntryId: nonNull(idArg()),
       },
       resolve: (_parent, args) => {
         return prisma.mealPlanEntry.delete({
           where: {
-            id: args.mealPlanId,
+            id: args.mealPlanEntryId,
           },
         });
       },

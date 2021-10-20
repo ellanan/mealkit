@@ -222,7 +222,7 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     deleteMealPlanEntry: { // args
-      mealPlanId: string; // ID!
+      mealPlanEntryId: string; // ID!
     }
     editRecipe: { // args
       content?: string | null; // String
