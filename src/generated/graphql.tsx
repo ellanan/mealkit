@@ -194,7 +194,7 @@ export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
 }>;
 
 
-export type AddRecipeToMealPlanMutationMutation = { __typename?: 'Mutation', addRecipeToMealPlan?: { __typename?: 'MealPlanEntry', id: string } | null | undefined };
+export type AddRecipeToMealPlanMutationMutation = { __typename?: 'Mutation', addRecipeToMealPlan?: { __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } } | null | undefined };
 
 export type IngredientsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -338,6 +338,13 @@ export const AddRecipeToMealPlanMutationDocument = gql`
     mealType: $mealType
   ) {
     id
+    date
+    mealType
+    recipe {
+      id
+      name
+      imageUrl
+    }
   }
 }
     `;

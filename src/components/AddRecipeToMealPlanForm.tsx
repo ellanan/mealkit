@@ -7,15 +7,17 @@ import { Search2Icon } from '@chakra-ui/icons';
 import { MutableRefObject, useState } from 'react';
 
 export const AddRecipeToMealPlanForm = ({
-  mealPlanId,
+  mealPlan,
   date,
   mealType,
   autoFocusRef,
+  onComplete,
 }: {
-  mealPlanId: string;
+  mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
   autoFocusRef: MutableRefObject<any>;
+  onComplete: () => void;
 }) => {
   const [searchRecipe, setSearchRecipe] = useState<String>('');
 
@@ -34,31 +36,6 @@ export const AddRecipeToMealPlanForm = ({
     `);
   if (errorLoadingRecipes) {
     throw errorLoadingRecipes;
-  }
-
-  const [addRecipeToMealPlanMutation, { error: errorAddingRecipeToMealPlan }] =
-    useMutation<
-      GraphQLTypes.AddRecipeToMealPlanMutationMutation,
-      GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
-    >(gql`
-      mutation AddRecipeToMealPlanMutation(
-        $mealPlanId: ID!
-        $recipeId: ID!
-        $date: String!
-        $mealType: MealType!
-      ) {
-        addRecipeToMealPlan(
-          mealPlanId: $mealPlanId
-          recipeId: $recipeId
-          date: $date
-          mealType: $mealType
-        ) {
-          id
-        }
-      }
-    `);
-  if (errorAddingRecipeToMealPlan) {
-    throw errorAddingRecipeToMealPlan;
   }
 
   return (
@@ -111,26 +88,107 @@ export const AddRecipeToMealPlanForm = ({
           recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
         )
         .map((recipe) => (
-          <div key={recipe.name}>
-            <h3>{recipe.name}</h3>
-            <Button
-              size={'xs'}
-              onClick={(e) => {
-                e.preventDefault();
-                addRecipeToMealPlanMutation({
-                  variables: {
-                    mealPlanId: mealPlanId,
-                    recipeId: recipe.id,
-                    date: date,
-                    mealType: mealType,
-                  },
-                });
-              }}
-            >
-              add to meal plan
-            </Button>
-          </div>
+          <RecipeOption
+            key={recipe.id}
+            recipe={recipe}
+            mealPlan={mealPlan}
+            date={date}
+            mealType={mealType}
+            onComplete={onComplete}
+          />
         ))}
+    </div>
+  );
+};
+
+const RecipeOption = ({
+  recipe,
+  mealPlan,
+  date,
+  mealType,
+  onComplete,
+}: {
+  recipe: GraphQLTypes.RecipesQuery['recipes'][number];
+  mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
+  date: string;
+  mealType: GraphQLTypes.MealType;
+  onComplete: () => void;
+}) => {
+  const [
+    addRecipeToMealPlanMutation,
+    {
+      loading: addingRecipe,
+      error: errorAddingRecipeToMealPlan,
+      client: apolloClient,
+    },
+  ] = useMutation<
+    GraphQLTypes.AddRecipeToMealPlanMutationMutation,
+    GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
+  >(
+    gql`
+      mutation AddRecipeToMealPlanMutation(
+        $mealPlanId: ID!
+        $recipeId: ID!
+        $date: String!
+        $mealType: MealType!
+      ) {
+        addRecipeToMealPlan(
+          mealPlanId: $mealPlanId
+          recipeId: $recipeId
+          date: $date
+          mealType: $mealType
+        ) {
+          id
+          date
+          mealType
+          recipe {
+            id
+            name
+            imageUrl
+          }
+        }
+      }
+    `,
+    {
+      onCompleted(response) {
+        const cache = apolloClient.cache;
+        cache.modify({
+          id: cache.identify(mealPlan),
+          fields: {
+            schedule(existingEntriesInSchedule) {
+              return existingEntriesInSchedule.concat(
+                response.addRecipeToMealPlan
+              );
+            },
+          },
+        });
+        onComplete();
+      },
+    }
+  );
+  if (errorAddingRecipeToMealPlan) {
+    throw errorAddingRecipeToMealPlan;
+  }
+
+  return (
+    <div>
+      <h3>{recipe.name}</h3>
+      <Button
+        size={'xs'}
+        onClick={(e) => {
+          e.preventDefault();
+          addRecipeToMealPlanMutation({
+            variables: {
+              mealPlanId: mealPlan.id,
+              recipeId: recipe.id,
+              date,
+              mealType,
+            },
+          });
+        }}
+      >
+        {addingRecipe ? '...' : 'add to meal plan'}
+      </Button>
     </div>
   );
 };

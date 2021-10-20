@@ -76,17 +76,39 @@ export const MealPlan = () => {
     throw error;
   }
 
-  const [deleteMealPlanEntryMutation, { error: errorDeletingMealPlanEntry }] =
-    useMutation<
-      GraphQLTypes.DeleteMealPlanEntryMutationMutation,
-      GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
-    >(gql`
+  const [
+    deleteMealPlanEntryMutation,
+    { error: errorDeletingMealPlanEntry, client: apolloClient },
+  ] = useMutation<
+    GraphQLTypes.DeleteMealPlanEntryMutationMutation,
+    GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
+  >(
+    gql`
       mutation DeleteMealPlanEntryMutation($mealPlanId: ID!) {
         deleteMealPlanEntry(mealPlanId: $mealPlanId) {
           id
         }
       }
-    `);
+    `,
+    {
+      onCompleted(response) {
+        if (!data?.currentUser?.mealPlan) return;
+        const cache = apolloClient.cache;
+        cache.modify({
+          id: cache.identify(data.currentUser.mealPlan),
+          fields: {
+            schedule(existingEntriesInSchedule, { readField }) {
+              return existingEntriesInSchedule.filter(
+                (existingEntry: any) =>
+                  readField('id', existingEntry) !==
+                  response.deleteMealPlanEntry?.id
+              );
+            },
+          },
+        });
+      },
+    }
+  );
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
@@ -207,48 +229,54 @@ export const MealPlan = () => {
                       closeOnBlur={true}
                       initialFocusRef={initRef}
                     >
-                      <PopoverTrigger>
-                        <Button
-                          size='xs'
-                          variant='unstyled'
-                          onClick={() => {
-                            setMealTypeAndDate({
-                              mealType,
-                              date: day.toISODate(),
-                            });
-                          }}
-                          aria-label={`add recipe to ${mealType}`}
-                          display='flex'
-                        >
-                          {mealType}
-                          <AddIcon
-                            className='addIndicator'
-                            w={2}
-                            h={2}
-                            ml={1}
-                          />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        css={css`
-                          border-radius: 5%;
-                          border: 2px solid #ebb59c;
-                        `}
-                      >
-                        {data?.currentUser?.mealPlan?.id &&
-                          mealTypeAndDate?.date &&
-                          mealTypeAndDate?.mealType && (
-                            <AddRecipeToMealPlanForm
-                              mealPlanId={data?.currentUser?.mealPlan?.id}
-                              date={mealTypeAndDate.date}
-                              mealType={mealTypeAndDate.mealType}
-                              autoFocusRef={initRef}
-                            />
-                          )}
-                        <PopoverCloseButton>
-                          <CloseIcon />
-                        </PopoverCloseButton>
-                      </PopoverContent>
+                      {({ isOpen, onClose }) => (
+                        <>
+                          <PopoverTrigger>
+                            <Button
+                              size='xs'
+                              variant='unstyled'
+                              onClick={() => {
+                                setMealTypeAndDate({
+                                  mealType,
+                                  date: day.toISODate(),
+                                });
+                              }}
+                              aria-label={`add recipe to ${mealType}`}
+                              display='flex'
+                            >
+                              {mealType}
+                              <AddIcon
+                                className='addIndicator'
+                                w={2}
+                                h={2}
+                                ml={1}
+                              />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            css={css`
+                              border-radius: 5%;
+                              border: 2px solid #ebb59c;
+                            `}
+                          >
+                            {data?.currentUser?.mealPlan?.id &&
+                              mealTypeAndDate?.date &&
+                              mealTypeAndDate?.mealType && (
+                                <AddRecipeToMealPlanForm
+                                  mealPlan={data.currentUser.mealPlan}
+                                  // mealPlanId={data?.currentUser?.mealPlan?.id}
+                                  date={mealTypeAndDate.date}
+                                  mealType={mealTypeAndDate.mealType}
+                                  autoFocusRef={initRef}
+                                  onComplete={onClose}
+                                />
+                              )}
+                            <PopoverCloseButton>
+                              <CloseIcon />
+                            </PopoverCloseButton>
+                          </PopoverContent>
+                        </>
+                      )}
                     </Popover>
                     {mealPlanEntries?.map((entry) => (
                       <div
@@ -335,6 +363,12 @@ export const MealPlan = () => {
                             deleteMealPlanEntryMutation({
                               variables: {
                                 mealPlanId: entry.id,
+                              },
+                              optimisticResponse: {
+                                deleteMealPlanEntry: {
+                                  id: entry.id,
+                                  __typename: entry.__typename,
+                                },
                               },
                             });
                           }}
