@@ -8,7 +8,6 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverCloseButton,
 } from '@chakra-ui/react';
 import {
   AddIcon,
@@ -103,7 +102,6 @@ export const MealPlan = () => {
 
   return (
     <div>
-      <h1>meal plan</h1>
       <div
         css={css`
           display: flex;
@@ -174,11 +172,26 @@ export const MealPlan = () => {
             <div
               key={day.toISO()}
               css={css`
-                background-color: #faf1ed;
-                border-radius: 14px;
-                padding: 0.7em;
-                margin: 0.2em;
-                color: #593e31; ;
+                padding: 0.7em 1.2em;
+                color: #593e31;
+                position: relative;
+
+                &:not(:last-child):after {
+                  content: '';
+                  display: block;
+                  width: 1px;
+                  height: 100%;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  background-image: linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0),
+                    #f1e6e2 10%,
+                    #f1e6e2 90%,
+                    rgba(255, 255, 255, 0)
+                  );
+                }
               `}
             >
               <h2>{`${day.weekdayShort} - ${day.monthShort} ${day.day}`}</h2>
@@ -271,14 +284,26 @@ export const MealPlan = () => {
                         key={entry.id}
                         css={css`
                           position: relative;
+                          margin: 0.6em 0;
 
                           .deleteIndicator {
                             opacity: 0;
                           }
-                          &:hover .deleteIndicator {
-                            opacity: 1;
-                            display: flex;
-                            align-items: center;
+                          &:hover {
+                            .deleteIndicator {
+                              opacity: 1;
+                              display: flex;
+                              align-items: center;
+                            }
+
+                            .recipe-title {
+                              background-image: linear-gradient(
+                                to bottom,
+                                rgba(0, 0, 0, 0),
+                                rgba(0, 0, 0, 0.15) 30%,
+                                rgba(0, 0, 0, 0.35)
+                              );
+                            }
                           }
                         `}
                       >
@@ -308,6 +333,7 @@ export const MealPlan = () => {
                             />
                           )}
                           <div
+                            className='recipe-title'
                             css={css`
                               position: absolute;
                               bottom: 0;
@@ -323,14 +349,6 @@ export const MealPlan = () => {
                               );
                               line-height: 1.2;
                               padding: 30px 8px 12px;
-                              &:hover {
-                                background-image: linear-gradient(
-                                  to bottom,
-                                  rgba(0, 0, 0, 0),
-                                  rgba(0, 0, 0, 0.2) 30%,
-                                  rgba(0, 0, 0, 0.4)
-                                );
-                              }
                             `}
                           >
                             <span
