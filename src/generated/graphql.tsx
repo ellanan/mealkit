@@ -184,7 +184,7 @@ export type User = {
 export type RecipesAvailableQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesAvailableQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
+export type RecipesAvailableQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
 export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
@@ -295,6 +295,7 @@ export const RecipesAvailableDocument = gql`
   recipes {
     id
     name
+    imageUrl
     category {
       id
       name
