@@ -26,19 +26,61 @@ export const MainHeader = () => {
           align-items: center;
           justify-content: flex-end;
           width: 100%;
+          font-weight: 500;
+          font-family: 'Raleway', sans-serif;
+
+          .main-nav-link {
+            position: relative;
+            &.active {
+              &:after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0px;
+                width: 100%;
+                height: 2px;
+                background-color: #444;
+              }
+            }
+          }
         `}
       >
         <Li>
-          <NavLink to='/'>meal plan</NavLink>
+          <NavLink
+            to='/'
+            exact
+            className='main-nav-link'
+            activeClassName='active'
+          >
+            Meal Plan
+          </NavLink>
         </Li>
         <Li>
-          <NavLink to='/recipes'>recipes</NavLink>
+          <NavLink
+            to='/recipes'
+            className='main-nav-link'
+            activeClassName='active'
+          >
+            Recipes
+          </NavLink>
         </Li>
         <Li>
-          <NavLink to='/grocerylist'>grocery list</NavLink>
+          <NavLink
+            to='/grocerylist'
+            className='main-nav-link'
+            activeClassName='active'
+          >
+            Shopping List
+          </NavLink>
         </Li>
         <Li>
-          <NavLink to='/login'>login</NavLink>
+          <NavLink
+            to='/login'
+            className='main-nav-link'
+            activeClassName='active'
+          >
+            Login
+          </NavLink>
         </Li>
       </ul>
     </nav>
