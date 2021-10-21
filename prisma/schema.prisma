@@ -16,7 +16,7 @@ model User {
   email      String   @unique
   password   String
   recipes    Recipe[]
-  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
   mealPlanId String
 }
 
@@ -29,7 +29,7 @@ model IngredientType {
 model Ingredient {
   id                       String                     @id @default(cuid())
   name                     String
-  ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id])
+  ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id], onDelete: Cascade)
   ingredientTypeId         String?
   RecipeIngredientQuantity RecipeIngredientQuantity[]
 }
@@ -37,9 +37,9 @@ model Ingredient {
 model RecipeIngredientQuantity {
   unit         String
   amount       Int
-  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
   ingredientId String
-  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId     String
 
   @@id([ingredientId, recipeId])
@@ -52,7 +52,7 @@ model Recipe {
   category             RecipeCategory?            @relation(fields: [categoryId], references: [id])
   categoryId           String?
   ingredientQuantities RecipeIngredientQuantity[]
-  user                 User?                      @relation(fields: [userId], references: [id])
+  user                 User?                      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId               String?
   content              String?
   mealPlanEntries      MealPlanEntry[]
@@ -79,9 +79,9 @@ model MealPlanEntry {
   id         String   @id @default(cuid())
   date       DateTime @db.Date
   mealType   MealType
-  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id])
+  mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
   mealPlanId String
-  recipe     Recipe   @relation(fields: [recipeId], references: [id])
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId   String
 }
 
