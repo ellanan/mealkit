@@ -11,10 +11,8 @@ html,
 body,
 #root {
   height: 100%;
+  position: relative;
   font-family: sans-serif;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #f1c8b0;
 }
 
 #root {

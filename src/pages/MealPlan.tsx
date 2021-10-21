@@ -89,28 +89,16 @@ export const MealPlan = () => {
           id
         }
       }
-    `,
-    {
-      onCompleted(response) {
-        if (!data?.currentUser?.mealPlan) return;
-        const cache = apolloClient.cache;
-        cache.modify({
-          id: cache.identify(data.currentUser.mealPlan),
-          fields: {
-            schedule(existingEntriesInSchedule, { readField }) {
-              return existingEntriesInSchedule.filter(
-                (existingEntry: any) =>
-                  readField('id', existingEntry) !==
-                  response.deleteMealPlanEntry?.id
-              );
-            },
-          },
-        });
-      },
-    }
+    `
   );
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
+  }
+  const cache = apolloClient.cache;
+
+  const mealPlan = data?.currentUser?.mealPlan;
+  if (!mealPlan) {
+    return <div>loading meal plan</div>;
   }
 
   return (
@@ -199,17 +187,16 @@ export const MealPlan = () => {
                 GraphQLTypes.MealType.Lunch,
                 GraphQLTypes.MealType.Dinner,
               ].map((mealType) => {
-                const mealPlanEntries =
-                  data?.currentUser?.mealPlan?.schedule.filter((entry) => {
-                    return (
-                      entry.mealType === mealType &&
-                      entry.date &&
-                      day.toISODate() ===
-                        DateTime.fromISO(entry.date, {
-                          setZone: true,
-                        }).toISODate()
-                    );
-                  });
+                const mealPlanEntries = mealPlan?.schedule.filter((entry) => {
+                  return (
+                    entry.mealType === mealType &&
+                    entry.date &&
+                    day.toISODate() ===
+                      DateTime.fromISO(entry.date, {
+                        setZone: true,
+                      }).toISODate()
+                  );
+                });
                 return (
                   <div
                     key={mealType}
@@ -254,9 +241,13 @@ export const MealPlan = () => {
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
+                            width='100'
+                            border='none'
+                            shadow='lg'
+                            borderRadius='20px'
                             css={css`
-                              border-radius: 5%;
-                              border: 2px solid #ebb59c;
+                              /* border-radius: 5%; */
+                              /* border: 2px solid #ebb59c; */
                             `}
                           >
                             {data?.currentUser?.mealPlan?.id &&
@@ -271,9 +262,6 @@ export const MealPlan = () => {
                                   onComplete={onClose}
                                 />
                               )}
-                            <PopoverCloseButton>
-                              <CloseIcon />
-                            </PopoverCloseButton>
                           </PopoverContent>
                         </>
                       )}
@@ -303,6 +291,7 @@ export const MealPlan = () => {
                             overflow: hidden;
                             box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.1);
                             padding-top: 100%;
+                            margin-bottom: 6px;
                           `}
                         >
                           {entry.recipe.imageUrl !== null && (
@@ -329,8 +318,8 @@ export const MealPlan = () => {
                               background-image: linear-gradient(
                                 to bottom,
                                 rgba(0, 0, 0, 0),
-                                rgba(0, 0, 0, 0.14) 30%,
-                                rgba(0, 0, 0, 0.3)
+                                rgba(92, 86, 86, 0.1) 30%,
+                                rgba(56, 54, 54, 0.3)
                               );
                               line-height: 1.2;
                               padding: 30px 8px 12px;
@@ -364,10 +353,20 @@ export const MealPlan = () => {
                               variables: {
                                 mealPlanEntryId: entry.id,
                               },
-                              optimisticResponse: {
-                                deleteMealPlanEntry: {
-                                  id: entry.id,
-                                  __typename: entry.__typename,
+                            });
+                            // update cache before server mutation completes
+                            cache.modify({
+                              id: cache.identify(mealPlan),
+                              fields: {
+                                schedule(
+                                  existingEntriesInSchedule,
+                                  { readField }
+                                ) {
+                                  return existingEntriesInSchedule.filter(
+                                    (existingEntry: any) =>
+                                      readField('id', existingEntry) !==
+                                      entry.id
+                                  );
                                 },
                               },
                             });

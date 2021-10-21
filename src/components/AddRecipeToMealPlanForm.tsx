@@ -27,6 +27,7 @@ export const AddRecipeToMealPlanForm = ({
         recipes {
           id
           name
+          imageUrl
           category {
             id
             name
@@ -39,21 +40,18 @@ export const AddRecipeToMealPlanForm = ({
   }
 
   return (
-    <div
-      css={css`
-        margin: 0.8em;
-      `}
-    >
+    <div>
       <div
         css={css`
+          margin: 0.8em;
           display: flex;
           flex-direction: row;
           align-items: center;
-          border: 0.5px solid #ebb59c;
           border-radius: 20px;
+          box-shadow: 0 0 4px 1px rgba(235, 181, 156, 0.3);
           height: 2.4em;
           padding: 16px;
-          width: 80%;
+          margin-bottom: 16px;
         `}
       >
         <label htmlFor='name'>
@@ -162,7 +160,6 @@ const RecipeOption = ({
             },
           },
         });
-        onComplete();
       },
     }
   );
@@ -170,25 +167,113 @@ const RecipeOption = ({
     throw errorAddingRecipeToMealPlan;
   }
 
+  const cache = apolloClient.cache;
+
   return (
-    <div>
-      <h3>{recipe.name}</h3>
-      <Button
-        size={'xs'}
-        onClick={(e) => {
-          e.preventDefault();
-          addRecipeToMealPlanMutation({
-            variables: {
-              mealPlanId: mealPlan.id,
-              recipeId: recipe.id,
-              date,
-              mealType,
+    <Button
+      size={'xs'}
+      borderRadius='none'
+      css={css`
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        background-color: #fff;
+        padding-top: 18px;
+        padding-bottom: 18px;
+
+        :hover {
+          background-color: #ffd8ca;
+          color: #333;
+        }
+      `}
+      onClick={(e) => {
+        e.preventDefault();
+        const tempNewEntryId = `temp-id:${recipe.id}:${date}:${mealType}`;
+        // update cache to add a temporary placeholder entry with an id we keep track of
+        cache.modify({
+          id: cache.identify(mealPlan),
+          fields: {
+            schedule(existingEntriesInSchedule: any, { readField }) {
+              // references https://www.apollographql.com/docs/react/caching/cache-interaction/#using-cachemodify
+              if (
+                existingEntriesInSchedule.some(
+                  (ref: any) => readField('id', ref) === tempNewEntryId
+                )
+              ) {
+                return existingEntriesInSchedule;
+              }
+
+              return existingEntriesInSchedule.concat({
+                __typename: 'MealPlanEntry',
+                id: tempNewEntryId,
+                date,
+                mealType,
+                recipe,
+              });
+            },
+          },
+        });
+        // optimistically call oncomplete
+        // TODO: handle when mutation fails
+        onComplete();
+        addRecipeToMealPlanMutation({
+          variables: {
+            mealPlanId: mealPlan.id,
+            recipeId: recipe.id,
+            date,
+            mealType,
+          },
+        }).then(() => {
+          // clean up the placeholder in cache to avoid duplicate entries
+          cache.modify({
+            id: cache.identify(mealPlan),
+            fields: {
+              schedule(existingEntriesInSchedule: any, { readField }) {
+                return existingEntriesInSchedule.filter(
+                  (existingEntry: any) =>
+                    readField('id', existingEntry) !== tempNewEntryId
+                );
+              },
             },
           });
-        }}
+        });
+      }}
+    >
+      {recipe.imageUrl ? (
+        <img
+          src={recipe.imageUrl}
+          alt={`${recipe.name}`}
+          css={css`
+            border-radius: 10px;
+            width: 24px;
+            height: 24px;
+          `}
+        />
+      ) : (
+        <div
+          css={css`
+            border-radius: 10px;
+            width: 24px;
+            height: 24px;
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: flex-start; */
+            background-color: #f0f0f0;
+            /* font-weight: 500; */
+            /* font-style: italic; */
+          `}
+        ></div>
+      )}
+      <span
+        css={css`
+          margin-left: 16px;
+          font-size: 14px;
+          font-weight: 400;
+        `}
       >
-        {addingRecipe ? '...' : 'add to meal plan'}
-      </Button>
-    </div>
+        {recipe.name}
+      </span>
+    </Button>
   );
 };
