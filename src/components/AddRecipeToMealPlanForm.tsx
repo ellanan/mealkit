@@ -81,20 +81,27 @@ export const AddRecipeToMealPlanForm = ({
           ref={autoFocusRef}
         />
       </div>
-      {recipesData?.recipes
-        .filter((recipe) =>
-          recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
-        )
-        .map((recipe) => (
-          <RecipeOption
-            key={recipe.id}
-            recipe={recipe}
-            mealPlan={mealPlan}
-            date={date}
-            mealType={mealType}
-            onComplete={onComplete}
-          />
-        ))}
+
+      <div
+        css={css`
+          margin-bottom: 0.8em;
+        `}
+      >
+        {recipesData?.recipes
+          .filter((recipe) =>
+            recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
+          )
+          .map((recipe) => (
+            <RecipeOption
+              key={recipe.id}
+              recipe={recipe}
+              mealPlan={mealPlan}
+              date={date}
+              mealType={mealType}
+              onComplete={onComplete}
+            />
+          ))}
+      </div>
     </div>
   );
 };
@@ -179,11 +186,11 @@ const RecipeOption = ({
         flex-direction: row;
         justify-content: flex-start;
         background-color: #fff;
-        padding-top: 18px;
-        padding-bottom: 18px;
+        padding: 18px;
 
         :hover {
           background-color: #ffd8ca;
+
           color: #333;
         }
       `}
