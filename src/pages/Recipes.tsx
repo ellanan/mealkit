@@ -6,6 +6,8 @@ import { Search2Icon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+const defaultImg = require('../images/defaultImg.jpg').default;
+
 export const Recipes = () => {
   const [search, setSearch] = useState<string>('');
 
@@ -102,46 +104,45 @@ export const Recipes = () => {
           )
           .map((recipe) => (
             <div key={recipe.id}>
-              {recipe.imageUrl ? (
-                <img
-                  src={`${recipe.imageUrl}`}
-                  alt=''
-                  css={css`
-                    width: 10rem;
-                    height: 10rem;
-                    border-radius: 20px;
-                  `}
-                />
-              ) : (
-                <div
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 10rem;
-                    height: 10rem;
-                  `}
-                >
-                  no image
-                </div>
-              )}
-              <h3>
-                {recipe.name} - {recipe.category?.name}
-              </h3>
               <NavLink
                 to={`/recipes/${recipe.id}`}
                 css={css`
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                   padding: 0.4em;
                   color: #593e31;
-                  border: 2px solid #ecb69d;
                   border-radius: 20px;
-                  background-color: #fff;
+
                   :hover {
-                    background-color: #f0b59a;
+                    background-color: #f8c9b3;
                   }
                 `}
               >
-                recipe details
+                {recipe.imageUrl ? (
+                  <img
+                    src={`${recipe.imageUrl}`}
+                    alt=''
+                    css={css`
+                      width: 4rem;
+                      height: 3rem;
+                      border-radius: 20px;
+                      margin-right: 0.5rem;
+                    `}
+                  />
+                ) : (
+                  <img
+                    src={defaultImg}
+                    alt=''
+                    css={css`
+                      width: 4rem;
+                      height: 3rem;
+                      border-radius: 20px;
+                      margin-right: 0.5rem;
+                    `}
+                  />
+                )}
+                {recipe.name}
               </NavLink>
             </div>
           ))}
