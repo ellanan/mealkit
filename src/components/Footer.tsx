@@ -12,6 +12,8 @@ export const Footer = () => {
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        margin-top: auto;
+        width: 100%;
       `}
     >
       <a
