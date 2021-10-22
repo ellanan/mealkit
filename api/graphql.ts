@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/node';
 
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-micro';
+import { ApolloServerPluginInlineTrace } from 'apollo-server-core';
 import cors from 'micro-cors';
 import { send } from 'micro';
 
@@ -34,7 +35,9 @@ const server = new ApolloServer({
   plugins: [
     ApolloServerPluginLandingPageGraphQLPlayground,
     sentryProfilePlugin,
-  ],
+  ].concat(
+    process.env.TRACE_GRAPHQL === 'true' ? ApolloServerPluginInlineTrace() : []
+  ),
 });
 
 export const config = {
@@ -48,7 +51,17 @@ export default server.start().then(() => {
   const handler = server.createHandler({
     path: '/api/graphql',
   });
-  return cors()((req, res) =>
+  return cors({
+    allowHeaders: [
+      'X-Requested-With',
+      'Access-Control-Allow-Origin',
+      'X-HTTP-Method-Override',
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'apollo-federation-include-trace',
+    ],
+  })((req, res) =>
     req.method === 'OPTIONS' ? send(res, 200, 'ok') : handler(req, res)
   );
 });
