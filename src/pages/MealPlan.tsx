@@ -106,6 +106,26 @@ export const MealPlan = () => {
         `}
       >
         <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setStartDate(today.startOf('week'));
+          }}
+          size={'sm'}
+          css={css`
+            background-color: #fff;
+            color: #7e7979;
+            border: 1px solid #7e7979;
+            border-radius: 20px;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            :hover {
+              background-color: #f3f0ed;
+            }
+          `}
+        >
+          Today
+        </Button>
+        <Button
           onClick={() => {
             setStartDate(startDate.minus({ weeks: 1 }));
           }}
