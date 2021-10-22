@@ -256,7 +256,7 @@ export const MealPlan = () => {
                     ${today.hasSame(day, 'day') &&
                     css`
                       color: #fff;
-                      background-color: #33cd29;
+                      background-color: #f88c5a;
                     `};
                   `}
                 >

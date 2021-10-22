@@ -2,10 +2,10 @@
 import { css } from '@emotion/react';
 import { useQuery, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
-import { Search2Icon } from '@chakra-ui/icons';
+import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 
 const defaultImg = require('../images/defaultImg.jpg').default;
 
@@ -37,7 +37,7 @@ export const Recipes = () => {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          margin-top: 0.5rem;
+          margin-top: 1rem;
         `}
       >
         <InputGroup
@@ -88,15 +88,15 @@ export const Recipes = () => {
         <NavLink
           to='/recipes/create-recipe'
           css={css`
-            padding: 0.5em 1.2em;
-            margin-top: 2rem;
-            color: #fff;
-            font-weight: 700;
-            border-radius: 20px;
-            background-color: #fca579;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fa7532;
+            font-size: 0.9rem;
+            font-weight: 500;
           `}
         >
-          create recipe
+          <SmallAddIcon w={4} h={4} /> Create Recipe
         </NavLink>
         {data?.recipes
           .filter((recipe) =>
