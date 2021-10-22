@@ -37,21 +37,9 @@ export const Recipes = () => {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
+          margin-top: 0.5rem;
         `}
       >
-        <NavLink
-          to='/recipes/create-recipe'
-          css={css`
-            padding: 0.5em 1.2em;
-            margin-top: 2rem;
-            color: #fff;
-            font-weight: 700;
-            border-radius: 20px;
-            background-color: #fca579;
-          `}
-        >
-          create recipe
-        </NavLink>
         <InputGroup
           borderColor='#ebb59c'
           mx='2'
@@ -64,7 +52,7 @@ export const Recipes = () => {
         >
           <InputLeftElement
             pointerEvents='none'
-            ml='2'
+            ml='1'
             children={
               <Search2Icon
                 css={css`
@@ -84,6 +72,7 @@ export const Recipes = () => {
             type='tel'
             placeholder='Search for recipe'
             borderRadius='20px'
+            focusBorderColor='orange.300'
             onChange={(e) => {
               e.preventDefault();
               setSearch(e.target.value);
@@ -96,6 +85,19 @@ export const Recipes = () => {
           margin-top: 1rem;
         `}
       >
+        <NavLink
+          to='/recipes/create-recipe'
+          css={css`
+            padding: 0.5em 1.2em;
+            margin-top: 2rem;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 20px;
+            background-color: #fca579;
+          `}
+        >
+          create recipe
+        </NavLink>
         {data?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())

@@ -168,9 +168,10 @@ export const MealPlan = () => {
             align-items: center;
             justify-content: flex-start;
             margin: 0 1.5em 0 1.5em;
-            color: #7e7979;
-            font-weight: 600;
+            color: #646161;
+            font-weight: 500;
             border-radius: 20px;
+            font-size: 18px;
             height: 30px;
             width: 280px;
           `}
