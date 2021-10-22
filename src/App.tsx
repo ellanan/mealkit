@@ -5,7 +5,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import { Sidebar } from './components/Sidebar';
 import { CreateRecipe } from './pages/CreateRecipe';
-import { Recipes } from './pages/Recipes';
 import { SingleRecipeDetails } from './pages/SingleRecipeDetails';
 import { MealPlan } from './pages/MealPlan';
 import { ShoppingList } from './pages/ShoppingList';
@@ -26,7 +25,6 @@ const App = () => {
           <div>
             <Switch>
               <Route exact path='/' component={MealPlan} />
-              <Route exact path='/recipes' component={Recipes} />
               <Route
                 exact
                 path='/recipes/create-recipe'

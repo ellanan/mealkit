@@ -51,15 +51,6 @@ export const Sidebar = () => {
       >
         {/* <Li>
           <NavLink
-            to='/recipes'
-            className='main-nav-link'
-            activeClassName='active'
-          >
-            Recipes
-          </NavLink>
-        </Li> */}
-        {/* <Li>
-          <NavLink
             to='/login'
             className='main-nav-link'
             activeClassName='active'
