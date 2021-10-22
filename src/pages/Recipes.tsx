@@ -37,7 +37,7 @@ export const Recipes = () => {
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          margin-top: 1rem;
+          margin-top: 2rem;
         `}
       >
         <InputGroup
@@ -80,24 +80,25 @@ export const Recipes = () => {
           />
         </InputGroup>
       </div>
-      <div
+      <NavLink
+        to='/recipes/create-recipe'
         css={css`
-          margin-top: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fa7532;
+          font-size: 0.9rem;
+          font-weight: 500;
+          margin-top: 0.6rem;
         `}
       >
-        <NavLink
-          to='/recipes/create-recipe'
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fa7532;
-            font-size: 0.9rem;
-            font-weight: 500;
-          `}
-        >
-          <SmallAddIcon w={4} h={4} /> Create Recipe
-        </NavLink>
+        <SmallAddIcon w={4} h={4} /> Create Recipe
+      </NavLink>
+      <div
+        css={css`
+          margin-top: 0.3rem;
+        `}
+      >
         {data?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())
@@ -127,8 +128,6 @@ export const Recipes = () => {
                 src={recipe.imageUrl ?? defaultImg}
                 alt=''
                 css={css`
-                  /* width: 4rem;
-                  height: 3rem; */
                   width: 3rem;
                   height: 3rem;
                   border-radius: 100px;

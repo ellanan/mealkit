@@ -20,6 +20,8 @@ import { useMemo, useState, useRef } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
 
+const defaultImg = require('../images/defaultImg.jpg').default;
+
 export const MealPlan = () => {
   const initRef = useRef<any>();
 
@@ -387,19 +389,17 @@ export const MealPlan = () => {
                             margin-bottom: 6px;
                           `}
                         >
-                          {entry.recipe.imageUrl !== null && (
-                            <img
-                              src={entry.recipe.imageUrl}
-                              alt={`${entry.recipe.name}`}
-                              css={css`
-                                position: absolute;
-                                top: 0;
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                              `}
-                            />
-                          )}
+                          <img
+                            src={entry.recipe.imageUrl ?? defaultImg}
+                            alt=''
+                            css={css`
+                              position: absolute;
+                              top: 0;
+                              width: 100%;
+                              height: 100%;
+                              object-fit: cover;
+                            `}
+                          />
                           <div
                             className='recipe-title'
                             css={css`
