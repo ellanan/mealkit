@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './apolloClient';
 import { Route, Switch } from 'react-router-dom';

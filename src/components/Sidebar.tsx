@@ -1,14 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
 import { Recipes } from '../pages/Recipes';
 import { Footer } from './Footer';
-
-// const Li = styled.li`
-//   padding: 1em;
-// `;
 
 export const Sidebar = () => {
   return (
