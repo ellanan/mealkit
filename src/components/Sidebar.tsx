@@ -6,9 +6,9 @@ import { NavLink } from 'react-router-dom';
 import { Recipes } from '../pages/Recipes';
 import { Footer } from './Footer';
 
-const Li = styled.li`
-  padding: 1em;
-`;
+// const Li = styled.li`
+//   padding: 1em;
+// `;
 
 export const Sidebar = () => {
   return (
@@ -21,12 +21,29 @@ export const Sidebar = () => {
         background-color: #fff2ec;
         border-right: 1px solid #ffddcd;
         height: 100%;
+        padding-top: 1rem;
+        font-family: 'Raleway', sans-serif;
       `}
     >
       <NavLink to='/'>
-        <h1>MealKit</h1>
+        <h1
+          css={css`
+            font-size: 18px;
+            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
+            color: #f59769;
+          `}
+        >
+          MealKit
+        </h1>
       </NavLink>
-      <Recipes />
+      <div
+        css={css`
+          overflow: auto;
+        `}
+      >
+        <Recipes />
+      </div>
       <ul
         css={css`
           display: flex;
@@ -35,22 +52,6 @@ export const Sidebar = () => {
           justify-content: flex-end;
           width: 100%;
           font-weight: 500;
-          font-family: 'Raleway', sans-serif;
-
-          /* .main-nav-link {
-            position: relative;
-            &.active {
-              &:after {
-                content: '';
-                position: absolute;
-                bottom: -2px;
-                left: 0px;
-                width: 100%;
-                height: 2px;
-                background-color: #444;
-              }
-            }
-          } */
         `}
       >
         {/* <Li>

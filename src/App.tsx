@@ -22,7 +22,7 @@ const App = () => {
           split='vertical'
           defaultSize={200}
           maxSize={Math.min(window.innerWidth / 3, 500)}
-          minSize={100}
+          minSize={200}
         >
           <Sidebar />
           <div>

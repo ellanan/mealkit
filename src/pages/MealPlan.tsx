@@ -103,6 +103,7 @@ export const MealPlan = () => {
           display: flex;
           align-items: center;
           justify-content: flex-start;
+          padding-top: 1rem;
         `}
       >
         <Button

@@ -30,7 +30,7 @@ export const Recipes = () => {
   }
 
   return (
-    <div>
+    <>
       <div
         css={css`
           display: flex;
@@ -54,6 +54,8 @@ export const Recipes = () => {
         </NavLink>
         <InputGroup
           borderColor='#ebb59c'
+          mx='2'
+          w='auto'
           css={css`
             & ::placeholder {
               color: #555;
@@ -80,7 +82,6 @@ export const Recipes = () => {
           />
           <Input
             type='tel'
-            color='#fff'
             placeholder='Search for recipe'
             borderRadius='20px'
             onChange={(e) => {
@@ -107,6 +108,8 @@ export const Recipes = () => {
                 align-items: center;
                 padding: 0.4em 1em;
                 color: #593e31;
+                font-size: 14px;
+                line-height: 1.2;
 
                 :hover {
                   background-image: linear-gradient(
@@ -118,33 +121,23 @@ export const Recipes = () => {
                 }
               `}
             >
-              {recipe.imageUrl ? (
-                <img
-                  src={`${recipe.imageUrl}`}
-                  alt=''
-                  css={css`
-                    width: 4rem;
-                    height: 3rem;
-                    border-radius: 20px;
-                    margin-right: 0.5rem;
-                  `}
-                />
-              ) : (
-                <img
-                  src={defaultImg}
-                  alt=''
-                  css={css`
-                    width: 4rem;
-                    height: 3rem;
-                    border-radius: 20px;
-                    margin-right: 0.5rem;
-                  `}
-                />
-              )}
+              <img
+                src={recipe.imageUrl ?? defaultImg}
+                alt=''
+                css={css`
+                  /* width: 4rem;
+                  height: 3rem; */
+                  width: 3rem;
+                  height: 3rem;
+                  border-radius: 100px;
+                  margin-right: 0.5rem;
+                  object-fit: cover;
+                `}
+              />
               {recipe.name}
             </NavLink>
           ))}
       </div>
-    </div>
+    </>
   );
 };

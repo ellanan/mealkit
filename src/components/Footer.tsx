@@ -14,6 +14,14 @@ export const Footer = () => {
         justify-content: center;
         margin-top: auto;
         width: 100%;
+        padding-bottom: 0.6rem;
+
+        & > a {
+          color: #e7a47ac6;
+          &:hover {
+            color: #e7a47a;
+          }
+        }
       `}
     >
       <a
@@ -24,7 +32,7 @@ export const Footer = () => {
           padding: 10px;
         `}
       >
-        <GoMarkGithub size={18} color='#000' />
+        <GoMarkGithub size={18} />
       </a>
       <a
         href='https://twitter.com/ellanan_'
@@ -34,7 +42,7 @@ export const Footer = () => {
           padding: 10px;
         `}
       >
-        <FaTwitter size={18} color='#1DA1F2' />
+        <FaTwitter size={18} />
       </a>
       <a
         href='https://www.linkedin.com/in/ella-nan-a8b39027/'
@@ -44,7 +52,7 @@ export const Footer = () => {
           padding: 10px;
         `}
       >
-        <GrLinkedin size={18} color='#3B67BE' />
+        <GrLinkedin size={18} />
       </a>
     </div>
   );
