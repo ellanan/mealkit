@@ -6,6 +6,8 @@ import { Button } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { MutableRefObject, useState } from 'react';
 
+const defaultImg = require('../images/defaultImg.jpg').default;
+
 export const AddRecipeToMealPlanForm = ({
   mealPlan,
   date,
@@ -243,26 +245,16 @@ const RecipeOption = ({
         });
       }}
     >
-      {recipe.imageUrl ? (
-        <img
-          src={recipe.imageUrl}
-          alt={`${recipe.name}`}
-          css={css`
-            border-radius: 10px;
-            width: 24px;
-            height: 24px;
-          `}
-        />
-      ) : (
-        <div
-          css={css`
-            border-radius: 10px;
-            width: 24px;
-            height: 24px;
-            background-color: #f0f0f0;
-          `}
-        ></div>
-      )}
+      <img
+        src={recipe.imageUrl ?? defaultImg}
+        alt={`${recipe.name}`}
+        css={css`
+          border-radius: 10px;
+          width: 24px;
+          height: 24px;
+          object-fit: cover;
+        `}
+      />
       <span
         css={css`
           margin-left: 16px;
