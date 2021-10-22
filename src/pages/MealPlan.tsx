@@ -19,14 +19,13 @@ import { NavLink } from 'react-router-dom';
 import { useMemo, useState, useRef } from 'react';
 
 import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
-import { ShoppingList } from './ShoppingList';
 
 export const MealPlan = () => {
   const initRef = useRef<any>();
 
-  const [startDate, setStartDate] = useState<DateTime>(
-    DateTime.now().startOf('week')
-  );
+  const today = useMemo(() => DateTime.now(), []);
+
+  const [startDate, setStartDate] = useState<DateTime>(today.startOf('week'));
   const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
@@ -96,9 +95,6 @@ export const MealPlan = () => {
   const cache = apolloClient.cache;
 
   const mealPlan = data?.currentUser?.mealPlan;
-  if (!mealPlan) {
-    return <div>loading meal plan</div>;
-  }
 
   return (
     <div>
@@ -106,7 +102,7 @@ export const MealPlan = () => {
         css={css`
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
         `}
       >
         <Button
@@ -115,51 +111,67 @@ export const MealPlan = () => {
           }}
           css={css`
             background-color: #fff;
-            color: #f7894d;
+            color: #7e7979;
             border-radius: 20px;
             height: 30px;
             width: 20px;
             box-shadow: none !important;
             :hover {
-              background-color: #f8dfd2;
+              background-color: #f3f0ed;
             }
           `}
         >
           <ChevronLeftIcon w={6} h={6} />
         </Button>
-        <h2
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 1.5em 0 1.5em;
-            color: #f7894d;
-            font-weight: 600;
-            border-radius: 20px;
-            height: 30px;
-            width: 280px;
-          `}
-        >
-          {`${interval[0].toISODate()} to ${interval[6].toISODate()}`}
-        </h2>
         <Button
           onClick={() => {
             setStartDate(startDate.plus({ weeks: 1 }));
           }}
           css={css`
             background-color: #fff;
-            color: #f7894d;
             border-radius: 20px;
+            color: #7e7979;
             height: 30px;
             width: 20px;
             box-shadow: none !important;
             :hover {
-              background-color: #f8dfd2;
+              background-color: #f3f0ed;
             }
           `}
         >
           <ChevronRightIcon w={6} h={6} />
         </Button>
+        <span
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 0 1.5em 0 1.5em;
+            color: #7e7979;
+            font-weight: 600;
+            border-radius: 20px;
+            height: 30px;
+            width: 280px;
+          `}
+        >
+          {`${interval[0].monthLong} ${interval[0].year}`}
+        </span>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            right: 0;
+          `}
+        >
+          <NavLink
+            to='/grocerylist'
+            className='main-nav-link'
+            activeClassName='active'
+          >
+            Shopping List
+          </NavLink>
+        </div>
       </div>
       <div
         css={css`
@@ -194,7 +206,41 @@ export const MealPlan = () => {
                 }
               `}
             >
-              <h2>{`${day.weekdayShort} - ${day.monthShort} ${day.day}`}</h2>
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                `}
+              >
+                <span
+                  css={css`
+                    font-size: 12px;
+                    text-transform: uppercase;
+                  `}
+                >
+                  {day.weekdayShort}
+                </span>
+                <span
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 1.6rem;
+                    height: 1.5rem;
+                    padding: 18px;
+                    border-radius: 50px;
+                    ${today.hasSame(day, 'day') &&
+                    css`
+                      color: #fff;
+                      background-color: #33cd29;
+                    `};
+                  `}
+                >
+                  {day.day}
+                </span>
+              </div>
               {[
                 GraphQLTypes.MealType.Breakfast,
                 GraphQLTypes.MealType.Lunch,
@@ -365,8 +411,10 @@ export const MealPlan = () => {
                           className='deleteIndicator'
                           variant='unstyled'
                           aria-label={`delete ${entry.recipe.name} from meal plan`}
+                          disabled={!mealPlan}
                           onClick={(e) => {
                             e.preventDefault();
+                            if (!mealPlan) return;
                             deleteMealPlanEntryMutation({
                               variables: {
                                 mealPlanEntryId: entry.id,
@@ -432,7 +480,6 @@ export const MealPlan = () => {
           );
         })}
       </div>
-      <ShoppingList />
     </div>
   );
 };
