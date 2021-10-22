@@ -33,6 +33,7 @@ export const Recipes = () => {
       <div
         css={css`
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: space-between;
         `}
@@ -47,6 +48,7 @@ export const Recipes = () => {
             height: 2.4em;
             padding: 16px;
             width: 40%;
+            margin-top: 3rem;
           `}
         >
           <label htmlFor='name'>
@@ -58,6 +60,7 @@ export const Recipes = () => {
                 height: 15px;
                 width: 15px;
                 margin-right: 0.5em;
+                left: 0;
                 color: #ebb59c;
               `}
             />
@@ -91,11 +94,12 @@ export const Recipes = () => {
       <div
         css={css`
           display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+          grid-template-columns: 1fr;
           align-items: center;
-          gap: 2rem;
+          justify-content: flex-start;
           margin-top: 2rem;
           margin-right: 0;
+          width: 12rem;
         `}
       >
         {data?.recipes
@@ -108,6 +112,7 @@ export const Recipes = () => {
                 to={`/recipes/${recipe.id}`}
                 css={css`
                   display: flex;
+                  flex-direction: column;
                   align-items: center;
                   justify-content: center;
                   padding: 0.4em;
