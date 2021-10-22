@@ -4,19 +4,23 @@ import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
 import { Recipes } from '../pages/Recipes';
+import { Footer } from './Footer';
 
 const Li = styled.li`
   padding: 1em;
 `;
 
-export const MainHeader = () => {
+export const Sidebar = () => {
   return (
-    <nav
+    <div
       css={css`
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: grey;
+        justify-content: center;
+        background-color: #fff2ec;
+        border-right: 1px solid #ffddcd;
+        height: 100%;
       `}
     >
       <NavLink to='/'>
@@ -72,6 +76,7 @@ export const MainHeader = () => {
           </NavLink>
         </Li> */}
       </ul>
-    </nav>
+      <Footer />
+    </div>
   );
 };
