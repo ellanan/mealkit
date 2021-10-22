@@ -263,12 +263,7 @@ const RecipeOption = ({
             border-radius: 10px;
             width: 24px;
             height: 24px;
-            /* display: flex; */
-            /* align-items: center; */
-            /* justify-content: flex-start; */
             background-color: #f0f0f0;
-            /* font-weight: 500; */
-            /* font-style: italic; */
           `}
         ></div>
       )}
