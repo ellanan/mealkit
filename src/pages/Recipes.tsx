@@ -79,24 +79,42 @@ export const Recipes = () => {
             }}
           />
         </InputGroup>
+        <NavLink
+          to='/recipes/create-recipe'
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fa7532;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 0.6rem;
+            margin-bottom: 0.6rem;
+          `}
+        >
+          <SmallAddIcon w={4} h={4} /> Create Recipe
+        </NavLink>
       </div>
-      <NavLink
-        to='/recipes/create-recipe'
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fa7532;
-          font-size: 0.9rem;
-          font-weight: 500;
-          margin-top: 0.6rem;
-        `}
-      >
-        <SmallAddIcon w={4} h={4} /> Create Recipe
-      </NavLink>
       <div
         css={css`
-          margin-top: 0.3rem;
+          display: flex;
+          flex-direction: column;
+          overflow: auto;
+
+          scrollbar-width: thin;
+          scrollbar-color: #e7a47a60 transparent;
+          ::-webkit-scrollbar {
+            background: transparent;
+          }
+          ::-webkit-scrollbar-thumb {
+            border-bottom: 4px solid #fff2ec;
+            border-left: 4px solid #fff2ec;
+            border-right: 4px solid #fff2ec;
+            border-top: 4px solid #fff2ec;
+            border-radius: 8px;
+            background: #e7a47a60;
+            min-height: 40 px;
+          }
         `}
       >
         {data?.recipes

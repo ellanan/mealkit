@@ -34,22 +34,9 @@ export const Sidebar = () => {
       </NavLink>
       <div
         css={css`
-          overflow: auto;
-
-          scrollbar-width: thin;
-          scrollbar-color: #e7a47a60 transparent;
-          ::-webkit-scrollbar {
-            background: transparent;
-          }
-          ::-webkit-scrollbar-thumb {
-            border-bottom: 4px solid #fff2ec;
-            border-left: 4px solid #fff2ec;
-            border-right: 4px solid #fff2ec;
-            border-top: 4px solid #fff2ec;
-            border-radius: 8px;
-            background: #e7a47a60;
-            min-height: 40 px;
-          }
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
         `}
       >
         <Recipes />

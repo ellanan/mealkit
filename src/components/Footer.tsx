@@ -14,7 +14,7 @@ export const Footer = () => {
         justify-content: center;
         margin-top: auto;
         width: 100%;
-        padding-bottom: 0.6rem;
+        padding: 0.3rem 0;
 
         & > a {
           color: #e7a47ac6;
