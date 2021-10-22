@@ -121,11 +121,7 @@ const RecipeOption = ({
 }) => {
   const [
     addRecipeToMealPlanMutation,
-    {
-      loading: addingRecipe,
-      error: errorAddingRecipeToMealPlan,
-      client: apolloClient,
-    },
+    { error: errorAddingRecipeToMealPlan, client: apolloClient },
   ] = useMutation<
     GraphQLTypes.AddRecipeToMealPlanMutationMutation,
     GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
