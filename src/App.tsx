@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './apolloClient';
 import { Route, Switch } from 'react-router-dom';
@@ -22,7 +24,13 @@ const App = () => {
           minSize={200}
         >
           <Sidebar />
-          <div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+            `}
+          >
             <Switch>
               <Route exact path='/' component={MealPlan} />
               <Route

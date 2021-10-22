@@ -99,7 +99,7 @@ export const MealPlan = () => {
   const mealPlan = data?.currentUser?.mealPlan;
 
   return (
-    <div>
+    <>
       <div
         css={css`
           display: flex;
@@ -199,8 +199,15 @@ export const MealPlan = () => {
       </div>
       <div
         css={css`
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+          display: flex;
+          flex-shrink: 0;
+
+          /* accommodate for the content below having as scrollbar;
+          we need a scrollbar to take up the same amount of width, but we don't want to show it */
+          overflow-y: scroll;
+          ::-webkit-scrollbar {
+            background: transparent;
+          }
         `}
       >
         {interval.map((day) => {
@@ -211,6 +218,7 @@ export const MealPlan = () => {
                 padding: 0.7em 1.2em;
                 color: #593e31;
                 position: relative;
+                flex-grow: 1;
 
                 &:not(:last-child):after {
                   content: '';
@@ -223,9 +231,8 @@ export const MealPlan = () => {
                   background-image: linear-gradient(
                     to bottom,
                     rgba(255, 255, 255, 0),
-                    #f1e6e2 10%,
-                    #f1e6e2 90%,
-                    rgba(255, 255, 255, 0)
+                    #f1e6e2 30%,
+                    #f1e6e2
                   );
                 }
               `}
@@ -265,6 +272,45 @@ export const MealPlan = () => {
                   {day.day}
                 </span>
               </div>
+            </div>
+          );
+        })}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          overflow-y: scroll;
+          flex-shrink: 1;
+          flex-grow: 1;
+        `}
+      >
+        {interval.map((day) => {
+          return (
+            <div
+              key={day.toISO()}
+              css={css`
+                padding: 0.7em 1.2em;
+                color: #593e31;
+                position: relative;
+                flex-grow: 1;
+
+                &:not(:last-child):after {
+                  content: '';
+                  display: block;
+                  width: 1px;
+                  height: 100%;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  background-image: linear-gradient(
+                    to bottom,
+                    #f1e6e2,
+                    #f1e6e2 80%,
+                    rgba(255, 255, 255, 0)
+                  );
+                }
+              `}
+            >
               {[
                 GraphQLTypes.MealType.Breakfast,
                 GraphQLTypes.MealType.Lunch,
@@ -328,17 +374,12 @@ export const MealPlan = () => {
                             border='none'
                             shadow='lg'
                             borderRadius='20px'
-                            css={css`
-                              /* border-radius: 5%; */
-                              /* border: 2px solid #ebb59c; */
-                            `}
                           >
                             {data?.currentUser?.mealPlan?.id &&
                               mealTypeAndDate?.date &&
                               mealTypeAndDate?.mealType && (
                                 <AddRecipeToMealPlanForm
                                   mealPlan={data.currentUser.mealPlan}
-                                  // mealPlanId={data?.currentUser?.mealPlan?.id}
                                   date={mealTypeAndDate.date}
                                   mealType={mealTypeAndDate.mealType}
                                   autoFocusRef={initRef}
@@ -502,6 +543,6 @@ export const MealPlan = () => {
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
