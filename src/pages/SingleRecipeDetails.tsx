@@ -10,6 +10,7 @@ import {
   EditablePreview,
   Spinner,
 } from '@chakra-ui/react';
+import { SmallCloseIcon, EditIcon } from '@chakra-ui/icons';
 import { Editor } from '@tinymce/tinymce-react';
 import { useState } from 'react';
 
@@ -227,92 +228,126 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
   }
 
   return (
-    <>
-      <h1>recipe details</h1>
-
-      <ul>
-        <li>
-          <label>
-            {recipeDetails?.recipe?.name && (
-              <Editable
-                defaultValue={recipeDetails?.recipe?.name}
-                onSubmit={(newName) => {
-                  editRecipe({
-                    variables: {
-                      recipeId,
-                      name: newName,
-                    },
-                  });
-                }}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
-            )}
-          </label>
-        </li>
-        <li>
-          <label>
-            {recipeDetails?.recipe?.imageUrl && (
-              <img
-                src={recipeDetails.recipe.imageUrl}
-                alt=''
-                style={{ maxWidth: '100%', maxHeight: 300 }}
-              />
-            )}
-            <input
-              type='file'
-              onChange={async (e) => {
-                const fileToUpload = e.target.files?.[0];
-                if (!fileToUpload) return;
-
-                const formdata = new FormData();
-                formdata.append('image', fileToUpload, fileToUpload.name);
-
-                const response = await fetch('https://api.imgur.com/3/image', {
-                  method: 'POST',
-                  headers: {
-                    Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
-                  },
-                  body: formdata,
-                  redirect: 'follow',
-                }).then((response) => response.json());
-
+    <ul
+      css={css`
+        margin: 1rem;
+        color: #593e31;
+      `}
+    >
+      <li
+        css={css`
+          margin-bottom: 1rem;
+        `}
+      >
+        <label>
+          {recipeDetails?.recipe?.name && (
+            <Editable
+              defaultValue={recipeDetails?.recipe?.name}
+              fontSize={'1.6rem'}
+              fontWeight={'500'}
+              onSubmit={(newName) => {
                 editRecipe({
                   variables: {
                     recipeId,
-                    imageUrl: response.data.link,
+                    name: newName,
                   },
                 });
               }}
-            />
-          </label>
-        </li>
-        <li>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await editRecipe({
-                variables: {
-                  recipeId,
-                  content: recipeContent,
-                },
-              });
-              setIsEditingRecipeContent(false);
+            >
+              <EditablePreview />
+              <EditableInput />
+            </Editable>
+          )}
+        </label>
+      </li>
+      <li>
+        {recipeDetails?.recipe?.imageUrl && (
+          <img
+            src={recipeDetails.recipe.imageUrl}
+            alt=''
+            css={css`
+              max-height: 300px;
+              max-width: 300px;
+              object-fit: cover;
+              margin-bottom: 0.6rem;
+              border-radius: 5px;
+            `}
+          />
+        )}
+        <input
+          type='file'
+          name='test'
+          css={css`
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: transparent;
+          `}
+          onChange={async (e) => {
+            const fileToUpload = e.target.files?.[0];
+            if (!fileToUpload) return;
+
+            const formdata = new FormData();
+            formdata.append('image', fileToUpload, fileToUpload.name);
+
+            const response = await fetch('https://api.imgur.com/3/image', {
+              method: 'POST',
+              headers: {
+                Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
+              },
+              body: formdata,
+              redirect: 'follow',
+            }).then((response) => response.json());
+
+            editRecipe({
+              variables: {
+                recipeId,
+                imageUrl: response.data.link,
+              },
+            });
+          }}
+        />
+      </li>
+      <li
+        css={css`
+          margin-bottom: 1rem;
+        `}
+      >
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await editRecipe({
+              variables: {
+                recipeId,
+                content: recipeContent,
+              },
+            });
+            setIsEditingRecipeContent(false);
+          }}
+        >
+          <label
+            tabIndex={0}
+            css={css`
+              position: relative;
+            `}
+            onClick={() => {
+              if (!isEditingRecipeContent) {
+                setIsEditingRecipeContent(true);
+              }
             }}
           >
-            <label
-              tabIndex={0}
+            <span
               css={css`
-                position: relative;
+                font-weight: 600;
               `}
-              onClick={() => {
-                if (!isEditingRecipeContent) {
-                  setIsEditingRecipeContent(true);
-                }
-              }}
             >
-              content <br />
+              Content <EditIcon w='3' h='3' />
+              <br />
+            </span>
+            <div
+              css={css`
+                margin-left: 0.5rem;
+              `}
+            >
               {!isEditingRecipeContent && (
                 <div
                   dangerouslySetInnerHTML={{
@@ -320,167 +355,190 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
                   }}
                 />
               )}
-              {recipeDetails?.recipe?.content !== undefined &&
-                recipeDetails?.recipe?.content !== null &&
-                isEditingRecipeContent && (
-                  <div>
-                    <Editor
-                      apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-                      initialValue={recipeDetails.recipe.content}
-                      init={{
-                        height: 200,
-                        menubar: false,
-                        plugins: ['wordcount'],
-                        toolbar:
-                          'undo redo | formatselect | ' +
-                          'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                        content_style:
-                          'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-                      }}
-                      onEditorChange={(newcontent) => {
-                        setRecipeContent(newcontent);
-                      }}
-                    />
-                    <Button
-                      onClick={() => {
-                        setIsEditingRecipeContent(false);
-                        setRecipeContent(recipeDetails?.recipe?.content ?? '');
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button type='submit'>Save</Button>
-                  </div>
-                )}
-            </label>
-          </form>
-        </li>
-        <li>
-          <label>
-            ingredients <br />
-            <Creatable
-              options={ingredientsData?.ingredients?.map((ingredient) => {
-                return { value: ingredient.id, label: ingredient.name };
-              })}
-              onChange={async (newValue, actionMeta) => {
-                if (!newValue || !newValue.value) {
-                  console.log(`no newValue`, actionMeta);
-                  return;
-                }
+            </div>
+            {recipeDetails?.recipe?.content !== undefined &&
+              recipeDetails?.recipe?.content !== null &&
+              isEditingRecipeContent && (
+                <div>
+                  <Editor
+                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                    initialValue={recipeDetails.recipe.content}
+                    init={{
+                      height: 200,
+                      menubar: false,
+                      plugins: ['wordcount'],
+                      toolbar:
+                        'undo redo | formatselect | ' +
+                        'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                      content_style:
+                        'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                    }}
+                    onEditorChange={(newcontent) => {
+                      setRecipeContent(newcontent);
+                    }}
+                  />
+                  <Button
+                    size='sm'
+                    margin='0.5rem'
+                    onClick={() => {
+                      setIsEditingRecipeContent(false);
+                      setRecipeContent(recipeDetails?.recipe?.content ?? '');
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button size='sm' margin='0.5rem' type='submit'>
+                    Save
+                  </Button>
+                </div>
+              )}
+          </label>
+        </form>
+      </li>
+      <li>
+        <label>
+          <span
+            css={css`
+              font-weight: 600;
+            `}
+          >
+            Ingredients <br />
+          </span>
+          <Creatable
+            options={ingredientsData?.ingredients?.map((ingredient) => {
+              return { value: ingredient.id, label: ingredient.name };
+            })}
+            onChange={async (newValue, actionMeta) => {
+              if (!newValue || !newValue.value) {
+                console.log(`no newValue`, actionMeta);
+                return;
+              }
 
-                let newIngredientId = newValue.value;
+              let newIngredientId = newValue.value;
 
-                if (actionMeta.action === 'create-option') {
-                  const createIngredientResponse = await createIngredient({
-                    variables: {
-                      name: newValue.value,
-                    },
-                  });
-                  if (!createIngredientResponse.data?.createIngredient) {
-                    console.log(
-                      `failed to create ingredient`,
-                      createIngredientResponse
-                    );
-                    return;
-                  }
-                  newIngredientId =
-                    createIngredientResponse.data.createIngredient.id;
-                }
-
-                addIngredientQuantityToRecipe({
+              if (actionMeta.action === 'create-option') {
+                const createIngredientResponse = await createIngredient({
                   variables: {
-                    ingredientQuantity: {
-                      amount: 0,
-                      unit: 'unspecified',
-                      ingredientId: newIngredientId,
-                    },
-                    recipeId,
+                    name: newValue.value,
                   },
                 });
-              }}
-              isOptionDisabled={({ value }) =>
-                !!recipeDetails?.recipe?.ingredientQuantities?.some(
-                  ({ ingredient }) => ingredient.id === value
-                )
+                if (!createIngredientResponse.data?.createIngredient) {
+                  console.log(
+                    `failed to create ingredient`,
+                    createIngredientResponse
+                  );
+                  return;
+                }
+                newIngredientId =
+                  createIngredientResponse.data.createIngredient.id;
               }
-              isSearchable
-              placeholder='add ingredient'
-            />
-          </label>
-          <ul>
-            {recipeDetails?.recipe?.ingredientQuantities?.map(
-              ({ unit, amount, ingredient }) => {
-                return (
-                  <div style={{ display: 'flex' }} key={ingredient.id}>
-                    <li
-                      css={css`
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding-right: 10px;
-                      `}
-                    >
-                      <Editable
-                        defaultValue={`${amount}`}
-                        onSubmit={(newValue) => {
-                          updateIngredientQuantityInRecipe({
-                            variables: {
-                              recipeId,
-                              ingredientId: ingredient.id,
-                              amount: Number(newValue),
-                            },
-                          });
-                        }}
-                        css={css`
-                          padding-right: 10px;
-                        `}
-                      >
-                        <EditablePreview />
-                        <EditableInput type='number' />
-                      </Editable>
 
-                      <Editable
-                        defaultValue={unit}
-                        onSubmit={(newValue) => {
-                          updateIngredientQuantityInRecipe({
-                            variables: {
-                              recipeId,
-                              ingredientId: ingredient.id,
-                              unit: newValue,
-                            },
-                          });
-                        }}
-                        css={css`
-                          padding-right: 10px;
-                        `}
-                      >
-                        <EditablePreview />
-                        <EditableInput type='text' />
-                      </Editable>
-                      {ingredient.name}
-                    </li>
-                    <Button
-                      type='button'
-                      onClick={() => {
-                        removeIngredientFromRecipe({
-                          variables: {
-                            ingredientId: ingredient.id,
-                            recipeId,
-                          },
-                        });
-                      }}
-                    >
-                      remove ingredient
-                    </Button>
-                  </div>
-                );
-              }
-            )}
-          </ul>
-        </li>
-      </ul>
-    </>
+              addIngredientQuantityToRecipe({
+                variables: {
+                  ingredientQuantity: {
+                    amount: 0,
+                    unit: 'unspecified',
+                    ingredientId: newIngredientId,
+                  },
+                  recipeId,
+                },
+              });
+            }}
+            isOptionDisabled={({ value }) =>
+              !!recipeDetails?.recipe?.ingredientQuantities?.some(
+                ({ ingredient }) => ingredient.id === value
+              )
+            }
+            isSearchable
+            placeholder='add ingredient'
+          />
+        </label>
+        {recipeDetails?.recipe?.ingredientQuantities?.map(
+          ({ unit, amount, ingredient }) => {
+            return (
+              <div
+                key={ingredient.id}
+                css={css`
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                `}
+              >
+                <li
+                  css={css`
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-left: 0.5rem;
+                  `}
+                >
+                  <Editable
+                    defaultValue={`${amount}`}
+                    onSubmit={(newValue) => {
+                      updateIngredientQuantityInRecipe({
+                        variables: {
+                          recipeId,
+                          ingredientId: ingredient.id,
+                          amount: Number(newValue),
+                        },
+                      });
+                    }}
+                    css={css`
+                      padding-right: 5px;
+                    `}
+                  >
+                    <EditablePreview />
+                    <EditableInput type='number' />
+                  </Editable>
+                  <Editable
+                    defaultValue={unit}
+                    onSubmit={(newValue) => {
+                      updateIngredientQuantityInRecipe({
+                        variables: {
+                          recipeId,
+                          ingredientId: ingredient.id,
+                          unit: newValue,
+                        },
+                      });
+                    }}
+                    css={css`
+                      padding-right: 5px;
+                    `}
+                  >
+                    <EditablePreview />
+                    <EditableInput type='text' />
+                  </Editable>
+                  {ingredient.name}
+                  <button
+                    css={css`
+                      display: flex;
+                      align-items: center;
+                      margin-left: 0.3rem;
+                      height: 1.3rem;
+                      :hover {
+                        background-color: #f7c481;
+                        border-radius: 60px;
+                      }
+                    `}
+                    onClick={() => {
+                      removeIngredientFromRecipe({
+                        variables: {
+                          ingredientId: ingredient.id,
+                          recipeId,
+                        },
+                      });
+                    }}
+                  >
+                    <SmallCloseIcon w='4' h='4' color='#fff' margin='0px 3px' />
+                  </button>
+                </li>
+              </div>
+            );
+          }
+        )}
+      </li>
+    </ul>
   );
 };
