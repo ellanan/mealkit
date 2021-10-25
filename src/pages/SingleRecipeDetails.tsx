@@ -18,6 +18,7 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
   const [isEditingRecipeContent, setIsEditingRecipeContent] =
     useState<boolean>(false);
   const [recipeContent, setRecipeContent] = useState<string>('');
+
   const {
     data: recipeDetails,
     loading: loadingRecipeDetails,
@@ -98,6 +99,20 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
   );
   if (errorEditingRecipe) {
     throw errorEditingRecipe;
+  }
+
+  const [deleteRecipe, { error: errorDeletingRecipe }] = useMutation<
+    GraphQLTypes.DeleteRecipeMutation,
+    GraphQLTypes.DeleteRecipeMutationVariables
+  >(gql`
+    mutation DeleteRecipe($recipeId: ID!) {
+      deleteRecipe(recipeId: $recipeId) {
+        id
+      }
+    }
+  `);
+  if (errorDeletingRecipe) {
+    throw errorDeletingRecipe;
   }
 
   const [
@@ -466,7 +481,7 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
                   align-items: center;
                 `}
               >
-                <li
+                <div
                   css={css`
                     display: flex;
                     flex-direction: row;
@@ -533,11 +548,32 @@ export const SingleRecipeDetails = ({ recipeId }: { recipeId: string }) => {
                   >
                     <SmallCloseIcon w='4' h='4' color='#fff' margin='0px 3px' />
                   </button>
-                </li>
+                </div>
               </div>
             );
           }
         )}
+        <span
+          css={css`
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+          `}
+        >
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              deleteRecipe({
+                variables: {
+                  recipeId,
+                },
+              });
+            }}
+            size={'sm'}
+          >
+            Delete Recipe
+          </Button>
+        </span>
       </li>
     </ul>
   );

@@ -119,6 +119,20 @@ export const Mutation = mutationType({
       },
     });
 
+    t.field('deleteRecipe', {
+      type: 'Recipe',
+      args: {
+        recipeId: nonNull(idArg()),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.recipe.delete({
+          where: {
+            id: args.recipeId,
+          },
+        });
+      },
+    });
+
     t.field('addIngredientQuantityToRecipe', {
       type: 'Recipe',
       args: {
