@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
@@ -80,8 +82,12 @@ export const CreateRecipe = () => {
   }
 
   return (
-    <>
-      <h1>create recipe page</h1>
+    <div
+      css={css`
+        margin: 1rem;
+        color: #593e31;
+      `}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -105,9 +111,14 @@ export const CreateRecipe = () => {
         }}
       >
         <ul>
-          <li>
+          <li
+            css={css`
+              font-weight: 600;
+              margin-bottom: 1rem;
+            `}
+          >
             <label>
-              recipe name <br />
+              Recipe Name <br />
               <input
                 type='text'
                 value={formData.recipeName}
@@ -120,11 +131,31 @@ export const CreateRecipe = () => {
               />
             </label>
           </li>
-          <li>
+          <li
+            css={css`
+              font-weight: 600;
+              margin-bottom: 1rem;
+            `}
+          >
             <label>
-              image <br />
+              Image <br />
+              <img
+                src={formData.imageUrl ? formData.imageUrl : ''}
+                alt=''
+                css={css`
+                  max-height: 300px;
+                  max-width: 300px;
+                  object-fit: cover;
+                  margin-bottom: 0.6rem;
+                  border-radius: 5px;
+                `}
+              />
               <input
                 type='file'
+                css={css`
+                  font-size: 0.8rem;
+                  color: transparent;
+                `}
                 onChange={async (e) => {
                   const fileToUpload = e.target.files?.[0];
                   if (!fileToUpload) return;
@@ -153,9 +184,14 @@ export const CreateRecipe = () => {
               />
             </label>
           </li>
-          <li>
+          <li
+            css={css`
+              font-weight: 600;
+              margin-bottom: 1rem;
+            `}
+          >
             <label>
-              content <br />
+              Content <br />
               <Editor
                 apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
                 value={formData.content}
@@ -179,9 +215,19 @@ export const CreateRecipe = () => {
               />
             </label>
           </li>
-          <li>
+          <li
+            css={css`
+              margin-bottom: 1rem;
+            `}
+          >
             <label>
-              ingredients <br />
+              <span
+                css={css`
+                  font-weight: 600;
+                `}
+              >
+                Ingredients <br />
+              </span>
               <Creatable
                 options={ingredientsData?.ingredients?.map((ingredient) => {
                   return { value: ingredient.id, label: ingredient.name };
@@ -250,8 +296,21 @@ export const CreateRecipe = () => {
               {formData.ingredientQuantities.map(
                 ({ unit, amount, ingredient }) => {
                   return (
-                    <div style={{ display: 'flex' }} key={ingredient.id}>
-                      <li>
+                    <div
+                      key={ingredient.id}
+                      css={css`
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        margin-left: 1rem;
+                        margin-top: 0.5rem;
+                      `}
+                    >
+                      <li
+                        css={css`
+                          min-width: 30rem;
+                        `}
+                      >
                         <input
                           type='number'
                           value={amount}
@@ -276,7 +335,6 @@ export const CreateRecipe = () => {
                             }));
                           }}
                         />
-
                         <input
                           type='text'
                           value={unit}
@@ -314,8 +372,9 @@ export const CreateRecipe = () => {
                               ),
                           }));
                         }}
+                        size={'xs'}
                       >
-                        remove ingredient
+                        remove
                       </Button>
                     </div>
                   );
@@ -324,8 +383,15 @@ export const CreateRecipe = () => {
             </ul>
           </li>
         </ul>
-        <Button type='submit'>create recipe</Button>
+        <Button
+          size={'sm'}
+          type='submit'
+          backgroundColor={'#f3ac83'}
+          color={'#fff'}
+        >
+          Create Recipe
+        </Button>
       </form>
-    </>
+    </div>
   );
 };
