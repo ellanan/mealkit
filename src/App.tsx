@@ -13,11 +13,13 @@ import { MealPlan } from './pages/MealPlan';
 import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
 import { RecipeModal } from './components/RecipeModal';
+import { CreateRecipeModal } from './components/CreateRecipeModal';
 
 const App = () => {
   return (
     <ApolloProvider client={apolloClient}>
       <ChakraProvider>
+        <CreateRecipeModal />
         <RecipeModal />
         <SplitPane
           split='vertical'
@@ -35,11 +37,7 @@ const App = () => {
           >
             <Switch>
               <Route exact path='/' component={MealPlan} />
-              <Route
-                exact
-                path='/recipes/create-recipe'
-                component={CreateRecipe}
-              />
+              <Route exact path='/create-recipe' component={CreateRecipe} />
               <Route
                 exact
                 path='/recipes/:recipeId'

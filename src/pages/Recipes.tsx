@@ -80,7 +80,15 @@ export const Recipes = () => {
           />
         </InputGroup>
         <NavLink
-          to='/recipes/create-recipe'
+          to={(location) => {
+            const newQueryParams = new URLSearchParams(location.search);
+            newQueryParams.append('modalCreateRecipe', 'visible');
+
+            return {
+              ...location,
+              search: newQueryParams.toString(),
+            };
+          }}
           css={css`
             display: flex;
             align-items: center;
