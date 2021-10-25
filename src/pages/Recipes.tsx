@@ -123,6 +123,7 @@ export const Recipes = () => {
           )
           .map((recipe) => (
             <NavLink
+              key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);
                 newQueryParams.set('modalRecipeId', recipe.id);
