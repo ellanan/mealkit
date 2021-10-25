@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './apolloClient';
 import { Route, Switch } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import SplitPane from 'react-split-pane';
 
 import { Sidebar } from './components/Sidebar';
 import { CreateRecipe } from './pages/CreateRecipe';
@@ -11,7 +12,6 @@ import { SingleRecipeDetails } from './pages/SingleRecipeDetails';
 import { MealPlan } from './pages/MealPlan';
 import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
-import SplitPane from 'react-split-pane';
 import { RecipeModal } from './components/RecipeModal';
 
 const App = () => {

@@ -26,6 +26,7 @@ export const RecipeModal = () => {
         });
       }}
       isOpen={isOpen}
+      autoFocus={false}
     >
       <ModalOverlay />
       <ModalContent
