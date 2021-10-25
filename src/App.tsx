@@ -12,11 +12,13 @@ import { MealPlan } from './pages/MealPlan';
 import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
 import SplitPane from 'react-split-pane';
+import { RecipeModal } from './components/RecipeModal';
 
 const App = () => {
   return (
     <ApolloProvider client={apolloClient}>
       <ChakraProvider>
+        <RecipeModal />
         <SplitPane
           split='vertical'
           defaultSize={200}

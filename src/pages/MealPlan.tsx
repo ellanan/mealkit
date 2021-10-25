@@ -28,7 +28,6 @@ export const MealPlan = () => {
   const today = useMemo(() => DateTime.now(), []);
 
   const [startDate, setStartDate] = useState<DateTime>(today.startOf('week'));
-  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
     date: string | null;
@@ -36,6 +35,7 @@ export const MealPlan = () => {
     mealType: null,
     date: null,
   });
+  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
 
   const interval = Interval.fromDateTimes(startDate, endDate)
     .splitBy({ days: 1 })
@@ -94,6 +94,7 @@ export const MealPlan = () => {
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
+
   const cache = apolloClient.cache;
 
   const mealPlan = data?.currentUser?.mealPlan;
@@ -119,8 +120,8 @@ export const MealPlan = () => {
             color: #7e7979;
             border: 1px solid #7e7979;
             border-radius: 20px;
-            margin-left: 1rem;
-            margin-right: 1rem;
+            margin: 0 1rem;
+
             :hover {
               background-color: #f3f0ed;
             }
@@ -139,6 +140,7 @@ export const MealPlan = () => {
             height: 30px;
             width: 20px;
             box-shadow: none !important;
+
             :hover {
               background-color: #f3f0ed;
             }
@@ -157,6 +159,7 @@ export const MealPlan = () => {
             height: 30px;
             width: 20px;
             box-shadow: none !important;
+
             :hover {
               background-color: #f3f0ed;
             }
@@ -169,13 +172,13 @@ export const MealPlan = () => {
             display: flex;
             align-items: center;
             justify-content: flex-start;
+            height: 30px;
+            width: 280px;
             margin: 0 1.5em 0 1.5em;
             color: #646161;
             font-weight: 500;
-            border-radius: 20px;
             font-size: 18px;
-            height: 30px;
-            width: 280px;
+            border-radius: 20px;
           `}
         >
           {`${interval[0].monthLong} ${interval[0].year}`}
@@ -418,8 +421,7 @@ export const MealPlan = () => {
                           }
                         `}
                       >
-                        <NavLink
-                          to={`/recipes/${entry.recipe.id}`}
+                        <div
                           css={css`
                             display: block;
                             position: relative;
@@ -430,45 +432,62 @@ export const MealPlan = () => {
                             margin-bottom: 6px;
                           `}
                         >
-                          <img
-                            src={entry.recipe.imageUrl ?? defaultImg}
-                            alt=''
-                            css={css`
-                              position: absolute;
-                              top: 0;
-                              width: 100%;
-                              height: 100%;
-                              object-fit: cover;
-                            `}
-                          />
-                          <div
-                            className='recipe-title'
-                            css={css`
-                              position: absolute;
-                              bottom: 0;
-                              display: flex;
-                              color: #ffffff;
-                              font-weight: 500;
-                              width: 100%;
-                              background-image: linear-gradient(
-                                to bottom,
-                                rgba(0, 0, 0, 0),
-                                rgba(92, 86, 86, 0.1) 30%,
-                                rgba(56, 54, 54, 0.3)
+                          <NavLink
+                            to={(location) => {
+                              const newQueryParams = new URLSearchParams(
+                                location.search
                               );
-                              line-height: 1.2;
-                              padding: 30px 8px 12px;
-                            `}
+                              newQueryParams.set(
+                                'modalRecipeId',
+                                entry.recipe.id
+                              );
+
+                              return {
+                                ...location,
+                                search: newQueryParams.toString(),
+                              };
+                            }}
                           >
-                            <span
+                            <img
+                              src={entry.recipe.imageUrl ?? defaultImg}
+                              alt=''
                               css={css`
-                                text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+                                position: absolute;
+                                top: 0;
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                              `}
+                            />
+                            <div
+                              className='recipe-title'
+                              css={css`
+                                position: absolute;
+                                bottom: 0;
+                                display: flex;
+                                color: #ffffff;
+                                font-weight: 500;
+                                width: 100%;
+                                background-image: linear-gradient(
+                                  to bottom,
+                                  rgba(0, 0, 0, 0),
+                                  rgba(92, 86, 86, 0.1) 30%,
+                                  rgba(56, 54, 54, 0.3)
+                                );
+                                line-height: 1.2;
+                                padding: 30px 8px 12px;
                               `}
                             >
-                              {entry.recipe.name}
-                            </span>
-                          </div>
-                        </NavLink>
+                              <span
+                                css={css`
+                                  text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+                                `}
+                              >
+                                {entry.recipe.name}
+                              </span>
+                            </div>
+                          </NavLink>
+                        </div>
                         <Button
                           size='xs'
                           className='deleteIndicator'
