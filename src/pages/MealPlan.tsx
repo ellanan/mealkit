@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import classnames from 'classnames';
 import { DateTime, Interval } from 'luxon';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
@@ -28,6 +29,7 @@ export const MealPlan = () => {
   const today = useMemo(() => DateTime.now(), []);
 
   const [startDate, setStartDate] = useState<DateTime>(today.startOf('week'));
+
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
     date: string | null;
@@ -35,6 +37,7 @@ export const MealPlan = () => {
     mealType: null,
     date: null,
   });
+
   const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
 
   const interval = Interval.fromDateTimes(startDate, endDate)
@@ -101,119 +104,48 @@ export const MealPlan = () => {
 
   return (
     <>
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          padding-top: 1rem;
-        `}
-      >
+      <div className='flex items-center justify-start pt-4'>
         <Button
+          className='text-11 my-0 mx-4 ounded-full border-solid hover:bg-12'
           onClick={(e) => {
             e.preventDefault();
             setStartDate(today.startOf('week'));
           }}
           size={'sm'}
-          css={css`
-            background-color: #fff;
-            color: #7e7979;
-            border: 1px solid #7e7979;
-            border-radius: 20px;
-            margin: 0 1rem;
-
-            :hover {
-              background-color: #f3f0ed;
-            }
-          `}
         >
           Today
         </Button>
         <Button
+          className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
           onClick={() => {
             setStartDate(startDate.minus({ weeks: 1 }));
           }}
-          css={css`
-            background-color: #fff;
-            color: #7e7979;
-            border-radius: 20px;
-            height: 30px;
-            width: 20px;
-            box-shadow: none !important;
-
-            :hover {
-              background-color: #f3f0ed;
-            }
-          `}
         >
           <ChevronLeftIcon w={6} h={6} />
         </Button>
         <Button
+          className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
           onClick={() => {
             setStartDate(startDate.plus({ weeks: 1 }));
           }}
-          css={css`
-            background-color: #fff;
-            border-radius: 20px;
-            color: #7e7979;
-            height: 30px;
-            width: 20px;
-            box-shadow: none !important;
-
-            :hover {
-              background-color: #f3f0ed;
-            }
-          `}
         >
           <ChevronRightIcon w={6} h={6} />
         </Button>
-        <span
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            height: 30px;
-            width: 280px;
-            margin: 0 1.5em 0 1.5em;
-            color: #646161;
-            font-weight: 500;
-            font-size: 18px;
-            border-radius: 20px;
-          `}
-        >
+        <span className='flex items-center justify-start text-13 my-0 mx-6 font-medium text-xl'>
           {`${interval[0].monthLong} ${interval[0].year}`}
         </span>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            margin-right: 2rem;
-            border: 2px solid #000;
-            border-radius: 20px;
-            width: fit-content;
-            padding: 5px;
-            font-size: 0.9rem;
-          `}
+        <NavLink
+          className='ml-auto mr-8 rounded-full text-13 text-sm py-1 px-2 border border-13'
+          to='/grocerylist'
         >
-          <NavLink
-            to='/grocerylist'
-            className='main-nav-link'
-            activeClassName='active'
-          >
-            Shopping List
-          </NavLink>
-        </div>
+          Shopping List
+        </NavLink>
       </div>
       <div
+        className='flex flex-shrink-0 overflow-y-scroll'
         css={css`
-          display: flex;
-          flex-shrink: 0;
-
           /* accommodate for the content below having as scrollbar;
-          we need a scrollbar to take up the same amount of width, but we don't want to show it */
-          overflow-y: scroll;
+             we need a scrollbar to take up the same amount of width, but we don't want to show it */
           ::-webkit-scrollbar {
             background: transparent;
           }
@@ -222,13 +154,9 @@ export const MealPlan = () => {
         {interval.map((day) => {
           return (
             <div
+              className='relative flex-grow py-3 px-5 text-14'
               key={day.toISO()}
               css={css`
-                padding: 0.7em 1.2em;
-                color: #593e31;
-                position: relative;
-                flex-grow: 1;
-
                 &:not(:last-child):after {
                   content: '';
                   display: block;
@@ -246,37 +174,13 @@ export const MealPlan = () => {
                 }
               `}
             >
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  justify-content: center;
-                `}
-              >
+              <div className='flex flex-col items-center justify-center'>
+                <span className='text-xs uppercase'>{day.weekdayShort}</span>
                 <span
-                  css={css`
-                    font-size: 12px;
-                    text-transform: uppercase;
-                  `}
-                >
-                  {day.weekdayShort}
-                </span>
-                <span
-                  css={css`
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 1.6rem;
-                    height: 1.5rem;
-                    padding: 18px;
-                    border-radius: 50px;
-                    ${today.hasSame(day, 'day') &&
-                    css`
-                      color: #fff;
-                      background-color: #f88c5a;
-                    `};
-                  `}
+                  className={classnames(
+                    'flex items-center justify-center rounded-3xl p-4 h-7 w-7',
+                    today.hasSame(day, 'day') && 'bg-[#f88c5a] text-white'
+                  )}
                 >
                   {day.day}
                 </span>
@@ -285,32 +189,18 @@ export const MealPlan = () => {
           );
         })}
       </div>
-      <div
-        css={css`
-          display: flex;
-          overflow-y: scroll;
-          flex-shrink: 1;
-          flex-grow: 1;
-        `}
-      >
+      <div className='flex overflow-y-scroll flex-shrink flex-grow'>
         {interval.map((day) => {
           return (
             <div
               key={day.toISO()}
+              className={[
+                'flex-grow relative px-5 py-3 text-14',
+                'after:block after:w-[1px] after:h-full after:absolute after:top-0 after:right-0',
+              ].join(' ')}
               css={css`
-                padding: 0.7em 1.2em;
-                color: #593e31;
-                position: relative;
-                flex-grow: 1;
-
                 &:not(:last-child):after {
                   content: '';
-                  display: block;
-                  width: 1px;
-                  height: 100%;
-                  position: absolute;
-                  top: 0;
-                  right: 0;
                   background-image: linear-gradient(
                     to bottom,
                     #f1e6e2,
@@ -336,17 +226,7 @@ export const MealPlan = () => {
                   );
                 });
                 return (
-                  <div
-                    key={mealType}
-                    css={css`
-                      .addIndicator {
-                        opacity: 0;
-                      }
-                      &:hover .addIndicator {
-                        opacity: 1;
-                      }
-                    `}
-                  >
+                  <div key={mealType}>
                     <Popover
                       placement={'auto-start'}
                       isLazy={true}
@@ -371,7 +251,7 @@ export const MealPlan = () => {
                             >
                               {mealType}
                               <AddIcon
-                                className='addIndicator'
+                                className='opacity-0 hover:opacity-100'
                                 w={2}
                                 h={2}
                                 ml={1}
@@ -402,10 +282,8 @@ export const MealPlan = () => {
                     {mealPlanEntries?.map((entry) => (
                       <div
                         key={entry.id}
+                        className='relative my-2 mx-0'
                         css={css`
-                          position: relative;
-                          margin: 0.6em 0;
-
                           .deleteIndicator {
                             opacity: 0;
                           }
@@ -415,7 +293,6 @@ export const MealPlan = () => {
                               display: flex;
                               align-items: center;
                             }
-
                             .recipe-title {
                               background-image: linear-gradient(
                                 to bottom,
@@ -427,17 +304,7 @@ export const MealPlan = () => {
                           }
                         `}
                       >
-                        <div
-                          css={css`
-                            display: block;
-                            position: relative;
-                            border-radius: 10px;
-                            overflow: hidden;
-                            box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.1);
-                            padding-top: 100%;
-                            margin-bottom: 6px;
-                          `}
-                        >
+                        <div className='relative rounded-xl overflow-hidden mb-2 shadow-sm hover:shadow-md pt-[100%]'>
                           <NavLink
                             to={(location) => {
                               const newQueryParams = new URLSearchParams(
@@ -455,48 +322,28 @@ export const MealPlan = () => {
                             }}
                           >
                             <img
+                              className='absolute top-0 w-full h-full object-cover'
                               src={entry.recipe.imageUrl ?? defaultImg}
                               alt=''
-                              css={css`
-                                position: absolute;
-                                top: 0;
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                              `}
                             />
                             <div
-                              className='recipe-title'
+                              className='recipe-title absolute bottom-0 flex text-white font-medium w-full leading-tight px-2 pt-8 pb-3'
                               css={css`
-                                position: absolute;
-                                bottom: 0;
-                                display: flex;
-                                color: #ffffff;
-                                font-weight: 500;
-                                width: 100%;
                                 background-image: linear-gradient(
                                   to bottom,
                                   rgba(0, 0, 0, 0),
                                   rgba(92, 86, 86, 0.1) 30%,
                                   rgba(56, 54, 54, 0.3)
                                 );
-                                line-height: 1.2;
-                                padding: 30px 8px 12px;
                               `}
                             >
-                              <span
-                                css={css`
-                                  text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-                                `}
-                              >
-                                {entry.recipe.name}
-                              </span>
+                              {entry.recipe.name}
                             </div>
                           </NavLink>
                         </div>
                         <Button
+                          className='deleteIndicator translate-x-1/3 -translate-y-1/3 absolute top-0 right-0 flex content-center items-center group'
                           size='xs'
-                          className='deleteIndicator'
                           variant='unstyled'
                           aria-label={`delete ${entry.recipe.name} from meal plan`}
                           disabled={!mealPlan}
@@ -508,6 +355,7 @@ export const MealPlan = () => {
                                 mealPlanEntryId: entry.id,
                               },
                             });
+
                             // update cache before server mutation completes
                             cache.modify({
                               id: cache.identify(mealPlan),
@@ -525,38 +373,13 @@ export const MealPlan = () => {
                               },
                             });
                           }}
-                          css={css`
-                            position: absolute;
-                            top: 0;
-                            right: 0;
-                            transform: translate3d(30%, -30%, 0);
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            &:hover {
-                              .closeBackground {
-                                transform: scale(1.05);
-                              }
-                            }
-                          `}
                         >
-                          <div
-                            className='closeBackground'
-                            css={css`
-                              position: absolute;
-                              top: 0;
-                              right: 0;
-                              width: 100%;
-                              height: 100%;
-                              background-color: rgba(0, 0, 0, 0.8);
-                              border-radius: 50%;
-                            `}
-                          />
+                          <div className='absolute top-0 right-0 w-full h-full bg-black bg-opacity-80 rounded-full group-hover:scale-105' />
                           <CloseIcon
                             position='relative'
                             w={2}
                             h={2}
-                            color='#ffffff'
+                            color='#fff'
                           />
                         </Button>
                       </div>
