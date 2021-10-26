@@ -85,3 +85,8 @@ h1 {
 .Resizer.disabled:hover {
   border-color: transparent;
 }
+
+/* make tinymce toolbar dropdowns show up over chakra's modal */
+.tox.tox-tinymce-aux {
+  z-index: 4000;
+}
