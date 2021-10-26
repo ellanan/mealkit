@@ -188,7 +188,13 @@ export const MealPlan = () => {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            right: 0;
+            width: 100%;
+            margin-right: 2rem;
+            border: 2px solid #000;
+            border-radius: 20px;
+            width: fit-content;
+            padding: 5px;
+            font-size: 0.9rem;
           `}
         >
           <NavLink

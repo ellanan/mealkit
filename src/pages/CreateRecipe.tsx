@@ -4,7 +4,7 @@ import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
-import { Button } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 
 interface CreateRecipeForm {
@@ -117,10 +117,11 @@ export const CreateRecipe = () => {
               margin-bottom: 1rem;
             `}
           >
-            <label>
-              Recipe Name <br />
-              <input
+            <FormControl id='recipeName'>
+              <FormLabel fontWeight={600}>Recipe Name</FormLabel>
+              <Input
                 type='text'
+                width='50%'
                 value={formData.recipeName}
                 onChange={(e) => {
                   const recipeName = e.target.value;
@@ -129,7 +130,7 @@ export const CreateRecipe = () => {
                   });
                 }}
               />
-            </label>
+            </FormControl>
           </li>
           <li
             css={css`
@@ -140,7 +141,7 @@ export const CreateRecipe = () => {
             <label>
               Image <br />
               <img
-                src={formData.imageUrl ? formData.imageUrl : ''}
+                src={formData.imageUrl ?? ''}
                 alt=''
                 css={css`
                   max-height: 300px;
@@ -188,6 +189,7 @@ export const CreateRecipe = () => {
             css={css`
               font-weight: 600;
               margin-bottom: 1rem;
+              position: relative;
             `}
           >
             <label>
