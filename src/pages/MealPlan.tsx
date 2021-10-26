@@ -141,6 +141,7 @@ export const MealPlan = () => {
           Shopping List
         </NavLink>
       </div>
+
       <div
         className='flex flex-shrink-0 overflow-y-scroll'
         css={css`
@@ -189,7 +190,8 @@ export const MealPlan = () => {
           );
         })}
       </div>
-      <div className='flex overflow-y-scroll flex-shrink flex-grow'>
+
+      <div className='flex overflow-y-scroll flex-shrink flex-grow mb-5'>
         {interval.map((day) => {
           return (
             <div
