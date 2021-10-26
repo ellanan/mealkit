@@ -1,8 +1,8 @@
 import {
   Modal,
-  ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 import { SingleRecipeDetails } from '../pages/SingleRecipeDetails';
@@ -12,30 +12,30 @@ export const RecipeModal = () => {
   const location = useLocation();
   const currentQueryParameters = new URLSearchParams(location.search);
   const modalRecipeId = currentQueryParameters.get('modalRecipeId');
-  const isOpen = !!modalRecipeId;
+  const { isOpen, onClose } = useDisclosure({
+    isOpen: !!modalRecipeId,
+    onClose: () => {
+      const newQueryParams = new URLSearchParams(location.search);
+      newQueryParams.delete('modalRecipeId');
+
+      history.push({
+        ...location,
+        search: newQueryParams.toString(),
+      });
+    },
+  });
 
   return (
-    <Modal
-      onClose={() => {
-        const newQueryParams = new URLSearchParams(location.search);
-        newQueryParams.delete('modalRecipeId');
-
-        history.push({
-          ...location,
-          search: newQueryParams.toString(),
-        });
-      }}
-      isOpen={isOpen}
-      autoFocus={false}
-    >
+    <Modal isOpen={isOpen} autoFocus={false} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
         minHeight='50vh'
         maxHeight='calc(100% - 8rem)'
         overflow='auto'
       >
-        {modalRecipeId && <SingleRecipeDetails recipeId={modalRecipeId} />}
-        <ModalCloseButton />
+        {modalRecipeId && (
+          <SingleRecipeDetails recipeId={modalRecipeId} onClose={onClose} />
+        )}
       </ModalContent>
     </Modal>
   );
