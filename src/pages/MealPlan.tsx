@@ -106,7 +106,7 @@ export const MealPlan = () => {
     <>
       <div className='flex items-center justify-start pt-4'>
         <Button
-          className='text-11 my-0 mx-4 ounded-full border-solid hover:bg-12'
+          className='text-11 my-0 mx-4 ounded-full border-solid focus:shadow-none hover:bg-12'
           onClick={(e) => {
             e.preventDefault();
             setStartDate(today.startOf('week'));
@@ -248,6 +248,7 @@ export const MealPlan = () => {
                         <>
                           <PopoverTrigger>
                             <Button
+                              className='group focus:shadow-none'
                               size='xs'
                               variant='unstyled'
                               onClick={() => {
@@ -261,10 +262,9 @@ export const MealPlan = () => {
                             >
                               {mealType}
                               <AddIcon
-                                className='opacity-0 hover:opacity-100'
+                                className='opacity-0 group-hover:opacity-100 ml-1'
                                 w={2}
                                 h={2}
-                                ml={1}
                               />
                             </Button>
                           </PopoverTrigger>
