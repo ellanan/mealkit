@@ -136,7 +136,15 @@ export const MealPlan = () => {
         </span>
         <NavLink
           className='ml-auto mr-8 rounded-full text-13 text-sm py-1 px-2 border border-13'
-          to='/grocerylist'
+          to={(location) => {
+            const newQueryParams = new URLSearchParams(location.search);
+            newQueryParams.append('shoppingList', 'visible');
+
+            return {
+              ...location,
+              search: newQueryParams.toString(),
+            };
+          }}
         >
           Shopping List
         </NavLink>

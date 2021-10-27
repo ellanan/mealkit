@@ -12,6 +12,7 @@ import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
 import { RecipeModal } from './components/modals/RecipeModal';
 import { CreateRecipeModal } from './components/modals/CreateRecipeModal';
+import { ShoppingListModal } from './components/modals/ShoppingListModal';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <ChakraProvider>
         <CreateRecipeModal />
         <RecipeModal />
+        <ShoppingListModal />
         <SplitPane
           split='vertical'
           defaultSize={200}
