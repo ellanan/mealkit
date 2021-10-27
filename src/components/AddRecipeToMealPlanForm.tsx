@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import { Button } from '@chakra-ui/react';
@@ -43,39 +41,15 @@ export const AddRecipeToMealPlanForm = ({
 
   return (
     <div>
-      <div
-        css={css`
-          margin: 0.8em;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          border-radius: 20px;
-          box-shadow: 0 0 4px 1px rgba(235, 181, 156, 0.3);
-          height: 2.4em;
-          padding: 16px;
-          margin-bottom: 16px;
-        `}
-      >
+      <div className='flex flex-row items-center m-3 h-10 p-4 rounded-2xl addRecipeToMealPlanFormBoxShadow'>
         <label htmlFor='name'>
-          <Search2Icon
-            css={css`
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 15px;
-              width: 15px;
-              margin-right: 0.5em;
-              color: #ebb59c;
-            `}
-          />
+          <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 text-17' />
         </label>
         <input
+          className='outline-none'
           type='text'
           placeholder='search recipe'
           size={20}
-          css={css`
-            outline: none;
-          `}
           onChange={(e) => {
             e.preventDefault();
             setSearchRecipe(e.target.value);
@@ -84,11 +58,7 @@ export const AddRecipeToMealPlanForm = ({
         />
       </div>
 
-      <div
-        css={css`
-          margin-bottom: 0.8em;
-        `}
-      >
+      <div className='mb-3'>
         {recipesData?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
@@ -176,22 +146,9 @@ const RecipeOption = ({
 
   return (
     <Button
+      className='flex flex-row justify-start bg-white p-4 w-full hover:bg-18 hover:text-19'
       size={'xs'}
       borderRadius='none'
-      css={css`
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        background-color: #fff;
-        padding: 18px;
-
-        :hover {
-          background-color: #ffd8ca;
-
-          color: #333;
-        }
-      `}
       onClick={(e) => {
         e.preventDefault();
         const tempNewEntryId = `temp-id:${recipe.id}:${date}:${mealType}`;
@@ -246,24 +203,11 @@ const RecipeOption = ({
       }}
     >
       <img
+        className='w-6 h-6 rounded-xl object-cover'
         src={recipe.imageUrl ?? defaultImg}
         alt={`${recipe.name}`}
-        css={css`
-          border-radius: 10px;
-          width: 24px;
-          height: 24px;
-          object-fit: cover;
-        `}
       />
-      <span
-        css={css`
-          margin-left: 16px;
-          font-size: 14px;
-          font-weight: 400;
-        `}
-      >
-        {recipe.name}
-      </span>
+      <span className='ml-4 text-sm font-normal'>{recipe.name}</span>
     </Button>
   );
 };

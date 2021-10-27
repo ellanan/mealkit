@@ -1,56 +1,31 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { GoMarkGithub } from 'react-icons/go';
 import { FaTwitter } from 'react-icons/fa';
 import { GrLinkedin } from 'react-icons/gr';
 
 export const Footer = () => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-top: auto;
-        width: 100%;
-        padding: 0.3rem 0;
-
-        & > a {
-          color: #e7a47ac6;
-          &:hover {
-            color: #e7a47a;
-          }
-        }
-      `}
-    >
+    <div className='flex flex-row items-center justify-center mt-auto w-full py-1 px-0'>
       <a
+        className='p-3 text-22 hover:text-21'
         href='https://github.com/ellanan'
         target='_blank'
         rel='noreferrer'
-        css={css`
-          padding: 10px;
-        `}
       >
         <GoMarkGithub size={18} />
       </a>
       <a
+        className='p-3 text-22 hover:text-21'
         href='https://twitter.com/ellanan_'
         target='_blank'
         rel='noreferrer'
-        css={css`
-          padding: 10px;
-        `}
       >
         <FaTwitter size={18} />
       </a>
       <a
+        className='p-3 text-22 hover:text-21'
         href='https://www.linkedin.com/in/ella-nan-a8b39027/'
         target='_blank'
         rel='noreferrer'
-        css={css`
-          padding: 10px;
-        `}
       >
         <GrLinkedin size={18} />
       </a>

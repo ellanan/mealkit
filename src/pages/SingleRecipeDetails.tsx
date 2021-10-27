@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useMutation, gql, useQuery, useApolloClient } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
@@ -232,14 +230,7 @@ export const SingleRecipeDetails = ({
 
   if (loadingRecipeDetails) {
     return (
-      <div
-        css={css`
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-grow: 1;
-        `}
-      >
+      <div className='flex justify-center items-center flex-grow'>
         <Spinner
           thickness='4px'
           speed='0.65s'
@@ -253,20 +244,8 @@ export const SingleRecipeDetails = ({
 
   return (
     <>
-      <ul
-        css={css`
-          margin: 1rem;
-          color: #593e31;
-          flex-grow: 1;
-        `}
-      >
-        <li
-          css={css`
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-          `}
-        >
+      <ul className='m-4 text-14 flex-grow'>
+        <li className='flex items-center mb-4'>
           <label>
             {recipeDetails?.recipe?.name && (
               <Editable
@@ -324,25 +303,15 @@ export const SingleRecipeDetails = ({
         <li>
           {recipeDetails?.recipe?.imageUrl && (
             <img
+              className='max-h-xs max-w-xs object-cover mb-2 rounded-md'
               src={recipeDetails.recipe.imageUrl}
               alt=''
-              css={css`
-                max-height: 300px;
-                max-width: 300px;
-                object-fit: cover;
-                margin-bottom: 0.6rem;
-                border-radius: 5px;
-              `}
             />
           )}
           <input
+            className='mb-4 text-xs text-transparent'
             type='file'
             name='test'
-            css={css`
-              margin-bottom: 1rem;
-              font-size: 0.8rem;
-              color: transparent;
-            `}
             onChange={async (e) => {
               const fileToUpload = e.target.files?.[0];
               if (!fileToUpload) return;
@@ -368,11 +337,7 @@ export const SingleRecipeDetails = ({
             }}
           />
         </li>
-        <li
-          css={css`
-            margin-bottom: 1rem;
-          `}
-        >
+        <li className='mb-4'>
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -386,29 +351,19 @@ export const SingleRecipeDetails = ({
             }}
           >
             <label
+              className='relative'
               tabIndex={0}
-              css={css`
-                position: relative;
-              `}
               onClick={() => {
                 if (!isEditingRecipeContent) {
                   setIsEditingRecipeContent(true);
                 }
               }}
             >
-              <span
-                css={css`
-                  font-weight: 600;
-                `}
-              >
+              <span className='font-semibold'>
                 Content <EditIcon w='3' h='3' />
                 <br />
               </span>
-              <div
-                css={css`
-                  margin-left: 0.5rem;
-                `}
-              >
+              <div className='ml-2'>
                 {!isEditingRecipeContent && (
                   <div
                     dangerouslySetInnerHTML={{
@@ -460,11 +415,7 @@ export const SingleRecipeDetails = ({
         </li>
         <li>
           <label>
-            <span
-              css={css`
-                font-weight: 600;
-              `}
-            >
+            <span className='font-semibold'>
               Ingredients <br />
             </span>
             <Creatable
@@ -519,23 +470,10 @@ export const SingleRecipeDetails = ({
           {recipeDetails?.recipe?.ingredientQuantities?.map(
             ({ unit, amount, ingredient }) => {
               return (
-                <div
-                  key={ingredient.id}
-                  css={css`
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                  `}
-                >
-                  <div
-                    css={css`
-                      display: flex;
-                      flex-direction: row;
-                      align-items: center;
-                      margin-left: 0.5rem;
-                    `}
-                  >
+                <div className='flex flex-row items-center' key={ingredient.id}>
+                  <div className='flex flex-row items-center ml-2'>
                     <Editable
+                      className='pr-1'
                       defaultValue={`${amount}`}
                       onSubmit={(newValue) => {
                         updateIngredientQuantityInRecipe({
@@ -546,14 +484,12 @@ export const SingleRecipeDetails = ({
                           },
                         });
                       }}
-                      css={css`
-                        padding-right: 5px;
-                      `}
                     >
                       <EditablePreview />
                       <EditableInput type='number' />
                     </Editable>
                     <Editable
+                      className='pr-1'
                       defaultValue={unit}
                       onSubmit={(newValue) => {
                         updateIngredientQuantityInRecipe({
@@ -564,25 +500,13 @@ export const SingleRecipeDetails = ({
                           },
                         });
                       }}
-                      css={css`
-                        padding-right: 5px;
-                      `}
                     >
                       <EditablePreview />
                       <EditableInput type='text' />
                     </Editable>
                     {ingredient.name}
                     <button
-                      css={css`
-                        display: flex;
-                        align-items: center;
-                        margin-left: 0.3rem;
-                        height: 1.3rem;
-                        :hover {
-                          background-color: #f7c481;
-                          border-radius: 60px;
-                        }
-                      `}
+                      className='flex items-center ml-1 h-5 hover:bg-26 rounded-full'
                       onClick={() => {
                         removeIngredientFromRecipe({
                           variables: {

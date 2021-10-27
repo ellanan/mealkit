@@ -31,41 +31,13 @@ export const Recipes = () => {
 
   return (
     <>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-          margin-top: 2rem;
-        `}
-      >
-        <InputGroup
-          borderColor='#ebb59c'
-          mx='2'
-          w='auto'
-          css={css`
-            & ::placeholder {
-              color: #555;
-            }
-          `}
-        >
+      <div className='flex flex-col items-center justify-center mt-8'>
+        <InputGroup borderColor='#ebb59c' mx='2' w='auto'>
           <InputLeftElement
             pointerEvents='none'
             ml='1'
             children={
-              <Search2Icon
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  height: 15px;
-                  width: 15px;
-                  margin-right: 0.5em;
-                  left: 0;
-                  color: #ebb59c;
-                `}
-              />
+              <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 left-0 text-17' />
             }
           />
           <Input
@@ -80,6 +52,7 @@ export const Recipes = () => {
           />
         </InputGroup>
         <NavLink
+          className='flex items-center justify-center text-25 font-medium text-sm mt-3 mb-3'
           to={(location) => {
             const newQueryParams = new URLSearchParams(location.search);
             newQueryParams.append('modalCreateRecipe', 'visible');
@@ -89,26 +62,13 @@ export const Recipes = () => {
               search: newQueryParams.toString(),
             };
           }}
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fa7532;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 0.6rem;
-            margin-bottom: 0.6rem;
-          `}
         >
           <SmallAddIcon w={4} h={4} /> Create Recipe
         </NavLink>
       </div>
       <div
+        className='flex flex-col overflow-auto'
         css={css`
-          display: flex;
-          flex-direction: column;
-          overflow: auto;
-
           scrollbar-width: thin;
           scrollbar-color: #e7a47a60 transparent;
           ::-webkit-scrollbar {
@@ -131,6 +91,7 @@ export const Recipes = () => {
           )
           .map((recipe) => (
             <NavLink
+              className='flex items-center py-1 px-4 text-14 text-sm'
               key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);
@@ -142,13 +103,6 @@ export const Recipes = () => {
                 };
               }}
               css={css`
-                display: flex;
-                align-items: center;
-                padding: 0.4em 1em;
-                color: #593e31;
-                font-size: 14px;
-                line-height: 1.2;
-
                 :hover {
                   background-image: linear-gradient(
                     to right,
@@ -160,15 +114,9 @@ export const Recipes = () => {
               `}
             >
               <img
+                className='w-12 h-12 rounded-full mr-2 object-cover'
                 src={recipe.imageUrl ?? defaultImg}
                 alt=''
-                css={css`
-                  width: 3rem;
-                  height: 3rem;
-                  border-radius: 100px;
-                  margin-right: 0.5rem;
-                  object-fit: cover;
-                `}
               />
               {recipe.name}
             </NavLink>

@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { NavLink } from 'react-router-dom';
 
 import { Recipes } from '../pages/Recipes';
@@ -7,59 +5,19 @@ import { Footer } from './Footer';
 
 export const Sidebar = () => {
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background-color: #fff2ec;
-        border-right: 1px solid #ffddcd;
-        height: 100%;
-        padding-top: 1rem;
-        font-family: 'Raleway', sans-serif;
-      `}
-    >
+    <div className='flex flex-col items-center justify-center bg-24 h-full pt-4 font-Raleway'>
       <NavLink to='/'>
-        <h1
-          css={css`
-            font-size: 18px;
-            font-weight: 500;
-            font-family: 'Montserrat', sans-serif;
-            color: #f59769;
-          `}
-        >
-          MealKit
-        </h1>
+        <h1 className='text-lg font-medium text-23 font-Montserrat'>MealKit</h1>
       </NavLink>
-      <div
-        css={css`
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-        `}
-      >
+      <div className='flex flex-col overflow-hidden'>
         <Recipes />
       </div>
-      <ul
-        css={css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-end;
-          width: 100%;
-          font-weight: 500;
-        `}
-      >
+      <ul className='flex flex-col items-center justify-end w-full font-medium'>
         {/* <Li>
           <NavLink
+            className='h-full mt-auto'
             to='/login'
-            className='main-nav-link'
             activeClassName='active'
-            css={css`
-              height: 100%;
-              margin-top: auto;
-            `}
           >
             Login
           </NavLink>

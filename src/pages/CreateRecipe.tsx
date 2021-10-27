@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
@@ -82,12 +80,7 @@ export const CreateRecipe = () => {
   }
 
   return (
-    <div
-      css={css`
-        margin: 1rem;
-        color: #593e31;
-      `}
-    >
+    <div className='m-4 text-14'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -111,12 +104,7 @@ export const CreateRecipe = () => {
         }}
       >
         <ul>
-          <li
-            css={css`
-              font-weight: 600;
-              margin-bottom: 1rem;
-            `}
-          >
+          <li className='font-semibold mb-4'>
             <FormControl id='recipeName'>
               <FormLabel fontWeight={600}>Recipe Name</FormLabel>
               <Input
@@ -132,31 +120,17 @@ export const CreateRecipe = () => {
               />
             </FormControl>
           </li>
-          <li
-            css={css`
-              font-weight: 600;
-              margin-bottom: 1rem;
-            `}
-          >
+          <li className='font-semibold mb-4'>
             <label>
               Image <br />
               <img
+                className='max-h-72 max-w-72 object-cover mb-2 rounded-md'
                 src={formData.imageUrl ?? ''}
                 alt=''
-                css={css`
-                  max-height: 300px;
-                  max-width: 300px;
-                  object-fit: cover;
-                  margin-bottom: 0.6rem;
-                  border-radius: 5px;
-                `}
               />
               <input
+                className='text-xs text-transparent'
                 type='file'
-                css={css`
-                  font-size: 0.8rem;
-                  color: transparent;
-                `}
                 onChange={async (e) => {
                   const fileToUpload = e.target.files?.[0];
                   if (!fileToUpload) return;
@@ -185,13 +159,7 @@ export const CreateRecipe = () => {
               />
             </label>
           </li>
-          <li
-            css={css`
-              font-weight: 600;
-              margin-bottom: 1rem;
-              position: relative;
-            `}
-          >
+          <li className='font-semibold mb-4 relative'>
             <label>
               Content <br />
               <Editor
@@ -217,19 +185,9 @@ export const CreateRecipe = () => {
               />
             </label>
           </li>
-          <li
-            css={css`
-              margin-bottom: 1rem;
-            `}
-          >
+          <li className='mb-4'>
             <label>
-              <span
-                css={css`
-                  font-weight: 600;
-                `}
-              >
-                Ingredients <br />
-              </span>
+              <span className='font-semibold'>Ingredients</span>
               <Creatable
                 options={ingredientsData?.ingredients?.map((ingredient) => {
                   return { value: ingredient.id, label: ingredient.name };
@@ -299,20 +257,10 @@ export const CreateRecipe = () => {
                 ({ unit, amount, ingredient }) => {
                   return (
                     <div
+                      className='flex flex-row items-center ml-4 mt-2'
                       key={ingredient.id}
-                      css={css`
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        margin-left: 1rem;
-                        margin-top: 0.5rem;
-                      `}
                     >
-                      <li
-                        css={css`
-                          min-width: 30rem;
-                        `}
-                      >
+                      <li className='min-w-30'>
                         <input
                           type='number'
                           value={amount}
