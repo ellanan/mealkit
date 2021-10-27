@@ -99,14 +99,10 @@ export const ShoppingList = () => {
     .flat();
 
   return (
-    <div className='m-4'>
-      <button onClick={() => setShowCalendar((prevState) => !prevState)}>
-        {`shopping list for ${[range.startDate.toLocaleDateString()]} to ${[
-          range.endDate.toLocaleDateString(),
-        ]}`}
-      </button>
+    <div className='flex flex-col m-4 max-w-l text-14'>
       {showCalendar ? (
         <DateRange
+          className='flex items-center mt-1'
           weekStartsOn={1}
           editableDateInputs={false}
           onChange={(item) => {
@@ -116,9 +112,17 @@ export const ShoppingList = () => {
           ranges={[range]}
           showMonthAndYearPickers={false}
           showDateDisplay={false}
-          rangeColors={['#ebb39b']}
+          rangeColors={['#f7af90']}
         />
       ) : null}
+      <button
+        className='flex justify-start mb-3 font-semibold'
+        onClick={() => setShowCalendar((prevState) => !prevState)}
+      >
+        {`Shopping list for ${[range.startDate.toLocaleDateString()]} to ${[
+          range.endDate.toLocaleDateString(),
+        ]}:`}
+      </button>
       {Object.values(
         _.groupBy(
           ingredientQuantities,
@@ -126,12 +130,12 @@ export const ShoppingList = () => {
         )
       ).map((ingredientQuantities) => (
         <div
-          key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
+          key={ingredientQuantities[0].ingredient.type?.id ?? 'Uncategorized'}
         >
-          <div className='font-bold'>
-            {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
+          <div className='font-medium text-s'>
+            {ingredientQuantities[0].ingredient.type?.name ?? 'Uncategorized'}
           </div>
-          <ul>
+          <ul className='mb-2'>
             {Object.values(
               _.groupBy(
                 ingredientQuantities,
