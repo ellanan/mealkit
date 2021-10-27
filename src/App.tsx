@@ -10,8 +10,8 @@ import { SingleRecipeDetails } from './pages/SingleRecipeDetails';
 import { MealPlan } from './pages/MealPlan';
 import { ShoppingList } from './pages/ShoppingList';
 import { Login } from './pages/Login';
-import { RecipeModal } from './components/RecipeModal';
-import { CreateRecipeModal } from './components/CreateRecipeModal';
+import { RecipeModal } from './components/modals/RecipeModal';
+import { CreateRecipeModal } from './components/modals/CreateRecipeModal';
 
 const App = () => {
   return (

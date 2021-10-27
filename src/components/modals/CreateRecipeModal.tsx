@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 
-import { CreateRecipe } from '../pages/CreateRecipe';
+import { CreateRecipe } from '../../pages/CreateRecipe';
 
 export const CreateRecipeModal = () => {
   const history = useHistory();
