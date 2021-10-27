@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { DateRange } from 'react-date-range';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
@@ -47,7 +45,7 @@ export const ShoppingList = () => {
   const [range, setRange] = useShoppingListPersistedState();
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
 
-  const { data, error } = useQuery<
+  const { data, error: errorGeneratingShoppingList } = useQuery<
     GraphQLTypes.ShoppingListQuery,
     GraphQLTypes.ShoppingListQueryVariables
   >(
@@ -90,8 +88,8 @@ export const ShoppingList = () => {
       skip: !range.startDate || !range.endDate,
     }
   );
-  if (error) {
-    throw error;
+  if (errorGeneratingShoppingList) {
+    throw errorGeneratingShoppingList;
   }
 
   const ingredientQuantities = data?.currentUser?.mealPlan?.schedule
@@ -101,7 +99,7 @@ export const ShoppingList = () => {
     .flat();
 
   return (
-    <>
+    <div className='m-4'>
       <button onClick={() => setShowCalendar((prevState) => !prevState)}>
         {`shopping list for ${[range.startDate.toLocaleDateString()]} to ${[
           range.endDate.toLocaleDateString(),
@@ -130,14 +128,9 @@ export const ShoppingList = () => {
         <div
           key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
         >
-          <div
-            css={css`
-              font-weight: 700;
-            `}
-          >
+          <div className='font-bold'>
             {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
           </div>
-
           <ul>
             {Object.values(
               _.groupBy(
@@ -147,10 +140,8 @@ export const ShoppingList = () => {
             ).map((ingredientQuantities) => {
               return (
                 <li
+                  className='ml-4'
                   key={ingredientQuantities[0].ingredient.id}
-                  css={css`
-                    margin-left: 1em;
-                  `}
                 >
                   {` - ${_.sumBy(ingredientQuantities, (x) => x.amount)}
                     ${ingredientQuantities[0].unit}
@@ -162,6 +153,6 @@ export const ShoppingList = () => {
           </ul>
         </div>
       ))}
-    </>
+    </div>
   );
 };
