@@ -2,8 +2,9 @@ import { DateRange } from 'react-date-range';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
 import { DateTime } from 'luxon';
+import { Spinner } from '@chakra-ui/react';
 import createPersistedState from 'use-persisted-state';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import _ from 'lodash';
 
 const useRawShoppingListPersistedState = createPersistedState('shopping list');
@@ -43,9 +44,12 @@ const useShoppingListPersistedState = () => {
 
 export const ShoppingList = () => {
   const [range, setRange] = useShoppingListPersistedState();
-  const [showCalendar, setShowCalendar] = useState<boolean>(false);
 
-  const { data, error: errorGeneratingShoppingList } = useQuery<
+  const {
+    data,
+    error: errorGeneratingShoppingList,
+    loading: loadingShoppingList,
+  } = useQuery<
     GraphQLTypes.ShoppingListQuery,
     GraphQLTypes.ShoppingListQueryVariables
   >(
@@ -100,29 +104,30 @@ export const ShoppingList = () => {
 
   return (
     <div className='flex flex-col m-4 max-w-l text-14'>
-      {showCalendar ? (
-        <DateRange
-          className='flex items-center mt-1'
-          weekStartsOn={1}
-          editableDateInputs={false}
-          onChange={(item) => {
-            setRange(item[range.key]);
-          }}
-          moveRangeOnFirstSelection={false}
-          ranges={[range]}
-          showMonthAndYearPickers={false}
-          showDateDisplay={false}
-          rangeColors={['#f7af90']}
-        />
-      ) : null}
-      <button
-        className='flex justify-start mb-3 font-semibold'
-        onClick={() => setShowCalendar((prevState) => !prevState)}
-      >
+      <DateRange
+        className='flex items-center mt-1'
+        weekStartsOn={1}
+        editableDateInputs={false}
+        moveRangeOnFirstSelection={false}
+        ranges={[range]}
+        showMonthAndYearPickers={false}
+        showDateDisplay={false}
+        rangeColors={['#f7af90']}
+        onChange={(item) => {
+          setRange(item[range.key]);
+        }}
+      />
+      <div className='mb-3 font-medium text-lg'>
         {`Shopping list for ${[range.startDate.toLocaleDateString()]} to ${[
           range.endDate.toLocaleDateString(),
         ]}:`}
-      </button>
+      </div>
+      {loadingShoppingList ? (
+        <div className='flex items-center justify-center italic text-base'>
+          <Spinner color='orange' size='md' />
+          generating shopping list...
+        </div>
+      ) : null}
       {Object.values(
         _.groupBy(
           ingredientQuantities,
@@ -132,10 +137,10 @@ export const ShoppingList = () => {
         <div
           key={ingredientQuantities[0].ingredient.type?.id ?? 'Uncategorized'}
         >
-          <div className='font-medium text-s'>
+          <div className='flex items-center justify-center font-normal text-base bg-27'>
             {ingredientQuantities[0].ingredient.type?.name ?? 'Uncategorized'}
           </div>
-          <ul className='mb-2'>
+          <ul className='mb-2 text-base'>
             {Object.values(
               _.groupBy(
                 ingredientQuantities,
