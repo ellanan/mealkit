@@ -41,10 +41,6 @@ export const AddRecipeToMealPlanForm = ({
 
   return (
     <div>
-      <div className='flex flex-row items-center m-3 h-10 p-4 rounded-2xl addRecipeToMealPlanFormBoxShadow'>
-        <label htmlFor='name'>
-          <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 text-17' />
-        </label>
         <input
           className='outline-none'
           type='text'
@@ -91,58 +87,39 @@ const RecipeOption = ({
   mealType: GraphQLTypes.MealType;
   onComplete: () => void;
 }) => {
-  const [
-    addRecipeToMealPlanMutation,
-    { error: errorAddingRecipeToMealPlan, client: apolloClient },
-  ] = useMutation<
-    GraphQLTypes.AddRecipeToMealPlanMutationMutation,
-    GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
-  >(
-    gql`
-      mutation AddRecipeToMealPlanMutation(
-        $mealPlanId: ID!
-        $recipeId: ID!
-        $date: String!
-        $mealType: MealType!
-      ) {
-        addRecipeToMealPlan(
-          mealPlanId: $mealPlanId
-          recipeId: $recipeId
-          date: $date
-          mealType: $mealType
+  const [addRecipeToMealPlanMutation, { error: errorAddingRecipeToMealPlan }] =
+    useMutation<
+      GraphQLTypes.AddRecipeToMealPlanMutationMutation,
+      GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
+    >(
+      gql`
+        mutation AddRecipeToMealPlanMutation(
+          $mealPlanId: ID!
+          $recipeId: ID!
+          $date: String!
+          $mealType: MealType!
         ) {
-          id
-          date
-          mealType
-          recipe {
+          addRecipeToMealPlan(
+            mealPlanId: $mealPlanId
+            recipeId: $recipeId
+            date: $date
+            mealType: $mealType
+          ) {
             id
-            name
-            imageUrl
+            date
+            mealType
+            recipe {
+              id
+              name
+              imageUrl
+            }
           }
         }
-      }
-    `,
-    {
-      onCompleted(response) {
-        const cache = apolloClient.cache;
-        cache.modify({
-          id: cache.identify(mealPlan),
-          fields: {
-            schedule(existingEntriesInSchedule) {
-              return existingEntriesInSchedule.concat(
-                response.addRecipeToMealPlan
-              );
-            },
-          },
-        });
-      },
-    }
-  );
+      `
+    );
   if (errorAddingRecipeToMealPlan) {
     throw errorAddingRecipeToMealPlan;
   }
-
-  const cache = apolloClient.cache;
 
   return (
     <Button
@@ -151,31 +128,7 @@ const RecipeOption = ({
       borderRadius='none'
       onClick={(e) => {
         e.preventDefault();
-        const tempNewEntryId = `temp-id:${recipe.id}:${date}:${mealType}`;
-        // update cache to add a temporary placeholder entry with an id we keep track of
-        cache.modify({
-          id: cache.identify(mealPlan),
-          fields: {
-            schedule(existingEntriesInSchedule: any, { readField }) {
-              // references https://www.apollographql.com/docs/react/caching/cache-interaction/#using-cachemodify
-              if (
-                existingEntriesInSchedule.some(
-                  (ref: any) => readField('id', ref) === tempNewEntryId
-                )
-              ) {
-                return existingEntriesInSchedule;
-              }
 
-              return existingEntriesInSchedule.concat({
-                __typename: 'MealPlanEntry',
-                id: tempNewEntryId,
-                date,
-                mealType,
-                recipe,
-              });
-            },
-          },
-        });
         // optimistically call oncomplete
         // TODO: handle when mutation fails
         onComplete();
@@ -186,19 +139,27 @@ const RecipeOption = ({
             date,
             mealType,
           },
-        }).then(() => {
-          // clean up the placeholder in cache to avoid duplicate entries
-          cache.modify({
-            id: cache.identify(mealPlan),
-            fields: {
-              schedule(existingEntriesInSchedule: any, { readField }) {
-                return existingEntriesInSchedule.filter(
-                  (existingEntry: any) =>
-                    readField('id', existingEntry) !== tempNewEntryId
-                );
+          update(cache, { data }) {
+            cache.modify({
+              id: cache.identify(mealPlan),
+              fields: {
+                schedule(existingEntriesInSchedule = []) {
+                  return existingEntriesInSchedule.concat(
+                    data?.addRecipeToMealPlan
+                  );
+                },
               },
+            });
+          },
+          optimisticResponse: {
+            addRecipeToMealPlan: {
+              __typename: 'MealPlanEntry',
+              id: `temp-id:${recipe.id}:${date}:${mealType}`,
+              date,
+              mealType,
+              recipe,
             },
-          });
+          },
         });
       }}
     >

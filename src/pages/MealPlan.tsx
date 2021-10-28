@@ -75,26 +75,22 @@ export const MealPlan = () => {
     throw error;
   }
 
-  const [
-    deleteMealPlanEntryMutation,
-    { error: errorDeletingMealPlanEntry, client: apolloClient },
-  ] = useMutation<
-    GraphQLTypes.DeleteMealPlanEntryMutationMutation,
-    GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
-  >(
-    gql`
-      mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
-        deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
-          id
+  const [deleteMealPlanEntryMutation, { error: errorDeletingMealPlanEntry }] =
+    useMutation<
+      GraphQLTypes.DeleteMealPlanEntryMutationMutation,
+      GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
+    >(
+      gql`
+        mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
+          deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
+            id
+          }
         }
-      }
-    `
-  );
+      `
+    );
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
-
-  const cache = apolloClient.cache;
 
   const mealPlan = data?.currentUser?.mealPlan;
 
@@ -161,14 +157,13 @@ export const MealPlan = () => {
                               className='group focus:shadow-none'
                               size='xs'
                               variant='unstyled'
+                              aria-label={`add recipe to ${mealType}`}
                               onClick={() => {
                                 setMealTypeAndDate({
                                   mealType,
                                   date: day.toISODate(),
                                 });
                               }}
-                              aria-label={`add recipe to ${mealType}`}
-                              display='flex'
                             >
                               {mealType}
                               <AddIcon
@@ -274,21 +269,27 @@ export const MealPlan = () => {
                               variables: {
                                 mealPlanEntryId: entry.id,
                               },
-                            });
-
-                            // update cache before server mutation completes
-                            cache.modify({
-                              id: cache.identify(mealPlan),
-                              fields: {
-                                schedule(
-                                  existingEntriesInSchedule,
-                                  { readField }
-                                ) {
-                                  return existingEntriesInSchedule.filter(
-                                    (existingEntry: any) =>
-                                      readField('id', existingEntry) !==
-                                      entry.id
-                                  );
+                              update(cache) {
+                                cache.modify({
+                                  id: cache.identify(mealPlan),
+                                  fields: {
+                                    schedule(
+                                      existingEntriesInSchedule,
+                                      { readField }
+                                    ) {
+                                      return existingEntriesInSchedule.filter(
+                                        (existingEntry: any) =>
+                                          readField('id', existingEntry) !==
+                                          entry.id
+                                      );
+                                    },
+                                  },
+                                });
+                              },
+                              optimisticResponse: {
+                                deleteMealPlanEntry: {
+                                  __typename: 'MealPlanEntry',
+                                  id: entry.id,
                                 },
                               },
                             });

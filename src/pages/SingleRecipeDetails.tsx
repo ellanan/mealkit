@@ -24,7 +24,6 @@ export const SingleRecipeDetails = ({
   const [isEditingRecipeContent, setIsEditingRecipeContent] =
     useState<boolean>(false);
   const [recipeContent, setRecipeContent] = useState<string>('');
-  const { cache } = useApolloClient();
 
   const {
     data: recipeDetails,
@@ -275,24 +274,30 @@ export const SingleRecipeDetails = ({
                 variables: {
                   recipeId,
                 },
-              });
-
-              onClose?.();
-
-              // update cache before server mutation completes
-              cache.modify({
-                id: cache.identify({
-                  __typename: 'Query',
-                }),
-                fields: {
-                  recipes(existingRecipes, { readField }) {
-                    return existingRecipes.filter(
-                      (existingRecipe: any) =>
-                        readField('id', existingRecipe) !== recipeId
-                    );
+                update: (cache) => {
+                  cache.modify({
+                    id: cache.identify({
+                      __typename: 'Query',
+                    }),
+                    fields: {
+                      recipes(existingRecipes, { readField }) {
+                        return existingRecipes.filter(
+                          (existingRecipe: any) =>
+                            readField('id', existingRecipe) !== recipeId
+                        );
+                      },
+                    },
+                  });
+                },
+                optimisticResponse: {
+                  deleteRecipe: {
+                    __typename: 'Recipe',
+                    id: recipeId,
                   },
                 },
               });
+
+              onClose?.();
             }}
             size={'sm'}
           >
