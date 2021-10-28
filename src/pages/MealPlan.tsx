@@ -186,6 +186,11 @@ export const MealPlan = () => {
                                   mealPlan={data.currentUser.mealPlan}
                                   date={mealTypeAndDate.date}
                                   mealType={mealTypeAndDate.mealType}
+                                  recipesToDisable={
+                                    mealPlanEntries?.map(
+                                      (entry) => entry.recipe
+                                    ) ?? []
+                                  }
                                   autoFocusRef={initRef}
                                   onClose={onClose}
                                 />

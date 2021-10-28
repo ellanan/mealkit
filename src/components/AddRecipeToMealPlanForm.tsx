@@ -12,12 +12,14 @@ export const AddRecipeToMealPlanForm = ({
   mealType,
   autoFocusRef,
   onClose,
+  recipesToDisable,
 }: {
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
   autoFocusRef: MutableRefObject<any>;
   onClose: () => void;
+  recipesToDisable: GraphQLTypes.RecipesQuery['recipes'];
 }) => {
   const [searchRecipe, setSearchRecipe] = useState<String>('');
 
@@ -70,6 +72,7 @@ export const AddRecipeToMealPlanForm = ({
               date={date}
               mealType={mealType}
               onClose={onClose}
+              recipesToDisable={recipesToDisable}
             />
           ))}
       </div>
@@ -83,12 +86,14 @@ const RecipeOption = ({
   date,
   mealType,
   onClose,
+  recipesToDisable,
 }: {
   recipe: GraphQLTypes.RecipesQuery['recipes'][number];
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
   onClose: () => void;
+  recipesToDisable: GraphQLTypes.RecipesQuery['recipes'];
 }) => {
   const [addRecipeToMealPlanMutation, { error: errorAddingRecipeToMealPlan }] =
     useMutation<
@@ -129,6 +134,9 @@ const RecipeOption = ({
       className='flex flex-row justify-start bg-white p-4 w-full hover:bg-18 hover:text-19'
       size={'xs'}
       borderRadius='none'
+      isDisabled={recipesToDisable.some(
+        (recipeAlreadyInMealPlan) => recipeAlreadyInMealPlan.id === recipe.id
+      )}
       onClick={(e) => {
         e.preventDefault();
 
