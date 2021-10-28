@@ -6,6 +6,7 @@ import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Spinner } from '@chakra-ui/spinner';
 
 const defaultImg = require('../images/defaultImg.jpg').default;
 
@@ -113,11 +114,18 @@ export const Recipes = () => {
                 }
               `}
             >
-              <img
-                className='w-12 h-12 rounded-full mr-2 object-cover'
-                src={recipe.imageUrl ?? defaultImg}
-                alt=''
-              />
+              <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden'>
+                <img
+                  className='object-cover w-full h-full'
+                  src={recipe.imageUrl ?? defaultImg}
+                  alt=''
+                />
+                {recipe.id.startsWith('temp-id') && (
+                  <div className='flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm'>
+                    <Spinner size='sm' color='#f88c5a' />
+                  </div>
+                )}
+              </div>
               {recipe.name}
             </NavLink>
           ))}
