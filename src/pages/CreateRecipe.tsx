@@ -23,7 +23,7 @@ const initalFormDataState: CreateRecipeForm = {
   content: '',
 };
 
-export const CreateRecipe = () => {
+export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   const [formData, setFormData] =
     useState<CreateRecipeForm>(initalFormDataState);
 
@@ -101,6 +101,7 @@ export const CreateRecipe = () => {
             console.log('created recipe', response.data?.createRecipe?.id);
           });
           setFormData(initalFormDataState);
+          onClose?.();
         }}
       >
         <ul>

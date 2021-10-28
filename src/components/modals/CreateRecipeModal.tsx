@@ -3,6 +3,7 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 
@@ -14,21 +15,21 @@ export const CreateRecipeModal = () => {
   const currentQueryParams = new URLSearchParams(location.search);
   const modalCreateRecipe = currentQueryParams.has('modalCreateRecipe');
 
-  return (
-    <Modal
-      onClose={() => {
-        const newQueryParams = new URLSearchParams(location.search);
-        newQueryParams.delete('modalCreateRecipe');
+  const { isOpen, onClose } = useDisclosure({
+    isOpen: !!modalCreateRecipe,
+    onClose: () => {
+      const newQueryParams = new URLSearchParams(location.search);
+      newQueryParams.delete('modalCreateRecipe');
 
-        history.push({
-          ...location,
-          search: newQueryParams.toString(),
-        });
-      }}
-      isOpen={modalCreateRecipe}
-      autoFocus={false}
-      trapFocus={false}
-    >
+      history.push({
+        ...location,
+        search: newQueryParams.toString(),
+      });
+    },
+  });
+
+  return (
+    <Modal onClose={onClose} isOpen={isOpen} autoFocus={false}>
       <ModalOverlay />
       <ModalContent
         minHeight='50vh'
@@ -36,7 +37,7 @@ export const CreateRecipeModal = () => {
         minWidth='60vw'
         overflow='auto'
       >
-        {modalCreateRecipe && <CreateRecipe />}
+        {modalCreateRecipe && <CreateRecipe onClose={onClose} />}
         <ModalCloseButton />
       </ModalContent>
     </Modal>
