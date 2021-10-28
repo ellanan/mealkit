@@ -1,5 +1,5 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
-import type * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../generated/graphql';
 import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
@@ -56,9 +56,10 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         content: $content
         ingredientQuantities: $ingredientQuantities
       ) {
-        id
+        ...RecipeInList
       }
     }
+    ${GraphQLTypes.RecipeInListFragmentDoc}
   `);
   if (errorCreatingRecipe) {
     throw errorCreatingRecipe;
@@ -97,8 +98,32 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 })
               ),
             },
-          }).then((response) => {
-            console.log('created recipe', response.data?.createRecipe?.id);
+            update: (cache, { data }) => {
+              cache.modify({
+                id: cache.identify({
+                  __typename: 'Query',
+                }),
+                fields: {
+                  recipes(existingRecipes) {
+                    console.log('---3', data?.createRecipe, existingRecipes);
+                    return existingRecipes.concat(data?.createRecipe);
+                  },
+                },
+              });
+            },
+            optimisticResponse: {
+              createRecipe: {
+                __typename: 'Recipe',
+                id: `temp-id:${formData.recipeName}`,
+                name: formData.recipeName,
+                imageUrl: formData.imageUrl,
+                category: {
+                  __typename: 'RecipeCategory',
+                  id: 'temp-id:category',
+                  name: 'temp-name:category',
+                },
+              },
+            },
           });
           setFormData(initalFormDataState);
           onClose?.();

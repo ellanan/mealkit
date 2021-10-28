@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useQuery, gql } from '@apollo/client';
-import type * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../generated/graphql';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { useState } from 'react';
@@ -16,15 +16,10 @@ export const Recipes = () => {
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
     query Recipes {
       recipes {
-        id
-        name
-        imageUrl
-        category {
-          id
-          name
-        }
+        ...RecipeInList
       }
     }
+    ${GraphQLTypes.RecipeInListFragmentDoc}
   `);
   if (error) {
     throw error;

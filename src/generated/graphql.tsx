@@ -215,7 +215,7 @@ export type CreateRecipeMutationVariables = Exact<{
 }>;
 
 
-export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe?: { __typename?: 'Recipe', id: string } | null | undefined };
+export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined } | null | undefined };
 
 export type CreateIngredientMutationVariables = Exact<{
   name: Scalars['String'];
@@ -302,7 +302,19 @@ export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
 
 export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
 
+export type RecipeInListFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined };
 
+export const RecipeInListFragmentDoc = gql`
+    fragment RecipeInList on Recipe {
+  id
+  name
+  imageUrl
+  category {
+    id
+    name
+  }
+}
+    `;
 export const RecipesAvailableDocument = gql`
     query RecipesAvailable {
   recipes {
@@ -434,10 +446,10 @@ export const CreateRecipeDocument = gql`
     content: $content
     ingredientQuantities: $ingredientQuantities
   ) {
-    id
+    ...RecipeInList
   }
 }
-    `;
+    ${RecipeInListFragmentDoc}`;
 export type CreateRecipeMutationFn = Apollo.MutationFunction<CreateRecipeMutation, CreateRecipeMutationVariables>;
 
 /**
@@ -586,16 +598,10 @@ export type DeleteMealPlanEntryMutationMutationOptions = Apollo.BaseMutationOpti
 export const RecipesDocument = gql`
     query Recipes {
   recipes {
-    id
-    name
-    imageUrl
-    category {
-      id
-      name
-    }
+    ...RecipeInList
   }
 }
-    `;
+    ${RecipeInListFragmentDoc}`;
 
 /**
  * __useRecipesQuery__

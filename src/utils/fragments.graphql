@@ -1,0 +1,9 @@
+fragment RecipeInList on Recipe {
+  id
+  name
+  imageUrl
+  category {
+    id
+    name
+  }
+}
