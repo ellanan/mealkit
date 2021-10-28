@@ -187,7 +187,7 @@ export const MealPlan = () => {
                                   date={mealTypeAndDate.date}
                                   mealType={mealTypeAndDate.mealType}
                                   autoFocusRef={initRef}
-                                  onComplete={onClose}
+                                  onClose={onClose}
                                 />
                               )}
                           </PopoverContent>

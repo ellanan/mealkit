@@ -11,13 +11,13 @@ export const AddRecipeToMealPlanForm = ({
   date,
   mealType,
   autoFocusRef,
-  onComplete,
+  onClose,
 }: {
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
   autoFocusRef: MutableRefObject<any>;
-  onComplete: () => void;
+  onClose: () => void;
 }) => {
   const [searchRecipe, setSearchRecipe] = useState<String>('');
 
@@ -69,7 +69,7 @@ export const AddRecipeToMealPlanForm = ({
               mealPlan={mealPlan}
               date={date}
               mealType={mealType}
-              onComplete={onComplete}
+              onClose={onClose}
             />
           ))}
       </div>
@@ -82,13 +82,13 @@ const RecipeOption = ({
   mealPlan,
   date,
   mealType,
-  onComplete,
+  onClose,
 }: {
   recipe: GraphQLTypes.RecipesQuery['recipes'][number];
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
-  onComplete: () => void;
+  onClose: () => void;
 }) => {
   const [addRecipeToMealPlanMutation, { error: errorAddingRecipeToMealPlan }] =
     useMutation<
@@ -132,9 +132,9 @@ const RecipeOption = ({
       onClick={(e) => {
         e.preventDefault();
 
-        // optimistically call oncomplete
+        // optimistically call onClose
         // TODO: handle when mutation fails
-        onComplete();
+        onClose();
         addRecipeToMealPlanMutation({
           variables: {
             mealPlanId: mealPlan.id,
