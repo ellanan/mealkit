@@ -31,15 +31,12 @@ module.exports = {
       },
       boxShadow: {
         none: 'none',
-        addRecipeToMealPlanFormBoxShadow:
+        addRecipeToMealPlanFormSearchbox:
           '0 0 4px 1px rgba(235, 181, 156, 0.3)',
       },
       fontFamily: {
         Montserrat: ['Montserrat', 'sans-serif'],
         Raleway: ['Raleway', 'sans-serif'],
-      },
-      minWidth: {
-        30: '30rem',
       },
     },
   },

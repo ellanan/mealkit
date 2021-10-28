@@ -260,7 +260,7 @@ export const CreateRecipe = () => {
                       className='flex flex-row items-center ml-4 mt-2'
                       key={ingredient.id}
                     >
-                      <li className='min-w-30'>
+                      <li className='min-w-[30rem]'>
                         <input
                           type='number'
                           value={amount}

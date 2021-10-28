@@ -41,9 +41,12 @@ export const AddRecipeToMealPlanForm = ({
 
   return (
     <div>
+      <div className='flex flex-row items-center m-3 h-10 px-3 rounded-2xl shadow-addRecipeToMealPlanFormSearchbox'>
+        <Search2Icon className='flex items-center justify-center h-4 w-4 mr-3 text-17' />
         <input
           className='outline-none'
           type='text'
+          aria-label='Search for a recipe'
           placeholder='search recipe'
           size={20}
           onChange={(e) => {
