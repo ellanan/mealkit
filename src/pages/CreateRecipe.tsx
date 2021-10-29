@@ -105,7 +105,6 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 }),
                 fields: {
                   recipes(existingRecipes) {
-                    console.log('---3', data?.createRecipe, existingRecipes);
                     return existingRecipes.concat(data?.createRecipe);
                   },
                 },
@@ -218,6 +217,13 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 options={ingredientsData?.ingredients?.map((ingredient) => {
                   return { value: ingredient.id, label: ingredient.name };
                 })}
+                isOptionDisabled={({ value }) =>
+                  formData.ingredientQuantities.some(
+                    ({ ingredient }) => ingredient.id === value
+                  )
+                }
+                isSearchable
+                placeholder='add ingredient'
                 onChange={async (newValue, actionMeta) => {
                   if (!newValue || !newValue.value) {
                     console.log(`no newValue`, actionMeta);
@@ -256,10 +262,12 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                   const newIngredient = ingredientsData?.ingredients?.find(
                     ({ id }) => id === newIngredientId
                   );
+
                   if (!newIngredient) {
                     console.log(`ingredient ${newValue.label} not found`);
                     return;
                   }
+
                   setFormData((prev) => ({
                     ...prev,
                     ingredientQuantities: prev.ingredientQuantities.concat({
@@ -269,13 +277,6 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                     }),
                   }));
                 }}
-                isOptionDisabled={({ value }) =>
-                  formData.ingredientQuantities.some(
-                    ({ ingredient }) => ingredient.id === value
-                  )
-                }
-                isSearchable
-                placeholder='add ingredient'
               />
             </label>
             <ul>
