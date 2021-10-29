@@ -136,6 +136,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 type='text'
                 width='50%'
                 value={formData.recipeName}
+                autoFocus={true}
                 onChange={(e) => {
                   const recipeName = e.target.value;
                   setFormData((prev) => {
