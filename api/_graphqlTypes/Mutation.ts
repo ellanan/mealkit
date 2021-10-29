@@ -218,6 +218,28 @@ export const Mutation = mutationType({
       },
     });
 
+    t.field('updateIngredient', {
+      type: 'Ingredient',
+      args: {
+        ingredientId: nonNull(idArg()),
+        ingredientTypeId: nonNull(idArg()),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.ingredient.update({
+          where: {
+            id: args.ingredientId,
+          },
+          data: {
+            ingredientType: {
+              connect: {
+                id: args.ingredientTypeId,
+              },
+            },
+          },
+        });
+      },
+    });
+
     t.field('addRecipeToMealPlan', {
       type: 'MealPlanEntry',
       args: {

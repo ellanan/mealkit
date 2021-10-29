@@ -47,6 +47,7 @@ type Mutation {
   deleteRecipe(recipeId: ID!): Recipe
   editRecipe(content: String, imageUrl: String, name: String, recipeId: String!): Recipe
   removeIngredientFromRecipe(ingredientId: ID!, recipeId: ID!): Recipe
+  updateIngredient(ingredientId: ID!, ingredientTypeId: ID!): Ingredient
   updateIngredientQuantityInRecipe(amount: Int, ingredientId: ID!, recipeId: ID!, unit: String): Recipe
 }
 

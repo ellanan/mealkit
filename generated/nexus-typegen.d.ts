@@ -86,6 +86,7 @@ export interface NexusGenFieldTypes {
     deleteRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     editRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     removeIngredientFromRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    updateIngredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     updateIngredientQuantityInRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
@@ -154,6 +155,7 @@ export interface NexusGenFieldTypeNames {
     deleteRecipe: 'Recipe'
     editRecipe: 'Recipe'
     removeIngredientFromRecipe: 'Recipe'
+    updateIngredient: 'Ingredient'
     updateIngredientQuantityInRecipe: 'Recipe'
   }
   Query: { // field return type name
@@ -238,6 +240,10 @@ export interface NexusGenArgTypes {
     removeIngredientFromRecipe: { // args
       ingredientId: string; // ID!
       recipeId: string; // ID!
+    }
+    updateIngredient: { // args
+      ingredientId: string; // ID!
+      ingredientTypeId: string; // ID!
     }
     updateIngredientQuantityInRecipe: { // args
       amount?: number | null; // Int
