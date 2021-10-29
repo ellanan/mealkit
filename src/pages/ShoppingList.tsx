@@ -125,7 +125,7 @@ export const ShoppingList = () => {
       {loadingShoppingList ? (
         <div className='flex items-center justify-center italic text-base'>
           <Spinner color='orange' size='md' />
-          generating shopping list...
+          loading shopping list...
         </div>
       ) : null}
       {Object.values(
@@ -144,13 +144,17 @@ export const ShoppingList = () => {
             {Object.values(
               _.groupBy(
                 ingredientQuantities,
-                (ingredientQuantity) => ingredientQuantity.ingredient.id
+                (ingredientQuantity) =>
+                  ingredientQuantity.ingredient.id + ingredientQuantity.unit
               )
             ).map((ingredientQuantities) => {
               return (
                 <li
                   className='ml-4'
-                  key={ingredientQuantities[0].ingredient.id}
+                  key={
+                    ingredientQuantities[0].ingredient.id +
+                    ingredientQuantities[0].unit
+                  }
                 >
                   {` - ${_.sumBy(ingredientQuantities, (x) => x.amount)}
                     ${ingredientQuantities[0].unit}
