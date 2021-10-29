@@ -1,9 +1,10 @@
 import { DateRange } from 'react-date-range';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
 import { DateTime } from 'luxon';
 import { Spinner } from '@chakra-ui/react';
 import createPersistedState from 'use-persisted-state';
+import Creatable from 'react-select/creatable';
 import { useMemo } from 'react';
 import _ from 'lodash';
 
@@ -55,6 +56,10 @@ export const ShoppingList = () => {
   >(
     gql`
       query ShoppingList($startDate: String!, $endDate: String!) {
+        ingredientTypes {
+          id
+          name
+        }
         currentUser {
           id
           mealPlan {
@@ -96,8 +101,46 @@ export const ShoppingList = () => {
     throw errorGeneratingShoppingList;
   }
 
+  const [createIngredientType, { error: errorCreatingIngredientType }] =
+    useMutation<
+      GraphQLTypes.CreateIngredientTypeMutation,
+      GraphQLTypes.CreateIngredientTypeMutationVariables
+    >(gql`
+      mutation CreateIngredientType($name: String!) {
+        createIngredientType(name: $name) {
+          id
+          name
+        }
+      }
+    `);
+  if (errorCreatingIngredientType) {
+    throw errorCreatingIngredientType;
+  }
+
+  const [updateIngredient, { error: errorUpdatingIngredient }] = useMutation<
+    GraphQLTypes.UpdateIngredientMutation,
+    GraphQLTypes.UpdateIngredientMutationVariables
+  >(gql`
+    mutation UpdateIngredient($ingredientId: ID!, $ingredientTypeId: ID!) {
+      updateIngredient(
+        ingredientId: $ingredientId
+        ingredientTypeId: $ingredientTypeId
+      ) {
+        id
+        name
+        type {
+          id
+          name
+        }
+      }
+    }
+  `);
+  if (errorUpdatingIngredient) {
+    throw errorUpdatingIngredient;
+  }
+
   const ingredientQuantities = data?.currentUser?.mealPlan?.schedule
-    .map((scheduledItem) => {
+    .map((scheduledItem: any) => {
       return scheduledItem?.recipe?.ingredientQuantities ?? [];
     })
     .flat();
@@ -122,12 +165,14 @@ export const ShoppingList = () => {
           range.endDate.toLocaleDateString(),
         ]}:`}
       </div>
+
       {loadingShoppingList ? (
         <div className='flex items-center justify-center italic text-base'>
           <Spinner color='orange' size='md' />
           loading shopping list...
         </div>
       ) : null}
+
       {Object.values(
         _.groupBy(
           ingredientQuantities,
@@ -150,7 +195,7 @@ export const ShoppingList = () => {
             ).map((ingredientQuantities) => {
               return (
                 <li
-                  className='ml-4'
+                  className='flex flex-row ml-4 w-full'
                   key={
                     ingredientQuantities[0].ingredient.id +
                     ingredientQuantities[0].unit
@@ -160,6 +205,52 @@ export const ShoppingList = () => {
                     ${ingredientQuantities[0].unit}
                     ${ingredientQuantities[0].ingredient.name}
                     `}
+
+                  <Creatable
+                    className='ml-auto mr-4 min-w-[150px]'
+                    options={data?.ingredientTypes.map(({ id, name }) => ({
+                      value: id,
+                      label: name,
+                    }))}
+                    isSearchable={true}
+                    isClearable={true}
+                    placeholder='type'
+                    onChange={async (newValue, actionMeta) => {
+                      if (!newValue || !newValue.value) {
+                        console.log(`no newValue`, actionMeta);
+                        return;
+                      }
+
+                      if (actionMeta.action === 'create-option') {
+                        const createIngredientTypeResult =
+                          await createIngredientType({
+                            variables: {
+                              name: newValue.value,
+                            },
+                          });
+
+                        if (
+                          !createIngredientTypeResult.data?.createIngredientType
+                        ) {
+                          console.log(
+                            'failed to create ingredient type',
+                            createIngredientTypeResult
+                          );
+                          return;
+                        }
+                      }
+
+                      if (actionMeta.action === 'select-option') {
+                        const updateIngredientResult = await updateIngredient({
+                          variables: {
+                            ingredientId: ingredientQuantities[0].ingredient.id,
+                            ingredientTypeId: newValue.value,
+                          },
+                        });
+                        return updateIngredientResult;
+                      }
+                    }}
+                  />
                 </li>
               );
             })}
