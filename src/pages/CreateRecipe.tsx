@@ -193,6 +193,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 value={formData.content}
                 init={{
                   height: 200,
+                  display: 'none',
                   menubar: false,
                   plugins: ['wordcount'],
                   toolbar:
