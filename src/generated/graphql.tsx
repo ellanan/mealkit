@@ -279,7 +279,7 @@ export type SingleRecipeQueryVariables = Exact<{
 }>;
 
 
-export type SingleRecipeQuery = { __typename?: 'Query', recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined };
+export type SingleRecipeQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined } | null | undefined, recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined };
 
 export type EditRecipeMutationVariables = Exact<{
   recipeId: Scalars['String'];
@@ -793,6 +793,12 @@ export type UpdateIngredientMutationResult = Apollo.MutationResult<UpdateIngredi
 export type UpdateIngredientMutationOptions = Apollo.BaseMutationOptions<UpdateIngredientMutation, UpdateIngredientMutationVariables>;
 export const SingleRecipeDocument = gql`
     query SingleRecipe($recipeId: ID!) {
+  currentUser {
+    id
+    mealPlan {
+      id
+    }
+  }
   recipe(recipeId: $recipeId) {
     id
     name

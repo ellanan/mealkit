@@ -35,6 +35,13 @@ export const SingleRecipeDetails = ({
   >(
     gql`
       query SingleRecipe($recipeId: ID!) {
+        currentUser {
+          id
+          mealPlan {
+            id
+          }
+        }
+
         recipe(recipeId: $recipeId) {
           id
           name
@@ -269,6 +276,7 @@ export const SingleRecipeDetails = ({
             type='button'
             variant='ghost'
             colorScheme='orange'
+            size={'sm'}
             onClick={(e) => {
               deleteRecipe({
                 variables: {
@@ -288,6 +296,20 @@ export const SingleRecipeDetails = ({
                       },
                     },
                   });
+
+                  if (!recipeDetails?.currentUser?.mealPlan) return;
+                  cache.modify({
+                    id: cache.identify(recipeDetails.currentUser.mealPlan),
+                    fields: {
+                      schedule(existingSchedule, { readField }) {
+                        return existingSchedule.filter(
+                          (entry: any) =>
+                            readField('id', readField('recipe', entry)) !==
+                            recipeId
+                        );
+                      },
+                    },
+                  });
                 },
                 optimisticResponse: {
                   deleteRecipe: {
@@ -299,7 +321,6 @@ export const SingleRecipeDetails = ({
 
               onClose?.();
             }}
-            size={'sm'}
           >
             <HiOutlineTrash width={12} height={12} />
           </Button>
