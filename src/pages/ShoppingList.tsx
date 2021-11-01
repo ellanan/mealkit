@@ -195,7 +195,7 @@ export const ShoppingList = () => {
             ).map((ingredientQuantities) => {
               return (
                 <li
-                  className='flex flex-row ml-4 w-full'
+                  className='flex flex-row ml-4 w-full group'
                   key={
                     ingredientQuantities[0].ingredient.id +
                     ingredientQuantities[0].unit
@@ -207,7 +207,7 @@ export const ShoppingList = () => {
                     `}
 
                   <Creatable
-                    className='ml-auto mr-4 min-w-[150px]'
+                    className='ml-auto mr-4 min-w-[150px] opacity-0 group-hover:opacity-100'
                     options={data?.ingredientTypes.map(({ id, name }) => ({
                       value: id,
                       label: name,
