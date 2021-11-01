@@ -8,11 +8,17 @@ import {
   EditablePreview,
   Spinner,
   ModalCloseButton,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 } from '@chakra-ui/react';
 import { SmallCloseIcon, EditIcon } from '@chakra-ui/icons';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { Editor } from '@tinymce/tinymce-react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export const SingleRecipeDetails = ({
   recipeId,
@@ -23,7 +29,11 @@ export const SingleRecipeDetails = ({
 }) => {
   const [isEditingRecipeContent, setIsEditingRecipeContent] =
     useState<boolean>(false);
+
   const [recipeContent, setRecipeContent] = useState<string>('');
+
+  const [isDeleteRecipeOpen, setIsDeleteRecipeOpen] = useState<boolean>(false);
+  const cancelDeleteRecipeRef = useRef<any>();
 
   const {
     data: recipeDetails,
@@ -273,57 +283,100 @@ export const SingleRecipeDetails = ({
             )}
           </label>
           <Button
+            className='ml-4'
             type='button'
             variant='ghost'
             colorScheme='orange'
             size={'sm'}
-            onClick={(e) => {
-              deleteRecipe({
-                variables: {
-                  recipeId,
-                },
-                update: (cache) => {
-                  cache.modify({
-                    id: cache.identify({
-                      __typename: 'Query',
-                    }),
-                    fields: {
-                      recipes(existingRecipes, { readField }) {
-                        return existingRecipes.filter(
-                          (existingRecipe: any) =>
-                            readField('id', existingRecipe) !== recipeId
-                        );
-                      },
-                    },
-                  });
-
-                  if (!recipeDetails?.currentUser?.mealPlan) return;
-                  cache.modify({
-                    id: cache.identify(recipeDetails.currentUser.mealPlan),
-                    fields: {
-                      schedule(existingSchedule, { readField }) {
-                        return existingSchedule.filter(
-                          (entry: any) =>
-                            readField('id', readField('recipe', entry)) !==
-                            recipeId
-                        );
-                      },
-                    },
-                  });
-                },
-                optimisticResponse: {
-                  deleteRecipe: {
-                    __typename: 'Recipe',
-                    id: recipeId,
-                  },
-                },
-              });
-
-              onClose?.();
-            }}
+            onClick={() => setIsDeleteRecipeOpen(true)}
           >
             <HiOutlineTrash width={12} height={12} />
           </Button>
+          <AlertDialog
+            isOpen={isDeleteRecipeOpen}
+            leastDestructiveRef={cancelDeleteRecipeRef}
+            onClose={() => setIsDeleteRecipeOpen(false)}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                  Delete Recipe
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Are you sure you want to delete this recipe permeantly?
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button
+                    ref={cancelDeleteRecipeRef}
+                    size={'sm'}
+                    onClick={(e) => setIsDeleteRecipeOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    colorScheme='red'
+                    size={'sm'}
+                    ml={3}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      deleteRecipe({
+                        variables: {
+                          recipeId,
+                        },
+                        update: (cache) => {
+                          cache.modify({
+                            id: cache.identify({
+                              __typename: 'Query',
+                            }),
+                            fields: {
+                              recipes(existingRecipes, { readField }) {
+                                return existingRecipes.filter(
+                                  (existingRecipe: any) =>
+                                    readField('id', existingRecipe) !== recipeId
+                                );
+                              },
+                            },
+                          });
+
+                          if (!recipeDetails?.currentUser?.mealPlan) return;
+
+                          cache.modify({
+                            id: cache.identify(
+                              recipeDetails.currentUser.mealPlan
+                            ),
+                            fields: {
+                              schedule(existingSchedule, { readField }) {
+                                return existingSchedule.filter(
+                                  (entry: any) =>
+                                    readField(
+                                      'id',
+                                      readField('recipe', entry)
+                                    ) !== recipeId
+                                );
+                              },
+                            },
+                          });
+                        },
+                        optimisticResponse: {
+                          deleteRecipe: {
+                            __typename: 'Recipe',
+                            id: recipeId,
+                          },
+                        },
+                      });
+
+                      onClose?.();
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
+
           <ModalCloseButton />
         </li>
         <li>
