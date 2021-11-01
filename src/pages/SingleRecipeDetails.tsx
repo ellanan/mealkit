@@ -529,8 +529,8 @@ export const SingleRecipeDetails = ({
                 addIngredientQuantityToRecipe({
                   variables: {
                     ingredientQuantity: {
-                      amount: 0,
-                      unit: 'unspecified',
+                      amount: 1,
+                      unit: 'g',
                       ingredientId: newIngredientId,
                     },
                     recipeId,
