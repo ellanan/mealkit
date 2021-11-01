@@ -549,60 +549,63 @@ export const SingleRecipeDetails = ({
           {recipeDetails?.recipe?.ingredientQuantities?.map(
             ({ unit, amount, ingredient }) => {
               return (
-                <div className='flex flex-row items-center' key={ingredient.id}>
-                  <div className='flex flex-row items-center ml-2'>
-                    <Editable
-                      className='pr-1'
-                      defaultValue={`${amount}`}
-                      onSubmit={(newValue) => {
-                        updateIngredientQuantityInRecipe({
-                          variables: {
-                            recipeId,
-                            ingredientId: ingredient.id,
-                            amount: Number(newValue),
-                          },
-                        });
-                      }}
-                    >
-                      <EditablePreview />
-                      <EditableInput type='number' />
-                    </Editable>
-                    <Editable
-                      className='pr-1'
-                      defaultValue={unit}
-                      onSubmit={(newValue) => {
-                        updateIngredientQuantityInRecipe({
-                          variables: {
-                            recipeId,
-                            ingredientId: ingredient.id,
-                            unit: newValue,
-                          },
-                        });
-                      }}
-                    >
-                      <EditablePreview />
-                      <EditableInput type='text' />
-                    </Editable>
-                    {ingredient.name}
-                    <button
-                      className='flex items-center ml-1 h-5 hover:bg-26 rounded-full'
-                      onClick={() => {
-                        removeIngredientFromRecipe({
-                          variables: {
-                            ingredientId: ingredient.id,
-                            recipeId,
-                          },
-                        });
-                      }}
-                    >
-                      <SmallCloseIcon
-                        w='4'
-                        h='4'
-                        color='#fff'
-                        margin='0px 3px'
-                      />
-                    </button>
-                  </div>
+                <div
+                  className='flex flex-row items-center group px-1'
+                  key={ingredient.id}
+                >
+                  <Editable
+                    className='pr-1'
+                    defaultValue={`${amount}`}
+                    onSubmit={(newValue) => {
+                      updateIngredientQuantityInRecipe({
+                        variables: {
+                          recipeId,
+                          ingredientId: ingredient.id,
+                          amount: Number(newValue),
+                        },
+                      });
+                    }}
+                  >
+                    <EditablePreview />
+                    <EditableInput type='number' />
+                  </Editable>
+                  <Editable
+                    className='pr-1'
+                    defaultValue={unit}
+                    onSubmit={(newValue) => {
+                      updateIngredientQuantityInRecipe({
+                        variables: {
+                          recipeId,
+                          ingredientId: ingredient.id,
+                          unit: newValue,
+                        },
+                      });
+                    }}
+                  >
+                    <EditablePreview />
+                    <EditableInput type='text' />
+                  </Editable>
+                  {ingredient.name}
+                  <button
+                    className='flex items-center opacity-0 group-hover:opacity-100'
+                    onClick={() => {
+                      removeIngredientFromRecipe({
+                        variables: {
+                          ingredientId: ingredient.id,
+                          recipeId,
+                        },
+                      });
+                    }}
+                  >
+                    <SmallCloseIcon
+                      className='rounded-2xl'
+                      w='4'
+                      h='4'
+                      color='#ebaf55'
+                      margin='0px 3px'
+                      _hover={{ bg: '#ee941f', color: '#fff' }}
+                    />
+                  </button>
                 </div>
               );
             }
