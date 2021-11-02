@@ -207,7 +207,7 @@ export const ShoppingList = () => {
                     `}
 
                   <Creatable
-                    className='ml-auto mr-4 min-w-[150px] opacity-0 group-hover:opacity-100'
+                    className='ml-auto mr-4 min-w-[150px] opacity-0 group-hover:opacity-100 focus-within:opacity-100'
                     options={data?.ingredientTypes.map(({ id, name }) => ({
                       value: id,
                       label: name,
