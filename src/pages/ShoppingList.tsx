@@ -227,6 +227,27 @@ export const ShoppingList = () => {
                             variables: {
                               name: newValue.value,
                             },
+                            update(cache, { data }) {
+                              cache.modify({
+                                id: cache.identify({
+                                  __typename: 'Query',
+                                }),
+                                fields: {
+                                  ingredientTypes: (ingredientTypes) => {
+                                    return ingredientTypes.concat(
+                                      data?.createIngredientType
+                                    );
+                                  },
+                                },
+                              });
+                            },
+                            optimisticResponse: {
+                              createIngredientType: {
+                                __typename: 'IngredientType',
+                                id: `temp-id:${newValue.value}`,
+                                name: newValue.value,
+                              },
+                            },
                           });
 
                         if (
