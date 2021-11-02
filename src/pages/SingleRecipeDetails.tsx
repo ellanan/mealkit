@@ -140,7 +140,10 @@ export const SingleRecipeDetails = ({
 
   const [
     addIngredientQuantityToRecipe,
-    { error: errorAddingIngredientQuantity },
+    {
+      error: errorAddingIngredientQuantity,
+      loading: loadingIngredientQuantity,
+    },
   ] = useMutation<
     GraphQLTypes.AddIngredientQuantityToRecipeMutation,
     GraphQLTypes.AddIngredientQuantityToRecipeMutationVariables
@@ -169,25 +172,27 @@ export const SingleRecipeDetails = ({
     throw errorAddingIngredientQuantity;
   }
 
-  const [removeIngredientFromRecipe, { error: errorRemovingIngredient }] =
-    useMutation<
-      GraphQLTypes.RemoveIngredientFromRecipeMutation,
-      GraphQLTypes.RemoveIngredientFromRecipeMutationVariables
-    >(gql`
-      mutation RemoveIngredientFromRecipe($recipeId: ID!, $ingredientId: ID!) {
-        removeIngredientFromRecipe(
-          recipeId: $recipeId
-          ingredientId: $ingredientId
-        ) {
-          id
-          ingredientQuantities {
-            ingredient {
-              id
-            }
+  const [
+    removeIngredientFromRecipe,
+    { error: errorRemovingIngredient, loading: removingIngredient },
+  ] = useMutation<
+    GraphQLTypes.RemoveIngredientFromRecipeMutation,
+    GraphQLTypes.RemoveIngredientFromRecipeMutationVariables
+  >(gql`
+    mutation RemoveIngredientFromRecipe($recipeId: ID!, $ingredientId: ID!) {
+      removeIngredientFromRecipe(
+        recipeId: $recipeId
+        ingredientId: $ingredientId
+      ) {
+        id
+        ingredientQuantities {
+          ingredient {
+            id
           }
         }
       }
-    `);
+    }
+  `);
   if (errorRemovingIngredient) {
     throw errorRemovingIngredient;
   }
@@ -546,6 +551,20 @@ export const SingleRecipeDetails = ({
               placeholder='add ingredient'
             />
           </label>
+          <div>
+            {loadingIngredientQuantity ? (
+              <>
+                <Spinner
+                  thickness='2px'
+                  speed='0.65s'
+                  emptyColor='gray.200'
+                  color='blue.500'
+                  size='xs'
+                />
+                <i className='text-sm ml-1'>adding ingredient</i>
+              </>
+            ) : null}
+          </div>
           {recipeDetails?.recipe?.ingredientQuantities?.map(
             ({ unit, amount, ingredient }) => {
               return (
@@ -597,14 +616,28 @@ export const SingleRecipeDetails = ({
                       });
                     }}
                   >
-                    <SmallCloseIcon
-                      className='rounded-2xl'
-                      w='4'
-                      h='4'
-                      color='#ebaf55'
-                      margin='0px 3px'
-                      _hover={{ bg: '#ee941f', color: '#fff' }}
-                    />
+                    {removingIngredient ? (
+                      <>
+                        <Spinner
+                          className='ml-1'
+                          thickness='2px'
+                          speed='0.65s'
+                          emptyColor='gray.200'
+                          color='blue.500'
+                          size='xs'
+                        />
+                        <i className='text-sm ml-1'>removing ingredient</i>
+                      </>
+                    ) : (
+                      <SmallCloseIcon
+                        className='rounded-2xl'
+                        w='4'
+                        h='4'
+                        color='#ebaf55'
+                        margin='0px 3px'
+                        _hover={{ bg: '#ee941f', color: '#fff' }}
+                      />
+                    )}
                   </button>
                 </div>
               );
