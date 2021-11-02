@@ -267,6 +267,32 @@ export const ShoppingList = () => {
                             ingredientId: ingredientQuantities[0].ingredient.id,
                             ingredientTypeId: newValue.value,
                           },
+                          update(cache, { data }) {
+                            cache.modify({
+                              id: cache.identify(
+                                ingredientQuantities[0].ingredient
+                              ),
+                              fields: {
+                                type(existingType, { toReference }) {
+                                  return toReference({
+                                    __typename: 'IngredientType',
+                                    id: data?.updateIngredient?.type?.id,
+                                  });
+                                },
+                              },
+                            });
+                          },
+                          optimisticResponse: {
+                            updateIngredient: {
+                              __typename: 'Ingredient',
+                              id: ingredientQuantities[0].ingredient.id,
+                              name: ingredientQuantities[0].ingredient.name,
+                              type: {
+                                id: newValue.value,
+                                name: newValue.label,
+                              },
+                            },
+                          },
                         });
                         return updateIngredientResult;
                       }
