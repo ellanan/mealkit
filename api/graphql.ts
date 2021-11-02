@@ -1,10 +1,8 @@
 import * as Sentry from '@sentry/node';
 
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { ApolloServer } from 'apollo-server-micro';
+import { ApolloServer } from 'apollo-server-cloud-functions';
 import { ApolloServerPluginInlineTrace } from 'apollo-server-core';
-import cors from 'micro-cors';
-import { send } from 'micro';
 
 import { Context } from './contextModule';
 import { schema } from './_helpers/makeSchema';
@@ -46,22 +44,4 @@ export const config = {
   },
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default server.start().then(() => {
-  const handler = server.createHandler({
-    path: '/api/graphql',
-  });
-  return cors({
-    allowHeaders: [
-      'X-Requested-With',
-      'Access-Control-Allow-Origin',
-      'X-HTTP-Method-Override',
-      'Content-Type',
-      'Authorization',
-      'Accept',
-      'apollo-federation-include-trace',
-    ],
-  })((req, res) =>
-    req.method === 'OPTIONS' ? send(res, 200, 'ok') : handler(req, res)
-  );
-});
+export default server.createHandler();
