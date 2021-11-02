@@ -168,7 +168,7 @@ export const ShoppingList = () => {
 
       {loadingShoppingList ? (
         <div className='flex items-center justify-center italic text-base'>
-          <Spinner color='orange' size='md' />
+          <Spinner className='text-sm mr-2' color='orange' size='md' />
           loading shopping list...
         </div>
       ) : null}

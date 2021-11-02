@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { BiListUl } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 import { DateTime } from 'luxon';
 
@@ -41,7 +42,7 @@ export const MealPlanTopBar = (props: {
         {`${props.interval[0].monthLong} ${props.interval[0].year}`}
       </span>
       <NavLink
-        className='ml-auto mr-8 rounded-full text-13 text-sm py-1 px-2 border border-13'
+        className='flex flex-row items-center ml-auto mr-8 rounded-full text-white text-sm py-1 px-2 bg-28 hover:bg-23'
         to={(location) => {
           const newQueryParams = new URLSearchParams(location.search);
           newQueryParams.append('shoppingList', 'visible');
@@ -52,6 +53,7 @@ export const MealPlanTopBar = (props: {
           };
         }}
       >
+        <BiListUl className='mr-1' size={18} />
         Shopping List
       </NavLink>
     </div>
