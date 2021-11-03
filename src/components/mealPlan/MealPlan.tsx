@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { DateTime, Interval } from 'luxon';
 import { useQuery, gql, useMutation } from '@apollo/client';
-import * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../../generated/graphql';
 import {
   Button,
   Popover,
@@ -13,11 +13,11 @@ import { AddIcon, CloseIcon } from '@chakra-ui/icons';
 import { NavLink } from 'react-router-dom';
 import { useMemo, useState, useRef } from 'react';
 
-import { MealPlanTopBar } from '../components/MealPlanTopBar';
-import { MealPlanDates } from '../components/MealPlanDates';
-import { AddRecipeToMealPlanForm } from '../components/AddRecipeToMealPlanForm';
+import { MealPlanTopBar } from './MealPlanTopBar';
+import { MealPlanDates } from './MealPlanDates';
+import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
 
-const defaultImg = require('../images/defaultImg.jpg').default;
+const defaultImg = require('./images/defaultImg.jpg').default;
 
 export const MealPlan = () => {
   const initRef = useRef<any>();

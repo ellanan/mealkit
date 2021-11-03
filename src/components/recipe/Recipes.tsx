@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useQuery, gql } from '@apollo/client';
-import * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../../generated/graphql';
 import { Search2Icon, SmallAddIcon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
-const defaultImg = require('../images/defaultImg.jpg').default;
+const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
 
 export const Recipes = () => {
   const [search, setSearch] = useState<string>('');

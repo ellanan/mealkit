@@ -1,5 +1,5 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
-import type * as GraphQLTypes from '../generated/graphql';
+import type * as GraphQLTypes from '../../generated/graphql';
 import Creatable from 'react-select/creatable';
 import {
   Button,

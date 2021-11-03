@@ -1,5 +1,5 @@
 import { useMutation, gql, useQuery } from '@apollo/client';
-import * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../../generated/graphql';
 import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';

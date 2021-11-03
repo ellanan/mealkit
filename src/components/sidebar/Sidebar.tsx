@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
-import { Recipes } from '../pages/Recipes';
-import { Footer } from './Footer';
-import { ReactComponent as CarrotLogo } from '../images/logo-carrot.svg';
+import { Recipes } from '../recipe/Recipes';
+import { Footer } from '../Footer';
+import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
 
 export const Sidebar = () => {
   return (

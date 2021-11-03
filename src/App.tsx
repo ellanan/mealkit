@@ -4,15 +4,15 @@ import { Route, Switch } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import SplitPane from 'react-split-pane';
 
-import { Sidebar } from './components/Sidebar';
-import { CreateRecipe } from './pages/CreateRecipe';
-import { SingleRecipeDetails } from './pages/SingleRecipeDetails';
-import { MealPlan } from './pages/MealPlan';
-import { ShoppingList } from './pages/ShoppingList';
-import { Login } from './pages/Login';
-import { RecipeModal } from './components/modals/RecipeModal';
-import { CreateRecipeModal } from './components/modals/CreateRecipeModal';
-import { ShoppingListModal } from './components/modals/ShoppingListModal';
+import { Sidebar } from './components/sidebar/Sidebar';
+import { CreateRecipe } from './components/recipe/CreateRecipe';
+import { SingleRecipeDetails } from './components/recipe/SingleRecipeDetails';
+import { MealPlan } from './components/mealPlan/MealPlan';
+import { ShoppingList } from './components/groceries/ShoppingList';
+import { Login } from './components/login/Login';
+import { RecipeModal } from './components/recipe/RecipeModal';
+import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
+import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 
 const App = () => {
   return (

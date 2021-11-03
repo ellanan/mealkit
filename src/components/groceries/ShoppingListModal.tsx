@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 
-import { ShoppingList } from '../../pages/ShoppingList';
+import { ShoppingList } from './ShoppingList';
 
 export const ShoppingListModal = () => {
   const history = useHistory();

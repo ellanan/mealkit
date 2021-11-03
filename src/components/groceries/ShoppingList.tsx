@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import _ from 'lodash';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import * as GraphQLTypes from '../generated/graphql';
+import * as GraphQLTypes from '../../generated/graphql';
 import { DateTime } from 'luxon';
 import { Button, Spinner } from '@chakra-ui/react';
 import createPersistedState from 'use-persisted-state';
