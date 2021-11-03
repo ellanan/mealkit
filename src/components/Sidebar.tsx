@@ -2,12 +2,17 @@ import { NavLink } from 'react-router-dom';
 
 import { Recipes } from '../pages/Recipes';
 import { Footer } from './Footer';
+import { ReactComponent as CarrotLogo } from '../images/logo-carrot.svg';
 
 export const Sidebar = () => {
   return (
     <div className='flex flex-col items-center justify-center bg-24 h-full pt-4 font-Raleway'>
-      <NavLink to='/'>
-        <h1 className='text-lg font-medium text-23 font-Montserrat'>MealKit</h1>
+      <NavLink
+        to='/'
+        className='text-lg font-medium text-23 font-Montserrat flex'
+      >
+        <CarrotLogo className='w-5 mr-1.5' />
+        MealKit
       </NavLink>
       <div className='flex flex-col overflow-hidden'>
         <Recipes />
