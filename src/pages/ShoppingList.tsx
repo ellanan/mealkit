@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import _ from 'lodash';
-import { DateRange } from 'react-date-range';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../generated/graphql';
 import { DateTime } from 'luxon';
 import { Button, Spinner } from '@chakra-ui/react';
 import createPersistedState from 'use-persisted-state';
+import { DateRange } from 'react-date-range';
 import Creatable from 'react-select/creatable';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useMemo } from 'react';
@@ -187,7 +187,7 @@ export const ShoppingList = () => {
       {loadingShoppingList ? (
         <div className='flex items-center justify-center italic text-base'>
           <Spinner className='text-sm mr-2' color='orange' size='md' />
-          loading shopping list...
+          loading groceries...
         </div>
       ) : null}
 
@@ -203,7 +203,12 @@ export const ShoppingList = () => {
           <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
             {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
             <Button
-              className='text-xs absolute right-0 opacity-0 group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
+              className='text-xs absolute right-0 opacity-0 disabled:opacity-0 group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
+              size='sm'
+              variant='ghost'
+              isDisabled={
+                !ingredientQuantities[0].ingredient.type?.id ? true : false
+              }
               onClick={(e) => {
                 e.preventDefault();
                 deleteIngredientType({
@@ -226,7 +231,6 @@ export const ShoppingList = () => {
                         },
                       },
                     });
-
                     ingredientQuantities.forEach(({ ingredient }) => {
                       cache.modify({
                         id: cache.identify(ingredient),
@@ -246,12 +250,11 @@ export const ShoppingList = () => {
                   },
                 });
               }}
-              size='sm'
-              variant='ghost'
             >
               <HiOutlineTrash className='w-5' />
             </Button>
           </div>
+
           <ul className='mb-2 text-base list-disc'>
             {Object.values(
               _.groupBy(
@@ -304,7 +307,9 @@ export const ShoppingList = () => {
                       options={data?.ingredientTypes.map(({ id, name }) => ({
                         value: id,
                         label: name,
-                        isDisabled: id.startsWith('temp-id:'),
+                        isDisabled:
+                          id.startsWith('temp-id:') ||
+                          id === ingredientQuantities[0].ingredient.type?.id,
                       }))}
                       isSearchable={true}
                       isClearable={true}
