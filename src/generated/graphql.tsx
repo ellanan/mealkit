@@ -66,6 +66,7 @@ export type Mutation = {
   createIngredient: Ingredient;
   createIngredientType?: Maybe<IngredientType>;
   createRecipe?: Maybe<Recipe>;
+  deleteIngredientType?: Maybe<IngredientType>;
   deleteMealPlanEntry?: Maybe<MealPlanEntry>;
   deleteRecipe?: Maybe<Recipe>;
   editRecipe?: Maybe<Recipe>;
@@ -105,6 +106,11 @@ export type MutationCreateRecipeArgs = {
   imageUrl?: Maybe<Scalars['String']>;
   ingredientQuantities: Array<IngredientQuantityInput>;
   name: Scalars['String'];
+};
+
+
+export type MutationDeleteIngredientTypeArgs = {
+  ingredientTypeId: Scalars['ID'];
 };
 
 
@@ -273,6 +279,13 @@ export type UpdateIngredientMutationVariables = Exact<{
 
 
 export type UpdateIngredientMutation = { __typename?: 'Mutation', updateIngredient?: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined } | null | undefined };
+
+export type DeleteIngredientTypeMutationVariables = Exact<{
+  ingredientTypeId: Scalars['ID'];
+}>;
+
+
+export type DeleteIngredientTypeMutation = { __typename?: 'Mutation', deleteIngredientType?: { __typename?: 'IngredientType', id: string } | null | undefined };
 
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -791,6 +804,39 @@ export function useUpdateIngredientMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateIngredientMutationHookResult = ReturnType<typeof useUpdateIngredientMutation>;
 export type UpdateIngredientMutationResult = Apollo.MutationResult<UpdateIngredientMutation>;
 export type UpdateIngredientMutationOptions = Apollo.BaseMutationOptions<UpdateIngredientMutation, UpdateIngredientMutationVariables>;
+export const DeleteIngredientTypeDocument = gql`
+    mutation DeleteIngredientType($ingredientTypeId: ID!) {
+  deleteIngredientType(ingredientTypeId: $ingredientTypeId) {
+    id
+  }
+}
+    `;
+export type DeleteIngredientTypeMutationFn = Apollo.MutationFunction<DeleteIngredientTypeMutation, DeleteIngredientTypeMutationVariables>;
+
+/**
+ * __useDeleteIngredientTypeMutation__
+ *
+ * To run a mutation, you first call `useDeleteIngredientTypeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteIngredientTypeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteIngredientTypeMutation, { data, loading, error }] = useDeleteIngredientTypeMutation({
+ *   variables: {
+ *      ingredientTypeId: // value for 'ingredientTypeId'
+ *   },
+ * });
+ */
+export function useDeleteIngredientTypeMutation(baseOptions?: Apollo.MutationHookOptions<DeleteIngredientTypeMutation, DeleteIngredientTypeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteIngredientTypeMutation, DeleteIngredientTypeMutationVariables>(DeleteIngredientTypeDocument, options);
+      }
+export type DeleteIngredientTypeMutationHookResult = ReturnType<typeof useDeleteIngredientTypeMutation>;
+export type DeleteIngredientTypeMutationResult = Apollo.MutationResult<DeleteIngredientTypeMutation>;
+export type DeleteIngredientTypeMutationOptions = Apollo.BaseMutationOptions<DeleteIngredientTypeMutation, DeleteIngredientTypeMutationVariables>;
 export const SingleRecipeDocument = gql`
     query SingleRecipe($recipeId: ID!) {
   currentUser {
