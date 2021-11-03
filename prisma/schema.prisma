@@ -29,7 +29,7 @@ model IngredientType {
 model Ingredient {
   id                       String                     @id @default(cuid())
   name                     String
-  ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id], onDelete: Cascade)
+  ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id], onDelete: SetNull)
   ingredientTypeId         String?
   RecipeIngredientQuantity RecipeIngredientQuantity[]
 }
