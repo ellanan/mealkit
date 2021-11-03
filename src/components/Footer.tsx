@@ -1,6 +1,7 @@
 import { GoMarkGithub } from 'react-icons/go';
 import { FaTwitter } from 'react-icons/fa';
 import { GrLinkedin } from 'react-icons/gr';
+import { GoInfo } from 'react-icons/go';
 
 export const Footer = () => {
   return (
@@ -28,6 +29,14 @@ export const Footer = () => {
         rel='noreferrer'
       >
         <GrLinkedin size={18} />
+      </a>
+      <a
+        className='p-3 text-22 hover:text-21'
+        href='https://icon-library.com/840638.svg.html'
+        target='_blank'
+        rel='noreferrer'
+      >
+        <GoInfo size={18} />
       </a>
     </div>
   );
