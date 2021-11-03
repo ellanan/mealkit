@@ -42,7 +42,7 @@ export const MealPlanTopBar = (props: {
         {`${props.interval[0].monthLong} ${props.interval[0].year}`}
       </span>
       <NavLink
-        className='flex flex-row items-center ml-auto mr-8 rounded-full text-white text-sm py-1 px-2 bg-28 hover:bg-23'
+        className='flex flex-row items-center ml-auto mr-8 rounded-full text-white text-sm py-1 px-3 bg-28 hover:bg-23 font-medium uppercase'
         to={(location) => {
           const newQueryParams = new URLSearchParams(location.search);
           newQueryParams.append('shoppingList', 'visible');
@@ -54,7 +54,7 @@ export const MealPlanTopBar = (props: {
         }}
       >
         <BiListUl className='mr-1' size={18} />
-        Shopping List
+        Groceries
       </NavLink>
     </div>
   );
