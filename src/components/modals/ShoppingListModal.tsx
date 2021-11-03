@@ -30,7 +30,7 @@ export const ShoppingListModal = () => {
       <ModalContent
         minHeight='50vh'
         maxHeight='calc(100% - 8rem)'
-        minWidth='40vw'
+        minWidth='min(40vw, 300px)'
         overflow='auto'
       >
         {modalShoppingList && <ShoppingList />}
