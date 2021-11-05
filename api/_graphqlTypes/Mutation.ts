@@ -56,6 +56,24 @@ export const Mutation = mutationType({
       },
     });
 
+    t.field('editIngredientType', {
+      type: 'IngredientType',
+      args: {
+        ingredientTypeId: nonNull(idArg()),
+        name: nonNull(stringArg()),
+      },
+      resolve: async (_parent, args) => {
+        return prisma.ingredientType.update({
+          where: {
+            id: args.ingredientTypeId,
+          },
+          data: {
+            name: args.name,
+          },
+        });
+      },
+    });
+
     t.field('deleteIngredientType', {
       type: 'IngredientType',
       args: {
