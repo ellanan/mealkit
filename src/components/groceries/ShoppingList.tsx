@@ -170,6 +170,10 @@ export const ShoppingList = () => {
         css={css`
           .rdrNextPrevButton {
             background-color: transparent;
+            color: #593e31;
+          }
+          .rdrMonthAndYearPickers {
+            color: #593e31;
           }
         `}
         weekStartsOn={1}
