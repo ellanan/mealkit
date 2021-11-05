@@ -256,7 +256,7 @@ export const SingleRecipeDetails = ({
           thickness='4px'
           speed='0.65s'
           emptyColor='gray.200'
-          color='blue.500'
+          color='orange'
           size='xl'
         />
       </div>
@@ -558,7 +558,7 @@ export const SingleRecipeDetails = ({
                   thickness='2px'
                   speed='0.65s'
                   emptyColor='gray.200'
-                  color='blue.500'
+                  color='orange'
                   size='xs'
                 />
                 <i className='text-sm ml-1'>adding ingredient</i>
@@ -623,7 +623,7 @@ export const SingleRecipeDetails = ({
                           thickness='2px'
                           speed='0.65s'
                           emptyColor='gray.200'
-                          color='blue.500'
+                          color='orange'
                           size='xs'
                         />
                         <i className='text-sm ml-1'>removing ingredient</i>
