@@ -16,6 +16,8 @@ import {
   PopoverFooter,
   PopoverCloseButton,
 } from '@chakra-ui/react';
+import { Editable, EditableInput, useEditableControls } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 import createPersistedState from 'use-persisted-state';
 import { DateRange } from 'react-date-range';
 import Creatable from 'react-select/creatable';
@@ -55,6 +57,30 @@ const useShoppingListPersistedState = () => {
       },
     ] as const;
   }, [rawState, setRawState]);
+};
+
+const EditableControls = ({ text }: { text: string }) => {
+  const { getEditButtonProps, isEditing } = useEditableControls();
+
+  if (isEditing) return null;
+
+  return (
+    <button
+      {...getEditButtonProps()}
+      className='bg-transparent'
+      css={css`
+        &:hover {
+          .edit-icon {
+            opacity: 1;
+            color: #ff9307;
+          }
+        }
+      `}
+    >
+      {text}
+      <EditIcon w='2.5' h='2.5' className='opacity-0 edit-icon' />
+    </button>
+  );
 };
 
 export const ShoppingList = () => {
@@ -153,6 +179,22 @@ export const ShoppingList = () => {
     throw errorUpdatingIngredient;
   }
 
+  const [editIngredientType, { error: errorEditingIngredientType }] =
+    useMutation<
+      GraphQLTypes.EditIngredientTypeMutation,
+      GraphQLTypes.EditIngredientTypeMutationVariables
+    >(gql`
+      mutation EditIngredientType($ingredientTypeId: ID!, $name: String!) {
+        editIngredientType(ingredientTypeId: $ingredientTypeId, name: $name) {
+          id
+          name
+        }
+      }
+    `);
+  if (errorEditingIngredientType) {
+    throw errorEditingIngredientType;
+  }
+
   const [deleteIngredientType, { error: errorDeletingIngredientType }] =
     useMutation<
       GraphQLTypes.DeleteIngredientTypeMutation,
@@ -216,7 +258,69 @@ export const ShoppingList = () => {
           key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
         >
           <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
-            {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
+            {!ingredientQuantities[0].ingredient.type?.name ? (
+              'uncategorized'
+            ) : (
+              <Editable
+                defaultValue={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
+                isDisabled={
+                  !ingredientQuantities[0].ingredient.type?.id ? true : false
+                }
+                isPreviewFocusable={false}
+                onSubmit={(newIngredientName) => {
+                  editIngredientType({
+                    variables: {
+                      ingredientTypeId:
+                        ingredientQuantities[0].ingredient.type?.id,
+                      name: newIngredientName,
+                    },
+
+                    update: (cache) => {
+                      cache.modify({
+                        id: cache.identify({ __typename: 'Query' }),
+                        fields: {
+                          ingredientTypes: (existingIngredientTypes) => {
+                            return existingIngredientTypes.map(
+                              (ingredientType: any) => {
+                                if (
+                                  !ingredientQuantities[0].ingredient.type?.id
+                                ) {
+                                  return { ...ingredientType };
+                                }
+                                if (
+                                  ingredientType.id ===
+                                  ingredientQuantities[0].ingredient.type?.id
+                                ) {
+                                  return {
+                                    ...ingredientType,
+                                    name: newIngredientName.toUpperCase(),
+                                  };
+                                }
+                                return ingredientType;
+                              }
+                            );
+                          },
+                        },
+                      });
+                    },
+
+                    optimisticResponse: {
+                      editIngredientType: {
+                        __typename: 'IngredientType',
+                        id: ingredientQuantities[0].ingredient.type?.id,
+                        name: newIngredientName.toUpperCase(),
+                      },
+                    },
+                  });
+                }}
+              >
+                <EditableInput />
+                <EditableControls
+                  text={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
+                />
+              </Editable>
+            )}
+
             <Popover isLazy={true}>
               {({ onClose }) => (
                 <>
@@ -388,7 +492,7 @@ export const ShoppingList = () => {
                           const createIngredientTypeResult =
                             await createIngredientType({
                               variables: {
-                                name: newValue.value,
+                                name: newValue.value.toUpperCase(),
                               },
                               update(cache, { data }) {
                                 cache.modify({
@@ -421,7 +525,7 @@ export const ShoppingList = () => {
                                 createIngredientType: {
                                   __typename: 'IngredientType',
                                   id: `temp-id:${newValue.value}`,
-                                  name: newValue.value,
+                                  name: newValue.value.toUpperCase(),
                                 },
                               },
                             });
