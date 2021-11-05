@@ -22,6 +22,7 @@ import createPersistedState from 'use-persisted-state';
 import { DateRange } from 'react-date-range';
 import Creatable from 'react-select/creatable';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { FiAlertTriangle } from 'react-icons/fi';
 import { useMemo } from 'react';
 
 const useRawShoppingListPersistedState = createPersistedState('shopping list');
@@ -248,347 +249,358 @@ export const ShoppingList = () => {
         </div>
       ) : null}
 
-      {Object.values(
-        _.groupBy(
-          ingredientQuantities,
-          (ingredientQuantity) => ingredientQuantity.ingredient.type?.name
-        )
-      ).map((ingredientQuantities) => (
-        <div
-          key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
-        >
-          <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
-            {!ingredientQuantities[0].ingredient.type?.name ? (
-              'uncategorized'
-            ) : (
-              <Editable
-                defaultValue={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
-                isDisabled={
-                  !ingredientQuantities[0].ingredient.type?.id ? true : false
-                }
-                isPreviewFocusable={false}
-                onSubmit={(newIngredientName) => {
-                  editIngredientType({
-                    variables: {
-                      ingredientTypeId:
-                        ingredientQuantities[0].ingredient.type?.id,
-                      name: newIngredientName,
-                    },
-
-                    update: (cache) => {
-                      cache.modify({
-                        id: cache.identify({ __typename: 'Query' }),
-                        fields: {
-                          ingredientTypes: (existingIngredientTypes) => {
-                            return existingIngredientTypes.map(
-                              (ingredientType: any) => {
-                                if (
-                                  !ingredientQuantities[0].ingredient.type?.id
-                                ) {
-                                  return { ...ingredientType };
-                                }
-                                if (
-                                  ingredientType.id ===
-                                  ingredientQuantities[0].ingredient.type?.id
-                                ) {
-                                  return {
-                                    ...ingredientType,
-                                    name: newIngredientName.toUpperCase(),
-                                  };
-                                }
-                                return ingredientType;
-                              }
-                            );
-                          },
-                        },
-                      });
-                    },
-
-                    optimisticResponse: {
-                      editIngredientType: {
-                        __typename: 'IngredientType',
-                        id: ingredientQuantities[0].ingredient.type?.id,
-                        name: newIngredientName.toUpperCase(),
-                      },
-                    },
-                  });
-                }}
-              >
-                <EditableInput />
-                <EditableControls
-                  text={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
-                />
-              </Editable>
-            )}
-
-            <Popover isLazy={true}>
-              {({ onClose }) => (
-                <>
-                  <PopoverTrigger>
-                    <Button
-                      className='text-xs absolute right-0 opacity-0 disabled:opacity-0 disabled:bg-transparent group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
-                      variant='ghost'
-                      isDisabled={
-                        !ingredientQuantities[0].ingredient.type?.id
-                          ? true
-                          : false
-                      }
-                    >
-                      <HiOutlineTrash className='w-5' />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent marginRight={2}>
-                    <PopoverHeader
-                      fontWeight='semibold'
-                      textTransform='initial'
-                    >
-                      Delete Ingredient Type
-                    </PopoverHeader>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverBody textTransform='initial'>
-                      Are you sure you want to permanently delete the ingredient
-                      type?
-                    </PopoverBody>
-                    <PopoverFooter
-                      border='0'
-                      d='flex'
-                      alignItems='center'
-                      justifyContent='flex-end'
-                      pt={3}
-                      pb={3}
-                    >
-                      <Button className='text-xs' size='sm' onClick={onClose}>
-                        Cancel
-                      </Button>
-                      <Button
-                        className='text-xs'
-                        colorScheme='red'
-                        ml={3}
-                        size='sm'
-                        onClick={(e) => {
-                          e.preventDefault();
-                          deleteIngredientType({
-                            variables: {
-                              ingredientTypeId:
-                                ingredientQuantities[0].ingredient.type?.id,
-                            },
-                            update: (cache) => {
-                              cache.modify({
-                                id: cache.identify({
-                                  __typename: 'Query',
-                                }),
-                                fields: {
-                                  ingredientTypes: (
-                                    ingredientTypes,
-                                    { readField }
-                                  ) => {
-                                    return ingredientTypes.filter(
-                                      (ingredientType: any) =>
-                                        readField('id', ingredientType) !==
-                                        ingredientQuantities[0].ingredient.type
-                                          ?.id
-                                    );
-                                  },
-                                },
-                              });
-                              ingredientQuantities.forEach(({ ingredient }) => {
-                                cache.modify({
-                                  id: cache.identify(ingredient),
-                                  fields: {
-                                    type() {
-                                      return null;
-                                    },
-                                  },
-                                });
-                              });
-                            },
-                            optimisticResponse: {
-                              deleteIngredientType: {
-                                __typename: 'IngredientType',
-                                id: ingredientQuantities[0].ingredient.type?.id,
-                              },
-                            },
-                          });
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </PopoverFooter>
-                  </PopoverContent>
-                </>
-              )}
-            </Popover>
-          </div>
-
-          <ul className='mb-2 text-base list-disc'>
-            {Object.values(
-              _.groupBy(
-                ingredientQuantities,
-                (ingredientQuantity) =>
-                  ingredientQuantity.ingredient.id + ingredientQuantity.unit
-              )
-            ).map((ingredientQuantities) => {
-              return (
-                <li
-                  className='flex flex-row w-full group list-disc text-sm leading-loose px-1 font-Raleway'
-                  key={
-                    ingredientQuantities[0].ingredient.id +
-                    ingredientQuantities[0].unit
+      {ingredientQuantities?.length === 0 && !loadingShoppingList ? (
+        <span className='flex flex-row items-center justify-center'>
+          <FiAlertTriangle className='mr-1' color='orange' size='20' />
+          No meals planned on the selected dates.
+        </span>
+      ) : (
+        Object.values(
+          _.groupBy(
+            ingredientQuantities,
+            (ingredientQuantity) => ingredientQuantity.ingredient.type?.name
+          )
+        ).map((ingredientQuantities) => (
+          <div
+            key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
+          >
+            <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
+              {!ingredientQuantities[0].ingredient.type?.name ? (
+                'uncategorized'
+              ) : (
+                <Editable
+                  defaultValue={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
+                  isDisabled={
+                    !ingredientQuantities[0].ingredient.type?.id ? true : false
                   }
+                  isPreviewFocusable={false}
+                  onSubmit={(newIngredientName) => {
+                    editIngredientType({
+                      variables: {
+                        ingredientTypeId:
+                          ingredientQuantities[0].ingredient.type?.id,
+                        name: newIngredientName,
+                      },
+
+                      update: (cache) => {
+                        cache.modify({
+                          id: cache.identify({ __typename: 'Query' }),
+                          fields: {
+                            ingredientTypes: (existingIngredientTypes) => {
+                              return existingIngredientTypes.map(
+                                (ingredientType: any) => {
+                                  if (
+                                    !ingredientQuantities[0].ingredient.type?.id
+                                  ) {
+                                    return { ...ingredientType };
+                                  }
+                                  if (
+                                    ingredientType.id ===
+                                    ingredientQuantities[0].ingredient.type?.id
+                                  ) {
+                                    return {
+                                      ...ingredientType,
+                                      name: newIngredientName.toUpperCase(),
+                                    };
+                                  }
+                                  return ingredientType;
+                                }
+                              );
+                            },
+                          },
+                        });
+                      },
+
+                      optimisticResponse: {
+                        editIngredientType: {
+                          __typename: 'IngredientType',
+                          id: ingredientQuantities[0].ingredient.type?.id,
+                          name: newIngredientName.toUpperCase(),
+                        },
+                      },
+                    });
+                  }}
                 >
-                  <span>
-                    <span className='capitalize'>
-                      {ingredientQuantities[0].ingredient.name}
-                    </span>
-                    <small>
-                      <span className='ml-1'>
-                        {_.sumBy(ingredientQuantities, (x) => x.amount)}
-                      </span>
-                      <span className='ml-1'>
-                        {ingredientQuantities[0].unit}
-                      </span>
-                    </small>
-                  </span>
-                  <div className='ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 relative cursor-pointer'>
-                    <span className='uppercase text-xs'>
-                      set ingredient type
-                    </span>
-                    <Creatable
-                      className='min-w-[150px] absolute top-0 right-0 leading-tight opacity-0 focus-within:opacity-100 '
-                      styles={{
-                        control: (base: any) => ({
-                          ...base,
-                          minHeight: 'auto',
-                          cursor: 'pointer',
-                        }),
-                        indicatorSeparator: (base: any) => ({
-                          display: 'none',
-                        }),
-                        dropdownIndicator: (base: any) => ({
-                          ...base,
-                          padding: '0 4px',
-                        }),
-                      }}
-                      options={data?.ingredientTypes.map(({ id, name }) => ({
-                        value: id,
-                        label: name,
-                        isDisabled:
-                          id.startsWith('temp-id:') ||
-                          id === ingredientQuantities[0].ingredient.type?.id,
-                      }))}
-                      isSearchable={true}
-                      isClearable={true}
-                      placeholder='type'
-                      onChange={async (newValue, actionMeta) => {
-                        if (!newValue || !newValue.value) {
-                          console.log(`no newValue`, actionMeta);
-                          return;
+                  <EditableInput />
+                  <EditableControls
+                    text={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
+                  />
+                </Editable>
+              )}
+
+              <Popover isLazy={true}>
+                {({ onClose }) => (
+                  <>
+                    <PopoverTrigger>
+                      <Button
+                        className='text-xs absolute right-0 opacity-0 disabled:opacity-0 disabled:bg-transparent group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
+                        variant='ghost'
+                        isDisabled={
+                          !ingredientQuantities[0].ingredient.type?.id
+                            ? true
+                            : false
                         }
-
-                        let ingredientTypeId;
-
-                        if (actionMeta.action === 'create-option') {
-                          const createIngredientTypeResult =
-                            await createIngredientType({
+                      >
+                        <HiOutlineTrash className='w-5' />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent marginRight={2}>
+                      <PopoverHeader
+                        fontWeight='semibold'
+                        textTransform='initial'
+                      >
+                        Delete Ingredient Type
+                      </PopoverHeader>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverBody textTransform='initial'>
+                        Are you sure you want to permanently delete the
+                        ingredient type?
+                      </PopoverBody>
+                      <PopoverFooter
+                        border='0'
+                        d='flex'
+                        alignItems='center'
+                        justifyContent='flex-end'
+                        pt={3}
+                        pb={3}
+                      >
+                        <Button className='text-xs' size='sm' onClick={onClose}>
+                          Cancel
+                        </Button>
+                        <Button
+                          className='text-xs'
+                          colorScheme='red'
+                          ml={3}
+                          size='sm'
+                          onClick={(e) => {
+                            e.preventDefault();
+                            deleteIngredientType({
                               variables: {
-                                name: newValue.value.toUpperCase(),
+                                ingredientTypeId:
+                                  ingredientQuantities[0].ingredient.type?.id,
                               },
-                              update(cache, { data }) {
+                              update: (cache) => {
                                 cache.modify({
                                   id: cache.identify({
                                     __typename: 'Query',
                                   }),
                                   fields: {
-                                    ingredientTypes: (ingredientTypes) => {
-                                      return ingredientTypes.concat(
-                                        data?.createIngredientType
+                                    ingredientTypes: (
+                                      ingredientTypes,
+                                      { readField }
+                                    ) => {
+                                      return ingredientTypes.filter(
+                                        (ingredientType: any) =>
+                                          readField('id', ingredientType) !==
+                                          ingredientQuantities[0].ingredient
+                                            .type?.id
                                       );
                                     },
                                   },
                                 });
-                                cache.modify({
-                                  id: cache.identify(
-                                    ingredientQuantities[0].ingredient
-                                  ),
-                                  fields: {
-                                    type(existingType, { toReference }) {
-                                      return toReference({
-                                        __typename: 'IngredientType',
-                                        id: data?.createIngredientType?.id,
-                                      });
-                                    },
-                                  },
-                                });
+                                ingredientQuantities.forEach(
+                                  ({ ingredient }) => {
+                                    cache.modify({
+                                      id: cache.identify(ingredient),
+                                      fields: {
+                                        type() {
+                                          return null;
+                                        },
+                                      },
+                                    });
+                                  }
+                                );
                               },
                               optimisticResponse: {
-                                createIngredientType: {
+                                deleteIngredientType: {
                                   __typename: 'IngredientType',
-                                  id: `temp-id:${newValue.value}`,
-                                  name: newValue.value.toUpperCase(),
+                                  id: ingredientQuantities[0].ingredient.type
+                                    ?.id,
                                 },
                               },
                             });
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </PopoverFooter>
+                    </PopoverContent>
+                  </>
+                )}
+              </Popover>
+            </div>
 
-                          if (
-                            !createIngredientTypeResult.data
-                              ?.createIngredientType
-                          ) {
-                            console.log(
-                              'failed to create ingredient type',
-                              createIngredientTypeResult
-                            );
+            <ul className='mb-2 text-base list-disc'>
+              {Object.values(
+                _.groupBy(
+                  ingredientQuantities,
+                  (ingredientQuantity) =>
+                    ingredientQuantity.ingredient.id + ingredientQuantity.unit
+                )
+              ).map((ingredientQuantities) => {
+                return (
+                  <li
+                    className='flex flex-row w-full group list-disc text-sm leading-loose px-1 font-Raleway'
+                    key={
+                      ingredientQuantities[0].ingredient.id +
+                      ingredientQuantities[0].unit
+                    }
+                  >
+                    <span>
+                      <span className='capitalize'>
+                        {ingredientQuantities[0].ingredient.name}
+                      </span>
+                      <small>
+                        <span className='ml-1'>
+                          {_.sumBy(ingredientQuantities, (x) => x.amount)}
+                        </span>
+                        <span className='ml-1'>
+                          {ingredientQuantities[0].unit}
+                        </span>
+                      </small>
+                    </span>
+                    <div className='ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 relative cursor-pointer'>
+                      <span className='uppercase text-xs'>
+                        set ingredient type
+                      </span>
+                      <Creatable
+                        className='min-w-[150px] absolute top-0 right-0 leading-tight opacity-0 focus-within:opacity-100 '
+                        styles={{
+                          control: (base: any) => ({
+                            ...base,
+                            minHeight: 'auto',
+                            cursor: 'pointer',
+                          }),
+                          indicatorSeparator: (base: any) => ({
+                            display: 'none',
+                          }),
+                          dropdownIndicator: (base: any) => ({
+                            ...base,
+                            padding: '0 4px',
+                          }),
+                        }}
+                        options={data?.ingredientTypes.map(({ id, name }) => ({
+                          value: id,
+                          label: name,
+                          isDisabled:
+                            id.startsWith('temp-id:') ||
+                            id === ingredientQuantities[0].ingredient.type?.id,
+                        }))}
+                        isSearchable={true}
+                        isClearable={true}
+                        placeholder='type'
+                        onChange={async (newValue, actionMeta) => {
+                          if (!newValue || !newValue.value) {
+                            console.log(`no newValue`, actionMeta);
                             return;
                           }
 
-                          ingredientTypeId =
-                            createIngredientTypeResult.data.createIngredientType
-                              .id;
-                        } else {
-                          ingredientTypeId = newValue.value;
-                        }
+                          let ingredientTypeId;
 
-                        await updateIngredient({
-                          variables: {
-                            ingredientId: ingredientQuantities[0].ingredient.id,
-                            ingredientTypeId: ingredientTypeId,
-                          },
-                          update(cache, { data }) {
-                            cache.modify({
-                              id: cache.identify(
-                                ingredientQuantities[0].ingredient
-                              ),
-                              fields: {
-                                type(existingType, { toReference }) {
-                                  return toReference({
-                                    __typename: 'IngredientType',
-                                    id: data?.updateIngredient?.type?.id,
+                          if (actionMeta.action === 'create-option') {
+                            const createIngredientTypeResult =
+                              await createIngredientType({
+                                variables: {
+                                  name: newValue.value.toUpperCase(),
+                                },
+                                update(cache, { data }) {
+                                  cache.modify({
+                                    id: cache.identify({
+                                      __typename: 'Query',
+                                    }),
+                                    fields: {
+                                      ingredientTypes: (ingredientTypes) => {
+                                        return ingredientTypes.concat(
+                                          data?.createIngredientType
+                                        );
+                                      },
+                                    },
+                                  });
+                                  cache.modify({
+                                    id: cache.identify(
+                                      ingredientQuantities[0].ingredient
+                                    ),
+                                    fields: {
+                                      type(existingType, { toReference }) {
+                                        return toReference({
+                                          __typename: 'IngredientType',
+                                          id: data?.createIngredientType?.id,
+                                        });
+                                      },
+                                    },
                                   });
                                 },
-                              },
-                            });
-                          },
-                          optimisticResponse: {
-                            updateIngredient: {
-                              __typename: 'Ingredient',
-                              id: ingredientQuantities[0].ingredient.id,
-                              name: ingredientQuantities[0].ingredient.name,
-                              type: {
-                                id: newValue.value,
-                                name: newValue.label,
+                                optimisticResponse: {
+                                  createIngredientType: {
+                                    __typename: 'IngredientType',
+                                    id: `temp-id:${newValue.value}`,
+                                    name: newValue.value.toUpperCase(),
+                                  },
+                                },
+                              });
+
+                            if (
+                              !createIngredientTypeResult.data
+                                ?.createIngredientType
+                            ) {
+                              console.log(
+                                'failed to create ingredient type',
+                                createIngredientTypeResult
+                              );
+                              return;
+                            }
+
+                            ingredientTypeId =
+                              createIngredientTypeResult.data
+                                .createIngredientType.id;
+                          } else {
+                            ingredientTypeId = newValue.value;
+                          }
+
+                          await updateIngredient({
+                            variables: {
+                              ingredientId:
+                                ingredientQuantities[0].ingredient.id,
+                              ingredientTypeId: ingredientTypeId,
+                            },
+                            update(cache, { data }) {
+                              cache.modify({
+                                id: cache.identify(
+                                  ingredientQuantities[0].ingredient
+                                ),
+                                fields: {
+                                  type(existingType, { toReference }) {
+                                    return toReference({
+                                      __typename: 'IngredientType',
+                                      id: data?.updateIngredient?.type?.id,
+                                    });
+                                  },
+                                },
+                              });
+                            },
+                            optimisticResponse: {
+                              updateIngredient: {
+                                __typename: 'Ingredient',
+                                id: ingredientQuantities[0].ingredient.id,
+                                name: ingredientQuantities[0].ingredient.name,
+                                type: {
+                                  id: newValue.value,
+                                  name: newValue.label,
+                                },
                               },
                             },
-                          },
-                        });
-                      }}
-                    />
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
+                          });
+                        }}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
+      )}
     </div>
   );
 };
