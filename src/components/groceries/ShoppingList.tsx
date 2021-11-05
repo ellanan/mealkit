@@ -4,7 +4,18 @@ import _ from 'lodash';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
 import { DateTime } from 'luxon';
-import { Button, Spinner } from '@chakra-ui/react';
+import {
+  Button,
+  Spinner,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  PopoverHeader,
+  PopoverArrow,
+  PopoverFooter,
+  PopoverCloseButton,
+} from '@chakra-ui/react';
 import createPersistedState from 'use-persisted-state';
 import { DateRange } from 'react-date-range';
 import Creatable from 'react-select/creatable';
@@ -206,57 +217,104 @@ export const ShoppingList = () => {
         >
           <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
             {ingredientQuantities[0].ingredient.type?.name ?? 'uncategorized'}
-            <Button
-              className='text-xs absolute right-0 opacity-0 disabled:opacity-0 group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
-              size='sm'
-              variant='ghost'
-              isDisabled={
-                !ingredientQuantities[0].ingredient.type?.id ? true : false
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                deleteIngredientType({
-                  variables: {
-                    ingredientTypeId:
-                      ingredientQuantities[0].ingredient.type?.id,
-                  },
-                  update: (cache) => {
-                    cache.modify({
-                      id: cache.identify({
-                        __typename: 'Query',
-                      }),
-                      fields: {
-                        ingredientTypes: (ingredientTypes, { readField }) => {
-                          return ingredientTypes.filter(
-                            (ingredientType: any) =>
-                              readField('id', ingredientType) !==
-                              ingredientQuantities[0].ingredient.type?.id
-                          );
-                        },
-                      },
-                    });
-                    ingredientQuantities.forEach(({ ingredient }) => {
-                      cache.modify({
-                        id: cache.identify(ingredient),
-                        fields: {
-                          type() {
-                            return null;
-                          },
-                        },
-                      });
-                    });
-                  },
-                  optimisticResponse: {
-                    deleteIngredientType: {
-                      __typename: 'IngredientType',
-                      id: ingredientQuantities[0].ingredient.type?.id,
-                    },
-                  },
-                });
-              }}
-            >
-              <HiOutlineTrash className='w-5' />
-            </Button>
+            <Popover isLazy={true}>
+              {({ onClose }) => (
+                <>
+                  <PopoverTrigger>
+                    <Button
+                      className='text-xs absolute right-0 opacity-0 disabled:opacity-0 disabled:bg-transparent group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
+                      variant='ghost'
+                      isDisabled={
+                        !ingredientQuantities[0].ingredient.type?.id
+                          ? true
+                          : false
+                      }
+                    >
+                      <HiOutlineTrash className='w-5' />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent marginRight={2}>
+                    <PopoverHeader
+                      fontWeight='semibold'
+                      textTransform='initial'
+                    >
+                      Delete Ingredient Type
+                    </PopoverHeader>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverBody textTransform='initial'>
+                      Are you sure you want to permanently delete the ingredient
+                      type?
+                    </PopoverBody>
+                    <PopoverFooter
+                      border='0'
+                      d='flex'
+                      alignItems='center'
+                      justifyContent='flex-end'
+                      pt={3}
+                      pb={3}
+                    >
+                      <Button className='text-xs' size='sm' onClick={onClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        className='text-xs'
+                        colorScheme='red'
+                        ml={3}
+                        size='sm'
+                        onClick={(e) => {
+                          e.preventDefault();
+                          deleteIngredientType({
+                            variables: {
+                              ingredientTypeId:
+                                ingredientQuantities[0].ingredient.type?.id,
+                            },
+                            update: (cache) => {
+                              cache.modify({
+                                id: cache.identify({
+                                  __typename: 'Query',
+                                }),
+                                fields: {
+                                  ingredientTypes: (
+                                    ingredientTypes,
+                                    { readField }
+                                  ) => {
+                                    return ingredientTypes.filter(
+                                      (ingredientType: any) =>
+                                        readField('id', ingredientType) !==
+                                        ingredientQuantities[0].ingredient.type
+                                          ?.id
+                                    );
+                                  },
+                                },
+                              });
+                              ingredientQuantities.forEach(({ ingredient }) => {
+                                cache.modify({
+                                  id: cache.identify(ingredient),
+                                  fields: {
+                                    type() {
+                                      return null;
+                                    },
+                                  },
+                                });
+                              });
+                            },
+                            optimisticResponse: {
+                              deleteIngredientType: {
+                                __typename: 'IngredientType',
+                                id: ingredientQuantities[0].ingredient.type?.id,
+                              },
+                            },
+                          });
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </>
+              )}
+            </Popover>
           </div>
 
           <ul className='mb-2 text-base list-disc'>
