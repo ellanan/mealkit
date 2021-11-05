@@ -309,7 +309,7 @@ export const SingleRecipeDetails = ({
                 </AlertDialogHeader>
 
                 <AlertDialogBody>
-                  Are you sure you want to delete this recipe permeantly?
+                  Are you sure you want to delete this recipe permanently?
                 </AlertDialogBody>
 
                 <AlertDialogFooter>
