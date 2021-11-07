@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"node scripts/ngrok.js\" \"vercel dev\"",
+    "start": "vercel dev",
     "dev": "TAILWIND_MODE=watch craco start",
     "build": "craco build",
     "test": "craco test",
@@ -90,7 +90,6 @@
     "@types/use-persisted-state": "^0.3.0",
     "autoprefixer": "^9.8.8",
     "concurrently": "^6.3.0",
-    "ngrok": "^4.2.2",
     "postcss": "^7.0.39",
     "prisma": "^3.1.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
