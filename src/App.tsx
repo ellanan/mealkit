@@ -13,6 +13,7 @@ import { Login } from './components/login/Login';
 import { RecipeModal } from './components/recipe/RecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
+import { AttributionModal } from './components/footer/AttributionModal';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <CreateRecipeModal />
         <RecipeModal />
         <ShoppingListModal />
+        <AttributionModal />
         <SplitPane
           split='vertical'
           defaultSize={200}

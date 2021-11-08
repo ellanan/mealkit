@@ -2,6 +2,7 @@ import { GoMarkGithub } from 'react-icons/go';
 import { FaTwitter } from 'react-icons/fa';
 import { GrLinkedin } from 'react-icons/gr';
 import { GoInfo } from 'react-icons/go';
+import { NavLink } from 'react-router-dom';
 
 export const Footer = () => {
   return (
@@ -30,14 +31,20 @@ export const Footer = () => {
       >
         <GrLinkedin size={18} />
       </a>
-      <a
+      <NavLink
         className='p-3 text-22 hover:text-21'
-        href='https://icon-library.com/840638.svg.html'
-        target='_blank'
-        rel='noreferrer'
+        to={(location) => {
+          const newQueryParams = new URLSearchParams(location.search);
+          newQueryParams.append('attribution', 'visible');
+
+          return {
+            ...location,
+            search: newQueryParams.toString(),
+          };
+        }}
       >
         <GoInfo size={18} />
-      </a>
+      </NavLink>
     </div>
   );
 };
