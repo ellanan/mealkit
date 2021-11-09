@@ -68,6 +68,7 @@ export interface NexusGenFieldTypes {
   }
   MealPlan: { // field return type
     id: string; // ID!
+    popularRecipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
     schedule: NexusGenRootTypes['MealPlanEntry'][]; // [MealPlanEntry!]!
   }
   MealPlanEntry: { // field return type
@@ -139,6 +140,7 @@ export interface NexusGenFieldTypeNames {
   }
   MealPlan: { // field return type name
     id: 'ID'
+    popularRecipes: 'Recipe'
     schedule: 'MealPlanEntry'
   }
   MealPlanEntry: { // field return type name
@@ -200,6 +202,11 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   MealPlan: {
+    popularRecipes: { // args
+      endDate: string; // String!
+      limit: number; // Int!
+      startDate: string; // String!
+    }
     schedule: { // args
       endDate: string; // String!
       startDate: string; // String!

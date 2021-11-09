@@ -1,5 +1,5 @@
 import { MealType, PrismaClient } from '@prisma/client';
-import { enumType, nonNull, objectType, stringArg } from 'nexus';
+import { enumType, intArg, nonNull, objectType, stringArg } from 'nexus';
 
 const prisma = new PrismaClient();
 
@@ -63,6 +63,45 @@ export const MealPlan = objectType({
           },
         });
         return mealPlanEntries;
+      },
+    });
+    t.nonNull.list.nonNull.field('popularRecipes', {
+      type: 'Recipe',
+      args: {
+        startDate: nonNull(stringArg()),
+        endDate: nonNull(stringArg()),
+        limit: nonNull(intArg({ default: 10 })),
+      },
+      async resolve(parent, args) {
+        const groupByResults = await prisma.mealPlanEntry.groupBy({
+          by: ['recipeId'],
+          _count: {
+            recipeId: true,
+          },
+          where: {
+            date: {
+              gte: new Date(args.startDate).toISOString(),
+              lte: new Date(args.endDate).toISOString(),
+            },
+            mealPlan: {
+              id: parent.id,
+            },
+          },
+          orderBy: {
+            _count: {
+              recipeId: 'desc',
+            },
+          },
+          take: args.limit,
+        });
+
+        return prisma.recipe.findMany({
+          where: {
+            id: {
+              in: groupByResults.map((r) => r.recipeId),
+            },
+          },
+        });
       },
     });
   },

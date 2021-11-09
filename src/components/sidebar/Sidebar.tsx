@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
+import { PopularRecipes } from '../recipe/PopularRecipes';
 import { Recipes } from '../recipe/Recipes';
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
@@ -14,6 +15,7 @@ export const Sidebar = () => {
         <CarrotLogo className='w-5 mr-1.5' />
         MealKit
       </NavLink>
+      <PopularRecipes />
       <div className='flex flex-col overflow-hidden'>
         <Recipes />
       </div>

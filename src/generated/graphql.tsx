@@ -36,7 +36,15 @@ export type IngredientType = {
 export type MealPlan = {
   __typename?: 'MealPlan';
   id: Scalars['ID'];
+  popularRecipes: Array<Recipe>;
   schedule: Array<MealPlanEntry>;
+};
+
+
+export type MealPlanPopularRecipesArgs = {
+  endDate: Scalars['String'];
+  limit?: Scalars['Int'];
+  startDate: Scalars['String'];
 };
 
 
@@ -296,6 +304,14 @@ export type CreateIngredientMutationVariables = Exact<{
 
 
 export type CreateIngredientMutation = { __typename?: 'Mutation', createIngredient: { __typename?: 'Ingredient', id: string, name: string } };
+
+export type MonthlyPlannedMealsQueryVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type MonthlyPlannedMealsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, popularRecipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> } | null | undefined } | null | undefined };
 
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -853,6 +869,50 @@ export function useCreateIngredientMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateIngredientMutationHookResult = ReturnType<typeof useCreateIngredientMutation>;
 export type CreateIngredientMutationResult = Apollo.MutationResult<CreateIngredientMutation>;
 export type CreateIngredientMutationOptions = Apollo.BaseMutationOptions<CreateIngredientMutation, CreateIngredientMutationVariables>;
+export const MonthlyPlannedMealsDocument = gql`
+    query MonthlyPlannedMeals($startDate: String!, $endDate: String!) {
+  currentUser {
+    id
+    mealPlan {
+      id
+      popularRecipes(startDate: $startDate, endDate: $endDate) {
+        id
+        name
+        imageUrl
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMonthlyPlannedMealsQuery__
+ *
+ * To run a query within a React component, call `useMonthlyPlannedMealsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMonthlyPlannedMealsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMonthlyPlannedMealsQuery({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useMonthlyPlannedMealsQuery(baseOptions: Apollo.QueryHookOptions<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>(MonthlyPlannedMealsDocument, options);
+      }
+export function useMonthlyPlannedMealsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>(MonthlyPlannedMealsDocument, options);
+        }
+export type MonthlyPlannedMealsQueryHookResult = ReturnType<typeof useMonthlyPlannedMealsQuery>;
+export type MonthlyPlannedMealsLazyQueryHookResult = ReturnType<typeof useMonthlyPlannedMealsLazyQuery>;
+export type MonthlyPlannedMealsQueryResult = Apollo.QueryResult<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>;
 export const RecipesDocument = gql`
     query Recipes {
   recipes {

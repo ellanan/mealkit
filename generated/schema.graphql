@@ -21,6 +21,7 @@ type IngredientType {
 
 type MealPlan {
   id: ID!
+  popularRecipes(endDate: String!, limit: Int! = 10, startDate: String!): [Recipe!]!
   schedule(endDate: String!, startDate: String!): [MealPlanEntry!]!
 }
 
