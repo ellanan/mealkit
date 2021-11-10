@@ -29,13 +29,13 @@ export const AttributionModal = () => {
       }}
     >
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent className='text-14'>
         <ModalHeader>Attribution</ModalHeader>
         <ModalCloseButton />
         <ModalBody className='text-xs mb-6'>
           Carrot logo created by Free ICONS Library <br />
           <a
-            className='hover:text-25 hover:underline'
+            className='text-14 hover:text-25 hover:underline'
             href='https://icon-library.com/840638.svg.html'
             target='_blank'
             rel='noreferrer'
