@@ -106,10 +106,12 @@ export interface NexusGenFieldTypes {
   Recipe: { // field return type
     category: NexusGenRootTypes['RecipeCategory'] | null; // RecipeCategory
     content: string | null; // String
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: string; // ID!
     imageUrl: string | null; // String
     ingredientQuantities: NexusGenRootTypes['RecipeIngredientQuantity'][]; // [RecipeIngredientQuantity!]!
     name: string; // String!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   RecipeCategory: { // field return type
     id: string; // ID!
@@ -178,10 +180,12 @@ export interface NexusGenFieldTypeNames {
   Recipe: { // field return type name
     category: 'RecipeCategory'
     content: 'String'
+    createdAt: 'DateTime'
     id: 'ID'
     imageUrl: 'String'
     ingredientQuantities: 'RecipeIngredientQuantity'
     name: 'String'
+    updatedAt: 'DateTime'
   }
   RecipeCategory: { // field return type name
     id: 'ID'

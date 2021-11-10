@@ -77,10 +77,12 @@ type Query {
 type Recipe {
   category: RecipeCategory
   content: String
+  createdAt: DateTime!
   id: ID!
   imageUrl: String
   ingredientQuantities: [RecipeIngredientQuantity!]!
   name: String!
+  updatedAt: DateTime!
 }
 
 type RecipeCategory {

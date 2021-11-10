@@ -44,5 +44,11 @@ export const Recipe = objectType({
         );
       },
     });
+    t.nonNull.field('createdAt', {
+      type: 'DateTime',
+    });
+    t.nonNull.field('updatedAt', {
+      type: 'DateTime',
+    });
   },
 });
