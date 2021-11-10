@@ -1,10 +1,16 @@
 import { makeSchema } from 'nexus';
+import { GraphQLDate, GraphQLDateTime } from 'graphql-iso-date';
 import { join } from 'path';
 import * as mutationTypes from '../_graphqlTypes/Mutation';
 import * as queryTypes from '../_graphqlTypes/Query';
 
 export const schema = makeSchema({
-  types: [...Object.values(queryTypes), ...Object.values(mutationTypes)],
+  types: [
+    GraphQLDate,
+    GraphQLDateTime,
+    ...Object.values(queryTypes),
+    ...Object.values(mutationTypes),
+  ],
   outputs: {
     typegen: join(process.cwd(), 'generated', 'nexus-typegen.d.ts'),
     schema: join(process.cwd(), 'generated', 'schema.graphql'),

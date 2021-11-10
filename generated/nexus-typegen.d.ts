@@ -31,6 +31,8 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Date: any
+  DateTime: any
 }
 
 export interface NexusGenObjects {
