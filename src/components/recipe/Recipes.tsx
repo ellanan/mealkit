@@ -109,7 +109,7 @@ export const Recipes = () => {
                 }
               `}
             >
-              <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden'>
+              <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0'>
                 <img
                   className='object-cover w-full h-full'
                   src={recipe.imageUrl ?? defaultImg}
