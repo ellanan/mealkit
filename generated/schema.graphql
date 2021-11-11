@@ -64,6 +64,11 @@ type Mutation {
   updateIngredientQuantityInRecipe(amount: Int, ingredientId: ID!, recipeId: ID!, unit: String): Recipe
 }
 
+enum Order {
+  asc
+  desc
+}
+
 type Query {
   allUsers: [User!]!
   currentUser: User
@@ -71,7 +76,7 @@ type Query {
   ingredients: [Ingredient!]!
   recipe(recipeId: ID!): Recipe
   recipeCategories: [RecipeCategory!]!
-  recipes: [Recipe!]!
+  recipes(limit: Int! = 10, order: Order! = desc, orderBy: RecipeOrderBy! = createdAt): [Recipe!]!
 }
 
 type Recipe {
@@ -95,6 +100,11 @@ type RecipeIngredientQuantity {
   ingredient: Ingredient!
   recipe: Recipe!
   unit: String!
+}
+
+enum RecipeOrderBy {
+  createdAt
+  updatedAt
 }
 
 type User {

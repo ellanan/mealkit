@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { idArg, nonNull, queryType } from 'nexus';
+import { arg, enumType, idArg, intArg, nonNull, queryType } from 'nexus';
 
 export * from './Ingredient';
 export * from './IngredientType';
@@ -40,7 +40,33 @@ export const Query = queryType({
 
     t.nonNull.list.nonNull.field('recipes', {
       type: 'Recipe',
-      resolve: () => prisma.recipe.findMany(),
+      args: {
+        orderBy: arg({
+          type: nonNull(
+            enumType({
+              name: 'RecipeOrderBy',
+              members: ['createdAt', 'updatedAt'],
+            })
+          ),
+          default: 'createdAt',
+        }),
+
+        order: nonNull(
+          arg({
+            type: 'Order',
+            default: 'desc',
+          })
+        ),
+
+        limit: nonNull(intArg({ default: 10 })),
+      },
+      resolve: (_parent, args) =>
+        prisma.recipe.findMany({
+          orderBy: {
+            [args.orderBy]: args.order,
+          },
+          take: args.limit,
+        }),
     });
 
     t.field('recipe', {

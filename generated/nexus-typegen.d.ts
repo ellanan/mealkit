@@ -23,6 +23,8 @@ export interface NexusGenInputs {
 
 export interface NexusGenEnums {
   MealType: PrismaClient.MealType
+  Order: "asc" | "desc"
+  RecipeOrderBy: "createdAt" | "updatedAt"
 }
 
 export interface NexusGenScalars {
@@ -279,6 +281,11 @@ export interface NexusGenArgTypes {
   Query: {
     recipe: { // args
       recipeId: string; // ID!
+    }
+    recipes: { // args
+      limit: number; // Int!
+      order: NexusGenEnums['Order']; // Order!
+      orderBy: NexusGenEnums['RecipeOrderBy']; // RecipeOrderBy!
     }
   }
 }
