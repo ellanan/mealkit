@@ -1,4 +1,4 @@
-import { makeSchema } from 'nexus';
+import { enumType, makeSchema } from 'nexus';
 import { GraphQLDate, GraphQLDateTime } from 'graphql-iso-date';
 import { join } from 'path';
 import * as mutationTypes from '../_graphqlTypes/Mutation';
@@ -8,6 +8,10 @@ export const schema = makeSchema({
   types: [
     GraphQLDate,
     GraphQLDateTime,
+    enumType({
+      name: 'Order',
+      members: ['desc', 'asc'],
+    }),
     ...Object.values(queryTypes),
     ...Object.values(mutationTypes),
   ],
