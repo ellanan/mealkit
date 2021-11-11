@@ -1,7 +1,4 @@
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './apolloClient';
 import { Route, Switch } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import SplitPane from 'react-split-pane';
 
 import { Sidebar } from './components/sidebar/Sidebar';
@@ -14,11 +11,28 @@ import { RecipeModal } from './components/recipe/RecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { AttributionModal } from './components/footer/AttributionModal';
+import { LoginRedirect } from './components/login/LoginRedirect';
+import { useAuthContext } from './useAuthContext';
+import { ReactComponent as CarrotLogo } from './components/sidebar/images/logo-carrot.svg';
 
 const App = () => {
+  const { isLoggedIn, isLoggingIn } = useAuthContext();
+
+  if (isLoggingIn) {
+    return (
+      <div className='w-full h-full flex items-center justify-center motion-safe:animate-bounce'>
+        <CarrotLogo className='w-16' />
+      </div>
+    );
+  }
+  if (!isLoggedIn) {
+    return <Login />;
+  }
   return (
-    <ApolloProvider client={apolloClient}>
-      <ChakraProvider>
+    <Switch>
+      <Route path='/login' component={Login} />
+      <Route path='/loginRedirect' component={LoginRedirect} />
+      <Route>
         <CreateRecipeModal />
         <RecipeModal />
         <ShoppingListModal />
@@ -46,8 +60,8 @@ const App = () => {
             </Switch>
           </div>
         </SplitPane>
-      </ChakraProvider>
-    </ApolloProvider>
+      </Route>
+    </Switch>
   );
 };
 
