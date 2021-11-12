@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { PrismaClient } from '@prisma/client';
 import { arg, enumType, idArg, intArg, nonNull, queryType } from 'nexus';
 
@@ -15,12 +16,14 @@ export const Query = queryType({
   definition(t) {
     t.field('currentUser', {
       type: 'User',
-      resolve: (_parent, _args, context) =>
-        prisma.user.findUnique({
+      resolve: (_parent, _args, context) => {
+        if (_.isNil(context.currentUser?.id)) return null;
+        return prisma.user.findUnique({
           where: {
             id: context.currentUser?.id,
           },
-        }),
+        });
+      },
     });
 
     t.nonNull.list.nonNull.field('allUsers', {
