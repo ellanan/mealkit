@@ -18,6 +18,7 @@ model User {
   recipes    Recipe[]
   mealPlan   MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
   mealPlanId String
+  authProviderId String   @unique
 }
 
 model IngredientType {
