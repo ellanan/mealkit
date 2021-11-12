@@ -11,8 +11,22 @@ import { RecipeModal } from './components/recipe/RecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { AttributionModal } from './components/footer/AttributionModal';
+import { ReactComponent as CarrotLogo } from './components/sidebar/images/logo-carrot.svg';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const App = () => {
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return (
+      <div className='w-full h-full flex items-center justify-center motion-safe:animate-bounce'>
+        <CarrotLogo className='w-16' />
+      </div>
+    );
+  }
+  if (!isAuthenticated) {
+    return <Login />;
+  }
   return (
     <>
       <CreateRecipeModal />
