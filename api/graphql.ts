@@ -1,10 +1,13 @@
+import axios from 'axios';
+import { PrismaClient } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as Sentry from '@sentry/node';
 
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-cloud-functions';
 import { ApolloServerPluginInlineTrace } from 'apollo-server-core';
+import jwt from 'jsonwebtoken';
 
-import { Context } from './contextModule';
 import { schema } from './_helpers/makeSchema';
 import { sentryProfilePlugin } from './_helpers/sentryProfilePlugin';
 
@@ -17,13 +20,73 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
+const prisma = new PrismaClient();
+
 const server = new ApolloServer({
   schema,
-  context: (): Context => {
+  context: async ({ req }) => {
+    let currentUser = undefined;
+    const token = req.headers.authorization?.split(' ')[1];
+    const tokenContents =
+      token && jwt.verify(token, process.env.AUTH0_PEM as string);
+    console.log('tokenContents', tokenContents);
+    const authProviderId = tokenContents?.sub as string;
+
+    if (authProviderId) {
+      const user = await prisma.user.findUnique({
+        where: {
+          authProviderId,
+        },
+      });
+
+      if (user) {
+        currentUser = user;
+      } else {
+        // !!! race condition -- multiple requests may have been sent when a user hasn't been created yet
+        const auth0UserInfoEndpoint = (tokenContents as any)?.aud
+          // this should be ["mealkit-api", "https://dev-me6pzgrl.us.auth0.com/userinfo"]
+          ?.find((x: string) => x.endsWith('/userinfo'));
+
+        const userInfo = await axios.get(auth0UserInfoEndpoint, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        try {
+          currentUser = await prisma.user.create({
+            data: {
+              authProviderId: authProviderId,
+              username: userInfo.data.email,
+              email: userInfo.data.email,
+              mealPlan: {
+                create: {},
+              },
+            },
+          });
+        } catch (e) {
+          if (
+            e instanceof PrismaClientKnownRequestError &&
+            e.message.includes(
+              'Unique constraint failed on the fields: (`authProviderId`)'
+            )
+          ) {
+            // user.create threw an error because another request already created a user with the same authProviderId and email
+            currentUser = await prisma.user.findUnique({
+              where: {
+                authProviderId,
+              },
+            });
+          } else {
+            // avoid failing silently for unexpected errors
+            throw e;
+          }
+        }
+      }
+    }
+
     return {
-      currentUser: {
-        id: 'ckuk47cjl0000u7rzs57upv7s',
-      },
+      currentUser,
       transaction: Sentry.startTransaction({
         op: 'gql',
         name: 'DefaultGraphQLTransaction', // this will be the default name, unless the gql query has a name
