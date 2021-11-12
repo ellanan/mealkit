@@ -40,7 +40,6 @@
     "@types/react-dom": "^17.0.0",
     "apollo-server": "^3.4.0",
     "apollo-server-cloud-functions": "^3.4.0",
-    "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "constate": "^3.3.0",
     "graphql": "^15.6.0",

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as Sentry from '@sentry/node';
@@ -43,16 +42,6 @@ const server = new ApolloServer({
         currentUser = user;
       } else {
         // !!! race condition -- multiple requests may have been sent when a user hasn't been created yet
-        const auth0UserInfoEndpoint = (tokenContents as any)?.aud
-          // this should be ["mealkit-api", "https://dev-me6pzgrl.us.auth0.com/userinfo"]
-          ?.find((x: string) => x.endsWith('/userinfo'));
-
-        const userInfo = await axios.get(auth0UserInfoEndpoint, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-
         try {
           currentUser = await prisma.user.create({
             data: {
