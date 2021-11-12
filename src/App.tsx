@@ -12,19 +12,19 @@ import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { AttributionModal } from './components/footer/AttributionModal';
 import { ReactComponent as CarrotLogo } from './components/sidebar/images/logo-carrot.svg';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 
 const App = () => {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { accessToken, isGettingAccessToken } = useAuthAccessTokenContext();
 
-  if (isLoading) {
+  if (isGettingAccessToken) {
     return (
       <div className='w-full h-full flex items-center justify-center motion-safe:animate-bounce'>
         <CarrotLogo className='w-16' />
       </div>
     );
   }
-  if (!isAuthenticated) {
+  if (!accessToken) {
     return <Login />;
   }
   return (

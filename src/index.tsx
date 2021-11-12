@@ -7,11 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { CustomEmotionCacheProvider } from './utils/CustomEmotionCacheProvider';
 import { ChakraProvider } from '@chakra-ui/react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './apolloClient';
+import { ApolloClientProvider } from './ApolloClientProvider';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 import App from './App';
+import { AuthAccessTokenProvider } from './useAuthAccessTokenContext';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -22,11 +22,13 @@ ReactDOM.render(
           clientId={process.env.REACT_APP_AUTH0_CLIENT_ID as string}
           redirectUri={window.location.origin}
         >
-          <ApolloProvider client={apolloClient}>
-            <ChakraProvider>
-              <App />
-            </ChakraProvider>
-          </ApolloProvider>
+          <AuthAccessTokenProvider>
+            <ApolloClientProvider>
+              <ChakraProvider>
+                <App />
+              </ChakraProvider>
+            </ApolloClientProvider>
+          </AuthAccessTokenProvider>
         </Auth0Provider>
       </CustomEmotionCacheProvider>
     </React.StrictMode>
