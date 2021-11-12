@@ -57,8 +57,6 @@ const server = new ApolloServer({
           currentUser = await prisma.user.create({
             data: {
               authProviderId: authProviderId,
-              username: userInfo.data.email,
-              email: userInfo.data.email,
               mealPlan: {
                 create: {},
               },
