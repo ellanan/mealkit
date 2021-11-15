@@ -2,8 +2,6 @@
 import { css } from '@emotion/react';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
-import { Tooltip } from '@chakra-ui/react';
-import { BsInfoCircle as InfoIcon } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
@@ -42,14 +40,7 @@ export const RecentRecipes = () => {
   return (
     <>
       <h1 className='text-sm text-25 font-medium mb-1 py-1 px-4 mt-2'>
-        <Tooltip
-          label='Last 3 newly added recipes'
-          className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
-        >
-          <span>
-            Recent Recipes <InfoIcon className='inline-block w-3' />
-          </span>
-        </Tooltip>
+        <span>Recently Added</span>
       </h1>
       <div
         className='flex flex-col overflow-auto'
