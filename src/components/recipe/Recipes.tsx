@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
 import { PopularRecipes } from './PopularRecipes';
+import { RecentRecipes } from './RecentRecipes';
 
 const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
 
@@ -65,6 +66,7 @@ export const Recipes = () => {
         </NavLink>
       </div>
       <PopularRecipes />
+      <RecentRecipes />
       <div
         className='flex flex-col overflow-auto'
         css={css`

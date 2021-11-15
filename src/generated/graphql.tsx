@@ -12,6 +12,10 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  DateTime: any;
 };
 
 export type Ingredient = {
@@ -166,6 +170,11 @@ export type MutationUpdateIngredientQuantityInRecipeArgs = {
   unit?: Maybe<Scalars['String']>;
 };
 
+export enum Order {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
 export type Query = {
   __typename?: 'Query';
   allUsers: Array<User>;
@@ -182,14 +191,23 @@ export type QueryRecipeArgs = {
   recipeId: Scalars['ID'];
 };
 
+
+export type QueryRecipesArgs = {
+  limit?: Scalars['Int'];
+  order?: Order;
+  orderBy?: RecipeOrderBy;
+};
+
 export type Recipe = {
   __typename?: 'Recipe';
   category?: Maybe<RecipeCategory>;
   content?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   ingredientQuantities: Array<RecipeIngredientQuantity>;
   name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type RecipeCategory = {
@@ -205,6 +223,11 @@ export type RecipeIngredientQuantity = {
   recipe: Recipe;
   unit: Scalars['String'];
 };
+
+export enum RecipeOrderBy {
+  CreatedAt = 'createdAt',
+  UpdatedAt = 'updatedAt'
+}
 
 export type User = {
   __typename?: 'User';
@@ -312,6 +335,15 @@ export type MonthlyPlannedMealsQueryVariables = Exact<{
 
 
 export type MonthlyPlannedMealsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, popularRecipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> } | null | undefined } | null | undefined };
+
+export type SortedRecipesQueryVariables = Exact<{
+  orderBy: RecipeOrderBy;
+  order: Order;
+  limit: Scalars['Int'];
+}>;
+
+
+export type SortedRecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> };
 
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -875,7 +907,7 @@ export const MonthlyPlannedMealsDocument = gql`
     id
     mealPlan {
       id
-      popularRecipes(startDate: $startDate, endDate: $endDate) {
+      popularRecipes(startDate: $startDate, endDate: $endDate, limit: 3) {
         id
         name
         imageUrl
@@ -913,6 +945,45 @@ export function useMonthlyPlannedMealsLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type MonthlyPlannedMealsQueryHookResult = ReturnType<typeof useMonthlyPlannedMealsQuery>;
 export type MonthlyPlannedMealsLazyQueryHookResult = ReturnType<typeof useMonthlyPlannedMealsLazyQuery>;
 export type MonthlyPlannedMealsQueryResult = Apollo.QueryResult<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>;
+export const SortedRecipesDocument = gql`
+    query SortedRecipes($orderBy: RecipeOrderBy!, $order: Order!, $limit: Int!) {
+  recipes(orderBy: $orderBy, order: $order, limit: $limit) {
+    id
+    name
+    imageUrl
+  }
+}
+    `;
+
+/**
+ * __useSortedRecipesQuery__
+ *
+ * To run a query within a React component, call `useSortedRecipesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSortedRecipesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSortedRecipesQuery({
+ *   variables: {
+ *      orderBy: // value for 'orderBy'
+ *      order: // value for 'order'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useSortedRecipesQuery(baseOptions: Apollo.QueryHookOptions<SortedRecipesQuery, SortedRecipesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SortedRecipesQuery, SortedRecipesQueryVariables>(SortedRecipesDocument, options);
+      }
+export function useSortedRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SortedRecipesQuery, SortedRecipesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SortedRecipesQuery, SortedRecipesQueryVariables>(SortedRecipesDocument, options);
+        }
+export type SortedRecipesQueryHookResult = ReturnType<typeof useSortedRecipesQuery>;
+export type SortedRecipesLazyQueryHookResult = ReturnType<typeof useSortedRecipesLazyQuery>;
+export type SortedRecipesQueryResult = Apollo.QueryResult<SortedRecipesQuery, SortedRecipesQueryVariables>;
 export const RecipesDocument = gql`
     query Recipes {
   recipes {
