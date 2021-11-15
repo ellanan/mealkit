@@ -57,7 +57,25 @@ export const PopularRecipes = () => {
           </span>
         </Tooltip>
       </h1>
-      <div className='flex flex-col overflow-auto'>
+      <div
+        className='flex flex-col overflow-auto'
+        css={css`
+          scrollbar-width: thin;
+          scrollbar-color: #e7a47a60 transparent;
+          ::-webkit-scrollbar {
+            background: transparent;
+          }
+          ::-webkit-scrollbar-thumb {
+            border-bottom: 4px solid #fff2ec;
+            border-left: 4px solid #fff2ec;
+            border-right: 4px solid #fff2ec;
+            border-top: 4px solid #fff2ec;
+            border-radius: 8px;
+            background: #e7a47a60;
+            min-height: 40 px;
+          }
+        `}
+      >
         {data?.currentUser?.mealPlan?.popularRecipes.map((recipe) => (
           <NavLink
             className='flex items-center py-1 px-4 text-14 text-sm'
