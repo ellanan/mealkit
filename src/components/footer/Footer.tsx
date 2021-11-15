@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 export const Footer = () => {
   return (
-    <div className='flex flex-row items-center justify-center mt-auto w-full py-1 px-0'>
+    <div className='flex items-center justify-center py-1 px-0'>
       <a
         className='p-3 text-22 hover:text-21'
         href='https://github.com/ellanan'

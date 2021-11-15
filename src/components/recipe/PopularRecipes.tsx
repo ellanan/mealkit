@@ -42,7 +42,7 @@ export const PopularRecipes = () => {
   }
 
   return (
-    <div className='mt-6 py-1 px-4 text-14'>
+    <div className='py-1 px-4 text-14'>
       <h1 className='text-sm text-25 font-medium mb-1'>
         <Tooltip
           label='Based on frequency from the last 30 days'
