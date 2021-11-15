@@ -12,8 +12,11 @@ import { Spinner } from '@chakra-ui/spinner';
 const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
 
 export const PopularRecipes = () => {
-  const today = useMemo(() => DateTime.now(), []);
-  const startDate = useMemo(() => today.minus({ days: 30 }), [today]);
+  const today = useMemo(() => DateTime.now().endOf('day'), []);
+  const startDate = useMemo(
+    () => today.minus({ days: 30 }).startOf('day'),
+    [today]
+  );
 
   const { data, error: errorLoadingMonthlyPlannedMeals } = useQuery<
     GraphQLTypes.MonthlyPlannedMealsQuery,
