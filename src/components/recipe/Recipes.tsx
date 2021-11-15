@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
+import { PopularRecipes } from './PopularRecipes';
+
 const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
 
 export const Recipes = () => {
@@ -62,6 +64,7 @@ export const Recipes = () => {
           <SmallAddIcon w={4} h={4} /> Create Recipe
         </NavLink>
       </div>
+      <PopularRecipes />
       <div
         className='flex flex-col overflow-auto'
         css={css`
