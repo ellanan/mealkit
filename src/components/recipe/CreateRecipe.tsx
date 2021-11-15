@@ -105,7 +105,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 }),
                 fields: {
                   recipes(existingRecipes) {
-                    return existingRecipes.concat(data?.createRecipe);
+                    return [data?.createRecipe].concat(existingRecipes);
                   },
                 },
               });
