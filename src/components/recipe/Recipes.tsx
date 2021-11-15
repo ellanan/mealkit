@@ -15,6 +15,7 @@ const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
 
 export const Recipes = () => {
   const [search, setSearch] = useState<string>('');
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
     query Recipes {
@@ -47,6 +48,9 @@ export const Recipes = () => {
             onChange={(e) => {
               e.preventDefault();
               setSearch(e.target.value);
+              e.target.value !== ''
+                ? setIsSearching(true)
+                : setIsSearching(false);
             }}
           />
         </InputGroup>
@@ -65,71 +69,77 @@ export const Recipes = () => {
           <SmallAddIcon w={4} h={4} /> Create Recipe
         </NavLink>
       </div>
-      <PopularRecipes />
-      <RecentRecipes />
-      <div
-        className='flex flex-col overflow-auto'
-        css={css`
-          scrollbar-width: thin;
-          scrollbar-color: #e7a47a60 transparent;
-          ::-webkit-scrollbar {
-            background: transparent;
-          }
-          ::-webkit-scrollbar-thumb {
-            border-bottom: 4px solid #fff2ec;
-            border-left: 4px solid #fff2ec;
-            border-right: 4px solid #fff2ec;
-            border-top: 4px solid #fff2ec;
-            border-radius: 8px;
-            background: #e7a47a60;
-            min-height: 40 px;
-          }
-        `}
-      >
-        {data?.recipes
-          .filter((recipe) =>
-            recipe.name.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((recipe) => (
-            <NavLink
-              className='flex items-center py-1 px-4 text-14 text-sm'
-              key={recipe.id}
-              to={(location) => {
-                const newQueryParams = new URLSearchParams(location.search);
-                newQueryParams.set('modalRecipeId', recipe.id);
 
-                return {
-                  ...location,
-                  search: newQueryParams.toString(),
-                };
-              }}
-              css={css`
-                :hover {
-                  background-image: linear-gradient(
-                    to right,
-                    transparent,
-                    #fae4daa3 20%,
-                    #fae4da
-                  );
-                }
-              `}
-            >
-              <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0'>
-                <img
-                  className='object-cover w-full h-full'
-                  src={recipe.imageUrl ?? defaultImg}
-                  alt=''
-                />
-                {recipe.id.startsWith('temp-id') && (
-                  <div className='flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm'>
-                    <Spinner size='sm' color='#f88c5a' />
-                  </div>
-                )}
-              </div>
-              {recipe.name}
-            </NavLink>
-          ))}
-      </div>
+      {!isSearching ? (
+        <>
+          <PopularRecipes />
+          <RecentRecipes />
+        </>
+      ) : (
+        <div
+          className='flex flex-col overflow-auto'
+          css={css`
+            scrollbar-width: thin;
+            scrollbar-color: #e7a47a60 transparent;
+            ::-webkit-scrollbar {
+              background: transparent;
+            }
+            ::-webkit-scrollbar-thumb {
+              border-bottom: 4px solid #fff2ec;
+              border-left: 4px solid #fff2ec;
+              border-right: 4px solid #fff2ec;
+              border-top: 4px solid #fff2ec;
+              border-radius: 8px;
+              background: #e7a47a60;
+              min-height: 40 px;
+            }
+          `}
+        >
+          {data?.recipes
+            .filter((recipe) =>
+              recipe.name.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((recipe) => (
+              <NavLink
+                className='flex items-center py-1 px-4 text-14 text-sm'
+                key={recipe.id}
+                to={(location) => {
+                  const newQueryParams = new URLSearchParams(location.search);
+                  newQueryParams.set('modalRecipeId', recipe.id);
+
+                  return {
+                    ...location,
+                    search: newQueryParams.toString(),
+                  };
+                }}
+                css={css`
+                  :hover {
+                    background-image: linear-gradient(
+                      to right,
+                      transparent,
+                      #fae4daa3 20%,
+                      #fae4da
+                    );
+                  }
+                `}
+              >
+                <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0'>
+                  <img
+                    className='object-cover w-full h-full'
+                    src={recipe.imageUrl ?? defaultImg}
+                    alt=''
+                  />
+                  {recipe.id.startsWith('temp-id') && (
+                    <div className='flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm'>
+                      <Spinner size='sm' color='#f88c5a' />
+                    </div>
+                  )}
+                </div>
+                {recipe.name}
+              </NavLink>
+            ))}
+        </div>
+      )}
     </>
   );
 };
