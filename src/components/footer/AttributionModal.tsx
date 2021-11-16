@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 
-import { ReactComponent as CarrotLogo } from '../sidebar/images/logo-carrot.svg';
+import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 
 export const AttributionModal = () => {
   const history = useHistory();

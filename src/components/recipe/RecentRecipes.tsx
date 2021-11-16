@@ -5,7 +5,7 @@ import * as GraphQLTypes from '../../generated/graphql';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
-const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
+const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const RecentRecipes = () => {
   const { data, error: errorLoadingRecipes } = useQuery<

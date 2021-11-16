@@ -9,7 +9,7 @@ import { Tooltip } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
-const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
+const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const PopularRecipes = () => {
   const today = useMemo(() => DateTime.now().endOf('day'), []);

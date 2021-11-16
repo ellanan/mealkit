@@ -17,7 +17,7 @@ import { MealPlanTopBar } from './MealPlanTopBar';
 import { MealPlanDates } from './MealPlanDates';
 import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
 
-const defaultImg = require('./images/defaultImg.jpg').default;
+const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const MealPlan = () => {
   const initRef = useRef<any>();

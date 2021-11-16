@@ -11,7 +11,7 @@ import { RecipeModal } from './components/recipe/RecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { AttributionModal } from './components/footer/AttributionModal';
-import { ReactComponent as CarrotLogo } from './components/sidebar/images/logo-carrot.svg';
+import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
 import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 
 const App = () => {

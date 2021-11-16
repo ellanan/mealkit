@@ -11,7 +11,7 @@ import { Spinner } from '@chakra-ui/spinner';
 import { PopularRecipes } from './PopularRecipes';
 import { RecentRecipes } from './RecentRecipes';
 
-const defaultImg = require('../mealPlan/images/defaultImg.jpg').default;
+const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const Recipes = () => {
   const [search, setSearch] = useState<string>('');
