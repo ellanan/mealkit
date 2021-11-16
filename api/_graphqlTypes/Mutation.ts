@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import {
   arg,
   idArg,
@@ -13,8 +12,7 @@ import {
 import _ from 'lodash';
 
 import { NexusMealType } from './MealPlan';
-
-const prisma = new PrismaClient();
+import { prisma } from '../_helpers/prismaClient';
 
 export const Mutation = mutationType({
   definition(t) {

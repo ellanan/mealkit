@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as Sentry from '@sentry/node';
 
@@ -9,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 import { schema } from './_helpers/makeSchema';
 import { sentryProfilePlugin } from './_helpers/sentryProfilePlugin';
+import { prisma } from './_helpers/prismaClient';
 
 Sentry.init({
   dsn: 'https://ad1bf1ba259c46aea27c96113c2de074@o1044934.ingest.sentry.io/6020188',
@@ -18,8 +18,6 @@ Sentry.init({
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
 });
-
-const prisma = new PrismaClient();
 
 const server = new ApolloServer({
   schema,

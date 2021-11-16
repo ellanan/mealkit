@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { objectType } from 'nexus';
-
-const prisma = new PrismaClient();
+import { prisma } from '../_helpers/prismaClient';
 
 export const Ingredient = objectType({
   name: 'Ingredient',
