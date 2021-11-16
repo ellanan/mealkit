@@ -38,6 +38,9 @@ module.exports = {
         Montserrat: ['Montserrat', 'sans-serif'],
         Raleway: ['Raleway', 'sans-serif'],
       },
+      borderWidth: {
+        1: '1px',
+      },
       keyframes: {
         bounce: {
           '0%, 100%': {

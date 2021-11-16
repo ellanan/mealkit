@@ -9,7 +9,7 @@ export const Login = () => {
   ) : (
     <button
       onClick={() => logout()}
-      className='flex items-center hover:bg-21 text-white text-sm bg-17 rounded-2xl mt-2 px-3 py-1'
+      className='font-Raleway flex items-center text-14 text-sm mt-5 px-3 py-1 rounded-full border-1 hover:bg-gray-400 hover:text-white hover:rounded-full'
     >
       <IoLogOutOutline className='mr-2' />
       Log Out
