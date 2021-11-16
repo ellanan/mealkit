@@ -8,6 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
 
+import { ReactComponent as CarrotLogo } from '../sidebar/images/logo-carrot.svg';
+
 export const AttributionModal = () => {
   const history = useHistory();
   const location = useLocation();
@@ -32,7 +34,8 @@ export const AttributionModal = () => {
       <ModalContent className='text-14'>
         <ModalHeader>Attribution</ModalHeader>
         <ModalCloseButton />
-        <ModalBody className='text-xs mb-6'>
+        <ModalBody className='text-xs mb-4'>
+          <CarrotLogo className='w-12 mr-4.5 mb-4' />
           Carrot logo created by Free ICONS Library <br />
           <a
             className='text-14 hover:text-25 hover:underline'
