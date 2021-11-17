@@ -21,9 +21,9 @@ export const MealPlanTopBar = (props: {
   const { user } = useAuth0();
 
   return (
-    <div className='flex items-center justify-start pt-3'>
+    <div className='flex items-center justify-start pt-3 pb-2'>
       <Button
-        className='text-11 my-0 mx-4 ounded-full border-solid focus:shadow-none hover:bg-12'
+        className='text-11 my-0 mx-5 rounded-full border-solid focus:shadow-none hover:bg-12'
         onClick={(e) => {
           e.preventDefault();
           props.setStartDate(props.today.startOf('week'));
