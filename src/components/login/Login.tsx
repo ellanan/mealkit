@@ -1,11 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { IoLogOutOutline } from 'react-icons/io5';
 
+import { Home } from '../home/Home';
+
 export const Login = () => {
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+  const { isAuthenticated, logout } = useAuth0();
 
   return !isAuthenticated ? (
-    <button onClick={() => loginWithRedirect()}>login</button>
+    <Home />
   ) : (
     <button
       onClick={() => logout()}
