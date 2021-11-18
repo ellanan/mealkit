@@ -11,7 +11,7 @@ export const Home = () => {
 
   return (
     <div className='flex flex-col h-full w-full font-Montserrat'>
-      <div className='flex items-center pl-12 pr-8 py-4'>
+      <div className='flex items-center pl-12 pr-8 py-6'>
         <NavLink
           to='/'
           className='text-3xl font-medium text-23 font-Montserrat flex'
@@ -27,7 +27,7 @@ export const Home = () => {
         </button>
       </div>
 
-      <h1 className='text-14 text-4xl text-center font-extrabold font-Vollkorn px-4 pt-6 pb-12 mt-10 max-w-[19em] mx-auto'>
+      <h1 className='text-14 text-5xl text-center font-extrabold font-Vollkorn px-4 pt-6 pb-12 mt-10 max-w-[19em] mx-auto'>
         Don't let food be something that "happens to you"
       </h1>
 
@@ -52,16 +52,16 @@ export const Home = () => {
 
       <div className='flex items-center justify-between my-6 mx-28'>
         <div className='max-w-[320px]'>
-          <h1 className='text-14 text-2xl font-bold pb-2'>
+          <h1 className='text-14 text-4xl font-bold pb-5'>
             Plan meals for the week
           </h1>
-          <p>
+          <p className='text-lg'>
             Easily plan your breakfasts, lunches and dinners by selecting from
             recipes in your library.
           </p>
         </div>
         <img
-          className='mt-4 w-6/12 rounded-xl'
+          className='mt-6 w-6/12 rounded-xl'
           src={require('../../images/meal-plan-example.jpg').default}
           alt=''
         />
@@ -69,15 +69,15 @@ export const Home = () => {
 
       <div className='flex items-center justify-between my-6 mx-28'>
         <img
-          className='mt-4 w-6/12 rounded-xl'
+          className='mt-6 w-6/12 rounded-xl'
           src={require('../../images/groceries-list-example.jpg').default}
           alt=''
         />
         <div className='max-w-[320px]'>
-          <h1 className='text-14 text-2xl font-bold pb-2'>
-            Automated grocery list
+          <h1 className='text-14 text-4xl font-bold pb-5'>
+            Auto generate grocery list
           </h1>
-          <p>
+          <p className='text-lg'>
             Auto-generate your shopping list based on meals planned in the
             selected date range.
           </p>
@@ -86,28 +86,28 @@ export const Home = () => {
 
       <div className='flex items-center justify-between my-6 mx-28'>
         <div className='max-w-[320px]'>
-          <h1 className='text-14 text-2xl font-bold pb-2'>
-            Collaborate on meal plans with family and friends
+          <h1 className='text-14 text-4xl font-bold pb-5'>
+            Collaborate with family and friends
           </h1>
-          <p>
+          <p className='text-lg'>
             Share and view a single meal plan for housemates that cook together,
             or ones who are always asking "what's for breakfast/lunch/dinner?"
           </p>
         </div>
         <img
-          className='mt-4 w-6/12 rounded-xl'
+          className='mt-6 w-6/12 rounded-xl'
           src={require('../../images/share-plan-example.svg').default}
           alt=''
         />
       </div>
 
-      <div className='flex flex-col items-center justify-center min-h-[240px] bg-29 mt-24 pt-4 relative'>
+      <div className='flex flex-col items-center min-h-[240px] bg-29 mt-24 relative'>
         <img
           src={require('../../images/footer-wave.svg').default}
           alt=''
-          className='transform -translate-y-full'
+          className='transform -translate-y-full absolute top-[1px]'
         />
-        <h1 className='text-14 text-sm font-semibold'>ATTRIBUTION</h1>
+        <h1 className='text-14 text-sm font-semibold mt-10'>ATTRIBUTIONS</h1>
         <div className='flex items-center'>
           <ul className='p-2 text-xs text-14'>
             <li className='flex items-center'>
