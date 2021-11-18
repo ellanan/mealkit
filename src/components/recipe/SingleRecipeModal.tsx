@@ -7,7 +7,7 @@ import {
 import { useHistory, useLocation } from 'react-router';
 import { SingleRecipeDetails } from './SingleRecipeDetails';
 
-export const RecipeModal = () => {
+export const SingleRecipeModal = () => {
   const history = useHistory();
   const location = useLocation();
   const currentQueryParameters = new URLSearchParams(location.search);
