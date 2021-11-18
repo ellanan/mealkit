@@ -17,7 +17,7 @@ export const RecipesInSideBar = () => {
   const [search, setSearch] = useState<string>('');
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
-  const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
+  const { data, error } = useQuery<GraphQLTypes.RecipesInSideBarQuery>(gql`
     query RecipesInSideBar {
       recipes {
         ...RecipeInList

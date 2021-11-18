@@ -345,10 +345,10 @@ export type SortedRecipesQueryVariables = Exact<{
 
 export type SortedRecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> };
 
-export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
+export type RecipesInSideBarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
+export type RecipesInSideBarQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
 
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -984,8 +984,8 @@ export function useSortedRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type SortedRecipesQueryHookResult = ReturnType<typeof useSortedRecipesQuery>;
 export type SortedRecipesLazyQueryHookResult = ReturnType<typeof useSortedRecipesLazyQuery>;
 export type SortedRecipesQueryResult = Apollo.QueryResult<SortedRecipesQuery, SortedRecipesQueryVariables>;
-export const RecipesDocument = gql`
-    query Recipes {
+export const RecipesInSideBarDocument = gql`
+    query RecipesInSideBar {
   recipes {
     ...RecipeInList
   }
@@ -993,31 +993,31 @@ export const RecipesDocument = gql`
     ${RecipeInListFragmentDoc}`;
 
 /**
- * __useRecipesQuery__
+ * __useRecipesInSideBarQuery__
  *
- * To run a query within a React component, call `useRecipesQuery` and pass it any options that fit your needs.
- * When your component renders, `useRecipesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRecipesInSideBarQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecipesInSideBarQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRecipesQuery({
+ * const { data, loading, error } = useRecipesInSideBarQuery({
  *   variables: {
  *   },
  * });
  */
-export function useRecipesQuery(baseOptions?: Apollo.QueryHookOptions<RecipesQuery, RecipesQueryVariables>) {
+export function useRecipesInSideBarQuery(baseOptions?: Apollo.QueryHookOptions<RecipesInSideBarQuery, RecipesInSideBarQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RecipesQuery, RecipesQueryVariables>(RecipesDocument, options);
+        return Apollo.useQuery<RecipesInSideBarQuery, RecipesInSideBarQueryVariables>(RecipesInSideBarDocument, options);
       }
-export function useRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecipesQuery, RecipesQueryVariables>) {
+export function useRecipesInSideBarLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RecipesInSideBarQuery, RecipesInSideBarQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RecipesQuery, RecipesQueryVariables>(RecipesDocument, options);
+          return Apollo.useLazyQuery<RecipesInSideBarQuery, RecipesInSideBarQueryVariables>(RecipesInSideBarDocument, options);
         }
-export type RecipesQueryHookResult = ReturnType<typeof useRecipesQuery>;
-export type RecipesLazyQueryHookResult = ReturnType<typeof useRecipesLazyQuery>;
-export type RecipesQueryResult = Apollo.QueryResult<RecipesQuery, RecipesQueryVariables>;
+export type RecipesInSideBarQueryHookResult = ReturnType<typeof useRecipesInSideBarQuery>;
+export type RecipesInSideBarLazyQueryHookResult = ReturnType<typeof useRecipesInSideBarLazyQuery>;
+export type RecipesInSideBarQueryResult = Apollo.QueryResult<RecipesInSideBarQuery, RecipesInSideBarQueryVariables>;
 export const SingleRecipeDocument = gql`
     query SingleRecipe($recipeId: ID!) {
   currentUser {
