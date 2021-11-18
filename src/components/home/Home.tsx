@@ -101,7 +101,12 @@ export const Home = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center justify-center min-h-[240px] bg-29 mt-8 pt-4'>
+      <div className='flex flex-col items-center justify-center min-h-[240px] bg-29 mt-24 pt-4 relative'>
+        <img
+          src={require('../../images/footer-wave.svg').default}
+          alt=''
+          className='transform -translate-y-full'
+        />
         <h1 className='text-14 text-sm font-semibold'>ATTRIBUTION</h1>
         <div className='flex items-center'>
           <ul className='p-2 text-xs text-14'>
