@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { BiListUl } from 'react-icons/bi';
+import { GiCook } from 'react-icons/gi';
 import { VscAccount } from 'react-icons/vsc';
 import { NavLink } from 'react-router-dom';
 import { DateTime } from 'luxon';
@@ -53,6 +54,13 @@ export const MealPlanTopBar = (props: {
       </span>
       <NavLink
         className='flex flex-row items-center ml-auto mr-5 rounded-full text-white text-sm py-1 px-3 bg-28 hover:bg-23 font-medium uppercase'
+        to='/recipes'
+      >
+        <GiCook className='mr-1' size={16} />
+        RECIPES
+      </NavLink>
+      <NavLink
+        className='flex flex-row items-center mr-5 rounded-full text-white text-sm py-1 px-3 bg-28 hover:bg-23 font-medium uppercase'
         to={(location) => {
           const newQueryParams = new URLSearchParams(location.search);
           newQueryParams.append('shoppingList', 'visible');
@@ -66,6 +74,7 @@ export const MealPlanTopBar = (props: {
         <BiListUl className='mr-1' size={18} />
         Groceries
       </NavLink>
+
       <Popover closeOnBlur={true} closeOnEsc={true}>
         <PopoverTrigger>
           <button className='mr-4'>
