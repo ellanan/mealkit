@@ -13,12 +13,12 @@ import { RecentRecipes } from './RecentRecipes';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
-export const Recipes = () => {
+export const RecipesInSideBar = () => {
   const [search, setSearch] = useState<string>('');
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   const { data, error } = useQuery<GraphQLTypes.RecipesQuery>(gql`
-    query Recipes {
+    query RecipesInSideBar {
       recipes {
         ...RecipeInList
       }

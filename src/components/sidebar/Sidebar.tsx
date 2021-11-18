@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { Recipes } from '../recipe/Recipes';
+import { RecipesInSideBar } from '../recipe/RecipesInSidebar';
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 
@@ -15,7 +15,7 @@ export const Sidebar = () => {
         MealKit
       </NavLink>
       <div className='flex flex-col overflow-hidden'>
-        <Recipes />
+        <RecipesInSideBar />
       </div>
       <div className='flex flex-col items-center justify-center mt-auto w-full'>
         <Footer />
