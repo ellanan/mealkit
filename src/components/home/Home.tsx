@@ -27,8 +27,8 @@ export const Home = () => {
         </button>
       </div>
 
-      <h1 className='text-14 text-4xl text-center font-extrabold font-Montserrat px-4 pt-6 pb-12 mt-10'>
-        Don't let food be something that "happens to you".
+      <h1 className='text-14 text-4xl text-center font-extrabold font-Vollkorn px-4 pt-6 pb-12 mt-10 max-w-[19em] mx-auto'>
+        Don't let food be something that "happens to you"
       </h1>
 
       <div className='flex items-center justify-center relative text-center mb-20'>

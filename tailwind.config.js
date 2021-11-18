@@ -37,6 +37,7 @@ module.exports = {
       fontFamily: {
         Montserrat: ['Montserrat', 'sans-serif'],
         Raleway: ['Raleway', 'sans-serif'],
+        Vollkorn: ['Vollkorn', 'serif'],
       },
       borderWidth: {
         1: '1px',
