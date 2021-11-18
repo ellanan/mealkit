@@ -20,10 +20,10 @@ export const Home = () => {
           MealKit
         </NavLink>
         <button
-          className='ml-auto rounded-full text-white text-base py-1 px-3 bg-28 hover:bg-23 font-medium'
+          className='ml-auto rounded-full text-white text-base py-1 px-3 bg-23 hover:bg-25 font-medium'
           onClick={() => loginWithRedirect()}
         >
-          Log In
+          Sign In
         </button>
       </div>
 
