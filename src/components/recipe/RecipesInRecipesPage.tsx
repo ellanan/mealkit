@@ -5,6 +5,8 @@ import * as GraphQLTypes from '../../generated/graphql';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
 
+import { TopNavBar } from '../nav/TopNavBar';
+
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const RecipesInRecipesPage = () => {
@@ -41,12 +43,16 @@ export const RecipesInRecipesPage = () => {
         }
       `}
     >
-      <h1 className='text-3xl font-semibold m-6'>My Recipes</h1>
+      <div className='flex items-center'>
+        <h1 className='text-3xl ml-6 font-semibold'>My Recipes</h1>
+        <TopNavBar />
+      </div>
+
       <div className='flex items-center justify-center'>
         <div className='grid h-20 grid-cols-4 gap-2 items-center'>
           {data?.recipes.map((recipe) => (
             <NavLink
-              className='flex flex-col py-1 px-4 text-sm'
+              className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
               key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);
@@ -57,16 +63,6 @@ export const RecipesInRecipesPage = () => {
                   search: newQueryParams.toString(),
                 };
               }}
-              css={css`
-                :hover {
-                  background-image: linear-gradient(
-                    to right,
-                    transparent,
-                    #fae4daa3 20%,
-                    #fae4da
-                  );
-                }
-              `}
             >
               <div className='w-48 h-48 relative overflow-hidden flex-shrink-0'>
                 <img
@@ -80,7 +76,7 @@ export const RecipesInRecipesPage = () => {
                   </div>
                 )}
               </div>
-              <span className='text-xl font-medium'>{recipe.name}</span>
+              <span className='text-14 text-xl font-medium'>{recipe.name}</span>
             </NavLink>
           ))}
         </div>
