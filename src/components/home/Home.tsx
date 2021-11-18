@@ -78,7 +78,7 @@ export const Home = () => {
             Automated grocery list
           </h1>
           <p>
-            Auto-generate your shopping list based on your meal plan for the
+            Auto-generate your shopping list based on meals planned in the
             selected date range.
           </p>
         </div>
@@ -96,7 +96,7 @@ export const Home = () => {
         </div>
         <img
           className='mt-4 w-6/12 rounded-xl'
-          src={require('../../images/share-plan-example.jpg').default}
+          src={require('../../images/share-plan-example.svg').default}
           alt=''
         />
       </div>
