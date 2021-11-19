@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom';
-import { BiListUl } from 'react-icons/bi';
 import { MdCreate } from 'react-icons/md';
 import { GoSearch } from 'react-icons/go';
 
@@ -25,7 +24,7 @@ export const TopNav = () => {
         </NavLink>
 
         <NavLink
-          className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
           to={(location) => {
             const newQueryParams = new URLSearchParams(location.search);
             newQueryParams.append('modalCreateRecipe', 'visible');
@@ -37,21 +36,6 @@ export const TopNav = () => {
           }}
         >
           <MdCreate size={20} />
-        </NavLink>
-
-        <NavLink
-          className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
-          to={(location) => {
-            const newQueryParams = new URLSearchParams(location.search);
-            newQueryParams.append('shoppingList', 'visible');
-
-            return {
-              ...location,
-              search: newQueryParams.toString(),
-            };
-          }}
-        >
-          <BiListUl size={20} />
         </NavLink>
       </div>
     </div>
