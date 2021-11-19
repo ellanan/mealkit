@@ -2,8 +2,6 @@ import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
 
-import { TopNavBar } from '../nav/TopNavBar';
-
 export const MealPlanTopBar = (props: {
   today: DateTime;
   interval: DateTime[];
@@ -41,7 +39,6 @@ export const MealPlanTopBar = (props: {
       <span className='flex items-center justify-start text-13 my-0 mx-6 font-medium text-xl'>
         {`${props.interval[0].monthLong} ${props.interval[0].year}`}
       </span>
-      <TopNavBar />
     </div>
   );
 };
