@@ -13,7 +13,11 @@ const defaultImg = require('../../images/defaultImg.jpg').default;
 export const RecipesInRecipesPage = () => {
   const [search, setSearch] = useState<string>('');
 
-  const { data, error } = useQuery<GraphQLTypes.RecipesInRecipesPageQuery>(gql`
+  const {
+    data,
+    error,
+    loading: loadingRecipes,
+  } = useQuery<GraphQLTypes.RecipesInRecipesPageQuery>(gql`
     query RecipesInRecipesPage {
       recipes {
         id
@@ -28,7 +32,7 @@ export const RecipesInRecipesPage = () => {
 
   return (
     <div
-      className='flex flex-col overflow-auto text-14 h-full pt-10'
+      className='flex flex-col overflow-auto text-14 h-full'
       css={css`
         scrollbar-width: thin;
         scrollbar-color: #e7a47a60 transparent;
@@ -46,26 +50,35 @@ export const RecipesInRecipesPage = () => {
         }
       `}
     >
-      <InputGroup borderColor='#ebb59c' mx='6' mb='10' w='auto'>
-        <InputLeftElement
-          pointerEvents='none'
-          ml='1'
-          children={
-            <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 left-0 text-17' />
-          }
-        />
-        <Input
-          type='tel'
-          placeholder='Search for recipe'
-          borderRadius='20px'
-          focusBorderColor='orange.300'
-          onChange={(e) => {
-            e.preventDefault();
-            setSearch(e.target.value);
-          }}
-        />
-      </InputGroup>
-      <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-2'>
+      <div className='flex items-center justify-center'>
+        <InputGroup borderColor='#ebb59c' mx='6' my='10' w='inherit'>
+          <InputLeftElement
+            pointerEvents='none'
+            ml='1'
+            children={
+              <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 left-0 text-17' />
+            }
+          />
+          <Input
+            type='tel'
+            placeholder='Search for recipe'
+            borderRadius='20px'
+            focusBorderColor='orange.300'
+            onChange={(e) => {
+              e.preventDefault();
+              setSearch(e.target.value);
+            }}
+          />
+        </InputGroup>
+      </div>
+
+      {loadingRecipes ? (
+        <div className='flex items-center justify-center w-full h-full absolute'>
+          <Spinner size='xl' color='#f88c5a' />
+        </div>
+      ) : null}
+
+      <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8'>
         {data?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())
