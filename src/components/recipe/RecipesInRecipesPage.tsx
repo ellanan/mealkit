@@ -25,7 +25,7 @@ export const RecipesInRecipesPage = () => {
 
   return (
     <div
-      className='flex flex-col overflow-auto text-14 h-full'
+      className='flex flex-col overflow-auto text-14 h-full pt-12'
       css={css`
         scrollbar-width: thin;
         scrollbar-color: #e7a47a60 transparent;
@@ -43,43 +43,42 @@ export const RecipesInRecipesPage = () => {
         }
       `}
     >
-      <div className='flex items-center'>
-        <h1 className='text-3xl ml-6 font-semibold'>My Recipes</h1>
+      <div className='flex items-center fixed z-10 right-0 top-0'>
         <TopNavBar />
       </div>
 
-      <div className='flex items-center justify-center'>
-        <div className='grid h-20 grid-cols-4 gap-2 items-center'>
-          {data?.recipes.map((recipe) => (
-            <NavLink
-              className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
-              key={recipe.id}
-              to={(location) => {
-                const newQueryParams = new URLSearchParams(location.search);
-                newQueryParams.append('modalRecipeId', recipe.id);
+      <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-2'>
+        {data?.recipes.map((recipe) => (
+          <NavLink
+            className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
+            key={recipe.id}
+            to={(location) => {
+              const newQueryParams = new URLSearchParams(location.search);
+              newQueryParams.append('modalRecipeId', recipe.id);
 
-                return {
-                  ...location,
-                  search: newQueryParams.toString(),
-                };
-              }}
-            >
-              <div className='w-48 h-48 relative overflow-hidden flex-shrink-0'>
-                <img
-                  className='object-cover w-full h-full rounded-2xl'
-                  src={recipe.imageUrl ?? defaultImg}
-                  alt=''
-                />
-                {recipe.id.startsWith('temp-id') && (
-                  <div className='flex items-center justify-center w-full h-full absolute'>
-                    <Spinner size='sm' color='#f88c5a' />
-                  </div>
-                )}
-              </div>
-              <span className='text-14 text-xl font-medium'>{recipe.name}</span>
-            </NavLink>
-          ))}
-        </div>
+              return {
+                ...location,
+                search: newQueryParams.toString(),
+              };
+            }}
+          >
+            <div className='lg:h-48 md:h-32 relative overflow-hidden flex-shrink-0'>
+              <img
+                className='object-cover w-full h-full rounded-2xl'
+                src={recipe.imageUrl ?? defaultImg}
+                alt=''
+              />
+              {recipe.id.startsWith('temp-id') && (
+                <div className='flex items-center justify-center w-full h-full absolute'>
+                  <Spinner size='sm' color='#f88c5a' />
+                </div>
+              )}
+            </div>
+            <span className='text-14 text-xl text-center font-medium min-h-[2em] leading-none mt-2'>
+              {recipe.name}
+            </span>
+          </NavLink>
+        ))}
       </div>
     </div>
   );
