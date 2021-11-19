@@ -34,8 +34,8 @@ export const Home = () => {
       <div className='flex items-center justify-center relative text-center mb-20'>
         <MainBlob className='absolute w-3/4 -top-[-16.5rem]' />
         <img
-          className='w-6/12 rounded-full relative'
-          src={require('../../images/healthy-vegetables-small.png').default}
+          className='w-6/12 relative'
+          src={require('../../images/healthy-vegetables.png').default}
           alt='healthy vegetables'
         />
         <span className='absolute text-14 text-3xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/4'>
