@@ -1,7 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 
-import { Sidebar } from './components/nav/Sidebar';
+import { Sidebar } from './components/sidebar/Sidebar';
 import { CreateRecipe } from './components/recipe/CreateRecipe';
 import { SingleRecipeDetails } from './components/recipe/SingleRecipeDetails';
 import { MealPlan } from './components/mealPlan/MealPlan';
