@@ -4,12 +4,15 @@ import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
 import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
-
-import { TopNavBar } from '../nav/TopNavBar';
+import { useState } from 'react';
+import { Search2Icon } from '@chakra-ui/icons';
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const RecipesInRecipesPage = () => {
+  const [search, setSearch] = useState<string>('');
+
   const { data, error } = useQuery<GraphQLTypes.RecipesInRecipesPageQuery>(gql`
     query RecipesInRecipesPage {
       recipes {
@@ -25,7 +28,7 @@ export const RecipesInRecipesPage = () => {
 
   return (
     <div
-      className='flex flex-col overflow-auto text-14 h-full pt-12'
+      className='flex flex-col overflow-auto text-14 h-full pt-10'
       css={css`
         scrollbar-width: thin;
         scrollbar-color: #e7a47a60 transparent;
@@ -43,42 +46,61 @@ export const RecipesInRecipesPage = () => {
         }
       `}
     >
-      <div className='flex items-center fixed z-10 right-0 top-0'>
-        <TopNavBar />
-      </div>
-
+      <InputGroup borderColor='#ebb59c' mx='6' mb='10' w='auto'>
+        <InputLeftElement
+          pointerEvents='none'
+          ml='1'
+          children={
+            <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 left-0 text-17' />
+          }
+        />
+        <Input
+          type='tel'
+          placeholder='Search for recipe'
+          borderRadius='20px'
+          focusBorderColor='orange.300'
+          onChange={(e) => {
+            e.preventDefault();
+            setSearch(e.target.value);
+          }}
+        />
+      </InputGroup>
       <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-2'>
-        {data?.recipes.map((recipe) => (
-          <NavLink
-            className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
-            key={recipe.id}
-            to={(location) => {
-              const newQueryParams = new URLSearchParams(location.search);
-              newQueryParams.append('modalRecipeId', recipe.id);
+        {data?.recipes
+          .filter((recipe) =>
+            recipe.name.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((recipe) => (
+            <NavLink
+              className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
+              key={recipe.id}
+              to={(location) => {
+                const newQueryParams = new URLSearchParams(location.search);
+                newQueryParams.append('modalRecipeId', recipe.id);
 
-              return {
-                ...location,
-                search: newQueryParams.toString(),
-              };
-            }}
-          >
-            <div className='lg:h-48 md:h-32 relative overflow-hidden flex-shrink-0'>
-              <img
-                className='object-cover w-full h-full rounded-2xl'
-                src={recipe.imageUrl ?? defaultImg}
-                alt=''
-              />
-              {recipe.id.startsWith('temp-id') && (
-                <div className='flex items-center justify-center w-full h-full absolute'>
-                  <Spinner size='sm' color='#f88c5a' />
-                </div>
-              )}
-            </div>
-            <span className='text-14 text-xl text-center font-medium min-h-[2em] leading-none mt-2'>
-              {recipe.name}
-            </span>
-          </NavLink>
-        ))}
+                return {
+                  ...location,
+                  search: newQueryParams.toString(),
+                };
+              }}
+            >
+              <div className='lg:h-48 md:h-32 relative overflow-hidden flex-shrink-0'>
+                <img
+                  className='object-cover w-full h-full rounded-2xl'
+                  src={recipe.imageUrl ?? defaultImg}
+                  alt=''
+                />
+                {recipe.id.startsWith('temp-id') && (
+                  <div className='flex items-center justify-center w-full h-full absolute'>
+                    <Spinner size='sm' color='#f88c5a' />
+                  </div>
+                )}
+              </div>
+              <span className='text-14 text-xl text-center font-medium min-h-[2em] leading-none mt-2'>
+                {recipe.name}
+              </span>
+            </NavLink>
+          ))}
       </div>
     </div>
   );
