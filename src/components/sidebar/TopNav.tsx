@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { MdCreate } from 'react-icons/md';
 import { GoSearch } from 'react-icons/go';
+import { Tooltip } from '@chakra-ui/react';
 
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 
@@ -20,7 +21,14 @@ export const TopNav = () => {
           className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
           to='/recipes'
         >
-          <GoSearch size={20} />
+          <Tooltip
+            label='search for recipes'
+            className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
+          >
+            <span>
+              <GoSearch size={20} />
+            </span>
+          </Tooltip>
         </NavLink>
 
         <NavLink
@@ -35,7 +43,14 @@ export const TopNav = () => {
             };
           }}
         >
-          <MdCreate size={20} />
+          <Tooltip
+            label='create a new recipe'
+            className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
+          >
+            <span>
+              <MdCreate size={20} />
+            </span>
+          </Tooltip>
         </NavLink>
       </div>
     </div>
