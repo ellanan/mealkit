@@ -174,12 +174,14 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       body: formdata,
                       redirect: 'follow',
                     }
-                  ).then((response) => response.json());
+                  )
+                    .then((response) => response.json())
+                    .catch((error) => console.log('error', error));
                   console.log(response);
 
                   setFormData((prev) => ({
                     ...prev,
-                    imageUrl: response.data.link,
+                    imageUrl: response.data?.link,
                   }));
                 }}
               />
