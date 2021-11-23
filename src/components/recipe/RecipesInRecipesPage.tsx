@@ -11,8 +11,11 @@ import { Button } from '@chakra-ui/react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
+const pageSize = 12;
+
 export const RecipesInRecipesPage = () => {
   const [search, setSearch] = useState<string>('');
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   const {
     data,
@@ -48,7 +51,7 @@ export const RecipesInRecipesPage = () => {
     `,
     {
       variables: {
-        limit: 12,
+        limit: pageSize,
         order: GraphQLTypes.Order.Desc,
         orderBy: GraphQLTypes.RecipeOrderBy.UpdatedAt,
         search: search || undefined,
@@ -152,14 +155,18 @@ export const RecipesInRecipesPage = () => {
             },
             updateQuery: (prev, { fetchMoreResult }) => {
               if (!fetchMoreResult) return prev;
+              if (fetchMoreResult.recipes.length < pageSize) {
+                setHasMore(false);
+              }
               return Object.assign({}, prev, {
                 recipes: [...prev.recipes, ...fetchMoreResult.recipes],
               });
             },
           })
         }
+        disabled={!hasMore || loadingRecipes}
       >
-        load more
+        Load More
       </Button>
     </div>
   );
