@@ -19,12 +19,12 @@ export const AddRecipeToMealPlanForm = ({
   mealType: GraphQLTypes.MealType;
   autoFocusRef: MutableRefObject<any>;
   onClose: () => void;
-  recipesToDisable: GraphQLTypes.RecipesInSideBarQuery['recipes'];
+  recipesToDisable: Array<{ id: string }>;
 }) => {
   const [searchRecipe, setSearchRecipe] = useState<String>('');
 
   const { data: recipesData, error: errorLoadingRecipes } =
-    useQuery<GraphQLTypes.RecipesInSideBarQuery>(gql`
+    useQuery<GraphQLTypes.RecipesAvailableQuery>(gql`
       query RecipesAvailable {
         recipes {
           id
@@ -88,12 +88,12 @@ const RecipeOption = ({
   onClose,
   recipesToDisable,
 }: {
-  recipe: GraphQLTypes.RecipesInSideBarQuery['recipes'][number];
+  recipe: GraphQLTypes.RecipesAvailableQuery['recipes'][number];
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;
   onClose: () => void;
-  recipesToDisable: GraphQLTypes.RecipesInSideBarQuery['recipes'];
+  recipesToDisable: Array<{ id: string }>;
 }) => {
   const [addRecipeToMealPlanMutation, { error: errorAddingRecipeToMealPlan }] =
     useMutation<

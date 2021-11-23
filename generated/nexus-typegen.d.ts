@@ -283,9 +283,11 @@ export interface NexusGenArgTypes {
       recipeId: string; // ID!
     }
     recipes: { // args
+      cursor?: string | null; // ID
       limit: number; // Int!
       order: NexusGenEnums['Order']; // Order!
       orderBy: NexusGenEnums['RecipeOrderBy']; // RecipeOrderBy!
+      search?: string | null; // String
     }
   }
 }

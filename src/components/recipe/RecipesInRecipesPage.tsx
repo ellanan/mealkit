@@ -7,6 +7,7 @@ import { Spinner } from '@chakra-ui/spinner';
 import { useState } from 'react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
+import { Button } from '@chakra-ui/react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
@@ -17,15 +18,40 @@ export const RecipesInRecipesPage = () => {
     data,
     error,
     loading: loadingRecipes,
-  } = useQuery<GraphQLTypes.RecipesInRecipesPageQuery>(gql`
-    query RecipesInRecipesPage {
-      recipes {
-        id
-        name
-        imageUrl
+    fetchMore,
+  } = useQuery<
+    GraphQLTypes.RecipesInRecipesPageQuery,
+    GraphQLTypes.RecipesInRecipesPageQueryVariables
+  >(
+    gql`
+      query RecipesInRecipesPage(
+        $cursor: ID
+        $limit: Int!
+        $order: Order!
+        $orderBy: RecipeOrderBy!
+      ) {
+        recipes(
+          cursor: $cursor
+          limit: $limit
+          order: $order
+          orderBy: $orderBy
+        ) {
+          id
+          name
+          imageUrl
+          createdAt
+          updatedAt
+        }
       }
+    `,
+    {
+      variables: {
+        limit: 12,
+        order: GraphQLTypes.Order.Desc,
+        orderBy: GraphQLTypes.RecipeOrderBy.UpdatedAt,
+      },
     }
-  `);
+  );
   if (error) {
     throw error;
   }
@@ -115,6 +141,23 @@ export const RecipesInRecipesPage = () => {
             </NavLink>
           ))}
       </div>
+      <Button
+        onClick={() =>
+          fetchMore({
+            variables: {
+              cursor: data?.recipes.slice(-1)[0].id,
+            },
+            updateQuery: (prev, { fetchMoreResult }) => {
+              if (!fetchMoreResult) return prev;
+              return Object.assign({}, prev, {
+                recipes: [...prev.recipes, ...fetchMoreResult.recipes],
+              });
+            },
+          })
+        }
+      >
+        load more
+      </Button>
     </div>
   );
 };

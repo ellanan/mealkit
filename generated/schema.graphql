@@ -76,7 +76,7 @@ type Query {
   ingredients: [Ingredient!]!
   recipe(recipeId: ID!): Recipe
   recipeCategories: [RecipeCategory!]!
-  recipes(limit: Int! = 10, order: Order! = desc, orderBy: RecipeOrderBy! = createdAt): [Recipe!]!
+  recipes(cursor: ID, limit: Int! = 10, order: Order! = desc, orderBy: RecipeOrderBy! = createdAt, search: String): [Recipe!]!
 }
 
 type Recipe {

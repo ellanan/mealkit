@@ -1,6 +1,14 @@
 import _ from 'lodash';
 import { PrismaClient } from '@prisma/client';
-import { arg, enumType, idArg, intArg, nonNull, queryType } from 'nexus';
+import {
+  arg,
+  enumType,
+  idArg,
+  intArg,
+  nonNull,
+  queryType,
+  stringArg,
+} from 'nexus';
 
 export * from './Ingredient';
 export * from './IngredientType';
@@ -62,14 +70,22 @@ export const Query = queryType({
         ),
 
         limit: nonNull(intArg({ default: 10 })),
+        cursor: idArg(),
+        search: stringArg(),
       },
-      resolve: (_parent, args) =>
-        prisma.recipe.findMany({
+      resolve: (_parent, args) => {
+        return prisma.recipe.findMany({
+          where: {
+            name: args.search ?? undefined,
+          },
           orderBy: {
             [args.orderBy]: args.order,
           },
           take: args.limit,
-        }),
+          skip: args.cursor ? 1 : 0,
+          cursor: args.cursor ? { id: args.cursor } : undefined,
+        });
+      },
     });
 
     t.field('recipe', {
