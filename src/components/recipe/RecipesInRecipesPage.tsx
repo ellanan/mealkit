@@ -157,7 +157,11 @@ export const RecipesInRecipesPage = () => {
       <div className='flex items-center justify-center mb-10'>
         <Button
           className='object-contain rounded-full text-white text-base font-medium py-1 px-3 bg-22 hover:bg-25 disabled:hover:bg-11'
-          disabled={!hasMore || loadingRecipes || search !== ''}
+          disabled={
+            !hasMore ||
+            loadingRecipes ||
+            (data?.currentUser?.mealPlan?.recipes?.length ?? 0) < pageSize
+          }
           onClick={() =>
             fetchMore({
               variables: {
@@ -166,8 +170,8 @@ export const RecipesInRecipesPage = () => {
               updateQuery: (prev, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return prev;
                 if (
-                  fetchMoreResult.currentUser?.mealPlan?.recipes?.length ??
-                  0 < pageSize
+                  (fetchMoreResult.currentUser?.mealPlan?.recipes?.length ??
+                    0) < pageSize
                 ) {
                   setHasMore(false);
                 }
