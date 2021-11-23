@@ -96,6 +96,7 @@ export const RecipesInRecipesPage = () => {
             placeholder='Search for recipe'
             borderRadius='20px'
             focusBorderColor='orange.300'
+            autoFocus={true}
             onChange={(e) => {
               e.preventDefault();
               setSearch(e.target.value);
