@@ -76,7 +76,12 @@ export const Query = queryType({
       resolve: (_parent, args) => {
         return prisma.recipe.findMany({
           where: {
-            name: args.search ?? undefined,
+            name: args.search
+              ? {
+                  contains: args.search,
+                  mode: 'insensitive',
+                }
+              : undefined,
           },
           orderBy: {
             [args.orderBy]: args.order,

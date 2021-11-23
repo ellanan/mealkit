@@ -352,6 +352,7 @@ export type RecipesInRecipesPageQueryVariables = Exact<{
   limit: Scalars['Int'];
   order: Order;
   orderBy: RecipeOrderBy;
+  search?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -992,8 +993,14 @@ export type SortedRecipesQueryHookResult = ReturnType<typeof useSortedRecipesQue
 export type SortedRecipesLazyQueryHookResult = ReturnType<typeof useSortedRecipesLazyQuery>;
 export type SortedRecipesQueryResult = Apollo.QueryResult<SortedRecipesQuery, SortedRecipesQueryVariables>;
 export const RecipesInRecipesPageDocument = gql`
-    query RecipesInRecipesPage($cursor: ID, $limit: Int!, $order: Order!, $orderBy: RecipeOrderBy!) {
-  recipes(limit: $limit, cursor: $cursor, order: $order, orderBy: $orderBy) {
+    query RecipesInRecipesPage($cursor: ID, $limit: Int!, $order: Order!, $orderBy: RecipeOrderBy!, $search: String) {
+  recipes(
+    cursor: $cursor
+    limit: $limit
+    order: $order
+    orderBy: $orderBy
+    search: $search
+  ) {
     id
     name
     imageUrl
@@ -1019,6 +1026,7 @@ export const RecipesInRecipesPageDocument = gql`
  *      limit: // value for 'limit'
  *      order: // value for 'order'
  *      orderBy: // value for 'orderBy'
+ *      search: // value for 'search'
  *   },
  * });
  */

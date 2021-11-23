@@ -29,12 +29,14 @@ export const RecipesInRecipesPage = () => {
         $limit: Int!
         $order: Order!
         $orderBy: RecipeOrderBy!
+        $search: String
       ) {
         recipes(
           cursor: $cursor
           limit: $limit
           order: $order
           orderBy: $orderBy
+          search: $search
         ) {
           id
           name
@@ -49,6 +51,7 @@ export const RecipesInRecipesPage = () => {
         limit: 12,
         order: GraphQLTypes.Order.Desc,
         orderBy: GraphQLTypes.RecipeOrderBy.UpdatedAt,
+        search: search || undefined,
       },
     }
   );
