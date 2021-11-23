@@ -147,27 +147,34 @@ export const RecipesInRecipesPage = () => {
             </NavLink>
           ))}
       </div>
-      <Button
-        onClick={() =>
-          fetchMore({
-            variables: {
-              cursor: data?.recipes.slice(-1)[0].id,
-            },
-            updateQuery: (prev, { fetchMoreResult }) => {
-              if (!fetchMoreResult) return prev;
-              if (fetchMoreResult.recipes.length < pageSize) {
-                setHasMore(false);
-              }
-              return Object.assign({}, prev, {
-                recipes: [...prev.recipes, ...fetchMoreResult.recipes],
-              });
-            },
-          })
-        }
-        disabled={!hasMore || loadingRecipes}
-      >
-        Load More
-      </Button>
+      <div className='flex items-center justify-center mb-10'>
+        <Button
+          className='object-contain rounded-full text-white text-base font-medium py-1 px-3 bg-22 hover:bg-25 disabled:hover:bg-11'
+          disabled={!hasMore || loadingRecipes || search !== ''}
+          onClick={() =>
+            fetchMore({
+              variables: {
+                cursor: data?.recipes.slice(-1)[0].id,
+              },
+              updateQuery: (prev, { fetchMoreResult }) => {
+                if (!fetchMoreResult) return prev;
+                if (fetchMoreResult.recipes.length < pageSize) {
+                  setHasMore(false);
+                }
+                return Object.assign({}, prev, {
+                  recipes: [...prev.recipes, ...fetchMoreResult.recipes],
+                });
+              },
+            })
+          }
+        >
+          {!hasMore ? (
+            <span>No more recipes to load</span>
+          ) : (
+            <span>Load more</span>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };
