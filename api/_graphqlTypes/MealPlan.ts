@@ -1,5 +1,13 @@
 import { MealType, PrismaClient } from '@prisma/client';
-import { enumType, intArg, nonNull, objectType, stringArg } from 'nexus';
+import {
+  arg,
+  idArg,
+  enumType,
+  intArg,
+  nonNull,
+  objectType,
+  stringArg,
+} from 'nexus';
 
 const prisma = new PrismaClient();
 
@@ -65,6 +73,7 @@ export const MealPlan = objectType({
         return mealPlanEntries;
       },
     });
+
     t.nonNull.list.nonNull.field('popularRecipes', {
       type: 'Recipe',
       args: {
@@ -101,6 +110,50 @@ export const MealPlan = objectType({
               in: groupByResults.map((r) => r.recipeId),
             },
           },
+        });
+      },
+    });
+
+    t.nonNull.list.nonNull.field('recipes', {
+      type: 'Recipe',
+      args: {
+        orderBy: arg({
+          type: nonNull(
+            enumType({
+              name: 'RecipeOrderBy',
+              members: ['createdAt', 'updatedAt'],
+            })
+          ),
+          default: 'createdAt',
+        }),
+
+        order: nonNull(
+          arg({
+            type: 'Order',
+            default: 'desc',
+          })
+        ),
+
+        limit: nonNull(intArg({ default: 10 })),
+        cursor: idArg(),
+        search: stringArg(),
+      },
+      resolve: (_parent, args) => {
+        return prisma.recipe.findMany({
+          where: {
+            name: args.search
+              ? {
+                  contains: args.search,
+                  mode: 'insensitive',
+                }
+              : undefined,
+          },
+          orderBy: {
+            [args.orderBy]: args.order,
+          },
+          take: args.limit,
+          skip: args.cursor ? 1 : 0,
+          cursor: args.cursor ? { id: args.cursor } : undefined,
         });
       },
     });

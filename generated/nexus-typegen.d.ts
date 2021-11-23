@@ -73,6 +73,7 @@ export interface NexusGenFieldTypes {
   MealPlan: { // field return type
     id: string; // ID!
     popularRecipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
     schedule: NexusGenRootTypes['MealPlanEntry'][]; // [MealPlanEntry!]!
   }
   MealPlanEntry: { // field return type
@@ -103,7 +104,6 @@ export interface NexusGenFieldTypes {
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
     recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipeCategories: NexusGenRootTypes['RecipeCategory'][]; // [RecipeCategory!]!
-    recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
   Recipe: { // field return type
     category: NexusGenRootTypes['RecipeCategory'] | null; // RecipeCategory
@@ -147,6 +147,7 @@ export interface NexusGenFieldTypeNames {
   MealPlan: { // field return type name
     id: 'ID'
     popularRecipes: 'Recipe'
+    recipes: 'Recipe'
     schedule: 'MealPlanEntry'
   }
   MealPlanEntry: { // field return type name
@@ -177,7 +178,6 @@ export interface NexusGenFieldTypeNames {
     ingredients: 'Ingredient'
     recipe: 'Recipe'
     recipeCategories: 'RecipeCategory'
-    recipes: 'Recipe'
   }
   Recipe: { // field return type name
     category: 'RecipeCategory'
@@ -214,6 +214,13 @@ export interface NexusGenArgTypes {
       endDate: string; // String!
       limit: number; // Int!
       startDate: string; // String!
+    }
+    recipes: { // args
+      cursor?: string | null; // ID
+      limit: number; // Int!
+      order: NexusGenEnums['Order']; // Order!
+      orderBy: NexusGenEnums['RecipeOrderBy']; // RecipeOrderBy!
+      search?: string | null; // String
     }
     schedule: { // args
       endDate: string; // String!
@@ -281,13 +288,6 @@ export interface NexusGenArgTypes {
   Query: {
     recipe: { // args
       recipeId: string; // ID!
-    }
-    recipes: { // args
-      cursor?: string | null; // ID
-      limit: number; // Int!
-      order: NexusGenEnums['Order']; // Order!
-      orderBy: NexusGenEnums['RecipeOrderBy']; // RecipeOrderBy!
-      search?: string | null; // String
     }
   }
 }

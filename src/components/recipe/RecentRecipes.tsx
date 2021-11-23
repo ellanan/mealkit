@@ -18,10 +18,16 @@ export const RecentRecipes = () => {
         $order: Order!
         $limit: Int!
       ) {
-        recipes(orderBy: $orderBy, order: $order, limit: $limit) {
+        currentUser {
           id
-          name
-          imageUrl
+          mealPlan {
+            id
+            recipes(orderBy: $orderBy, order: $order, limit: $limit) {
+              id
+              name
+              imageUrl
+            }
+          }
         }
       }
     `,
@@ -61,7 +67,7 @@ export const RecentRecipes = () => {
           }
         `}
       >
-        {data?.recipes.map((recipe) => (
+        {data?.currentUser?.mealPlan?.recipes.map((recipe) => (
           <NavLink
             className='flex items-center py-1 px-4 text-14 text-sm'
             key={recipe.id}

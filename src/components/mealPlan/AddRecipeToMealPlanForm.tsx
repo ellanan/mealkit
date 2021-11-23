@@ -26,13 +26,19 @@ export const AddRecipeToMealPlanForm = ({
   const { data: recipesData, error: errorLoadingRecipes } =
     useQuery<GraphQLTypes.RecipesAvailableQuery>(gql`
       query RecipesAvailable {
-        recipes {
+        currentUser {
           id
-          name
-          imageUrl
-          category {
+          mealPlan {
             id
-            name
+            recipes {
+              id
+              name
+              imageUrl
+              category {
+                id
+                name
+              }
+            }
           }
         }
       }
@@ -60,7 +66,7 @@ export const AddRecipeToMealPlanForm = ({
       </div>
 
       <div className='mb-3'>
-        {recipesData?.recipes
+        {recipesData?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
           )
@@ -88,7 +94,9 @@ const RecipeOption = ({
   onClose,
   recipesToDisable,
 }: {
-  recipe: GraphQLTypes.RecipesAvailableQuery['recipes'][number];
+  recipe: NonNullable<
+    NonNullable<GraphQLTypes.RecipesAvailableQuery['currentUser']>['mealPlan']
+  >['recipes'][0];
   mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
   date: string;
   mealType: GraphQLTypes.MealType;

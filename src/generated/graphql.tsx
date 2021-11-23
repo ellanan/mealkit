@@ -41,6 +41,7 @@ export type MealPlan = {
   __typename?: 'MealPlan';
   id: Scalars['ID'];
   popularRecipes: Array<Recipe>;
+  recipes: Array<Recipe>;
   schedule: Array<MealPlanEntry>;
 };
 
@@ -49,6 +50,15 @@ export type MealPlanPopularRecipesArgs = {
   endDate: Scalars['String'];
   limit?: Scalars['Int'];
   startDate: Scalars['String'];
+};
+
+
+export type MealPlanRecipesArgs = {
+  cursor?: Maybe<Scalars['ID']>;
+  limit?: Scalars['Int'];
+  order?: Order;
+  orderBy?: RecipeOrderBy;
+  search?: Maybe<Scalars['String']>;
 };
 
 
@@ -183,21 +193,11 @@ export type Query = {
   ingredients: Array<Ingredient>;
   recipe?: Maybe<Recipe>;
   recipeCategories: Array<RecipeCategory>;
-  recipes: Array<Recipe>;
 };
 
 
 export type QueryRecipeArgs = {
   recipeId: Scalars['ID'];
-};
-
-
-export type QueryRecipesArgs = {
-  cursor?: Maybe<Scalars['ID']>;
-  limit?: Scalars['Int'];
-  order?: Order;
-  orderBy?: RecipeOrderBy;
-  search?: Maybe<Scalars['String']>;
 };
 
 export type Recipe = {
@@ -281,7 +281,7 @@ export type DeleteIngredientTypeMutation = { __typename?: 'Mutation', deleteIngr
 export type RecipesAvailableQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesAvailableQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> };
+export type RecipesAvailableQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> } | null | undefined } | null | undefined };
 
 export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
@@ -345,7 +345,7 @@ export type SortedRecipesQueryVariables = Exact<{
 }>;
 
 
-export type SortedRecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> };
+export type SortedRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> } | null | undefined } | null | undefined };
 
 export type RecipesInRecipesPageQueryVariables = Exact<{
   cursor?: Maybe<Scalars['ID']>;
@@ -356,7 +356,7 @@ export type RecipesInRecipesPageQueryVariables = Exact<{
 }>;
 
 
-export type RecipesInRecipesPageQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, createdAt: any, updatedAt: any }> };
+export type RecipesInRecipesPageQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, createdAt: any, updatedAt: any }> } | null | undefined } | null | undefined };
 
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -631,13 +631,19 @@ export type DeleteIngredientTypeMutationResult = Apollo.MutationResult<DeleteIng
 export type DeleteIngredientTypeMutationOptions = Apollo.BaseMutationOptions<DeleteIngredientTypeMutation, DeleteIngredientTypeMutationVariables>;
 export const RecipesAvailableDocument = gql`
     query RecipesAvailable {
-  recipes {
+  currentUser {
     id
-    name
-    imageUrl
-    category {
+    mealPlan {
       id
-      name
+      recipes {
+        id
+        name
+        imageUrl
+        category {
+          id
+          name
+        }
+      }
     }
   }
 }
@@ -955,10 +961,16 @@ export type MonthlyPlannedMealsLazyQueryHookResult = ReturnType<typeof useMonthl
 export type MonthlyPlannedMealsQueryResult = Apollo.QueryResult<MonthlyPlannedMealsQuery, MonthlyPlannedMealsQueryVariables>;
 export const SortedRecipesDocument = gql`
     query SortedRecipes($orderBy: RecipeOrderBy!, $order: Order!, $limit: Int!) {
-  recipes(orderBy: $orderBy, order: $order, limit: $limit) {
+  currentUser {
     id
-    name
-    imageUrl
+    mealPlan {
+      id
+      recipes(orderBy: $orderBy, order: $order, limit: $limit) {
+        id
+        name
+        imageUrl
+      }
+    }
   }
 }
     `;
@@ -994,18 +1006,24 @@ export type SortedRecipesLazyQueryHookResult = ReturnType<typeof useSortedRecipe
 export type SortedRecipesQueryResult = Apollo.QueryResult<SortedRecipesQuery, SortedRecipesQueryVariables>;
 export const RecipesInRecipesPageDocument = gql`
     query RecipesInRecipesPage($cursor: ID, $limit: Int!, $order: Order!, $orderBy: RecipeOrderBy!, $search: String) {
-  recipes(
-    cursor: $cursor
-    limit: $limit
-    order: $order
-    orderBy: $orderBy
-    search: $search
-  ) {
+  currentUser {
     id
-    name
-    imageUrl
-    createdAt
-    updatedAt
+    mealPlan {
+      id
+      recipes(
+        cursor: $cursor
+        limit: $limit
+        order: $order
+        orderBy: $orderBy
+        search: $search
+      ) {
+        id
+        name
+        imageUrl
+        createdAt
+        updatedAt
+      }
+    }
   }
 }
     `;

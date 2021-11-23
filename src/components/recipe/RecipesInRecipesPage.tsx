@@ -34,18 +34,24 @@ export const RecipesInRecipesPage = () => {
         $orderBy: RecipeOrderBy!
         $search: String
       ) {
-        recipes(
-          cursor: $cursor
-          limit: $limit
-          order: $order
-          orderBy: $orderBy
-          search: $search
-        ) {
+        currentUser {
           id
-          name
-          imageUrl
-          createdAt
-          updatedAt
+          mealPlan {
+            id
+            recipes(
+              cursor: $cursor
+              limit: $limit
+              order: $order
+              orderBy: $orderBy
+              search: $search
+            ) {
+              id
+              name
+              imageUrl
+              createdAt
+              updatedAt
+            }
+          }
         }
       }
     `,
@@ -112,7 +118,7 @@ export const RecipesInRecipesPage = () => {
       ) : null}
 
       <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8'>
-        {data?.recipes
+        {data?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())
           )
@@ -155,15 +161,29 @@ export const RecipesInRecipesPage = () => {
           onClick={() =>
             fetchMore({
               variables: {
-                cursor: data?.recipes.slice(-1)[0].id,
+                cursor: data?.currentUser?.mealPlan?.recipes.slice(-1)[0].id,
               },
               updateQuery: (prev, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return prev;
-                if (fetchMoreResult.recipes.length < pageSize) {
+                if (
+                  fetchMoreResult.currentUser?.mealPlan?.recipes?.length ??
+                  0 < pageSize
+                ) {
                   setHasMore(false);
                 }
                 return Object.assign({}, prev, {
-                  recipes: [...prev.recipes, ...fetchMoreResult.recipes],
+                  ...prev,
+                  currentUser: {
+                    ...prev.currentUser,
+                    mealPlan: {
+                      ...prev.currentUser?.mealPlan,
+                      recipes: [
+                        ...(prev.currentUser?.mealPlan?.recipes ?? []),
+                        ...(fetchMoreResult.currentUser?.mealPlan?.recipes ??
+                          []),
+                      ],
+                    },
+                  },
                 });
               },
             })

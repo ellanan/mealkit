@@ -1,14 +1,6 @@
 import _ from 'lodash';
 import { PrismaClient } from '@prisma/client';
-import {
-  arg,
-  enumType,
-  idArg,
-  intArg,
-  nonNull,
-  queryType,
-  stringArg,
-} from 'nexus';
+import { idArg, nonNull, queryType } from 'nexus';
 
 export * from './Ingredient';
 export * from './IngredientType';
@@ -47,50 +39,6 @@ export const Query = queryType({
     t.nonNull.list.nonNull.field('ingredientTypes', {
       type: 'IngredientType',
       resolve: () => prisma.ingredientType.findMany(),
-    });
-
-    t.nonNull.list.nonNull.field('recipes', {
-      type: 'Recipe',
-      args: {
-        orderBy: arg({
-          type: nonNull(
-            enumType({
-              name: 'RecipeOrderBy',
-              members: ['createdAt', 'updatedAt'],
-            })
-          ),
-          default: 'createdAt',
-        }),
-
-        order: nonNull(
-          arg({
-            type: 'Order',
-            default: 'desc',
-          })
-        ),
-
-        limit: nonNull(intArg({ default: 10 })),
-        cursor: idArg(),
-        search: stringArg(),
-      },
-      resolve: (_parent, args) => {
-        return prisma.recipe.findMany({
-          where: {
-            name: args.search
-              ? {
-                  contains: args.search,
-                  mode: 'insensitive',
-                }
-              : undefined,
-          },
-          orderBy: {
-            [args.orderBy]: args.order,
-          },
-          take: args.limit,
-          skip: args.cursor ? 1 : 0,
-          cursor: args.cursor ? { id: args.cursor } : undefined,
-        });
-      },
     });
 
     t.field('recipe', {
