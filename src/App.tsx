@@ -2,7 +2,6 @@ import { Route, Switch } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 
 import { Sidebar } from './components/sidebar/Sidebar';
-import { CreateRecipe } from './components/recipe/CreateRecipe';
 import { SingleRecipeDetails } from './components/recipe/SingleRecipeDetails';
 import { MealPlan } from './components/mealPlan/MealPlan';
 import { ShoppingList } from './components/groceries/ShoppingList';
@@ -44,7 +43,6 @@ const App = () => {
         <div className='flex flex-col h-full'>
           <Switch>
             <Route exact path='/' component={MealPlan} />
-            <Route exact path='/create-recipe' component={CreateRecipe} />
             <Route
               exact
               path='/recipes/:recipeId'
