@@ -49,24 +49,23 @@ export const SingleRecipeDetails = ({
           id
           mealPlan {
             id
-          }
-        }
-
-        recipe(recipeId: $recipeId) {
-          id
-          name
-          imageUrl
-          content
-          category {
-            id
-            name
-          }
-          ingredientQuantities {
-            unit
-            amount
-            ingredient {
+            recipe(recipeId: $recipeId) {
               id
               name
+              imageUrl
+              content
+              category {
+                id
+                name
+              }
+              ingredientQuantities {
+                unit
+                amount
+                ingredient {
+                  id
+                  name
+                }
+              }
             }
           }
         }
@@ -85,9 +84,15 @@ export const SingleRecipeDetails = ({
   const { data: ingredientsData, error: errorLoadingIngredients } =
     useQuery<GraphQLTypes.IngredientsQuery>(gql`
       query Ingredients {
-        ingredients {
+        currentUser {
           id
-          name
+          mealPlan {
+            id
+            ingredients {
+              id
+              name
+            }
+          }
         }
       }
     `);
@@ -268,9 +273,11 @@ export const SingleRecipeDetails = ({
       <ul className='m-4 text-14 flex-grow'>
         <li className='flex items-center mb-4'>
           <label>
-            {recipeDetails?.recipe?.name && (
+            {recipeDetails?.currentUser?.mealPlan?.recipe?.name && (
               <Editable
-                defaultValue={recipeDetails?.recipe?.name}
+                defaultValue={
+                  recipeDetails?.currentUser?.mealPlan?.recipe?.name
+                }
                 fontSize={'1.6rem'}
                 fontWeight={'500'}
                 onSubmit={(newName) => {
@@ -385,10 +392,10 @@ export const SingleRecipeDetails = ({
           <ModalCloseButton />
         </li>
         <li>
-          {recipeDetails?.recipe?.imageUrl && (
+          {recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl && (
             <img
               className='max-h-xs max-w-xs object-cover mb-2 rounded-md'
-              src={recipeDetails.recipe.imageUrl}
+              src={recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl}
               alt=''
             />
           )}
@@ -451,18 +458,23 @@ export const SingleRecipeDetails = ({
                 {!isEditingRecipeContent && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: recipeDetails?.recipe?.content ?? '',
+                      __html:
+                        recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
+                        '',
                     }}
                   />
                 )}
               </div>
-              {recipeDetails?.recipe?.content !== undefined &&
-                recipeDetails?.recipe?.content !== null &&
+              {recipeDetails?.currentUser?.mealPlan?.recipe?.content !==
+                undefined &&
+                recipeDetails?.currentUser?.mealPlan.recipe?.content !== null &&
                 isEditingRecipeContent && (
                   <div>
                     <Editor
                       apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-                      initialValue={recipeDetails.recipe.content}
+                      initialValue={
+                        recipeDetails?.currentUser?.mealPlan.recipe?.content
+                      }
                       init={{
                         height: 200,
                         menubar: false,
@@ -484,7 +496,10 @@ export const SingleRecipeDetails = ({
                       margin='0.5rem'
                       onClick={() => {
                         setIsEditingRecipeContent(false);
-                        setRecipeContent(recipeDetails?.recipe?.content ?? '');
+                        setRecipeContent(
+                          recipeDetails?.currentUser?.mealPlan?.recipe
+                            ?.content ?? ''
+                        );
                       }}
                     >
                       Cancel
@@ -503,9 +518,11 @@ export const SingleRecipeDetails = ({
               Ingredients <br />
             </span>
             <Creatable
-              options={ingredientsData?.ingredients?.map((ingredient) => {
-                return { value: ingredient.id, label: ingredient.name };
-              })}
+              options={ingredientsData?.currentUser?.mealPlan?.ingredients?.map(
+                (ingredient) => {
+                  return { value: ingredient.id, label: ingredient.name };
+                }
+              )}
               onChange={async (newValue, actionMeta) => {
                 if (!newValue || !newValue.value) {
                   console.log(`no newValue`, actionMeta);
@@ -543,11 +560,12 @@ export const SingleRecipeDetails = ({
                 });
               }}
               isOptionDisabled={({ value }) =>
-                !!recipeDetails?.recipe?.ingredientQuantities?.some(
+                !!recipeDetails?.currentUser?.mealPlan?.recipe?.ingredientQuantities?.some(
                   ({ ingredient }) => ingredient.id === value
                 )
               }
               isSearchable
+              menuPlacement='top'
               placeholder='add ingredient'
             />
           </label>
@@ -565,7 +583,7 @@ export const SingleRecipeDetails = ({
               </>
             ) : null}
           </div>
-          {recipeDetails?.recipe?.ingredientQuantities?.map(
+          {recipeDetails?.currentUser?.mealPlan?.recipe?.ingredientQuantities?.map(
             ({ unit, amount, ingredient }) => {
               return (
                 <div

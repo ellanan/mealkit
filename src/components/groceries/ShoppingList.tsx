@@ -97,14 +97,14 @@ export const ShoppingList = () => {
   >(
     gql`
       query ShoppingList($startDate: String!, $endDate: String!) {
-        ingredientTypes {
-          id
-          name
-        }
         currentUser {
           id
           mealPlan {
             id
+            ingredientTypes {
+              id
+              name
+            }
             schedule(startDate: $startDate, endDate: $endDate) {
               id
               date
@@ -381,16 +381,17 @@ export const ShoppingList = () => {
                                   ingredientQuantities[0].ingredient.type?.id,
                               },
                               update: (cache) => {
+                                if (!data?.currentUser?.mealPlan) return;
                                 cache.modify({
-                                  id: cache.identify({
-                                    __typename: 'Query',
-                                  }),
+                                  id: cache.identify(
+                                    data?.currentUser?.mealPlan
+                                  ),
                                   fields: {
                                     ingredientTypes: (
                                       ingredientTypes,
                                       { readField }
                                     ) => {
-                                      return ingredientTypes.filter(
+                                      return data?.currentUser?.mealPlan?.ingredientTypes.filter(
                                         (ingredientType: any) =>
                                           readField('id', ingredientType) !==
                                           ingredientQuantities[0].ingredient
@@ -480,16 +481,20 @@ export const ShoppingList = () => {
                             padding: '0 4px',
                           }),
                         }}
-                        options={data?.ingredientTypes.map(({ id, name }) => ({
-                          value: id,
-                          label: name,
-                          isDisabled:
-                            id.startsWith('temp-id:') ||
-                            id === ingredientQuantities[0].ingredient.type?.id,
-                        }))}
+                        options={data?.currentUser?.mealPlan?.ingredientTypes.map(
+                          ({ id, name }) => ({
+                            value: id,
+                            label: name,
+                            isDisabled:
+                              id.startsWith('temp-id:') ||
+                              id ===
+                                ingredientQuantities[0].ingredient.type?.id,
+                          })
+                        )}
                         isSearchable={true}
                         isClearable={true}
                         placeholder='type'
+                        menuPlacement='top'
                         onChange={async (newValue, actionMeta) => {
                           if (!newValue || !newValue.value) {
                             console.log(`no newValue`, actionMeta);
@@ -504,15 +509,16 @@ export const ShoppingList = () => {
                                 variables: {
                                   name: newValue.value.toUpperCase(),
                                 },
-                                update(cache, { data }) {
+                                update(cache, response) {
+                                  if (!data?.currentUser?.mealPlan) return;
                                   cache.modify({
-                                    id: cache.identify({
-                                      __typename: 'Query',
-                                    }),
+                                    id: cache.identify(
+                                      data?.currentUser?.mealPlan
+                                    ),
                                     fields: {
                                       ingredientTypes: (ingredientTypes) => {
                                         return ingredientTypes.concat(
-                                          data?.createIngredientType
+                                          response.data?.createIngredientType
                                         );
                                       },
                                     },
@@ -525,7 +531,8 @@ export const ShoppingList = () => {
                                       type(existingType, { toReference }) {
                                         return toReference({
                                           __typename: 'IngredientType',
-                                          id: data?.createIngredientType?.id,
+                                          id: response.data
+                                            ?.createIngredientType?.id,
                                         });
                                       },
                                     },
