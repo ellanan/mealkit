@@ -10,9 +10,9 @@ export const TopNav = () => {
     <div className='flex flex-col items-center justify-center bg-24 h-full pt-4 font-Raleway'>
       <NavLink
         to='/'
-        className='text-lg font-medium text-23 font-Montserrat flex mb-8'
+        className='text-lg font-medium text-23 font-Montserrat flex mb-8 h-5'
       >
-        <CarrotLogo className='w-5 mr-1.5' />
+        <CarrotLogo className='w-5 h-5 mr-1.5' />
         MealKit
       </NavLink>
 

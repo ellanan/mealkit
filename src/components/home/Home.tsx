@@ -16,7 +16,7 @@ export const Home = () => {
           to='/'
           className='text-3xl font-medium text-23 font-Montserrat flex'
         >
-          <CarrotLogo className='w-7 mr-1.5' />
+          <CarrotLogo className='w-7 h-7 mr-1.5' />
           MealKit
         </NavLink>
         <button
