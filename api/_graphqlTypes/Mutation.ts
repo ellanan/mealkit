@@ -22,9 +22,14 @@ export const Mutation = mutationType({
         name: nonNull(stringArg()),
         ingredientTypeId: nullable(idArg()),
       },
-      resolve: async (_parent, args) => {
+      resolve: async (_parent, args, context) => {
         return prisma.ingredient.create({
           data: {
+            user: {
+              connect: {
+                id: context.currentUser?.id,
+              },
+            },
             name: args.name,
             ...(args.ingredientTypeId
               ? {
@@ -105,7 +110,11 @@ export const Mutation = mutationType({
       resolve: async (_parent, args, context) => {
         return prisma.recipe.create({
           data: {
-            userId: context.currentUser?.id,
+            user: {
+              connect: {
+                id: context.currentUser?.id,
+              },
+            },
             name: args.name,
             imageUrl: args.imageUrl,
             content: args.content,
