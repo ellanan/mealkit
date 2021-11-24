@@ -138,7 +138,7 @@ export const MealPlan = objectType({
         cursor: idArg(),
         search: stringArg(),
       },
-      resolve: (_parent, args) => {
+      resolve: (parent, args) => {
         return prisma.recipe.findMany({
           where: {
             name: args.search
@@ -147,6 +147,9 @@ export const MealPlan = objectType({
                   mode: 'insensitive',
                 }
               : undefined,
+            user: {
+              mealPlanId: parent.id,
+            },
           },
           orderBy: {
             [args.orderBy]: args.order,

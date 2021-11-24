@@ -11,12 +11,13 @@ generator client {
 // inside node_modules/.prisma/client gets updated after updating data model
 
 model User {
-  id             String   @id @default(cuid())
-  authProviderId String   @unique
+  id             String       @id @default(cuid())
+  authProviderId String       @unique
   password       String?
   recipes        Recipe[]
-  mealPlan       MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  mealPlan       MealPlan     @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
   mealPlanId     String
+  Ingredient     Ingredient[]
 }
 
 model IngredientType {
@@ -31,6 +32,8 @@ model Ingredient {
   ingredientType           IngredientType?            @relation(fields: [ingredientTypeId], references: [id], onDelete: SetNull)
   ingredientTypeId         String?
   RecipeIngredientQuantity RecipeIngredientQuantity[]
+  user                     User?                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                   String?
 }
 
 model RecipeIngredientQuantity {

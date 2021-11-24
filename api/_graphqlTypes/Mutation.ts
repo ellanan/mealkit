@@ -105,7 +105,7 @@ export const Mutation = mutationType({
       resolve: async (_parent, args, context) => {
         return prisma.recipe.create({
           data: {
-            userId: context.currentUser?.id ?? undefined,
+            userId: context.currentUser?.id,
             name: args.name,
             imageUrl: args.imageUrl,
             content: args.content,
