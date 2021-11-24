@@ -9,7 +9,7 @@ export const Setting = () => {
   const { user } = useAuth0();
 
   return (
-    <div className='flex items-center justify-center pt-3 pb-3 '>
+    <div className='flex items-center justify-center pt-3 pb-5'>
       <Popover closeOnBlur={true} closeOnEsc={true}>
         <PopoverTrigger>
           <button className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'>

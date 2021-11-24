@@ -2,7 +2,6 @@ import { TopNav } from './TopNav';
 import { PopularRecipes } from '../recipe/PopularRecipes';
 import { RecentRecipes } from '../recipe/RecentRecipes';
 import { Setting } from './Setting';
-import { Footer } from '../footer/Footer';
 
 export const Sidebar = () => {
   return (
@@ -18,7 +17,6 @@ export const Sidebar = () => {
 
       <div className='flex flex-col items-center justify-center mt-auto w-full'>
         <Setting />
-        <Footer />
       </div>
     </div>
   );
