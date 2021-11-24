@@ -75,6 +75,7 @@ export interface NexusGenFieldTypes {
     ingredientTypes: NexusGenRootTypes['IngredientType'][]; // [IngredientType!]!
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
     popularRecipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    recipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
     schedule: NexusGenRootTypes['MealPlanEntry'][]; // [MealPlanEntry!]!
   }
@@ -151,6 +152,7 @@ export interface NexusGenFieldTypeNames {
     ingredientTypes: 'IngredientType'
     ingredients: 'Ingredient'
     popularRecipes: 'Recipe'
+    recipe: 'Recipe'
     recipes: 'Recipe'
     schedule: 'MealPlanEntry'
   }
@@ -218,6 +220,9 @@ export interface NexusGenArgTypes {
       endDate: string; // String!
       limit: number; // Int!
       startDate: string; // String!
+    }
+    recipe: { // args
+      recipeId: string; // ID!
     }
     recipes: { // args
       cursor?: string | null; // ID

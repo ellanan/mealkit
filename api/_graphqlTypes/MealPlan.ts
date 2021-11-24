@@ -142,6 +142,25 @@ export const MealPlan = objectType({
         }),
     });
 
+    t.field('recipe', {
+      type: 'Recipe',
+      args: {
+        recipeId: nonNull(idArg()),
+      },
+      resolve: async (_parent, args) =>
+        prisma.recipe.findUnique({
+          where: { id: args.recipeId },
+          include: {
+            category: true,
+            ingredientQuantities: {
+              include: {
+                ingredient: true,
+              },
+            },
+          },
+        }),
+    });
+
     t.nonNull.list.nonNull.field('recipes', {
       type: 'Recipe',
       args: {
