@@ -114,6 +114,34 @@ export const MealPlan = objectType({
       },
     });
 
+    t.nonNull.list.nonNull.field('ingredients', {
+      type: 'Ingredient',
+      resolve: (parent) =>
+        prisma.ingredient.findMany({
+          where: {
+            user: {
+              mealPlanId: parent.id,
+            },
+          },
+        }),
+    });
+
+    t.nonNull.list.nonNull.field('ingredientTypes', {
+      type: 'IngredientType',
+      resolve: (parent) =>
+        prisma.ingredientType.findMany({
+          where: {
+            ingredients: {
+              some: {
+                user: {
+                  mealPlanId: parent.id,
+                },
+              },
+            },
+          },
+        }),
+    });
+
     t.nonNull.list.nonNull.field('recipes', {
       type: 'Recipe',
       args: {

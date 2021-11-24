@@ -27,15 +27,24 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   const [formData, setFormData] =
     useState<CreateRecipeForm>(initalFormDataState);
 
-  const { data: ingredientsData, error: errorLoadingIngredients } =
-    useQuery<GraphQLTypes.IngredientsQuery>(gql`
-      query Ingredients {
-        ingredients {
+  const {
+    data: dataForCreateRecipe,
+    error: errorLoadingIngredients,
+    loading: isLoadingDataForCreateRecipe,
+  } = useQuery<GraphQLTypes.DataForCreateRecipeQuery>(gql`
+    query DataForCreateRecipe {
+      currentUser {
+        id
+        mealPlan {
           id
-          name
+          ingredients {
+            id
+            name
+          }
         }
       }
-    `);
+    }
+  `);
   if (errorLoadingIngredients) {
     throw errorLoadingIngredients;
   }
@@ -99,10 +108,9 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
               ),
             },
             update: (cache, { data }) => {
+              if (!dataForCreateRecipe?.currentUser?.mealPlan) return;
               cache.modify({
-                id: cache.identify({
-                  __typename: 'Query',
-                }),
+                id: cache.identify(dataForCreateRecipe.currentUser.mealPlan),
                 fields: {
                   recipes(existingRecipes) {
                     return [data?.createRecipe].concat(existingRecipes);
@@ -218,15 +226,19 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
             <label>
               <span className='font-semibold'>Ingredients</span>
               <Creatable
-                options={ingredientsData?.ingredients?.map((ingredient) => {
-                  return { value: ingredient.id, label: ingredient.name };
-                })}
+                options={dataForCreateRecipe?.currentUser?.mealPlan?.ingredients?.map(
+                  (ingredient) => {
+                    return { value: ingredient.id, label: ingredient.name };
+                  }
+                )}
                 isOptionDisabled={({ value }) =>
                   formData.ingredientQuantities.some(
                     ({ ingredient }) => ingredient.id === value
-                  )
+                  ) || value.startsWith('temp-id:')
                 }
                 isSearchable
+                menuPlacement='top'
+                isLoading={isLoadingDataForCreateRecipe}
                 placeholder='add ingredient'
                 onChange={async (newValue, actionMeta) => {
                   if (!newValue || !newValue.value) {
@@ -238,6 +250,28 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                     const createIngredientResponse = await createIngredient({
                       variables: {
                         name: newValue.value,
+                      },
+                      update: (cache, { data }) => {
+                        if (!dataForCreateRecipe?.currentUser?.mealPlan) return;
+                        cache.modify({
+                          id: cache.identify(
+                            dataForCreateRecipe.currentUser.mealPlan
+                          ),
+                          fields: {
+                            ingredients(existingIngredients) {
+                              return [data?.createIngredient].concat(
+                                existingIngredients
+                              );
+                            },
+                          },
+                        });
+                      },
+                      optimisticResponse: {
+                        createIngredient: {
+                          __typename: 'Ingredient',
+                          id: `temp-id:${newValue.value}`,
+                          name: newValue.value,
+                        },
                       },
                     });
 
@@ -263,9 +297,10 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                   }
 
                   const newIngredientId = newValue.value;
-                  const newIngredient = ingredientsData?.ingredients?.find(
-                    ({ id }) => id === newIngredientId
-                  );
+                  const newIngredient =
+                    dataForCreateRecipe?.currentUser?.mealPlan?.ingredients?.find(
+                      ({ id }) => id === newIngredientId
+                    );
 
                   if (!newIngredient) {
                     console.log(`ingredient ${newValue.label} not found`);

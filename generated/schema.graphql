@@ -31,6 +31,8 @@ type IngredientType {
 
 type MealPlan {
   id: ID!
+  ingredientTypes: [IngredientType!]!
+  ingredients: [Ingredient!]!
   popularRecipes(endDate: String!, limit: Int! = 10, startDate: String!): [Recipe!]!
   recipes(cursor: ID, limit: Int! = 10, order: Order! = desc, orderBy: RecipeOrderBy! = createdAt, search: String): [Recipe!]!
   schedule(endDate: String!, startDate: String!): [MealPlanEntry!]!
@@ -73,8 +75,8 @@ enum Order {
 type Query {
   allUsers: [User!]!
   currentUser: User
-  ingredientTypes: [IngredientType!]!
-  ingredients: [Ingredient!]!
+  ingredientTypes: [IngredientType!]! @deprecated(reason: "access from mealplan")
+  ingredients: [Ingredient!]! @deprecated(reason: "access from mealplan")
   recipe(recipeId: ID!): Recipe
   recipeCategories: [RecipeCategory!]!
 }
