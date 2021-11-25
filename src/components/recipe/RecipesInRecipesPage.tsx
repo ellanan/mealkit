@@ -103,6 +103,7 @@ export const RecipesInRecipesPage = () => {
             borderRadius='20px'
             focusBorderColor='orange.300'
             autoFocus={true}
+            inputMode='search'
             onChange={(e) => {
               e.preventDefault();
               setSearch(e.target.value);
