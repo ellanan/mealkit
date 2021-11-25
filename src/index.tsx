@@ -9,9 +9,22 @@ import { CustomEmotionCacheProvider } from './utils/CustomEmotionCacheProvider';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ApolloClientProvider } from './ApolloClientProvider';
 import { Auth0Provider } from '@auth0/auth0-react';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 
 import App from './App';
 import { AuthAccessTokenProvider } from './useAuthAccessTokenContext';
+
+Sentry.init({
+  dsn: 'https://ad1bf1ba259c46aea27c96113c2de074@o1044934.ingest.sentry.io/6020188',
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+});
 
 ReactDOM.render(
   <BrowserRouter>
