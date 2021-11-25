@@ -16,7 +16,7 @@ import App from './App';
 import { AuthAccessTokenProvider } from './useAuthAccessTokenContext';
 
 Sentry.init({
-  dsn: 'https://ad1bf1ba259c46aea27c96113c2de074@o1044934.ingest.sentry.io/6020188',
+  dsn: 'https://167a2028956748cc8305c55cb9f948e8@o1044934.ingest.sentry.io/6081450',
   integrations: [new Integrations.BrowserTracing()],
 
   // Set tracesSampleRate to 1.0 to capture 100%
