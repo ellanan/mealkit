@@ -101,6 +101,7 @@ export type Mutation = {
   deleteRecipe?: Maybe<Recipe>;
   editIngredientType?: Maybe<IngredientType>;
   editRecipe?: Maybe<Recipe>;
+  initWithData?: Maybe<MealPlan>;
   removeIngredientFromRecipe?: Maybe<Recipe>;
   updateIngredient?: Maybe<Ingredient>;
   updateIngredientQuantityInRecipe?: Maybe<Recipe>;
@@ -169,6 +170,11 @@ export type MutationEditRecipeArgs = {
 };
 
 
+export type MutationInitWithDataArgs = {
+  startDate: Scalars['String'];
+};
+
+
 export type MutationRemoveIngredientFromRecipeArgs = {
   ingredientId: Scalars['ID'];
   recipeId: Scalars['ID'];
@@ -197,11 +203,8 @@ export type Query = {
   __typename?: 'Query';
   allUsers: Array<User>;
   currentUser?: Maybe<User>;
-  /** @deprecated access from mealplan */
   ingredientTypes: Array<IngredientType>;
-  /** @deprecated access from mealplan */
   ingredients: Array<Ingredient>;
-  /** @deprecated access from mealplan */
   recipe?: Maybe<Recipe>;
   recipeCategories: Array<RecipeCategory>;
 };
@@ -423,6 +426,14 @@ export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
 
 
 export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
+
+export type InitWithDataMutationVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type InitWithDataMutation = { __typename?: 'Mutation', initWithData?: { __typename?: 'MealPlan', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, createdAt: any, updatedAt: any }>, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
 
 export type RecipeInListFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined };
 
@@ -1390,3 +1401,51 @@ export function useUpdateIngredientQuantityInRecipeMutation(baseOptions?: Apollo
 export type UpdateIngredientQuantityInRecipeMutationHookResult = ReturnType<typeof useUpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationResult = Apollo.MutationResult<UpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationOptions = Apollo.BaseMutationOptions<UpdateIngredientQuantityInRecipeMutation, UpdateIngredientQuantityInRecipeMutationVariables>;
+export const InitWithDataDocument = gql`
+    mutation InitWithData($startDate: String!, $endDate: String!) {
+  initWithData(startDate: $startDate) {
+    recipes {
+      id
+      name
+      imageUrl
+      createdAt
+      updatedAt
+    }
+    schedule(startDate: $startDate, endDate: $endDate) {
+      id
+      date
+      mealType
+      recipe {
+        id
+      }
+    }
+  }
+}
+    `;
+export type InitWithDataMutationFn = Apollo.MutationFunction<InitWithDataMutation, InitWithDataMutationVariables>;
+
+/**
+ * __useInitWithDataMutation__
+ *
+ * To run a mutation, you first call `useInitWithDataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitWithDataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initWithDataMutation, { data, loading, error }] = useInitWithDataMutation({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useInitWithDataMutation(baseOptions?: Apollo.MutationHookOptions<InitWithDataMutation, InitWithDataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InitWithDataMutation, InitWithDataMutationVariables>(InitWithDataDocument, options);
+      }
+export type InitWithDataMutationHookResult = ReturnType<typeof useInitWithDataMutation>;
+export type InitWithDataMutationResult = Apollo.MutationResult<InitWithDataMutation>;
+export type InitWithDataMutationOptions = Apollo.BaseMutationOptions<InitWithDataMutation, InitWithDataMutationVariables>;
