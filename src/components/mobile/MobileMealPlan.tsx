@@ -182,30 +182,7 @@ export const MobileMealPlan = () => {
                         )}
                       </Popover>
                       {mealPlanEntries?.map((entry) => (
-                        <div
-                          key={entry.id}
-                          className='relative my-2 mx-0'
-                          css={css`
-                            .deleteIndicator {
-                              opacity: 0;
-                            }
-                            &:hover {
-                              .deleteIndicator {
-                                opacity: 1;
-                                display: flex;
-                                align-items: center;
-                              }
-                              .recipe-title {
-                                background-image: linear-gradient(
-                                  to bottom,
-                                  rgba(0, 0, 0, 0),
-                                  rgba(0, 0, 0, 0.15) 30%,
-                                  rgba(0, 0, 0, 0.35)
-                                );
-                              }
-                            }
-                          `}
-                        >
+                        <div key={entry.id} className='relative my-2 mx-0'>
                           <div className='relative rounded-xl overflow-hidden mb-2 shadow-sm hover:shadow-md pt-[100%]'>
                             <NavLink
                               to={(location) => {
@@ -244,7 +221,7 @@ export const MobileMealPlan = () => {
                             </NavLink>
                           </div>
                           <Button
-                            className='deleteIndicator translate-x-1/3 -translate-y-1/3 absolute top-0 right-0 flex content-center items-center group'
+                            className='absolute top-0 right-0 flex content-center items-center pl-0.5 pb-0.5'
                             size='xs'
                             variant='unstyled'
                             aria-label={`delete ${entry.recipe.name} from meal plan`}
@@ -282,7 +259,12 @@ export const MobileMealPlan = () => {
                               });
                             }}
                           >
-                            <div className='absolute top-0 right-0 w-full h-full bg-black bg-opacity-80 rounded-full group-hover:scale-105' />
+                            <div
+                              className='absolute top-0 right-0 w-full h-full bg-black bg-opacity-20 rounded-tr-xl'
+                              css={css`
+                                border-bottom-left-radius: 22px;
+                              `}
+                            />
                             <CloseIcon
                               position='relative'
                               w={2}
