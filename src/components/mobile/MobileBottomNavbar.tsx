@@ -8,8 +8,10 @@ export const MobileBottomNavbar = () => {
   return (
     <div className='flex items-center justify-evenly bg-24 py-3 px-4 font-Raleway'>
       <NavLink
-        className='flex flex-col items-center w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
+        className='flex flex-col items-center active:text-25 w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
+        activeStyle={{ color: '#fa7532' }}
         to='/'
+        exact
       >
         <AiOutlineHome className='mr-1 mb-1' size={20} />
         Home
@@ -17,7 +19,9 @@ export const MobileBottomNavbar = () => {
 
       <NavLink
         className='flex flex-col items-center w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
+        activeStyle={{ color: '#fa7532' }}
         to='/recipes'
+        exact
       >
         <GoSearch className='mr-1 mb-1' size={19} />
         Search
@@ -25,15 +29,9 @@ export const MobileBottomNavbar = () => {
 
       <NavLink
         className='flex flex-col items-center w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
-        to={(location) => {
-          const newQueryParams = new URLSearchParams(location.search);
-          newQueryParams.append('modalCreateRecipe', 'visible');
-
-          return {
-            ...location,
-            search: newQueryParams.toString(),
-          };
-        }}
+        activeStyle={{ color: '#fa7532' }}
+        exact
+        to='/createrecipe'
       >
         <MdCreate className='mr-1 mb-1' size={20} />
         Create
@@ -41,15 +39,9 @@ export const MobileBottomNavbar = () => {
 
       <NavLink
         className='flex flex-col items-center w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
-        to={(location) => {
-          const newQueryParams = new URLSearchParams(location.search);
-          newQueryParams.append('shoppingList', 'visible');
-
-          return {
-            ...location,
-            search: newQueryParams.toString(),
-          };
-        }}
+        activeStyle={{ color: '#fa7532' }}
+        exact
+        to='/grocerylist'
       >
         <BiListUl className='mr-1 mb-1' size={22} />
         Groceries
