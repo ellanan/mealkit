@@ -12,16 +12,17 @@ import { SingleRecipeModal } from './components/recipe/SingleRecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { AttributionModal } from './components/footer/AttributionModal';
-import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
-import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 import { MobileMealPlan } from './components/mobile/MobileMealPlan';
 import { MobileTopNavbar } from './components/mobile/MobileTopNavbar';
 import { MobileBottomNavbar } from './components/mobile/MobileBottomNavbar';
+import { CreateRecipe } from './components/recipe/CreateRecipe';
+import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
+import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 
 const App = () => {
   const { accessToken, isGettingAccessToken } = useAuthAccessTokenContext();
 
-  const [isLargerThan1024] = useMediaQuery('(min-width: 768px');
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px');
 
   if (isGettingAccessToken) {
     return (
@@ -35,35 +36,36 @@ const App = () => {
   }
   return (
     <>
-      <CreateRecipeModal />
-      <SingleRecipeModal />
-      <ShoppingListModal />
-      <AttributionModal />
-
-      {isLargerThan1024 ? (
-        <SplitPane
-          split='vertical'
-          defaultSize={200}
-          maxSize={Math.min(window.innerWidth / 3, 500)}
-          minSize={200}
-        >
-          <Sidebar />
-          <div className='flex flex-col h-full'>
-            <Switch>
-              <Route exact path='/' component={MealPlan} />
-              <Route
-                exact
-                path='/recipes/:recipeId'
-                render={({ match }) => (
-                  <SingleRecipeDetails recipeId={match.params.recipeId} />
-                )}
-              />
-              <Route exact path='/recipes' component={RecipesInRecipesPage} />
-              <Route exact path='/grocerylist' component={ShoppingList} />
-              <Route exact path='/login' component={Login} />
-            </Switch>
-          </div>
-        </SplitPane>
+      {isLargerThan850 ? (
+        <>
+          <CreateRecipeModal />
+          <SingleRecipeModal />
+          <ShoppingListModal />
+          <AttributionModal />
+          <SplitPane
+            split='vertical'
+            defaultSize={200}
+            maxSize={Math.min(window.innerWidth / 3, 500)}
+            minSize={200}
+          >
+            <Sidebar />
+            <div className='flex flex-col h-full'>
+              <Switch>
+                <Route exact path='/' component={MealPlan} />
+                <Route
+                  exact
+                  path='/recipes/:recipeId'
+                  render={({ match }) => (
+                    <SingleRecipeDetails recipeId={match.params.recipeId} />
+                  )}
+                />
+                <Route exact path='/recipes' component={RecipesInRecipesPage} />
+                <Route exact path='/grocerylist' component={ShoppingList} />
+                <Route exact path='/login' component={Login} />
+              </Switch>
+            </div>
+          </SplitPane>
+        </>
       ) : (
         <div className='flex flex-col h-full'>
           <MobileTopNavbar />
@@ -76,6 +78,7 @@ const App = () => {
                 <SingleRecipeDetails recipeId={match.params.recipeId} />
               )}
             />
+            <Route exact path='/createrecipe' component={CreateRecipe} />
             <Route exact path='/recipes' component={RecipesInRecipesPage} />
             <Route exact path='/grocerylist' component={ShoppingList} />
             <Route exact path='/login' component={Login} />
