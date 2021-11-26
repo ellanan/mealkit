@@ -76,9 +76,9 @@ enum Order {
 type Query {
   allUsers: [User!]!
   currentUser: User
-  ingredientTypes: [IngredientType!]! @deprecated(reason: "access from mealplan")
-  ingredients: [Ingredient!]! @deprecated(reason: "access from mealplan")
-  recipe(recipeId: ID!): Recipe @deprecated(reason: "access from mealplan")
+  ingredientTypes: [IngredientType!]!
+  ingredients: [Ingredient!]!
+  recipe(recipeId: ID!): Recipe
   recipeCategories: [RecipeCategory!]!
 }
 
