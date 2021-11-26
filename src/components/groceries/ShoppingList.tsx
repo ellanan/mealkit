@@ -218,7 +218,7 @@ export const ShoppingList = () => {
     .flat();
 
   return (
-    <div className='flex flex-col m-4 text-14'>
+    <div className='flex flex-col overflow-y-scroll flex-shrink flex-grow m-4 text-14'>
       <DateRange
         className='flex items-center -mt-6'
         css={css`

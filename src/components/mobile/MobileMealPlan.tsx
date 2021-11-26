@@ -100,7 +100,7 @@ export const MobileMealPlan = () => {
         setStartDate={setStartDate}
       />
 
-      <div className='flex flex-col overflow-y-scroll flex-shrink flex-grow '>
+      <div className='flex flex-col overflow-y-scroll flex-shrink flex-grow'>
         {interval.map((day) => {
           return (
             <div key={day.toISO()} className='flex-grow relative px-5 text-14'>
