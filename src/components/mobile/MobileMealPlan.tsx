@@ -152,11 +152,7 @@ export const MobileMealPlan = () => {
                                 }}
                               >
                                 {mealType}
-                                <AddIcon
-                                  className='opacity-0 group-hover:opacity-100 ml-1'
-                                  w={2}
-                                  h={2}
-                                />
+                                <AddIcon className='ml-1' w={2} h={2} />
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent

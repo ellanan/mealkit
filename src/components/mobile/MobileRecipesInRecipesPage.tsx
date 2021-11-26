@@ -118,14 +118,14 @@ export const MobileRecipesInRecipesPage = () => {
         </div>
       ) : null}
 
-      <div className='flex-grow grid xs:grid-cols-2 grid-cols-2 gap-2 mb-8 mx-8'>
+      <div className='flex-grow flex flex-row flex-wrap justify-evenly'>
         {data?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())
           )
           .map((recipe) => (
             <NavLink
-              className='flex flex-col py-1 px-1 text-sm hover:opacity-70'
+              className='flex flex-col items-center justify-center text-sm hover:opacity-70 mb-6'
               key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);

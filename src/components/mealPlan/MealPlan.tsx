@@ -105,13 +105,13 @@ export const MealPlan = () => {
 
       <MealPlanDates today={today} interval={interval} />
 
-      <div className='flex overflow-y-scroll flex-shrink flex-grow mb-5'>
+      <div className='flex overflow-x-hidden overflow-y-scroll flex-shrink flex-grow mb-5'>
         {interval.map((day) => {
           return (
             <div
               key={day.toISO()}
               className={[
-                'flex-grow relative px-5 py-3 text-14',
+                'flex-grow relative px-5 md:px-0 py-3 text-14',
                 'after:block after:w-[1px] after:h-full after:absolute after:top-0 after:right-0',
               ].join(' ')}
               css={css`
@@ -154,7 +154,7 @@ export const MealPlan = () => {
                         <>
                           <PopoverTrigger>
                             <Button
-                              className='group focus:shadow-none'
+                              className='group focus:shadow-none mx-2'
                               size='xs'
                               variant='unstyled'
                               aria-label={`add recipe to ${mealType}`}
@@ -224,8 +224,9 @@ export const MealPlan = () => {
                           }
                         `}
                       >
-                        <div className='relative rounded-xl overflow-hidden mb-2 shadow-sm hover:shadow-md pt-[100%]'>
+                        <div className='mx-2 mb-2'>
                           <NavLink
+                            className='relative block shadow-sm overflow-hidden rounded-xl hover:shadow-md pt-[100%]'
                             to={(location) => {
                               const newQueryParams = new URLSearchParams(
                                 location.search
