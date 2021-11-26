@@ -23,7 +23,7 @@ import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 const App = () => {
   const { accessToken, isGettingAccessToken } = useAuthAccessTokenContext();
 
-  const [isLargerThan850] = useMediaQuery('(min-width: 850px');
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
 
   if (isGettingAccessToken) {
     return (
