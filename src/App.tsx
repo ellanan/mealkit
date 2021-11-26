@@ -37,10 +37,10 @@ const App = () => {
   }
   return (
     <>
+      <SingleRecipeModal />
       {isLargerThan850 ? (
         <>
           <CreateRecipeModal />
-          <SingleRecipeModal />
           <ShoppingListModal />
           <AttributionModal />
           <SplitPane
