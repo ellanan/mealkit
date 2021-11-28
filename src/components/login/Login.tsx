@@ -1,13 +1,21 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { useMediaQuery } from '@chakra-ui/react';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 import { Home } from '../home/Home';
+import { MobileHome } from '../mobile/MobileHome';
 
 export const Login = () => {
   const { isAuthenticated, logout } = useAuth0();
 
+  const [isLargerthan850] = useMediaQuery('(min-width: 850px)');
+
   return !isAuthenticated ? (
-    <Home />
+    isLargerthan850 ? (
+      <Home />
+    ) : (
+      <MobileHome />
+    )
   ) : (
     <button
       onClick={() => logout()}
