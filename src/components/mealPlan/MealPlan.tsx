@@ -199,6 +199,7 @@ export const MealPlan = () => {
                         </>
                       )}
                     </Popover>
+
                     {mealPlanEntries?.map((entry) => (
                       <div
                         key={entry.id}
@@ -224,7 +225,7 @@ export const MealPlan = () => {
                           }
                         `}
                       >
-                        <div className='mx-2 mb-2'>
+                        <div className='mx-4 mb-2'>
                           <NavLink
                             className='relative block shadow-sm overflow-hidden rounded-xl hover:shadow-md pt-[100%]'
                             to={(location) => {
@@ -262,6 +263,7 @@ export const MealPlan = () => {
                             </div>
                           </NavLink>
                         </div>
+
                         <Button
                           className='deleteIndicator absolute top-[-1px] right-[7px] flex content-center items-center'
                           size='xs'
