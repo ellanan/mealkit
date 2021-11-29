@@ -217,7 +217,7 @@ export const MealPlan = () => {
                               background-image: linear-gradient(
                                 to bottom,
                                 rgba(0, 0, 0, 0),
-                                rgba(0, 0, 0, 0.15) 30%,
+                                rgba(0, 0, 0, 0.15) 40%,
                                 rgba(0, 0, 0, 0.35)
                               );
                             }
@@ -263,7 +263,7 @@ export const MealPlan = () => {
                           </NavLink>
                         </div>
                         <Button
-                          className='deleteIndicator translate-x-1/3 -translate-y-1/3 absolute top-0 right-0 flex content-center items-center group'
+                          className='deleteIndicator absolute top-[-1px] right-[7px] flex content-center items-center'
                           size='xs'
                           variant='unstyled'
                           aria-label={`delete ${entry.recipe.name} from meal plan`}
@@ -301,7 +301,12 @@ export const MealPlan = () => {
                             });
                           }}
                         >
-                          <div className='absolute top-0 right-0 w-full h-full bg-black bg-opacity-80 rounded-full group-hover:scale-105' />
+                          <div
+                            className='absolute top-[1px] right-[1px] w-full h-full bg-black bg-opacity-20 rounded-tr-xl'
+                            css={css`
+                              border-bottom-left-radius: 22px;
+                            `}
+                          />
                           <CloseIcon
                             position='relative'
                             w={2}
