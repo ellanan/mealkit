@@ -111,7 +111,7 @@ export const MobileMealPlan = () => {
                     .toUpperCase()} ${day.day}`}
                 </span>
               </div>
-              <div className='flex flex-row items-start justify-around'>
+              <div className='flex flex-row items-start justify-around min-h-[100px]'>
                 {[
                   GraphQLTypes.MealType.Breakfast,
                   GraphQLTypes.MealType.Lunch,
@@ -181,6 +181,7 @@ export const MobileMealPlan = () => {
                           </>
                         )}
                       </Popover>
+
                       {mealPlanEntries?.map((entry) => (
                         <div key={entry.id} className='relative my-2 mx-0'>
                           <div className='relative rounded-xl overflow-hidden mb-2 shadow-sm hover:shadow-md pt-[100%]'>
@@ -220,6 +221,7 @@ export const MobileMealPlan = () => {
                               </div>
                             </NavLink>
                           </div>
+
                           <Button
                             className='absolute top-0 right-0 flex content-center items-center pl-0.5 pb-0.5'
                             size='xs'
