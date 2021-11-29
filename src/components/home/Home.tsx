@@ -108,40 +108,35 @@ export const Home = () => {
           className='transform -translate-y-full absolute top-[1px]'
         />
         <h1 className='text-14 text-sm font-semibold mt-10'>ATTRIBUTIONS</h1>
-        <div className='flex items-center'>
+        <div className='flex items-center justify-start'>
           <ul className='p-2 text-xs text-14'>
             <li className='flex items-center'>
-              <CarrotLogo className='w-5 mb-4' /> | Carrot logo created by Free
-              ICONS Library |
               <a
-                className='text-14 hover:text-25 hover:underline'
+                className='text-14 px-4 py-2 hover:text-25 hover:underline'
                 href='https://icon-library.com/840638.svg.html'
                 target='_blank'
                 rel='noreferrer'
               >
-                https://icon-library.com/840638.svg.html
+                1. Carrot logo created by Free ICONS Library
               </a>
             </li>
-            <li>attribution</li>
-            <li>attribution</li>
-            <li>attribution</li>
-          </ul>
-          <ul className='p-2 text-xs text-14'>
             <li className='flex items-center'>
-              <CarrotLogo className='w-5 mb-4' /> Carrot logo created by Free
-              ICONS Library
               <a
-                className='text-14 hover:text-25 hover:underline'
-                href='https://icon-library.com/840638.svg.html'
-                target='_blank'
-                rel='noreferrer'
+                className='text-14 px-4 py-2 hover:text-25 hover:underline'
+                href='https://www.freepik.com/photos/background'
               >
-                https://icon-library.com/840638.svg.html
+                2. Healthy vegetables created by jcomp - www.freepik.com
               </a>
             </li>
-            <li>attribution</li>
-            <li>attribution</li>
-            <li>attribution</li>
+            <li className='flex items-center'>
+              <a
+                className='text-14 px-4 py-2 hover:text-25 hover:underline'
+                href='https://www.freepik.com/vectors/food'
+              >
+                3. Family cooking together created by pch.vector -
+                www.freepik.com
+              </a>
+            </li>
           </ul>
         </div>
         <Footer />
