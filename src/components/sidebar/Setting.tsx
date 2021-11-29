@@ -23,7 +23,7 @@ export const Setting = () => {
           shadow='lg'
           borderRadius='10px'
         >
-          <div className='flex flex-col items-center justify-center my-3 text-14'>
+          <div className='flex flex-col items-center justify-center my-6 text-14'>
             {user?.image !== null || undefined ? (
               <img
                 className='w-14 h-14 rounded-full'
