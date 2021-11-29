@@ -265,7 +265,7 @@ export const MealPlan = () => {
                         </div>
 
                         <Button
-                          className='deleteIndicator absolute top-[-1px] right-[7px] flex content-center items-center'
+                          className='deleteIndicator absolute top-[-1px] right-[15px] flex content-center items-center'
                           size='xs'
                           variant='unstyled'
                           aria-label={`delete ${entry.recipe.name} from meal plan`}
