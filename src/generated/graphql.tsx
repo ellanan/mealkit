@@ -355,6 +355,19 @@ export type CreateIngredientMutationVariables = Exact<{
 
 export type CreateIngredientMutation = { __typename?: 'Mutation', createIngredient: { __typename?: 'Ingredient', id: string, name: string } };
 
+export type CheckUserRecipesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckUserRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string } | null | undefined> } | null | undefined };
+
+export type InitWithDataMutationVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type InitWithDataMutation = { __typename?: 'Mutation', initWithData?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } }> } | null | undefined };
+
 export type MonthlyPlannedMealsQueryVariables = Exact<{
   startDate: Scalars['String'];
   endDate: Scalars['String'];
@@ -426,14 +439,6 @@ export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
 
 
 export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
-
-export type InitWithDataMutationVariables = Exact<{
-  startDate: Scalars['String'];
-  endDate: Scalars['String'];
-}>;
-
-
-export type InitWithDataMutation = { __typename?: 'Mutation', initWithData?: { __typename?: 'MealPlan', recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, createdAt: any, updatedAt: any }>, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
 
 export type RecipeInListFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined };
 
@@ -1003,6 +1008,88 @@ export function useCreateIngredientMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateIngredientMutationHookResult = ReturnType<typeof useCreateIngredientMutation>;
 export type CreateIngredientMutationResult = Apollo.MutationResult<CreateIngredientMutation>;
 export type CreateIngredientMutationOptions = Apollo.BaseMutationOptions<CreateIngredientMutation, CreateIngredientMutationVariables>;
+export const CheckUserRecipesDocument = gql`
+    query CheckUserRecipes {
+  currentUser {
+    id
+    recipes {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useCheckUserRecipesQuery__
+ *
+ * To run a query within a React component, call `useCheckUserRecipesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckUserRecipesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckUserRecipesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckUserRecipesQuery(baseOptions?: Apollo.QueryHookOptions<CheckUserRecipesQuery, CheckUserRecipesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckUserRecipesQuery, CheckUserRecipesQueryVariables>(CheckUserRecipesDocument, options);
+      }
+export function useCheckUserRecipesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckUserRecipesQuery, CheckUserRecipesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckUserRecipesQuery, CheckUserRecipesQueryVariables>(CheckUserRecipesDocument, options);
+        }
+export type CheckUserRecipesQueryHookResult = ReturnType<typeof useCheckUserRecipesQuery>;
+export type CheckUserRecipesLazyQueryHookResult = ReturnType<typeof useCheckUserRecipesLazyQuery>;
+export type CheckUserRecipesQueryResult = Apollo.QueryResult<CheckUserRecipesQuery, CheckUserRecipesQueryVariables>;
+export const InitWithDataDocument = gql`
+    mutation InitWithData($startDate: String!, $endDate: String!) {
+  initWithData(startDate: $startDate) {
+    id
+    schedule(startDate: $startDate, endDate: $endDate) {
+      id
+      date
+      mealType
+      recipe {
+        id
+        name
+        imageUrl
+      }
+    }
+  }
+}
+    `;
+export type InitWithDataMutationFn = Apollo.MutationFunction<InitWithDataMutation, InitWithDataMutationVariables>;
+
+/**
+ * __useInitWithDataMutation__
+ *
+ * To run a mutation, you first call `useInitWithDataMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitWithDataMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initWithDataMutation, { data, loading, error }] = useInitWithDataMutation({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useInitWithDataMutation(baseOptions?: Apollo.MutationHookOptions<InitWithDataMutation, InitWithDataMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InitWithDataMutation, InitWithDataMutationVariables>(InitWithDataDocument, options);
+      }
+export type InitWithDataMutationHookResult = ReturnType<typeof useInitWithDataMutation>;
+export type InitWithDataMutationResult = Apollo.MutationResult<InitWithDataMutation>;
+export type InitWithDataMutationOptions = Apollo.BaseMutationOptions<InitWithDataMutation, InitWithDataMutationVariables>;
 export const MonthlyPlannedMealsDocument = gql`
     query MonthlyPlannedMeals($startDate: String!, $endDate: String!) {
   currentUser {
@@ -1401,51 +1488,3 @@ export function useUpdateIngredientQuantityInRecipeMutation(baseOptions?: Apollo
 export type UpdateIngredientQuantityInRecipeMutationHookResult = ReturnType<typeof useUpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationResult = Apollo.MutationResult<UpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationOptions = Apollo.BaseMutationOptions<UpdateIngredientQuantityInRecipeMutation, UpdateIngredientQuantityInRecipeMutationVariables>;
-export const InitWithDataDocument = gql`
-    mutation InitWithData($startDate: String!, $endDate: String!) {
-  initWithData(startDate: $startDate) {
-    recipes {
-      id
-      name
-      imageUrl
-      createdAt
-      updatedAt
-    }
-    schedule(startDate: $startDate, endDate: $endDate) {
-      id
-      date
-      mealType
-      recipe {
-        id
-      }
-    }
-  }
-}
-    `;
-export type InitWithDataMutationFn = Apollo.MutationFunction<InitWithDataMutation, InitWithDataMutationVariables>;
-
-/**
- * __useInitWithDataMutation__
- *
- * To run a mutation, you first call `useInitWithDataMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInitWithDataMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [initWithDataMutation, { data, loading, error }] = useInitWithDataMutation({
- *   variables: {
- *      startDate: // value for 'startDate'
- *      endDate: // value for 'endDate'
- *   },
- * });
- */
-export function useInitWithDataMutation(baseOptions?: Apollo.MutationHookOptions<InitWithDataMutation, InitWithDataMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InitWithDataMutation, InitWithDataMutationVariables>(InitWithDataDocument, options);
-      }
-export type InitWithDataMutationHookResult = ReturnType<typeof useInitWithDataMutation>;
-export type InitWithDataMutationResult = Apollo.MutationResult<InitWithDataMutation>;
-export type InitWithDataMutationOptions = Apollo.BaseMutationOptions<InitWithDataMutation, InitWithDataMutationVariables>;

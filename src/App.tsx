@@ -19,6 +19,7 @@ import { MobileRecipesInRecipesPage } from './components/mobile/MobileRecipesInR
 import { CreateRecipe } from './components/recipe/CreateRecipe';
 import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
 import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
+import { InheritRecipesModal } from './components/recipe/InheritRecipesModal';
 
 const App = () => {
   const { accessToken, isGettingAccessToken } = useAuthAccessTokenContext();
@@ -38,6 +39,7 @@ const App = () => {
   return (
     <>
       <SingleRecipeModal />
+      <InheritRecipesModal />
       {isLargerThan850 ? (
         <>
           <CreateRecipeModal />
