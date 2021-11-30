@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { MdCreate } from 'react-icons/md';
 import { GoSearch } from 'react-icons/go';
+import { AiOutlineHome } from 'react-icons/ai';
 import { Tooltip } from '@chakra-ui/react';
 
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
@@ -19,6 +20,17 @@ export const TopNav = () => {
       <div className='flex items-center justify-center'>
         <NavLink
           className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          exact
+          to='/'
+        >
+          <AiOutlineHome size={20} />
+        </NavLink>
+
+        <NavLink
+          className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          exact
           to='/recipes'
         >
           <Tooltip
@@ -33,6 +45,10 @@ export const TopNav = () => {
 
         <NavLink
           className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          isActive={(match, location) => {
+            return location.search.includes('modalCreateRecipe=visible');
+          }}
           to={(location) => {
             const newQueryParams = new URLSearchParams(location.search);
             newQueryParams.append('modalCreateRecipe', 'visible');
