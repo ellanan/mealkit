@@ -51,7 +51,7 @@ export const ClearAllMealPlanEntries = () => {
   return (
     <div className='flex items-center justify-center'>
       <button
-        className='text-14 text-xs px-3 py-2 mt-3 border-1 rounded-md font-medium bg-12 hover:bg-11 hover:text-white'
+        className='text-14 text-xs px-3 py-2 border-1 rounded-xl font-medium bg-12 hover:bg-11 hover:text-white'
         onClick={() => setIsDeleteMealEntriesOpen(true)}
       >
         Clear meal plan
