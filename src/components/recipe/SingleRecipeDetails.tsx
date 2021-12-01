@@ -338,10 +338,12 @@ export const SingleRecipeDetails = ({
                           recipeId,
                         },
                         update: (cache) => {
+                          if (!recipeDetails?.currentUser?.mealPlan) return;
+
                           cache.modify({
-                            id: cache.identify({
-                              __typename: 'Query',
-                            }),
+                            id: cache.identify(
+                              recipeDetails.currentUser.mealPlan
+                            ),
                             fields: {
                               recipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
@@ -349,10 +351,14 @@ export const SingleRecipeDetails = ({
                                     readField('id', existingRecipe) !== recipeId
                                 );
                               },
+                              popularRecipes(existingRecipes, { readField }) {
+                                return existingRecipes.filter(
+                                  (existingRecipe: any) =>
+                                    readField('id', existingRecipe) !== recipeId
+                                );
+                              },
                             },
                           });
-
-                          if (!recipeDetails?.currentUser?.mealPlan) return;
 
                           cache.modify({
                             id: cache.identify(
