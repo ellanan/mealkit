@@ -30,6 +30,9 @@ export const InheritRecipesModal = () => {
             id
             name
           }
+          mealPlan {
+            id
+          }
         }
       }
     `);
@@ -84,7 +87,7 @@ export const InheritRecipesModal = () => {
 
         <ModalBody>
           <p className='text-14 text-lg'>
-            Would you like to inherit some recipes to get started?
+            Would you like to add starter recipes?
           </p>
         </ModalBody>
 
@@ -98,11 +101,19 @@ export const InheritRecipesModal = () => {
                   startDate: today.toISODate(),
                   endDate: today.plus({ days: 7 }).toISODate(),
                 },
-                // update(cache, { data }) {
-                //   cache.modify({
-                //     fields: {},
-                //   });
-                // },
+                update(cache, response) {
+                  if (!checkUserRecipes?.currentUser?.mealPlan) return;
+                  cache.modify({
+                    id: cache.identify(checkUserRecipes.currentUser.mealPlan),
+                    fields: {
+                      schedule(existingSchedule) {
+                        return existingSchedule.concat(
+                          response.data?.initWithData?.schedule
+                        );
+                      },
+                    },
+                  });
+                },
               });
               onClose();
             }}
