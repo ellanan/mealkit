@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import { useMediaQuery } from '@chakra-ui/react';
 
@@ -54,7 +54,8 @@ const App = () => {
             <Sidebar />
             <div className='flex flex-col h-full'>
               <Switch>
-                <Route exact path='/' component={MealPlan} />
+                <Redirect exact from='/' to='/mealplanner' />
+                <Route path='/mealplanner' component={MealPlan} />
                 <Route
                   exact
                   path='/recipes/:recipeId'
@@ -73,7 +74,7 @@ const App = () => {
         <div className='flex flex-col h-full'>
           <MobileTopNavbar />
           <Switch>
-            <Route exact path='/' component={MobileMealPlan} />
+            <Route exact path='/mealplanner' component={MobileMealPlan} />
             <Route
               exact
               path='/recipes/:recipeId'

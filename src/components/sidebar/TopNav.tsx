@@ -10,7 +10,7 @@ export const TopNav = () => {
   return (
     <div className='flex flex-col items-center justify-center bg-24 h-full pt-4 font-Raleway'>
       <NavLink
-        to='/'
+        to='/mealplanner'
         className='text-lg font-medium text-23 font-Montserrat flex mb-8 h-5'
       >
         <CarrotLogo className='w-5 h-5 mr-1.5' />
@@ -22,7 +22,7 @@ export const TopNav = () => {
           className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
           activeStyle={{ backgroundColor: '#fa9d6e' }}
           exact
-          to='/'
+          to='/mealplanner'
         >
           <AiOutlineHome size={20} />
         </NavLink>

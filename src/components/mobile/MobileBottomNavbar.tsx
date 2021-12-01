@@ -10,7 +10,7 @@ export const MobileBottomNavbar = () => {
       <NavLink
         className='flex flex-col items-center active:text-25 w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
         activeStyle={{ color: '#fa7532' }}
-        to='/'
+        to='/mealplanner'
         exact
       >
         <AiOutlineHome className='mr-1 mb-1' size={20} />

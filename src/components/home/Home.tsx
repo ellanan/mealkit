@@ -13,7 +13,7 @@ export const Home = () => {
     <div className='flex flex-col h-full w-full font-Montserrat'>
       <div className='flex items-center pl-12 pr-8 py-6'>
         <NavLink
-          to='/'
+          to='/mealplanner'
           className='text-3xl font-medium text-23 font-Montserrat flex'
         >
           <CarrotLogo className='w-7 h-7 mr-1.5' />
