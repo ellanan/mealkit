@@ -90,7 +90,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   }
 
   return (
-    <div className='flex flex-col overflow-y-scroll flex-shrink flex-grow m-4 text-14 overflow-auto'>
+    <div className='flex flex-col flex-shrink flex-grow m-4 text-14 overflow-auto'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
