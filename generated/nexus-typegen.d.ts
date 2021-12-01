@@ -91,6 +91,7 @@ export interface NexusGenFieldTypes {
     createIngredient: NexusGenRootTypes['Ingredient']; // Ingredient!
     createIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+    deleteAllMealPlanEntries: number | null; // Int
     deleteIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     deleteMealPlanEntry: NexusGenRootTypes['MealPlanEntry'] | null; // MealPlanEntry
     deleteRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
@@ -169,6 +170,7 @@ export interface NexusGenFieldTypeNames {
     createIngredient: 'Ingredient'
     createIngredientType: 'IngredientType'
     createRecipe: 'Recipe'
+    deleteAllMealPlanEntries: 'Int'
     deleteIngredientType: 'IngredientType'
     deleteMealPlanEntry: 'MealPlanEntry'
     deleteRecipe: 'Recipe'
@@ -261,6 +263,9 @@ export interface NexusGenArgTypes {
       imageUrl?: string | null; // String
       ingredientQuantities: NexusGenInputs['IngredientQuantityInput'][]; // [IngredientQuantityInput!]!
       name: string; // String!
+    }
+    deleteAllMealPlanEntries: { // args
+      mealPlanId: string; // ID!
     }
     deleteIngredientType: { // args
       ingredientTypeId: string; // ID!

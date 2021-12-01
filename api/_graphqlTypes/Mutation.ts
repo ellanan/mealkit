@@ -326,6 +326,21 @@ export const Mutation = mutationType({
       },
     });
 
+    t.field('deleteAllMealPlanEntries', {
+      type: 'Int',
+      args: {
+        mealPlanId: nonNull(idArg()),
+      },
+      resolve: async (_parent, args) => {
+        const results = await prisma.mealPlanEntry.deleteMany({
+          where: {
+            mealPlanId: args.mealPlanId,
+          },
+        });
+        return results.count;
+      },
+    });
+
     t.field('initWithData', {
       type: 'MealPlan',
       args: {

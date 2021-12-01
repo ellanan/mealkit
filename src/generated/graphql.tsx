@@ -96,6 +96,7 @@ export type Mutation = {
   createIngredient: Ingredient;
   createIngredientType?: Maybe<IngredientType>;
   createRecipe?: Maybe<Recipe>;
+  deleteAllMealPlanEntries?: Maybe<Scalars['Int']>;
   deleteIngredientType?: Maybe<IngredientType>;
   deleteMealPlanEntry?: Maybe<MealPlanEntry>;
   deleteRecipe?: Maybe<Recipe>;
@@ -138,6 +139,11 @@ export type MutationCreateRecipeArgs = {
   imageUrl?: Maybe<Scalars['String']>;
   ingredientQuantities: Array<IngredientQuantityInput>;
   name: Scalars['String'];
+};
+
+
+export type MutationDeleteAllMealPlanEntriesArgs = {
+  mealPlanId: Scalars['ID'];
 };
 
 
@@ -358,7 +364,7 @@ export type CreateIngredientMutation = { __typename?: 'Mutation', createIngredie
 export type CheckUserRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CheckUserRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string } | null | undefined> } | null | undefined };
+export type CheckUserRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string } | null | undefined>, mealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined } | null | undefined };
 
 export type InitWithDataMutationVariables = Exact<{
   startDate: Scalars['String'];
@@ -439,6 +445,18 @@ export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
 
 
 export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
+
+export type CurrentUserMealPlanQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserMealPlanQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined } | null | undefined };
+
+export type DeleteAllMealPlanEntriesMutationVariables = Exact<{
+  mealPlanId: Scalars['ID'];
+}>;
+
+
+export type DeleteAllMealPlanEntriesMutation = { __typename?: 'Mutation', deleteAllMealPlanEntries?: number | null | undefined };
 
 export type RecipeInListFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined };
 
@@ -1016,6 +1034,9 @@ export const CheckUserRecipesDocument = gql`
       id
       name
     }
+    mealPlan {
+      id
+    }
   }
 }
     `;
@@ -1488,3 +1509,71 @@ export function useUpdateIngredientQuantityInRecipeMutation(baseOptions?: Apollo
 export type UpdateIngredientQuantityInRecipeMutationHookResult = ReturnType<typeof useUpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationResult = Apollo.MutationResult<UpdateIngredientQuantityInRecipeMutation>;
 export type UpdateIngredientQuantityInRecipeMutationOptions = Apollo.BaseMutationOptions<UpdateIngredientQuantityInRecipeMutation, UpdateIngredientQuantityInRecipeMutationVariables>;
+export const CurrentUserMealPlanDocument = gql`
+    query CurrentUserMealPlan {
+  currentUser {
+    id
+    mealPlan {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useCurrentUserMealPlanQuery__
+ *
+ * To run a query within a React component, call `useCurrentUserMealPlanQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserMealPlanQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentUserMealPlanQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentUserMealPlanQuery(baseOptions?: Apollo.QueryHookOptions<CurrentUserMealPlanQuery, CurrentUserMealPlanQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CurrentUserMealPlanQuery, CurrentUserMealPlanQueryVariables>(CurrentUserMealPlanDocument, options);
+      }
+export function useCurrentUserMealPlanLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserMealPlanQuery, CurrentUserMealPlanQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CurrentUserMealPlanQuery, CurrentUserMealPlanQueryVariables>(CurrentUserMealPlanDocument, options);
+        }
+export type CurrentUserMealPlanQueryHookResult = ReturnType<typeof useCurrentUserMealPlanQuery>;
+export type CurrentUserMealPlanLazyQueryHookResult = ReturnType<typeof useCurrentUserMealPlanLazyQuery>;
+export type CurrentUserMealPlanQueryResult = Apollo.QueryResult<CurrentUserMealPlanQuery, CurrentUserMealPlanQueryVariables>;
+export const DeleteAllMealPlanEntriesDocument = gql`
+    mutation DeleteAllMealPlanEntries($mealPlanId: ID!) {
+  deleteAllMealPlanEntries(mealPlanId: $mealPlanId)
+}
+    `;
+export type DeleteAllMealPlanEntriesMutationFn = Apollo.MutationFunction<DeleteAllMealPlanEntriesMutation, DeleteAllMealPlanEntriesMutationVariables>;
+
+/**
+ * __useDeleteAllMealPlanEntriesMutation__
+ *
+ * To run a mutation, you first call `useDeleteAllMealPlanEntriesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAllMealPlanEntriesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAllMealPlanEntriesMutation, { data, loading, error }] = useDeleteAllMealPlanEntriesMutation({
+ *   variables: {
+ *      mealPlanId: // value for 'mealPlanId'
+ *   },
+ * });
+ */
+export function useDeleteAllMealPlanEntriesMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllMealPlanEntriesMutation, DeleteAllMealPlanEntriesMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAllMealPlanEntriesMutation, DeleteAllMealPlanEntriesMutationVariables>(DeleteAllMealPlanEntriesDocument, options);
+      }
+export type DeleteAllMealPlanEntriesMutationHookResult = ReturnType<typeof useDeleteAllMealPlanEntriesMutation>;
+export type DeleteAllMealPlanEntriesMutationResult = Apollo.MutationResult<DeleteAllMealPlanEntriesMutation>;
+export type DeleteAllMealPlanEntriesMutationOptions = Apollo.BaseMutationOptions<DeleteAllMealPlanEntriesMutation, DeleteAllMealPlanEntriesMutationVariables>;
