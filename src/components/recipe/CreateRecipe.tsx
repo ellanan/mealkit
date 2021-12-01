@@ -141,8 +141,9 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
             <FormControl id='recipeName'>
               <FormLabel fontWeight={600}>Recipe Name</FormLabel>
               <Input
+                className='ml-[1px]'
                 type='text'
-                width='50%'
+                width='45%'
                 value={formData.recipeName}
                 autoFocus={true}
                 onChange={(e) => {
