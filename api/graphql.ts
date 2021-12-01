@@ -96,7 +96,7 @@ export const config = {
 const apolloServerHandler = server.createHandler();
 
 const handler: Handler = (req, res, next) => {
-  logger.info(`${instanceId}: Handling request ${req.url}`);
+  logger.info(`${instanceId}: Handling request ${req.hostname}/${req.url}`);
   apolloServerHandler(req, res, next);
 };
 
