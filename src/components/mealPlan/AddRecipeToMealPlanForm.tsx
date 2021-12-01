@@ -185,7 +185,7 @@ const RecipeOption = ({
       <img
         className='w-6 h-6 rounded-xl object-cover'
         src={recipe.imageUrl ?? defaultImg}
-        alt={`${recipe.name}`}
+        alt=''
       />
       <span className='ml-4 text-sm font-normal'>{recipe.name}</span>
     </Button>
