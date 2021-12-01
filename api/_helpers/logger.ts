@@ -8,7 +8,7 @@ const papertrail = new winston.transports.Http({
 });
 
 export const logger = winston.createLogger({
-  transports: [papertrail],
+  transports: [papertrail, new winston.transports.Console()],
 });
 
 export const instanceId = (Math.random() + 1).toString(36).substring(7);
