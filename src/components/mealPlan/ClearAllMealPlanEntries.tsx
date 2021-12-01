@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 
-export const MealPlanClearAllEntries = () => {
+export const ClearAllMealPlanEntries = () => {
   const [isDeleteMealEntriesOpen, setIsDeleteMealEntriesOpen] =
     useState<boolean>(false);
   const cancelDeleteMealEntrieseRef = useRef<any>();

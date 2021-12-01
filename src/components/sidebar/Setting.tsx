@@ -3,7 +3,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@chakra-ui/react';
 import { VscAccount } from 'react-icons/vsc';
 import { RiUserSettingsLine } from 'react-icons/ri';
 
-import { MealPlanClearAllEntries } from '../mealPlan/MealPlanClearAllEntries';
+import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
 import { Login } from '../login/Login';
 
 export const Setting = () => {
@@ -40,7 +40,7 @@ export const Setting = () => {
                 : user?.name}
             </span>
             <span className='mt-1 text-sm'>{user?.email}</span>
-            <MealPlanClearAllEntries />
+            <ClearAllMealPlanEntries />
             <Login />
           </div>
         </PopoverContent>
