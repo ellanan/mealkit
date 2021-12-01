@@ -9,6 +9,8 @@ import jwt from 'jsonwebtoken';
 import { schema } from './_helpers/makeSchema';
 import { sentryProfilePlugin } from './_helpers/sentryProfilePlugin';
 import { prisma } from './_helpers/prismaClient';
+import { Handler } from 'express-serve-static-core';
+import { instanceId, logger } from './_helpers/logger';
 
 Sentry.init({
   dsn: 'https://ad1bf1ba259c46aea27c96113c2de074@o1044934.ingest.sentry.io/6020188',
@@ -91,4 +93,11 @@ export const config = {
   },
 };
 
-export default server.createHandler();
+const apolloServerHandler = server.createHandler();
+
+const handler: Handler = (req, res, next) => {
+  logger.info(`${instanceId}: Handling request ${req.url}`);
+  apolloServerHandler(req, res, next);
+};
+
+export default handler;
