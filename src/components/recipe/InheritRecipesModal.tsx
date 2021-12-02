@@ -26,11 +26,11 @@ export const InheritRecipesModal = () => {
       query CheckUserRecipes {
         currentUser {
           id
-          recipes {
-            id
-            name
-          }
           mealPlan {
+            recipes {
+              id
+              name
+            }
             id
           }
         }
@@ -70,7 +70,7 @@ export const InheritRecipesModal = () => {
     isOpen:
       !deniedInheritence &&
       isAuthenticated &&
-      checkUserRecipes?.currentUser?.recipes?.length === 0,
+      checkUserRecipes?.currentUser?.mealPlan?.recipes?.length === 0,
     onClose: () => {
       setDeniedInheritence(true);
     },
