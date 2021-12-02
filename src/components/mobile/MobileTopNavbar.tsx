@@ -7,7 +7,7 @@ import { RiUserSettingsLine } from 'react-icons/ri';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
 import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
-import { Login } from '../login/Login';
+import { SignOut } from '../login/SignOut';
 
 export const MobileTopNavbar = () => {
   const { user } = useAuth0();
@@ -55,7 +55,7 @@ export const MobileTopNavbar = () => {
               <span className='mt-1 text-sm'>{user?.email}</span>
               <ShareMealPlan />
               <ClearAllMealPlanEntries />
-              <Login />
+              <SignOut />
             </div>
           </PopoverContent>
         </Popover>
