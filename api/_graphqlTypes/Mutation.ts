@@ -18,6 +18,41 @@ import { prisma } from '../_helpers/prismaClient';
 
 export const Mutation = mutationType({
   definition(t) {
+    t.field('joinMealPlan', {
+      type: 'MealPlan',
+      args: {
+        mealPlanId: nonNull(idArg()),
+      },
+      resolve: async (_, { mealPlanId }, context) => {
+        const user = context.currentUser;
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        const mealPlan = await prisma.mealPlan.findUnique({
+          where: {
+            id: mealPlanId,
+          },
+        });
+        if (!mealPlan) {
+          throw new Error('MealPlan not found');
+        }
+
+        return prisma.mealPlan.update({
+          where: {
+            id: mealPlanId,
+          },
+          data: {
+            users: {
+              connect: {
+                id: user.id,
+              },
+            },
+          },
+        });
+      },
+    });
+
     t.field('createIngredient', {
       type: nonNull('Ingredient'),
       args: {

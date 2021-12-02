@@ -98,6 +98,7 @@ export interface NexusGenFieldTypes {
     editIngredientType: NexusGenRootTypes['IngredientType'] | null; // IngredientType
     editRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     initWithData: NexusGenRootTypes['MealPlan'] | null; // MealPlan
+    joinMealPlan: NexusGenRootTypes['MealPlan'] | null; // MealPlan
     removeIngredientFromRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
     updateIngredient: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     updateIngredientQuantityInRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
@@ -177,6 +178,7 @@ export interface NexusGenFieldTypeNames {
     editIngredientType: 'IngredientType'
     editRecipe: 'Recipe'
     initWithData: 'MealPlan'
+    joinMealPlan: 'MealPlan'
     removeIngredientFromRecipe: 'Recipe'
     updateIngredient: 'Ingredient'
     updateIngredientQuantityInRecipe: 'Recipe'
@@ -288,6 +290,9 @@ export interface NexusGenArgTypes {
     }
     initWithData: { // args
       startDate: string; // String!
+    }
+    joinMealPlan: { // args
+      mealPlanId: string; // ID!
     }
     removeIngredientFromRecipe: { // args
       ingredientId: string; // ID!
