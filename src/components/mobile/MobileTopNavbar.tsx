@@ -5,6 +5,7 @@ import { VscAccount } from 'react-icons/vsc';
 import { RiUserSettingsLine } from 'react-icons/ri';
 
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
+import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
 import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
 import { Login } from '../login/Login';
 
@@ -52,6 +53,7 @@ export const MobileTopNavbar = () => {
                   : user?.name}
               </span>
               <span className='mt-1 text-sm'>{user?.email}</span>
+              <ShareMealPlan />
               <ClearAllMealPlanEntries />
               <Login />
             </div>
