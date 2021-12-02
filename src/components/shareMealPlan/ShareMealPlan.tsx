@@ -31,19 +31,19 @@ export const ShareMealPlan = () => {
   }, [copySuccessMessage]);
 
   return (
-    <div className='flex flex-col items-center justify-center'>
-      <p className='text-sm text-green-400 mt-2 mb-2 min-h-[20px]'>
+    <div className='flex flex-col'>
+      <p className='text-sm text-green-400 min-h-[20px] ml-11'>
         {copySuccessMessage}
       </p>
       <button
-        className='flex items-center justify-center text-white text-xs px-3 py-2 mb-8 border-1 rounded-3xl font-semibold bg-17 hover:bg-23'
+        className='font-Raleway flex items-center text-14 text-sm pl-4 py-2 hover:bg-12'
         onClick={() => {
           navigator.clipboard.writeText(mealPlanUrl);
           setCopySuccessMessage('Copied to clipboard!');
         }}
       >
-        <BiShareAlt size={14} className='mr-2' />
-        Share my meal plan
+        <BiShareAlt size={14} className='min-w-[20px] mr-2' />
+        Share Meal Plan
       </button>
     </div>
   );

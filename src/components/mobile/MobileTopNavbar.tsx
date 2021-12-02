@@ -53,10 +53,10 @@ export const MobileTopNavbar = () => {
                   : user?.name}
               </span>
               <span className='mt-1 text-sm'>{user?.email}</span>
-              <ShareMealPlan />
-              <ClearAllMealPlanEntries />
-              <SignOut />
             </div>
+            <ShareMealPlan />
+            <ClearAllMealPlanEntries />
+            <SignOut />
           </PopoverContent>
         </Popover>
       </div>

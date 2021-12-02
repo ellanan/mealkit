@@ -25,7 +25,7 @@ export const Setting = () => {
           shadow='lg'
           borderRadius='10px'
         >
-          <div className='flex flex-col items-center justify-center my-6 text-14'>
+          <div className='flex flex-col items-center justify-center mt-6 mb-4 text-14'>
             {user?.image !== null || undefined ? (
               <img
                 className='w-14 h-14 rounded-full'
@@ -41,10 +41,10 @@ export const Setting = () => {
                 : user?.name}
             </span>
             <span className='mt-1 text-sm'>{user?.email}</span>
-            <ShareMealPlan />
-            <ClearAllMealPlanEntries />
-            <SignOut />
           </div>
+          <ShareMealPlan />
+          <ClearAllMealPlanEntries />
+          <SignOut />
         </PopoverContent>
       </Popover>
     </div>

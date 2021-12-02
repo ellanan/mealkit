@@ -6,10 +6,10 @@ export const SignOut = () => {
 
   return isAuthenticated ? (
     <button
-      className='font-Raleway flex items-center text-14 text-sm mt-5 px-3 py-1 rounded-full border-1 hover:bg-gray-400 hover:text-white hover:rounded-full'
+      className='font-Raleway flex items-center text-14 text-sm pl-4 py-2 mb-2 hover:bg-12'
       onClick={() => logout()}
     >
-      <IoLogOutOutline className='mr-2' />
+      <IoLogOutOutline size={15} className='min-w-[20px] mr-2' />
       Sign Out
     </button>
   ) : null;

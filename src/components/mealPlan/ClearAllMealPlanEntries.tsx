@@ -9,6 +9,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from '@chakra-ui/react';
+import { MdNoMealsOuline } from 'react-icons/md';
 import { useState, useRef } from 'react';
 
 export const ClearAllMealPlanEntries = () => {
@@ -49,12 +50,13 @@ export const ClearAllMealPlanEntries = () => {
   }
 
   return (
-    <div className='flex items-center justify-center'>
+    <>
       <button
-        className='text-14 text-xs px-3 py-2 border-1 rounded-xl font-medium bg-12 hover:bg-11 hover:text-white'
+        className='font-Raleway flex items-center text-14 text-sm pl-4 py-2 hover:bg-12'
         onClick={() => setIsDeleteMealEntriesOpen(true)}
       >
-        Clear meal plan
+        <MdNoMealsOuline size={12} className='min-w-[20px] mr-2' />
+        Clear Meal Plan
       </button>
 
       <AlertDialog
@@ -111,6 +113,6 @@ export const ClearAllMealPlanEntries = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </div>
+    </>
   );
 };
