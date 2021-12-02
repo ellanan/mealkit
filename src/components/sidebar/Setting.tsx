@@ -3,7 +3,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@chakra-ui/react';
 import { VscAccount } from 'react-icons/vsc';
 import { RiUserSettingsLine } from 'react-icons/ri';
 
-import { ShareMealPlan } from '../mealPlan/ShareMealPlan';
+import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
 import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
 import { Login } from '../login/Login';
 
