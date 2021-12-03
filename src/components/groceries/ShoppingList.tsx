@@ -218,7 +218,7 @@ export const ShoppingList = () => {
     .flat();
 
   return (
-    <div className='flex flex-col flex-shrink flex-grow m-4 text-14'>
+    <div className='flex flex-col flex-shrink flex-grow m-6 text-14'>
       <DateRange
         className='flex items-center -mt-6'
         css={css`
@@ -243,15 +243,15 @@ export const ShoppingList = () => {
       />
 
       {loadingShoppingList ? (
-        <div className='flex items-center justify-center italic text-base'>
+        <div className='flex items-center justify-center italic text-base mt-4'>
           <Spinner className='text-sm mr-2' color='orange' size='md' />
           loading groceries...
         </div>
       ) : null}
 
       {ingredientQuantities?.length === 0 && !loadingShoppingList ? (
-        <span className='flex flex-row items-center justify-center'>
-          <FiAlertTriangle className='mr-1' color='orange' size='20' />
+        <span className='flex items-center justify-center mt-4'>
+          <FiAlertTriangle className='mr-2' color='orange' size='20' />
           No meals planned on the selected dates.
         </span>
       ) : (
