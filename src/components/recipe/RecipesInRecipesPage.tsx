@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 import { Button } from '@chakra-ui/react';
+import { useMediaQuery } from '@chakra-ui/react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
@@ -16,6 +17,8 @@ const pageSize = 12;
 export const RecipesInRecipesPage = () => {
   const [search, setSearch] = useState<string>('');
   const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
 
   const {
     data,
@@ -118,14 +121,24 @@ export const RecipesInRecipesPage = () => {
         </div>
       ) : null}
 
-      <div className='flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8'>
+      <div
+        className={
+          isLargerThan850
+            ? 'flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8'
+            : 'flex-grow flex flex-row flex-wrap justify-evenly'
+        }
+      >
         {data?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(search.toLowerCase())
           )
           .map((recipe) => (
             <NavLink
-              className='flex flex-col py-1 px-4 text-sm hover:opacity-70'
+              className={
+                isLargerThan850
+                  ? 'flex flex-col py-1 px-4 text-sm hover:opacity-70'
+                  : 'flex flex-col items-center justify-center text-sm hover:opacity-70 mb-6'
+              }
               key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);
@@ -137,7 +150,13 @@ export const RecipesInRecipesPage = () => {
                 };
               }}
             >
-              <div className='lg:h-48 md:h-32 relative overflow-hidden flex-shrink-0'>
+              <div
+                className={
+                  isLargerThan850
+                    ? 'lg:h-48 relative overflow-hidden flex-shrink-0'
+                    : 'h-36 w-36 relative overflow-hidden flex-shrink-0'
+                }
+              >
                 <img
                   className='object-cover w-full h-full rounded-2xl'
                   src={recipe.imageUrl ?? defaultImg}
@@ -149,7 +168,13 @@ export const RecipesInRecipesPage = () => {
                   </div>
                 )}
               </div>
-              <span className='text-14 text-xl text-center font-medium min-h-[2em] leading-none mt-2'>
+              <span
+                className={
+                  isLargerThan850
+                    ? 'text-14 text-lg text-center uppercase font-medium min-h-[2em] leading-none mt-2'
+                    : 'text-14 text-md font-medium text-center uppercase'
+                }
+              >
                 {recipe.name}
               </span>
             </NavLink>

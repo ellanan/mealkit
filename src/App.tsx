@@ -16,7 +16,6 @@ import { AttributionModal } from './components/footer/AttributionModal';
 import { MobileMealPlan } from './components/mobile/MobileMealPlan';
 import { MobileTopNavbar } from './components/mobile/MobileTopNavbar';
 import { MobileBottomNavbar } from './components/mobile/MobileBottomNavbar';
-import { MobileRecipesInRecipesPage } from './components/mobile/MobileRecipesInRecipesPage';
 import { CreateRecipe } from './components/recipe/CreateRecipe';
 import { InviteLoggedOut } from './components/shareMealPlan/InviteLoggedOut';
 import { InviteLoggedIn } from './components/shareMealPlan/InviteLoggedIn';
@@ -111,11 +110,7 @@ const App = () => {
               )}
             />
             <Route exact path='/createrecipe' component={CreateRecipe} />
-            <Route
-              exact
-              path='/recipes'
-              component={MobileRecipesInRecipesPage}
-            />
+            <Route exact path='/recipes' component={RecipesInRecipesPage} />
             <Route exact path='/grocerylist' component={ShoppingList} />
           </Switch>
           <MobileBottomNavbar />
