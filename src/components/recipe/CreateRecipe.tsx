@@ -241,6 +241,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 menuPlacement='top'
                 isLoading={isLoadingDataForCreateRecipe}
                 placeholder='add ingredient'
+                className='mx-[1px]'
                 onChange={async (newValue, actionMeta) => {
                   if (!newValue || !newValue.value) {
                     console.log(`no newValue`, actionMeta);
@@ -402,6 +403,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         </ul>
         <Button
           size={'sm'}
+          className='ml-1'
           type='submit'
           backgroundColor={'#f3ac83'}
           color={'#fff'}
