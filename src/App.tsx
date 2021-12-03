@@ -11,6 +11,7 @@ import { RecipesInRecipesPage } from './components/recipe/RecipesInRecipesPage';
 import { SingleRecipeModal } from './components/recipe/SingleRecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
+import { ShareMealPlanModal } from './components/shareMealPlan/ShareMealPlanModal';
 import { AttributionModal } from './components/footer/AttributionModal';
 import { MobileMealPlan } from './components/mobile/MobileMealPlan';
 import { MobileTopNavbar } from './components/mobile/MobileTopNavbar';
@@ -52,6 +53,7 @@ const App = () => {
     <>
       <SingleRecipeModal />
       <InheritRecipesModal />
+      <ShareMealPlanModal />
       {isLargerThan850 ? (
         !isAuthenticated ? (
           <Home />
