@@ -93,7 +93,7 @@ export const InheritRecipesModal = () => {
 
         <ModalFooter>
           <Button
-            className='text-14 rounded-2xl min-w-[60px] mr-2 bg-18 hover:bg-25 hover:text-white'
+            className='text-white rounded-2xl min-w-[60px] mr-2 bg-23 hover:bg-25 hover:text-white'
             onClick={(e) => {
               e.preventDefault();
               inheritRecipes({

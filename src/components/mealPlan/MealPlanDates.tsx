@@ -46,7 +46,7 @@ export const MealPlanDates = (props: {
               <span
                 className={classnames(
                   'flex items-center justify-center rounded-3xl p-4 h-7 w-7',
-                  props.today.hasSame(day, 'day') && 'bg-[#f88c5a] text-white'
+                  props.today.hasSame(day, 'day') && 'bg-[#f8b38b] text-white'
                 )}
               >
                 {day.day}

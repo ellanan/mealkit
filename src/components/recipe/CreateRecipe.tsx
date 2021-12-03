@@ -403,7 +403,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         </ul>
         <Button
           size={'sm'}
-          className='ml-1'
+          className='ml-1 hover:bg-23'
           type='submit'
           backgroundColor={'#f3ac83'}
           color={'#fff'}
