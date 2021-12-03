@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Popover, PopoverTrigger, PopoverContent } from '@chakra-ui/react';
 import { VscAccount } from 'react-icons/vsc';
 import { RiUserSettingsLine } from 'react-icons/ri';
+import { useMediaQuery } from '@chakra-ui/react';
 
 import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
 import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
@@ -10,25 +11,37 @@ import { SignOut } from '../login/SignOut';
 export const Setting = () => {
   const { user } = useAuth0();
 
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+
   return (
-    <div className='flex items-center justify-center pt-3 pb-5'>
+    <div
+      className={
+        isLargerThan850
+          ? 'flex items-center justify-center pt-3 pb-5'
+          : 'ml-auto'
+      }
+    >
       <Popover closeOnBlur={true} closeOnEsc={true}>
         <PopoverTrigger>
           <button className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'>
-            <RiUserSettingsLine size={20} />
+            <RiUserSettingsLine size={isLargerThan850 ? 20 : 16} />
           </button>
         </PopoverTrigger>
         <PopoverContent
           className='focus:shadow-none'
-          maxWidth='280'
+          maxWidth='260'
           minWidth='240'
           shadow='lg'
           borderRadius='10px'
         >
-          <div className='flex flex-col items-center justify-center mt-6 mb-4 text-14'>
+          <div className='flex flex-col items-center justify-center my-6 text-14'>
             {user?.image !== null || undefined ? (
               <img
-                className='w-14 h-14 rounded-full'
+                className={
+                  isLargerThan850
+                    ? 'w-14 h-14 rounded-full'
+                    : 'w-12 h-12 rounded-full'
+                }
                 src={user?.picture}
                 alt=''
               />
