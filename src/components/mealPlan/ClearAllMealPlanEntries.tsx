@@ -52,7 +52,7 @@ export const ClearAllMealPlanEntries = () => {
   return (
     <>
       <button
-        className='font-Raleway flex items-center text-14 text-sm pl-4 py-2 hover:bg-12'
+        className='flex items-center justify-center text-14 text-sm py-2 hover:bg-12'
         onClick={() => setIsDeleteMealEntriesOpen(true)}
       >
         <MdNoMealsOuline size={12} className='min-w-[20px] mr-2' />
