@@ -19,62 +19,64 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       const startDate = DateTime.fromISO(args.startDate);
       const endDate = startDate.plus({ days: 6 });
 
-      const [toast, soup, shawarmaSalad] = await Promise.all([
+      const [
+        smoothieBowl,
+        avocadoToast,
+        yogurtFruitSalad,
+        friedRice,
+        hummusBowl,
+        pokeBowl,
+        mushroomPasta,
+        seafoodPasta,
+        tacos,
+      ] = await Promise.all([
         prisma.recipe.create({
           data: {
-            name: 'Toast',
+            name: 'Smoothie Bowl',
             userId: context.currentUser?.id,
-            imageUrl: '',
+            imageUrl: require('../../src/images/breakfast-smoothieBowl.jpg')
+              .default,
             ingredientQuantities: {
-              create: {
-                unit: 'slice',
-                amount: 2,
-                ingredient: {
-                  create: {
-                    name: 'Bread',
-                    ingredientType: {
-                      create: {
-                        name: 'Bakery',
+              create: [
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'Yogurt',
+                      ingredientType: {
+                        create: {
+                          name: 'Dairy',
+                        },
                       },
                     },
                   },
                 },
-              },
-            },
-          },
-        }),
-
-        prisma.recipe.create({
-          data: {
-            name: 'Tomato Soup',
-            userId: context.currentUser?.id,
-            imageUrl: '',
-            ingredientQuantities: {
-              create: [
                 {
-                  unit: 'cups',
-                  amount: 12,
-                  ingredient: {
-                    create: {
-                      name: 'Water',
-                    },
-                  },
-                },
-                {
-                  unit: 'kg',
+                  unit: 'cup',
                   amount: 1,
                   ingredient: {
                     create: {
-                      name: 'Tomatoes',
+                      name: 'Mixed Fruits',
+                      ingredientType: {
+                        create: {
+                          name: 'Fruit',
+                        },
+                      },
                     },
                   },
                 },
                 {
-                  unit: 'g',
-                  amount: 500,
+                  unit: 'cup',
+                  amount: 1 / 2,
                   ingredient: {
                     create: {
-                      name: 'Butter',
+                      name: 'Granola',
+                      ingredientType: {
+                        create: {
+                          name: 'Rice & Grain',
+                        },
+                      },
                     },
                   },
                 },
@@ -85,35 +87,268 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Shawarma Salad',
+            name: 'Avocado Toast',
             userId: context.currentUser?.id,
-            imageUrl: '',
+            imageUrl: require('../../src/images/breakfast-avocadoToast.jpg'),
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'g',
-                  amount: 400,
-                  ingredient: {
-                    create: {
-                      name: 'Beef',
-                    },
-                  },
-                },
-                {
-                  unit: 'kg',
-                  amount: 1,
-                  ingredient: {
-                    create: {
-                      name: 'Hummus',
-                    },
-                  },
-                },
-                {
-                  unit: 'piece',
+                  unit: 'slices',
                   amount: 2,
                   ingredient: {
                     create: {
-                      name: 'Pita Bread',
+                      name: 'Bread',
+                      ingredientType: {
+                        create: {
+                          name: 'Bakery',
+                        },
+                      },
+                    },
+                  },
+                },
+                {
+                  unit: 'unit',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'Avocado',
+                      ingredientType: {
+                        create: {
+                          name: 'Vegetable',
+                        },
+                      },
+                    },
+                  },
+                },
+                {
+                  unit: 'unit',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'Tomato',
+                      ingredientType: {
+                        name: 'Vegetable',
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Yogurt & Fruit Salad',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/breakfast-yogurtFruits.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'yogurt',
+                    },
+                  },
+                },
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'strawberries',
+                      ingredientType: {
+                        name: 'Fruit',
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Fried Rice',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/lunch-friedRice.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'rice',
+                      ingredientType: {
+                        name: 'Rice & Grain',
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Hummus Bowl',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/lunch-hummusBowl.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'hummus',
+                      ingredientType: {
+                        create: {
+                          name: 'Dip & Spread',
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Poke Bowl',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/lunch-pokeBowl.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'rice',
+                      ingredientType: {
+                        name: 'Rice & Grain',
+                      },
+                    },
+                  },
+                },
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'salmon',
+                      ingredientType: {
+                        create: {
+                          name: 'Seafood',
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Mushroom Pasta',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/dinner-mushroomPasta.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'oz',
+                  amount: 6,
+                  ingredient: {
+                    create: {
+                      name: 'pasta',
+                      ingredientType: {
+                        create: {
+                          name: 'Pasta',
+                        },
+                      },
+                    },
+                  },
+                },
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'mushrooms',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Seafood Pasta',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/dinner-seafoodPasta.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'oz',
+                  amount: 6,
+                  ingredient: {
+                    create: {
+                      name: 'pasta',
+                    },
+                  },
+                },
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    name: 'seafood',
+                  },
+                },
+              ],
+            },
+          },
+        }),
+
+        prisma.recipe.create({
+          data: {
+            name: 'Tacos',
+            userId: context.currentUser?.id,
+            imageUrl: require('../../src/images/dinner-tacos.jpg'),
+            ingredientQuantities: {
+              create: [
+                {
+                  unit: 'slice',
+                  amount: 6,
+                  ingredient: {
+                    create: {
+                      name: 'taco wrap',
+                      ingredientType: {
+                        name: 'Bakery',
+                      },
+                    },
+                  },
+                },
+                {
+                  unit: 'cup',
+                  amount: 1,
+                  ingredient: {
+                    create: {
+                      name: 'grilled chicken',
+                      ingredientType: {
+                        name: 'Meat',
+                      },
                     },
                   },
                 },
@@ -127,152 +362,152 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
         data: [
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: smoothieBowl.id,
             date: startDate.toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: friedRice.id,
             date: startDate.toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: tacos.id,
             date: startDate.toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: avocadoToast.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: hummusBowl.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: seafoodPasta.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: yogurtFruitSalad.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: pokeBowl.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: seafoodPasta.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: smoothieBowl.id,
             date: startDate.plus({ days: 3 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: friedRice.id,
             date: startDate.plus({ days: 3 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: tacos.id,
             date: startDate.plus({ days: 3 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: avocadoToast.id,
             date: startDate.plus({ days: 4 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: pokeBowl.id,
             date: startDate.plus({ days: 4 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: mushroomPasta.id,
             date: startDate.plus({ days: 4 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: avocadoToast.id,
             date: startDate.plus({ days: 5 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: hummusBowl.id,
             date: startDate.plus({ days: 5 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: mushroomPasta.id,
             date: startDate.plus({ days: 5 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: smoothieBowl.id,
             date: startDate.plus({ days: 6 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: pokeBowl.id,
             date: startDate.plus({ days: 6 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: tacos.id,
             date: startDate.plus({ days: 6 }).toISO(),
             mealPlanId,
           },
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: toast.id,
+            recipeId: avocadoToast.id,
             date: startDate.plus({ days: 7 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: soup.id,
+            recipeId: hummusBowl.id,
             date: startDate.plus({ days: 7 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: shawarmaSalad.id,
+            recipeId: mushroomPasta.id,
             date: startDate.plus({ days: 7 }).toISO(),
             mealPlanId,
           },
