@@ -1,6 +1,8 @@
 import { nonNull, stringArg } from 'nexus';
 import { MealType } from '@prisma/client';
 import { DateTime } from 'luxon';
+// @ts-expect-error
+import scuid from 'scuid';
 
 import { prisma } from '../_helpers/prismaClient';
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks';
@@ -19,6 +21,16 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       const startDate = DateTime.fromISO(args.startDate);
       const endDate = startDate.plus({ days: 6 });
 
+      const bakeryIngredientTypeId = scuid();
+      const dairyIngredientTypeId = scuid();
+      const fruitIngredientTypeId = scuid();
+      const meatIngredientTypeId = scuid();
+      const otherIngredientTypeId = scuid();
+      const pastaIngredientTypeId = scuid();
+      const riceGrainIngredientTypeId = scuid();
+      const seafoodIngredientTypeId = scuid();
+      const vegetableIngredientTypeId = scuid();
+
       const [
         smoothieBowl,
         avocadoToast,
@@ -34,8 +46,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Smoothie Bowl',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/breakfast-smoothieBowl.jpg')
-              .default,
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/breakfast-smoothieBowl.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -45,8 +57,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Yogurt',
                       ingredientType: {
-                        create: {
-                          name: 'Dairy',
+                        connectOrCreate: {
+                          create: {
+                            id: dairyIngredientTypeId,
+                            name: 'Dairy',
+                          },
+                          where: {
+                            id: dairyIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -59,8 +77,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Mixed Fruits',
                       ingredientType: {
-                        create: {
-                          name: 'Fruit',
+                        connectOrCreate: {
+                          create: {
+                            id: fruitIngredientTypeId,
+                            name: 'Fruit',
+                          },
+                          where: {
+                            id: fruitIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -72,11 +96,6 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   ingredient: {
                     create: {
                       name: 'Granola',
-                      ingredientType: {
-                        create: {
-                          name: 'Rice & Grain',
-                        },
-                      },
                     },
                   },
                 },
@@ -89,7 +108,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Avocado Toast',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/breakfast-avocadoToast.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/breakfast-avocadoToast.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -99,8 +119,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Bread',
                       ingredientType: {
-                        create: {
-                          name: 'Bakery',
+                        connectOrCreate: {
+                          create: {
+                            id: bakeryIngredientTypeId,
+                            name: 'Bakery',
+                          },
+                          where: {
+                            id: bakeryIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -113,8 +139,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Avocado',
                       ingredientType: {
-                        create: {
-                          name: 'Vegetable',
+                        connectOrCreate: {
+                          create: {
+                            id: vegetableIngredientTypeId,
+                            name: 'Vegetable',
+                          },
+                          where: {
+                            id: vegetableIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -127,7 +159,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Tomato',
                       ingredientType: {
-                        name: 'Vegetable',
+                        connectOrCreate: {
+                          where: {
+                            id: vegetableIngredientTypeId,
+                          },
+                          create: {
+                            id: vegetableIngredientTypeId,
+                            name: 'Vegetable',
+                          },
+                        },
                       },
                     },
                   },
@@ -141,7 +181,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Yogurt & Fruit Salad',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/breakfast-yogurtFruits.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/breakfast-yogurtFruits.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -150,6 +191,17 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   ingredient: {
                     create: {
                       name: 'yogurt',
+                      ingredientType: {
+                        connectOrCreate: {
+                          create: {
+                            id: dairyIngredientTypeId,
+                            name: 'Dairy',
+                          },
+                          where: {
+                            id: dairyIngredientTypeId,
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -160,7 +212,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'strawberries',
                       ingredientType: {
-                        name: 'Fruit',
+                        connectOrCreate: {
+                          create: {
+                            id: fruitIngredientTypeId,
+                            name: 'Fruit',
+                          },
+                          where: {
+                            id: fruitIngredientTypeId,
+                          },
+                        },
                       },
                     },
                   },
@@ -174,7 +234,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Fried Rice',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/lunch-friedRice.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/lunch-friedRice.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -184,7 +245,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'rice',
                       ingredientType: {
-                        name: 'Rice & Grain',
+                        connectOrCreate: {
+                          create: {
+                            id: riceGrainIngredientTypeId,
+                            name: 'Rice & Grain',
+                          },
+                          where: {
+                            id: riceGrainIngredientTypeId,
+                          },
+                        },
                       },
                     },
                   },
@@ -198,7 +267,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Hummus Bowl',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/lunch-hummusBowl.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/lunch-hummusBowl.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -208,8 +278,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'hummus',
                       ingredientType: {
-                        create: {
-                          name: 'Dip & Spread',
+                        connectOrCreate: {
+                          create: {
+                            id: otherIngredientTypeId,
+                            name: 'Other',
+                          },
+                          where: {
+                            id: otherIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -224,7 +300,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Poke Bowl',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/lunch-pokeBowl.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/lunch-pokeBowl.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -234,7 +311,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'rice',
                       ingredientType: {
-                        name: 'Rice & Grain',
+                        connectOrCreate: {
+                          create: {
+                            id: riceGrainIngredientTypeId,
+                            name: 'Rice & Grain',
+                          },
+                          where: {
+                            id: riceGrainIngredientTypeId,
+                          },
+                        },
                       },
                     },
                   },
@@ -246,8 +331,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'salmon',
                       ingredientType: {
-                        create: {
-                          name: 'Seafood',
+                        connectOrCreate: {
+                          create: {
+                            id: seafoodIngredientTypeId,
+                            name: 'Seafood',
+                          },
+                          where: {
+                            id: seafoodIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -262,7 +353,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Mushroom Pasta',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/dinner-mushroomPasta.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/dinner-mushroomPasta.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -272,8 +364,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'pasta',
                       ingredientType: {
-                        create: {
-                          name: 'Pasta',
+                        connectOrCreate: {
+                          create: {
+                            id: pastaIngredientTypeId,
+                            name: 'Pasta',
+                          },
+                          where: {
+                            id: pastaIngredientTypeId,
+                          },
                         },
                       },
                     },
@@ -284,7 +382,18 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   amount: 1,
                   ingredient: {
                     create: {
-                      name: 'mushrooms',
+                      name: 'mushroom',
+                      ingredientType: {
+                        connectOrCreate: {
+                          create: {
+                            id: vegetableIngredientTypeId,
+                            name: 'Vegetable',
+                          },
+                          where: {
+                            id: vegetableIngredientTypeId,
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -297,7 +406,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Seafood Pasta',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/dinner-seafoodPasta.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/dinner-seafoodPasta.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -306,6 +416,17 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   ingredient: {
                     create: {
                       name: 'pasta',
+                      ingredientType: {
+                        connectOrCreate: {
+                          create: {
+                            id: pastaIngredientTypeId,
+                            name: 'Pasta',
+                          },
+                          where: {
+                            id: pastaIngredientTypeId,
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -313,7 +434,20 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    name: 'seafood',
+                    create: {
+                      name: 'mixed seafood',
+                      ingredientType: {
+                        connectOrCreate: {
+                          create: {
+                            id: seafoodIngredientTypeId,
+                            name: 'Seafood',
+                          },
+                          where: {
+                            id: seafoodIngredientTypeId,
+                          },
+                        },
+                      },
+                    },
                   },
                 },
               ],
@@ -325,7 +459,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           data: {
             name: 'Tacos',
             userId: context.currentUser?.id,
-            imageUrl: require('../../src/images/dinner-tacos.jpg'),
+            imageUrl:
+              'https://mealkit.vercel.app/recipeImages/dinner-tacos.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -335,7 +470,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'taco wrap',
                       ingredientType: {
-                        name: 'Bakery',
+                        connectOrCreate: {
+                          create: {
+                            id: bakeryIngredientTypeId,
+                            name: 'Bakery',
+                          },
+                          where: {
+                            id: bakeryIngredientTypeId,
+                          },
+                        },
                       },
                     },
                   },
@@ -347,7 +490,15 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'grilled chicken',
                       ingredientType: {
-                        name: 'Meat',
+                        connectOrCreate: {
+                          create: {
+                            id: meatIngredientTypeId,
+                            name: 'Meat',
+                          },
+                          where: {
+                            id: meatIngredientTypeId,
+                          },
+                        },
                       },
                     },
                   },
