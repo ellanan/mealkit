@@ -7,7 +7,7 @@ export const RecipeIngredientQuantity = objectType({
   name: 'RecipeIngredientQuantity',
   definition(t) {
     t.nonNull.string('unit');
-    t.nonNull.int('amount');
+    t.nonNull.float('amount');
     t.nonNull.field('recipe', {
       type: 'Recipe',
       resolve: async (parent) => {
