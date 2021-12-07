@@ -1,8 +1,6 @@
 import { nonNull, stringArg } from 'nexus';
 import { MealType } from '@prisma/client';
 import { DateTime } from 'luxon';
-// @ts-expect-error
-import scuid from 'scuid';
 
 import { prisma } from '../_helpers/prismaClient';
 import { ObjectDefinitionBlock } from 'nexus/dist/blocks';
@@ -21,15 +19,86 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       const startDate = DateTime.fromISO(args.startDate);
       const endDate = startDate.plus({ days: 6 });
 
-      const bakeryIngredientTypeId = scuid();
-      const dairyIngredientTypeId = scuid();
-      const fruitIngredientTypeId = scuid();
-      const meatIngredientTypeId = scuid();
-      const otherIngredientTypeId = scuid();
-      const pastaIngredientTypeId = scuid();
-      const riceGrainIngredientTypeId = scuid();
-      const seafoodIngredientTypeId = scuid();
-      const vegetableIngredientTypeId = scuid();
+      const [
+        bakery,
+        vegetable,
+        pasta,
+        dairy,
+        fruit,
+        meat,
+        riceGrain,
+        seafood,
+        other,
+      ] = await Promise.all([
+        prisma.ingredientType.create({
+          data: {
+            name: 'Bakery',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Vegetable',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Pasta',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Dairy',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Fruit',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Meat',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Rice and Grain',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Seafood',
+          },
+        }),
+        prisma.ingredientType.create({
+          data: {
+            name: 'Other',
+          },
+        }),
+      ]);
+
+      const [rice, yogurt] = await Promise.all([
+        prisma.ingredient.create({
+          data: {
+            name: 'rice',
+            ingredientType: {
+              connect: {
+                id: riceGrain.id,
+              },
+            },
+          },
+        }),
+        prisma.ingredient.create({
+          data: {
+            name: 'yogurt',
+            ingredientType: {
+              connect: {
+                id: dairy.id,
+              },
+            },
+          },
+        }),
+      ]);
 
       const [
         smoothieBowl,
@@ -54,19 +123,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'Yogurt',
-                      ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: dairyIngredientTypeId,
-                            name: 'Dairy',
-                          },
-                          where: {
-                            id: dairyIngredientTypeId,
-                          },
-                        },
-                      },
+                    connect: {
+                      id: yogurt.id,
                     },
                   },
                 },
@@ -77,14 +135,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Mixed Fruits',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: fruitIngredientTypeId,
-                            name: 'Fruit',
-                          },
-                          where: {
-                            id: fruitIngredientTypeId,
-                          },
+                        connect: {
+                          id: fruit.id,
                         },
                       },
                     },
@@ -119,14 +171,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Bread',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: bakeryIngredientTypeId,
-                            name: 'Bakery',
-                          },
-                          where: {
-                            id: bakeryIngredientTypeId,
-                          },
+                        connect: {
+                          id: bakery.id,
                         },
                       },
                     },
@@ -139,14 +185,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Avocado',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: vegetableIngredientTypeId,
-                            name: 'Vegetable',
-                          },
-                          where: {
-                            id: vegetableIngredientTypeId,
-                          },
+                        connect: {
+                          id: vegetable.id,
                         },
                       },
                     },
@@ -159,14 +199,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'Tomato',
                       ingredientType: {
-                        connectOrCreate: {
-                          where: {
-                            id: vegetableIngredientTypeId,
-                          },
-                          create: {
-                            id: vegetableIngredientTypeId,
-                            name: 'Vegetable',
-                          },
+                        connect: {
+                          id: vegetable.id,
                         },
                       },
                     },
@@ -192,14 +226,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'yogurt',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: dairyIngredientTypeId,
-                            name: 'Dairy',
-                          },
-                          where: {
-                            id: dairyIngredientTypeId,
-                          },
+                        connect: {
+                          id: dairy.id,
                         },
                       },
                     },
@@ -212,14 +240,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'strawberries',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: fruitIngredientTypeId,
-                            name: 'Fruit',
-                          },
-                          where: {
-                            id: fruitIngredientTypeId,
-                          },
+                        connect: {
+                          id: fruit.id,
                         },
                       },
                     },
@@ -242,19 +264,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'rice',
-                      ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: riceGrainIngredientTypeId,
-                            name: 'Rice & Grain',
-                          },
-                          where: {
-                            id: riceGrainIngredientTypeId,
-                          },
-                        },
-                      },
+                    connect: {
+                      id: rice.id,
                     },
                   },
                 },
@@ -278,14 +289,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'hummus',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: otherIngredientTypeId,
-                            name: 'Other',
-                          },
-                          where: {
-                            id: otherIngredientTypeId,
-                          },
+                        connect: {
+                          id: other.id,
                         },
                       },
                     },
@@ -308,19 +313,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'rice',
-                      ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: riceGrainIngredientTypeId,
-                            name: 'Rice & Grain',
-                          },
-                          where: {
-                            id: riceGrainIngredientTypeId,
-                          },
-                        },
-                      },
+                    connect: {
+                      id: rice.id,
                     },
                   },
                 },
@@ -331,14 +325,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'salmon',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: seafoodIngredientTypeId,
-                            name: 'Seafood',
-                          },
-                          where: {
-                            id: seafoodIngredientTypeId,
-                          },
+                        connect: {
+                          id: seafood.id,
                         },
                       },
                     },
@@ -364,14 +352,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'pasta',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: pastaIngredientTypeId,
-                            name: 'Pasta',
-                          },
-                          where: {
-                            id: pastaIngredientTypeId,
-                          },
+                        connect: {
+                          id: pasta.id,
                         },
                       },
                     },
@@ -384,14 +366,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'mushroom',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: vegetableIngredientTypeId,
-                            name: 'Vegetable',
-                          },
-                          where: {
-                            id: vegetableIngredientTypeId,
-                          },
+                        connect: {
+                          id: vegetable.id,
                         },
                       },
                     },
@@ -417,14 +393,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'pasta',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: pastaIngredientTypeId,
-                            name: 'Pasta',
-                          },
-                          where: {
-                            id: pastaIngredientTypeId,
-                          },
+                        connect: {
+                          id: pasta.id,
                         },
                       },
                     },
@@ -437,14 +407,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'mixed seafood',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: seafoodIngredientTypeId,
-                            name: 'Seafood',
-                          },
-                          where: {
-                            id: seafoodIngredientTypeId,
-                          },
+                        connect: {
+                          id: seafood.id,
                         },
                       },
                     },
@@ -470,14 +434,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'taco wrap',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: bakeryIngredientTypeId,
-                            name: 'Bakery',
-                          },
-                          where: {
-                            id: bakeryIngredientTypeId,
-                          },
+                        connect: {
+                          id: bakery.id,
                         },
                       },
                     },
@@ -490,14 +448,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                     create: {
                       name: 'grilled chicken',
                       ingredientType: {
-                        connectOrCreate: {
-                          create: {
-                            id: meatIngredientTypeId,
-                            name: 'Meat',
-                          },
-                          where: {
-                            id: meatIngredientTypeId,
-                          },
+                        connect: {
+                          id: meat.id,
                         },
                       },
                     },
