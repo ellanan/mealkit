@@ -77,7 +77,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
         }),
       ]);
 
-      const [rice, yogurt] = await Promise.all([
+      const [rice, yogurt, mushroom] = await Promise.all([
         prisma.ingredient.create({
           data: {
             name: 'rice',
@@ -98,17 +98,27 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
             },
           },
         }),
+        prisma.ingredient.create({
+          data: {
+            name: 'mushroom',
+            ingredientType: {
+              connect: {
+                id: vegetable.id,
+              },
+            },
+          },
+        }),
       ]);
 
       const [
         smoothieBowl,
-        avocadoToast,
+        omelette,
         yogurtFruitSalad,
-        friedRice,
+        veggieToast,
         hummusBowl,
         pokeBowl,
         mushroomPasta,
-        salmonQuinoaSalad,
+        beefDon,
         tacos,
       ] = await Promise.all([
         prisma.recipe.create({
@@ -158,32 +168,32 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Avocado Toast',
+            name: 'Omelette',
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/breakfast-avocadoToast.jpg',
+              'https://mealkit.vercel.app/recipeImages/breakfast-omelette.jpg',
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'slices',
+                  unit: 'units',
                   amount: 2,
                   ingredient: {
                     create: {
-                      name: 'Bread',
+                      name: 'egg',
                       ingredientType: {
                         connect: {
-                          id: bakery.id,
+                          id: dairy.id,
                         },
                       },
                     },
                   },
                 },
                 {
-                  unit: 'unit',
-                  amount: 1,
+                  unit: 'g',
+                  amount: 50,
                   ingredient: {
                     create: {
-                      name: 'Avocado',
+                      name: 'spinach',
                       ingredientType: {
                         connect: {
                           id: vegetable.id,
@@ -193,16 +203,11 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'unit',
-                  amount: 1,
+                  unit: 'g',
+                  amount: 50,
                   ingredient: {
-                    create: {
-                      name: 'Tomato',
-                      ingredientType: {
-                        connect: {
-                          id: vegetable.id,
-                        },
-                      },
+                    connect: {
+                      id: mushroom.id,
                     },
                   },
                 },
@@ -254,18 +259,23 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Fried Rice',
+            name: 'Veggie Toast',
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/lunch-friedRice.jpg',
+              'https://mealkit.vercel.app/recipeImages/lunch-veggieToast.jpg',
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'cup',
-                  amount: 1,
+                  unit: 'slices',
+                  amount: 2,
                   ingredient: {
-                    connect: {
-                      id: rice.id,
+                    create: {
+                      name: 'bread',
+                      ingredientType: {
+                        connect: {
+                          id: bakery.id,
+                        },
+                      },
                     },
                   },
                 },
@@ -380,37 +390,32 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Salmon Quinoa Salad',
+            name: 'Beef Don',
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/dinner-salmonQuinoaSalad.jpg',
+              'https://mealkit.vercel.app/recipeImages/dinner-beefDon.jpg',
             ingredientQuantities: {
               create: [
                 {
                   unit: 'oz',
-                  amount: 2,
+                  amount: 10,
                   ingredient: {
                     create: {
-                      name: 'quinoa',
+                      name: 'beef',
                       ingredientType: {
                         connect: {
-                          id: riceGrain.id,
+                          id: meat.id,
                         },
                       },
                     },
                   },
                 },
                 {
-                  unit: 'oz',
-                  amount: 8,
+                  unit: 'cup',
+                  amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'salmon',
-                      ingredientType: {
-                        connect: {
-                          id: seafood.id,
-                        },
-                      },
+                    connect: {
+                      id: rice.id,
                     },
                   },
                 },
@@ -471,7 +476,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: friedRice.id,
+            recipeId: veggieToast.id,
             date: startDate.toISO(),
             mealPlanId,
           },
@@ -484,7 +489,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: avocadoToast.id,
+            recipeId: omelette.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
@@ -496,7 +501,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.DINNER,
-            recipeId: salmonQuinoaSalad.id,
+            recipeId: beefDon.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
@@ -515,7 +520,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.DINNER,
-            recipeId: salmonQuinoaSalad.id,
+            recipeId: beefDon.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
@@ -528,7 +533,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: friedRice.id,
+            recipeId: veggieToast.id,
             date: startDate.plus({ days: 3 }).toISO(),
             mealPlanId,
           },
@@ -541,7 +546,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: avocadoToast.id,
+            recipeId: omelette.id,
             date: startDate.plus({ days: 4 }).toISO(),
             mealPlanId,
           },
@@ -560,7 +565,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: avocadoToast.id,
+            recipeId: omelette.id,
             date: startDate.plus({ days: 5 }).toISO(),
             mealPlanId,
           },
@@ -598,7 +603,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
           {
             mealType: MealType.BREAKFAST,
-            recipeId: avocadoToast.id,
+            recipeId: omelette.id,
             date: startDate.plus({ days: 7 }).toISO(),
             mealPlanId,
           },
