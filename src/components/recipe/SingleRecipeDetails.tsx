@@ -471,50 +471,48 @@ export const SingleRecipeDetails = ({
                   />
                 )}
               </div>
-              {recipeDetails?.currentUser?.mealPlan?.recipe?.content !==
-                undefined &&
-                recipeDetails?.currentUser?.mealPlan.recipe?.content !== null &&
-                isEditingRecipeContent && (
-                  <div>
-                    <Editor
-                      apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-                      initialValue={
-                        recipeDetails?.currentUser?.mealPlan.recipe?.content
-                      }
-                      init={{
-                        height: 200,
-                        menubar: false,
-                        plugins: ['wordcount'],
-                        toolbar:
-                          'undo redo | formatselect | ' +
-                          'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
-                          'alignright alignjustify | bullist numlist outdent indent | ' +
-                          'removeformat | help',
-                        content_style:
-                          'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-                      }}
-                      onEditorChange={(newcontent) => {
-                        setRecipeContent(newcontent);
-                      }}
-                    />
-                    <Button
-                      size='sm'
-                      margin='0.5rem'
-                      onClick={() => {
-                        setIsEditingRecipeContent(false);
-                        setRecipeContent(
-                          recipeDetails?.currentUser?.mealPlan?.recipe
-                            ?.content ?? ''
-                        );
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button size='sm' margin='0.5rem' type='submit'>
-                      Save
-                    </Button>
-                  </div>
-                )}
+              {isEditingRecipeContent && (
+                <div>
+                  <Editor
+                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                    initialValue={
+                      recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
+                      ''
+                    }
+                    init={{
+                      height: 200,
+                      menubar: false,
+                      plugins: ['wordcount'],
+                      toolbar:
+                        'undo redo | formatselect | ' +
+                        'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                      content_style:
+                        'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                    }}
+                    onEditorChange={(newcontent) => {
+                      setRecipeContent(newcontent);
+                    }}
+                  />
+                  <Button
+                    size='sm'
+                    margin='0.5rem'
+                    onClick={() => {
+                      setIsEditingRecipeContent(false);
+                      setRecipeContent(
+                        recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
+                          ''
+                      );
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button size='sm' margin='0.5rem' type='submit'>
+                    Save
+                  </Button>
+                </div>
+              )}
             </label>
           </form>
         </li>
