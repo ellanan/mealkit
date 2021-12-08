@@ -9,7 +9,7 @@ export const MobileMealPlanSubNavbar = (props: {
   setStartDate: (date: DateTime) => void;
 }) => {
   return (
-    <div className='flex items-center justify-start mt-4'>
+    <div className='flex items-center justify-start my-4'>
       <Button
         className='text-11 ml-4 mr-1 rounded-full border-solid focus:shadow-none hover:bg-12'
         onClick={(e) => {
