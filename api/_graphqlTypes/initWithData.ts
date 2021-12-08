@@ -19,63 +19,49 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       const startDate = DateTime.fromISO(args.startDate);
       const endDate = startDate.plus({ days: 6 });
 
-      const [
-        bakery,
-        vegetable,
-        pasta,
-        dairy,
-        fruit,
-        meat,
-        riceGrain,
-        seafood,
-        other,
-      ] = await Promise.all([
-        prisma.ingredientType.create({
-          data: {
-            name: 'Bakery',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Vegetable',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Pasta',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Dairy',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Fruit',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Meat',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Rice and Grain',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Seafood',
-          },
-        }),
-        prisma.ingredientType.create({
-          data: {
-            name: 'Other',
-          },
-        }),
-      ]);
+      const [bakery, vegetable, pasta, dairy, fruit, meat, riceGrain, other] =
+        await Promise.all([
+          prisma.ingredientType.create({
+            data: {
+              name: 'Bakery',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Vegetable',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Pasta',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Dairy',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Fruit',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Meat',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Rice and Grain',
+            },
+          }),
+          prisma.ingredientType.create({
+            data: {
+              name: 'Other',
+            },
+          }),
+        ]);
 
       const [rice, yogurt, mushroom] = await Promise.all([
         prisma.ingredient.create({
@@ -116,7 +102,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
         yogurtFruitSalad,
         veggieToast,
         hummusBowl,
-        pokeBowl,
+        steakWithVeggies,
         mushroomPasta,
         beefDon,
         tacos,
@@ -313,18 +299,23 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Poke Bowl',
+            name: 'Steak with Veggies',
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/lunch-pokeBowl.jpg',
+              'https://mealkit.vercel.app/recipeImages/dinner-steakWithVeggie.jpg',
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'cup',
-                  amount: 1,
+                  unit: 'oz',
+                  amount: 6,
                   ingredient: {
-                    connect: {
-                      id: rice.id,
+                    create: {
+                      name: 'steak',
+                      ingredientType: {
+                        connect: {
+                          id: meat.id,
+                        },
+                      },
                     },
                   },
                 },
@@ -333,10 +324,10 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   amount: 1,
                   ingredient: {
                     create: {
-                      name: 'salmon',
+                      name: 'mixed veggies',
                       ingredientType: {
                         connect: {
-                          id: seafood.id,
+                          id: vegetable.id,
                         },
                       },
                     },
@@ -393,7 +384,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
             name: 'Beef Don',
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/dinner-beefDon.jpg',
+              'https://mealkit.vercel.app/recipeImages/lunch-beefDon.jpg',
             ingredientQuantities: {
               create: [
                 {
@@ -501,7 +492,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.DINNER,
-            recipeId: beefDon.id,
+            recipeId: steakWithVeggies.id,
             date: startDate.plus({ days: 1 }).toISO(),
             mealPlanId,
           },
@@ -514,13 +505,13 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: pokeBowl.id,
+            recipeId: beefDon.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
           {
             mealType: MealType.DINNER,
-            recipeId: beefDon.id,
+            recipeId: steakWithVeggies.id,
             date: startDate.plus({ days: 2 }).toISO(),
             mealPlanId,
           },
@@ -552,7 +543,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: pokeBowl.id,
+            recipeId: beefDon.id,
             date: startDate.plus({ days: 4 }).toISO(),
             mealPlanId,
           },
@@ -590,7 +581,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           },
           {
             mealType: MealType.LUNCH,
-            recipeId: pokeBowl.id,
+            recipeId: beefDon.id,
             date: startDate.plus({ days: 6 }).toISO(),
             mealPlanId,
           },
