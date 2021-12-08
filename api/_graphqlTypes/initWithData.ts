@@ -16,7 +16,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       if (!mealPlanId) {
         throw new Error('Current user does not have a meal plan');
       }
-      const startDate = DateTime.fromISO(args.startDate);
+      const startDate = DateTime.fromISO(args.startDate).plus({ days: 1 });
       const endDate = startDate.plus({ days: 6 });
 
       const [bakery, vegetable, pasta, dairy, fruit, meat, riceGrain, other] =
@@ -589,25 +589,6 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
             mealType: MealType.DINNER,
             recipeId: tacos.id,
             date: startDate.plus({ days: 6 }).toISO(),
-            mealPlanId,
-          },
-
-          {
-            mealType: MealType.BREAKFAST,
-            recipeId: omelette.id,
-            date: startDate.plus({ days: 7 }).toISO(),
-            mealPlanId,
-          },
-          {
-            mealType: MealType.LUNCH,
-            recipeId: hummusBowl.id,
-            date: startDate.plus({ days: 7 }).toISO(),
-            mealPlanId,
-          },
-          {
-            mealType: MealType.DINNER,
-            recipeId: mushroomPasta.id,
-            date: startDate.plus({ days: 7 }).toISO(),
             mealPlanId,
           },
         ],
