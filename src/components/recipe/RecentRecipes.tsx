@@ -45,7 +45,7 @@ export const RecentRecipes = () => {
 
   return (
     <>
-      <h1 className='text-sm text-25 font-medium mb-1 py-1 px-4 mt-2'>
+      <h1 className='text-xs text-25 font-medium mb-1 py-1 px-4 mt-3 uppercase opacity-70'>
         <span>Recently Added</span>
       </h1>
       <div
@@ -69,7 +69,7 @@ export const RecentRecipes = () => {
       >
         {data?.currentUser?.mealPlan?.recipes.map((recipe) => (
           <NavLink
-            className='flex items-center py-1 px-4 text-14 text-sm'
+            className='flex items-center py-1 px-4 text-14 text-sm font-medium'
             key={recipe.id}
             to={(location) => {
               const newQueryParams = new URLSearchParams(location.search);
@@ -85,8 +85,8 @@ export const RecentRecipes = () => {
                 background-image: linear-gradient(
                   to right,
                   transparent,
-                  #fae4daa3 20%,
-                  #fae4da
+                  #fff1ea 20%,
+                  #fed7c5
                 );
               }
             `}

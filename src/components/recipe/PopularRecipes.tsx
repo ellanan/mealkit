@@ -50,13 +50,13 @@ export const PopularRecipes = () => {
 
   return (
     <>
-      <h1 className='text-sm text-25 font-medium mb-1 py-1 px-4'>
+      <h1 className='text-xs text-25 font-medium mb-1 py-1 px-4 uppercase opacity-70'>
         <Tooltip
           label='Based on frequency from the last 30 days'
           className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
         >
           <span>
-            Popular Recipes <InfoIcon className='inline-block w-3' />
+            Popular Recipes <InfoIcon className='inline-block w-2' />
           </span>
         </Tooltip>
       </h1>
@@ -81,7 +81,7 @@ export const PopularRecipes = () => {
       >
         {data?.currentUser?.mealPlan?.popularRecipes.map((recipe) => (
           <NavLink
-            className='flex items-center py-1 px-4 text-14 text-sm'
+            className='flex items-center py-1 px-4 text-14 text-sm font-medium'
             key={recipe.id}
             to={(location) => {
               const newQueryParams = new URLSearchParams(location.search);
@@ -97,8 +97,8 @@ export const PopularRecipes = () => {
                 background-image: linear-gradient(
                   to right,
                   transparent,
-                  #fae4daa3 20%,
-                  #fae4da
+                  #fff1ea 20%,
+                  #fed7c5
                 );
               }
             `}

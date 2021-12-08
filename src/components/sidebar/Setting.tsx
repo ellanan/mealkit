@@ -23,7 +23,7 @@ export const Setting = () => {
     >
       <Popover closeOnBlur={true} closeOnEsc={true}>
         <PopoverTrigger>
-          <button className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'>
+          <button className='rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'>
             <RiUserSettingsLine size={isLargerThan850 ? 20 : 16} />
           </button>
         </PopoverTrigger>

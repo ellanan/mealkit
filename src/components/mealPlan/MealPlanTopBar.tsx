@@ -1,7 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
-import { BiListUl } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 
 export const MealPlanTopBar = (props: {
@@ -13,7 +12,7 @@ export const MealPlanTopBar = (props: {
   return (
     <div className='flex items-center justify-start mt-4'>
       <Button
-        className='text-11 my-0 mx-5 rounded-full border-solid focus:shadow-none hover:bg-12'
+        className='text-11 my-0 mx-5 rounded-full border-solid border-1 border-gray-300 focus:shadow-none hover:bg-gray-100 bg-transparent transition-all duration-150 hover:scale-105'
         onClick={(e) => {
           e.preventDefault();
           props.setStartDate(props.today.startOf('week'));
@@ -24,7 +23,7 @@ export const MealPlanTopBar = (props: {
       </Button>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
+        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12 transition-all duration-150 hover:scale-110'
         onClick={() => {
           props.setStartDate(props.startDate.minus({ weeks: 1 }));
         }}
@@ -33,7 +32,7 @@ export const MealPlanTopBar = (props: {
       </Button>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
+        className='ml-0.5 bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12 transition-all duration-150 hover:scale-110'
         onClick={() => {
           props.setStartDate(props.startDate.plus({ weeks: 1 }));
         }}
@@ -46,7 +45,7 @@ export const MealPlanTopBar = (props: {
       </span>
 
       <NavLink
-        className='flex flex-row items-center ml-auto mr-5 rounded-full text-white text-sm py-1 px-3 bg-28 hover:bg-23 font-medium uppercase'
+        className='flex flex-row items-center ml-auto mr-5 rounded-full text-white text-sm py-1 px-3 bg-23 transition-all duration-150 hover:scale-105 font-medium uppercase tracking-wide'
         to={(location) => {
           const newQueryParams = new URLSearchParams(location.search);
           newQueryParams.append('shoppingList', 'visible');
@@ -57,7 +56,6 @@ export const MealPlanTopBar = (props: {
           };
         }}
       >
-        <BiListUl className='mr-1' size={18} />
         Groceries
       </NavLink>
     </div>

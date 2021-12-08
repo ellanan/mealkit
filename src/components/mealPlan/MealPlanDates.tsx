@@ -21,7 +21,7 @@ export const MealPlanDates = (props: {
       {props.interval.map((day) => {
         return (
           <div
-            className='relative flex-grow py-3 px-5 text-14'
+            className='relative flex-grow pt-3 px-5 text-14'
             key={day.toISO()}
             css={css`
               &:not(:last-child):after {
@@ -45,8 +45,8 @@ export const MealPlanDates = (props: {
               <span className='text-xs uppercase'>{day.weekdayShort}</span>
               <span
                 className={classnames(
-                  'flex items-center justify-center rounded-3xl p-4 h-7 w-7',
-                  props.today.hasSame(day, 'day') && 'bg-[#f8b38b] text-white'
+                  'flex items-center justify-center rounded-3xl p-4 h-7 w-7 mt-0.5',
+                  props.today.hasSame(day, 'day') && 'bg-23 text-white'
                 )}
               >
                 {day.day}

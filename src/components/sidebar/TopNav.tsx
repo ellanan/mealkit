@@ -8,7 +8,7 @@ import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 
 export const TopNav = () => {
   return (
-    <div className='flex flex-col items-center justify-center bg-24 h-full pt-4 font-Raleway'>
+    <div className='flex flex-col items-center justify-center h-full pt-4 font-Raleway'>
       <NavLink
         to='/mealplanner'
         className='text-lg font-medium text-23 font-Montserrat flex mb-8 h-5'
@@ -19,7 +19,7 @@ export const TopNav = () => {
 
       <div className='flex items-center justify-center'>
         <NavLink
-          className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          className='mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
           activeStyle={{ backgroundColor: '#fa9d6e' }}
           exact
           to='/mealplanner'
@@ -28,7 +28,7 @@ export const TopNav = () => {
         </NavLink>
 
         <NavLink
-          className='mr-5 rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          className='mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
           activeStyle={{ backgroundColor: '#fa9d6e' }}
           exact
           to='/recipes'
@@ -44,7 +44,7 @@ export const TopNav = () => {
         </NavLink>
 
         <NavLink
-          className='rounded-full text-white py-2 px-2 bg-28 hover:bg-23'
+          className='rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
           activeStyle={{ backgroundColor: '#fa9d6e' }}
           isActive={(match, location) => {
             return location.search.includes('modalCreateRecipe=visible');

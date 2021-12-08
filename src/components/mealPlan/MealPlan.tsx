@@ -95,7 +95,7 @@ export const MealPlan = () => {
   const mealPlan = data?.currentUser?.mealPlan;
 
   return (
-    <>
+    <div className='ml-2 h-full flex flex-col'>
       <MealPlanTopBar
         today={today}
         interval={interval}
@@ -111,7 +111,7 @@ export const MealPlan = () => {
             <div
               key={day.toISO()}
               className={[
-                'flex-grow relative px-5 md:px-0 py-3 text-14',
+                'flex-grow relative px-5 md:px-0 py-3 text-14 w-[calc(100%/7)]',
                 'after:block after:w-[1px] after:h-full after:absolute after:top-0 after:right-0',
               ].join(' ')}
               css={css`
@@ -203,7 +203,7 @@ export const MealPlan = () => {
                     {mealPlanEntries?.map((entry) => (
                       <div
                         key={entry.id}
-                        className='relative my-2 mx-0'
+                        className='relative my-2 mx-4 mb-2'
                         css={css`
                           .deleteIndicator {
                             opacity: 0;
@@ -225,97 +225,93 @@ export const MealPlan = () => {
                           }
                         `}
                       >
-                        <div className='mx-4 mb-2'>
-                          <NavLink
-                            className='relative block shadow-sm overflow-hidden rounded-xl hover:shadow-md pt-[100%]'
-                            to={(location) => {
-                              const newQueryParams = new URLSearchParams(
-                                location.search
-                              );
-                              newQueryParams.set(
-                                'modalRecipeId',
-                                entry.recipe.id
-                              );
+                        <NavLink
+                          className='block shadow-sm hover:shadow-md overflow-hidden rounded-xl transition-all duration-150 hover:scale-105'
+                          to={(location) => {
+                            const newQueryParams = new URLSearchParams(
+                              location.search
+                            );
+                            newQueryParams.set(
+                              'modalRecipeId',
+                              entry.recipe.id
+                            );
 
-                              return {
-                                ...location,
-                                search: newQueryParams.toString(),
-                              };
-                            }}
-                          >
+                            return {
+                              ...location,
+                              search: newQueryParams.toString(),
+                            };
+                          }}
+                        >
+                          <div className='pt-[100%] relative overflow-hidden'>
                             <img
                               className='absolute top-0 w-full h-full object-cover'
                               src={entry.recipe.imageUrl ?? defaultImg}
                               alt=''
                             />
-                            <div
-                              className='recipe-title absolute bottom-0 flex text-white font-medium w-full leading-tight px-2 pt-8 pb-3'
-                              css={css`
-                                background-image: linear-gradient(
-                                  to bottom,
-                                  rgba(0, 0, 0, 0),
-                                  rgba(92, 86, 86, 0.1) 30%,
-                                  rgba(56, 54, 54, 0.3)
-                                );
-                              `}
-                            >
-                              {entry.recipe.name}
-                            </div>
-                          </NavLink>
-                        </div>
-
-                        <Button
-                          className='deleteIndicator absolute top-[-1px] right-[15px] flex content-center items-center'
-                          size='xs'
-                          variant='unstyled'
-                          aria-label={`delete ${entry.recipe.name} from meal plan`}
-                          disabled={!mealPlan}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (!mealPlan) return;
-                            deleteMealPlanEntryMutation({
-                              variables: {
-                                mealPlanEntryId: entry.id,
-                              },
-                              update(cache) {
-                                cache.modify({
-                                  id: cache.identify(mealPlan),
-                                  fields: {
-                                    schedule(
-                                      existingEntriesInSchedule,
-                                      { readField }
-                                    ) {
-                                      return existingEntriesInSchedule.filter(
-                                        (existingEntry: any) =>
-                                          readField('id', existingEntry) !==
-                                          entry.id
-                                      );
-                                    },
-                                  },
-                                });
-                              },
-                              optimisticResponse: {
-                                deleteMealPlanEntry: {
-                                  __typename: 'MealPlanEntry',
-                                  id: entry.id,
-                                },
-                              },
-                            });
-                          }}
-                        >
-                          <div
-                            className='absolute top-[1px] right-[1px] w-full h-full bg-black bg-opacity-20 rounded-tr-xl'
+                          </div>
+                          <div className='text-14 leading-tight text-xs'>
+                            {entry.recipe.name}
+                          </div>
+                          <Button
+                            className='deleteIndicator absolute top-[-1px] right-[-1px] flex content-center items-center'
                             css={css`
-                              border-bottom-left-radius: 22px;
+                              &:hover {
+                                .closeIconBackdrop {
+                                  transform: scale(1.25);
+                                }
+                              }
                             `}
-                          />
-                          <CloseIcon
-                            position='relative'
-                            w={2}
-                            h={2}
-                            color='#fff'
-                          />
-                        </Button>
+                            size='xs'
+                            variant='unstyled'
+                            aria-label={`delete ${entry.recipe.name} from meal plan`}
+                            disabled={!mealPlan}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (!mealPlan) return;
+                              deleteMealPlanEntryMutation({
+                                variables: {
+                                  mealPlanEntryId: entry.id,
+                                },
+                                update(cache) {
+                                  cache.modify({
+                                    id: cache.identify(mealPlan),
+                                    fields: {
+                                      schedule(
+                                        existingEntriesInSchedule,
+                                        { readField }
+                                      ) {
+                                        return existingEntriesInSchedule.filter(
+                                          (existingEntry: any) =>
+                                            readField('id', existingEntry) !==
+                                            entry.id
+                                        );
+                                      },
+                                    },
+                                  });
+                                },
+                                optimisticResponse: {
+                                  deleteMealPlanEntry: {
+                                    __typename: 'MealPlanEntry',
+                                    id: entry.id,
+                                  },
+                                },
+                              });
+                            }}
+                          >
+                            <div
+                              className='closeIconBackdrop absolute top-[1px] right-[1px] w-full h-full bg-black bg-opacity-20 rounded-tr-xl transition-all duration-100'
+                              css={css`
+                                border-bottom-left-radius: 22px;
+                              `}
+                            />
+                            <CloseIcon
+                              position='relative'
+                              w={2}
+                              h={2}
+                              color='#fff'
+                            />
+                          </Button>
+                        </NavLink>
                       </div>
                     ))}
                   </div>
@@ -325,6 +321,6 @@ export const MealPlan = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
