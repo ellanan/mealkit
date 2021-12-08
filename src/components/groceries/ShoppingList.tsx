@@ -24,6 +24,7 @@ import Creatable from 'react-select/creatable';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useMemo } from 'react';
+import { useMediaQuery } from '@chakra-ui/react';
 
 const useRawShoppingListPersistedState = createPersistedState('shopping list');
 
@@ -86,6 +87,8 @@ const EditableControls = ({ text }: { text: string }) => {
 
 export const ShoppingList = () => {
   const [range, setRange] = useShoppingListPersistedState();
+
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
 
   const {
     data,
@@ -218,7 +221,30 @@ export const ShoppingList = () => {
     .flat();
 
   return (
-    <div className='flex flex-col flex-shrink flex-grow m-6 text-14'>
+    <div
+      className={
+        isLargerThan850
+          ? 'flex flex-col flex-shrink flex-grow m-6 text-14'
+          : 'flex flex-col flex-shrink flex-grow h-full overflow-y-auto overflow-x-hidden ml-6 pt-6 pr-4 text-14'
+      }
+      css={css`
+        scrollbar-width: thin;
+        scrollbar-color: #e7a47a60 transparent;
+        ::-webkit-scrollbar {
+          background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+          border-bottom: 4px solid #fff2ec;
+          border-left: 4px solid #fff2ec;
+          border-right: 4px solid #fff2ec;
+          border-top: 4px solid #fff2ec;
+          border-radius: 8px;
+          background: #e7a47a60;
+          min-height: 40 px;
+          right: 0;
+        }
+      `}
+    >
       <DateRange
         className='flex items-center -mt-6'
         css={css`
@@ -264,7 +290,13 @@ export const ShoppingList = () => {
           <div
             key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
           >
-            <div className='group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'>
+            <div
+              className={
+                isLargerThan850
+                  ? 'group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'
+                  : 'group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'
+              }
+            >
               {!ingredientQuantities[0].ingredient.type?.name ? (
                 'uncategorized'
               ) : (

@@ -100,7 +100,25 @@ export const MobileMealPlan = () => {
         setStartDate={setStartDate}
       />
 
-      <div className='flex flex-col items-center flex-shrink flex-grow overflow-y-scroll mb-5'>
+      <div
+        className='flex flex-col items-center flex-shrink flex-grow overflow-y-scroll mb-5'
+        css={css`
+          scrollbar-width: thin;
+          scrollbar-color: #e7a47a60 transparent;
+          ::-webkit-scrollbar {
+            background: transparent;
+          }
+          ::-webkit-scrollbar-thumb {
+            border-bottom: 4px solid #fff2ec;
+            border-left: 4px solid #fff2ec;
+            border-right: 4px solid #fff2ec;
+            border-top: 4px solid #fff2ec;
+            border-radius: 8px;
+            background: #e7a47a60;
+            min-height: 40 px;
+          }
+        `}
+      >
         {interval.map((day) => {
           return (
             <div className='flex flex-col items-center justify-center max-w-min'>
