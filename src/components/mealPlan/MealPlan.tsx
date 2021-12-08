@@ -249,9 +249,11 @@ export const MealPlan = () => {
                               alt=''
                             />
                           </div>
-                          <div className='text-14 leading-tight text-xs'>
+
+                          <div className='text-14 text-center leading-tight text-xs ml-2 pb-1'>
                             {entry.recipe.name}
                           </div>
+
                           <Button
                             className='deleteIndicator absolute top-[-1px] right-[-1px] flex content-center items-center'
                             css={css`
