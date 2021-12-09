@@ -121,8 +121,11 @@ export const MobileMealPlan = () => {
       >
         {interval.map((day) => {
           return (
-            <div className='flex flex-col items-center justify-center max-w-min'>
-              <div key={day.toISO()} className='text-14'>
+            <div
+              key={day.toISO()}
+              className='flex flex-col items-center justify-center max-w-min'
+            >
+              <div className='text-14'>
                 <span className='flex items-center justify-center p-2 text-sm font-medium'>
                   {`${day.weekdayLong.toUpperCase()}, ${day.monthLong
                     .slice(0, 3)
