@@ -13,6 +13,7 @@ import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { ShareMealPlanModal } from './components/shareMealPlan/ShareMealPlanModal';
 import { AttributionModal } from './components/footer/AttributionModal';
+import { MobileAppWrapper } from './components/mobile/MobileAppWrapper';
 import { MobileMealPlan } from './components/mobile/MobileMealPlan';
 import { MobileTopNavbar } from './components/mobile/MobileTopNavbar';
 import { MobileBottomNavbar } from './components/mobile/MobileBottomNavbar';
@@ -95,7 +96,7 @@ const App = () => {
       ) : !isAuthenticated ? (
         <MobileHome />
       ) : (
-        <div className='flex flex-col h-full'>
+        <MobileAppWrapper>
           <MobileTopNavbar />
           <Switch>
             <Route path='/invite' component={InviteLoggedIn} />
@@ -114,7 +115,7 @@ const App = () => {
             <Route exact path='/grocerylist' component={ShoppingList} />
           </Switch>
           <MobileBottomNavbar />
-        </div>
+        </MobileAppWrapper>
       )}
     </>
   );

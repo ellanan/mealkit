@@ -101,7 +101,7 @@ export const MobileMealPlan = () => {
       />
 
       <div
-        className='flex flex-col items-center flex-shrink flex-grow overflow-y-scroll'
+        className='flex flex-col items-center flex-shrink flex-grow pt-24 pb-16'
         css={css`
           scrollbar-width: thin;
           scrollbar-color: #e7a47a60 transparent;

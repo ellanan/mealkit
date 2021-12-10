@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { DateTime } from 'luxon';
@@ -9,7 +11,15 @@ export const MobileMealPlanSubNavbar = (props: {
   setStartDate: (date: DateTime) => void;
 }) => {
   return (
-    <div className='flex items-center justify-start p-2'>
+    <div
+      className='z-30 transition fixed top-14 flex items-center justify-start p-2 bg-white w-full'
+      css={css`
+        .scrolling-down & {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+      `}
+    >
       <Button
         className='text-11 ml-4 mr-1 rounded-full border-solid focus:shadow-none hover:bg-12'
         onClick={(e) => {
@@ -22,7 +32,8 @@ export const MobileMealPlanSubNavbar = (props: {
       </Button>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
+        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none'
+        variant='ghost'
         onClick={() => {
           props.setStartDate(props.startDate.minus({ weeks: 1 }));
         }}
@@ -35,7 +46,8 @@ export const MobileMealPlanSubNavbar = (props: {
       </span>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none hover:bg-12'
+        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none'
+        variant='ghost'
         onClick={() => {
           props.setStartDate(props.startDate.plus({ weeks: 1 }));
         }}

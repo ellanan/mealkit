@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { NavLink } from 'react-router-dom';
 import { MdCreate } from 'react-icons/md';
 import { GoSearch } from 'react-icons/go';
@@ -6,7 +8,14 @@ import { AiOutlineHome } from 'react-icons/ai';
 
 export const MobileBottomNavbar = () => {
   return (
-    <div className='flex items-center justify-evenly bg-24 py-3 px-4 font-Raleway'>
+    <div
+      className='bottom-0 transition z-30 fixed w-full flex items-center justify-evenly bg-24 py-3 px-4 font-Raleway'
+      css={css`
+        .scrolling-down & {
+          transform: translateY(100%);
+        }
+      `}
+    >
       <NavLink
         className='flex flex-col items-center active:text-25 w-2/12 text-14 text-[10px] mx-2 px-2 font-medium uppercase'
         activeStyle={{ color: '#fa7532' }}
