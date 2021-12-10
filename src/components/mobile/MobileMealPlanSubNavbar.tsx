@@ -12,7 +12,7 @@ export const MobileMealPlanSubNavbar = (props: {
 }) => {
   return (
     <div
-      className='z-30 transition fixed top-14 flex items-center justify-start p-2 w-full'
+      className='z-20 transition fixed top-14 flex items-center justify-start p-2 w-full'
       css={css`
         .scrolling-down & {
           transform: translateY(-100%);

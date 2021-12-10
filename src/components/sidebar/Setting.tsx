@@ -18,7 +18,7 @@ export const Setting = () => {
       className={
         isLargerThan850
           ? 'flex items-center justify-center pt-3 pb-5'
-          : 'ml-auto'
+          : 'relative ml-auto z-50'
       }
     >
       <Popover closeOnBlur={true} closeOnEsc={true}>
