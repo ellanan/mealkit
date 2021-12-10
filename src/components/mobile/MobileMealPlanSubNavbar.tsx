@@ -12,12 +12,16 @@ export const MobileMealPlanSubNavbar = (props: {
 }) => {
   return (
     <div
-      className='z-30 transition fixed top-14 flex items-center justify-start p-2 bg-white w-full'
+      className='z-30 transition fixed top-14 flex items-center justify-start p-2 w-full'
       css={css`
         .scrolling-down & {
           transform: translateY(-100%);
           opacity: 0;
         }
+
+        background-color: #ffffffce;
+        backdrop-filter: blur(10px) saturate(100%) contrast(45%)
+          brightness(130%);
       `}
     >
       <Button
@@ -32,7 +36,7 @@ export const MobileMealPlanSubNavbar = (props: {
       </Button>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none'
+        className=' text-11 rounded-full h-7 w-4 focus:shadow-none'
         variant='ghost'
         onClick={() => {
           props.setStartDate(props.startDate.minus({ weeks: 1 }));
@@ -46,7 +50,7 @@ export const MobileMealPlanSubNavbar = (props: {
       </span>
 
       <Button
-        className='bg-white text-11 rounded-full h-7 w-4 focus:shadow-none'
+        className=' text-11 rounded-full h-7 w-4 focus:shadow-none'
         variant='ghost'
         onClick={() => {
           props.setStartDate(props.startDate.plus({ weeks: 1 }));
