@@ -19,6 +19,7 @@ import { SmallCloseIcon, EditIcon } from '@chakra-ui/icons';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { Editor } from '@tinymce/tinymce-react';
 import { useState, useRef } from 'react';
+import { useMediaQuery } from '@chakra-ui/react';
 
 export const SingleRecipeDetails = ({
   recipeId,
@@ -34,6 +35,8 @@ export const SingleRecipeDetails = ({
 
   const [isDeleteRecipeOpen, setIsDeleteRecipeOpen] = useState<boolean>(false);
   const cancelDeleteRecipeRef = useRef<any>();
+
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
 
   const {
     data: recipeDetails,
@@ -270,8 +273,46 @@ export const SingleRecipeDetails = ({
 
   return (
     <>
-      <ul className='m-4 text-14 flex-grow'>
-        <li className='flex items-center mb-4'>
+      <ul className='mb-4 text-14 flex-grow h-full'>
+        <li className='w-full'>
+          {recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl && (
+            <img
+              className='h-[20rem] w-full object-cover mb-2'
+              src={recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl}
+              alt=''
+            />
+          )}
+          <input
+            className='mb-4 text-xs text-transparent mx-4'
+            type='file'
+            name='test'
+            onChange={async (e) => {
+              const fileToUpload = e.target.files?.[0];
+              if (!fileToUpload) return;
+
+              const formdata = new FormData();
+              formdata.append('image', fileToUpload, fileToUpload.name);
+
+              const response = await fetch('https://api.imgur.com/3/image', {
+                method: 'POST',
+                headers: {
+                  Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
+                },
+                body: formdata,
+                redirect: 'follow',
+              }).then((response) => response.json());
+
+              editRecipe({
+                variables: {
+                  recipeId,
+                  imageUrl: response.data.link,
+                },
+              });
+            }}
+          />
+        </li>
+
+        <li className='flex items-center mb-4 mx-4'>
           <label>
             {recipeDetails?.currentUser?.mealPlan?.recipe?.name && (
               <Editable
@@ -394,47 +435,9 @@ export const SingleRecipeDetails = ({
               </AlertDialogContent>
             </AlertDialogOverlay>
           </AlertDialog>
-
-          <ModalCloseButton />
         </li>
-        <li>
-          {recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl && (
-            <img
-              className='max-h-xs max-w-xs object-cover mb-2 rounded-md'
-              src={recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl}
-              alt=''
-            />
-          )}
-          <input
-            className='mb-4 text-xs text-transparent'
-            type='file'
-            name='test'
-            onChange={async (e) => {
-              const fileToUpload = e.target.files?.[0];
-              if (!fileToUpload) return;
 
-              const formdata = new FormData();
-              formdata.append('image', fileToUpload, fileToUpload.name);
-
-              const response = await fetch('https://api.imgur.com/3/image', {
-                method: 'POST',
-                headers: {
-                  Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
-                },
-                body: formdata,
-                redirect: 'follow',
-              }).then((response) => response.json());
-
-              editRecipe({
-                variables: {
-                  recipeId,
-                  imageUrl: response.data.link,
-                },
-              });
-            }}
-          />
-        </li>
-        <li className='mb-4'>
+        <li className='mb-4 mx-4'>
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -516,7 +519,7 @@ export const SingleRecipeDetails = ({
             </label>
           </form>
         </li>
-        <li>
+        <li className='mx-4'>
           <label>
             <span className='font-semibold'>
               Ingredients <br />
@@ -573,6 +576,7 @@ export const SingleRecipeDetails = ({
               placeholder='add ingredient'
             />
           </label>
+
           <div>
             {loadingIngredientQuantity ? (
               <>
@@ -587,6 +591,7 @@ export const SingleRecipeDetails = ({
               </>
             ) : null}
           </div>
+
           {recipeDetails?.currentUser?.mealPlan?.recipe?.ingredientQuantities?.map(
             ({ unit, amount, ingredient }) => {
               return (
@@ -628,7 +633,11 @@ export const SingleRecipeDetails = ({
                   </Editable>
                   {ingredient.name}
                   <button
-                    className='flex items-center opacity-0 group-hover:opacity-100'
+                    className={
+                      isLargerThan850
+                        ? 'flex items-center opacity-0 group-hover:opacity-100'
+                        : 'flex items-center'
+                    }
                     onClick={() => {
                       removeIngredientFromRecipe({
                         variables: {
@@ -652,12 +661,10 @@ export const SingleRecipeDetails = ({
                       </>
                     ) : (
                       <SmallCloseIcon
-                        className='rounded-2xl'
                         w='4'
                         h='4'
                         color='#ebaf55'
                         margin='0px 3px'
-                        _hover={{ bg: '#ee941f', color: '#fff' }}
                       />
                     )}
                   </button>
@@ -667,6 +674,7 @@ export const SingleRecipeDetails = ({
           )}
         </li>
       </ul>
+      <ModalCloseButton className='bg-white text-14 rounded-full hover:bg-12' />
     </>
   );
 };
