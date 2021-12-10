@@ -4,6 +4,7 @@ import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useMediaQuery } from '@chakra-ui/react';
 
 interface CreateRecipeForm {
   recipeName: string;
@@ -26,6 +27,8 @@ const initalFormDataState: CreateRecipeForm = {
 export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   const [formData, setFormData] =
     useState<CreateRecipeForm>(initalFormDataState);
+
+  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
 
   const {
     data: dataForCreateRecipe,
@@ -90,7 +93,13 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   }
 
   return (
-    <div className='flex flex-col flex-shrink flex-grow m-4 text-14 overflow-auto'>
+    <div
+      className={
+        isLargerThan850
+          ? 'flex flex-col flex-shrink flex-grow m-4 text-14 overflow-y-auto'
+          : 'flex flex-col flex-shrink flex-grow m-4 h-full text-14 py-12'
+      }
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -328,8 +337,9 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       className='flex flex-row items-center ml-4 mt-2'
                       key={ingredient.id}
                     >
-                      <li className='min-w-[30rem]'>
+                      <li className='flex flex-row max-w-xs mr-1'>
                         <input
+                          className='max-w-[1.2rem] mr-1'
                           type='number'
                           value={amount}
                           onChange={(e) => {
@@ -354,6 +364,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                           }}
                         />
                         <input
+                          className='max-w-[1.2rem] mr-1'
                           type='text'
                           value={unit}
                           onChange={(e) => {
@@ -380,6 +391,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                         {ingredient.name}
                       </li>
                       <Button
+                        className=''
                         onClick={(e) => {
                           e.preventDefault();
                           setFormData((prev) => ({
@@ -391,8 +403,9 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                           }));
                         }}
                         size={'xs'}
+                        variant={'ghost'}
                       >
-                        remove
+                        x
                       </Button>
                     </div>
                   );
@@ -403,7 +416,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         </ul>
         <Button
           size={'sm'}
-          className='ml-1 hover:bg-23'
+          className='ml-1 hover:bg-23 mb-12'
           type='submit'
           backgroundColor={'#f3ac83'}
           color={'#fff'}

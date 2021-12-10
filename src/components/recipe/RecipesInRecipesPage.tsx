@@ -73,7 +73,11 @@ export const RecipesInRecipesPage = () => {
 
   return (
     <div
-      className='flex flex-col overflow-auto text-14 h-full'
+      className={
+        isLargerThan850
+          ? 'flex flex-col overflow-auto text-14 h-full'
+          : 'flex flex-col text-14 h-full pt-12'
+      }
       css={css`
         scrollbar-width: thin;
         scrollbar-color: #e7a47a60 transparent;
@@ -182,7 +186,7 @@ export const RecipesInRecipesPage = () => {
       </div>
       <div className='flex items-center justify-center mb-10'>
         <Button
-          className='object-contain rounded-full text-white text-base font-medium py-1 px-3 bg-22 hover:bg-25 disabled:hover:bg-11'
+          className='object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-6 bg-22 hover:bg-25 disabled:hover:bg-11'
           disabled={
             !hasMore ||
             loadingRecipes ||

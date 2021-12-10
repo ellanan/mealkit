@@ -225,7 +225,7 @@ export const ShoppingList = () => {
       className={
         isLargerThan850
           ? 'flex flex-col flex-shrink flex-grow m-6 text-14'
-          : 'flex flex-col flex-shrink flex-grow h-full overflow-y-auto overflow-x-hidden ml-6 pt-6 pr-4 text-14'
+          : 'flex flex-col flex-shrink flex-grow h-full ml-6 py-20 0 pr-4 text-14'
       }
       css={css`
         scrollbar-width: thin;
