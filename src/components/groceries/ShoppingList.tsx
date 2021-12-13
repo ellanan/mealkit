@@ -225,7 +225,7 @@ export const ShoppingList = () => {
       className={
         isLargerThan850
           ? 'flex flex-col flex-shrink flex-grow m-6 text-14'
-          : 'flex flex-col flex-shrink flex-grow h-full ml-6 py-20 0 pr-4 text-14'
+          : 'flex flex-col flex-shrink flex-grow h-full ml-6 pt-20 pr-4 text-14'
       }
       css={css`
         scrollbar-width: thin;
@@ -288,6 +288,7 @@ export const ShoppingList = () => {
           )
         ).map((ingredientQuantities) => (
           <div
+            className={isLargerThan850 ? 'last:pb-0' : 'last:pb-16'}
             key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
           >
             <div

@@ -334,7 +334,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 ({ unit, amount, ingredient }) => {
                   return (
                     <div
-                      className='flex flex-row items-center ml-4 mt-2'
+                      className='flex flex-row items-center ml-4 mt-1'
                       key={ingredient.id}
                     >
                       <li className='flex flex-row max-w-xs mr-1'>
@@ -415,8 +415,8 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
           </li>
         </ul>
         <Button
+          className={isLargerThan850 ? 'ml-1 hover:bg-23 mb-2' : 'ml-1 mb-20'}
           size={'sm'}
-          className='ml-1 hover:bg-23 mb-12'
           type='submit'
           backgroundColor={'#f3ac83'}
           color={'#fff'}

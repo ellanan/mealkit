@@ -186,7 +186,11 @@ export const RecipesInRecipesPage = () => {
       </div>
       <div className='flex items-center justify-center mb-10'>
         <Button
-          className='object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-6 bg-22 hover:bg-25 disabled:hover:bg-11'
+          className={
+            isLargerThan850
+              ? 'object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-6 bg-22 hover:bg-25 disabled:hover:bg-11'
+              : 'object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-20 bg-22 w-32'
+          }
           disabled={
             !hasMore ||
             loadingRecipes ||
