@@ -283,7 +283,7 @@ export const SingleRecipeDetails = ({
             />
           )}
           <input
-            className='mb-4 text-xs text-transparent mx-4'
+            className='mb-4 text-xs text-transparent mx-4 mt-4'
             type='file'
             name='test'
             onChange={async (e) => {
