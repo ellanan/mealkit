@@ -35,6 +35,7 @@ ReactDOM.render(
           clientId={process.env.REACT_APP_AUTH0_CLIENT_ID as string}
           redirectUri={window.location.origin}
           audience={process.env.REACT_APP_AUTH0_AUDIENCE}
+          cacheLocation='localstorage'
         >
           <AuthAccessTokenProvider>
             <ApolloClientProvider>
