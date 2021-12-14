@@ -5,6 +5,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useMediaQuery } from '@chakra-ui/react';
+import { useHistory } from 'react-router';
 
 interface CreateRecipeForm {
   recipeName: string;
@@ -29,6 +30,8 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
     useState<CreateRecipeForm>(initalFormDataState);
 
   const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+
+  const history = useHistory();
 
   const {
     data: dataForCreateRecipe,
@@ -103,6 +106,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          history.push('/recipes');
           createRecipe({
             variables: {
               name: formData.recipeName,
