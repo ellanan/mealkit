@@ -118,8 +118,8 @@ export const MealPlan = () => {
                 &:not(:last-child):after {
                   content: '';
                   background-image: linear-gradient(
-                    to bottom,
-                    #f1e6e2,
+                    #fff0,
+                    #f1e6e2 10%,
                     #f1e6e2 80%,
                     rgba(255, 255, 255, 0)
                   );

@@ -23,23 +23,6 @@ export const MealPlanDates = (props: {
           <div
             className='relative flex-grow pt-3 px-5 text-14'
             key={day.toISO()}
-            css={css`
-              &:not(:last-child):after {
-                content: '';
-                display: block;
-                width: 1px;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                right: 0;
-                background-image: linear-gradient(
-                  to bottom,
-                  rgba(255, 255, 255, 0),
-                  #f1e6e2 30%,
-                  #f1e6e2
-                );
-              }
-            `}
           >
             <div className='flex flex-col items-center justify-center'>
               <span className='text-xs uppercase'>{day.weekdayShort}</span>
