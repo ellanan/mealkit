@@ -28,7 +28,11 @@ export const Setting = () => {
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className='focus:shadow-none'
+          className={
+            isLargerThan850
+              ? 'focus:shadow-none ml-1'
+              : 'focus:shadow-none mr-1'
+          }
           maxWidth='260'
           minWidth='240'
           shadow='lg'
