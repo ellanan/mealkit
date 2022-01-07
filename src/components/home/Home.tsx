@@ -61,16 +61,16 @@ export const Home = () => {
           </p>
         </div>
         <img
-          className='mt-6 w-6/12 rounded-xl'
-          src={require('../../images/meal-plan-example.jpg').default}
+          className='mt-6 w-7/12 rounded-xl'
+          src={require('./images/meal-plan-example-mobile.png').default}
           alt=''
         />
       </div>
 
       <div className='flex items-center justify-between my-16 mx-28'>
         <img
-          className='mt-6 w-6/12 rounded-xl'
-          src={require('../../images/groceries-list-example.jpg').default}
+          className='mt-6 w-3/12 rounded-xl'
+          src={require('./images/groceries-list-example.png').default}
           alt=''
         />
         <div className='max-w-[320px]'>
