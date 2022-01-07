@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 export const Footer = () => {
   return (
-    <div className='flex items-center justify-center mt-auto py-1 px-0'>
+    <div className='flex items-center justify-center py-1 px-0'>
       <a
         className='p-3 text-22 hover:text-21'
         href='https://github.com/ellanan'
@@ -31,20 +31,6 @@ export const Footer = () => {
       >
         <GrLinkedin size={18} />
       </a>
-      <NavLink
-        className='p-3 text-22 hover:text-21'
-        to={(location) => {
-          const newQueryParams = new URLSearchParams(location.search);
-          newQueryParams.append('attribution', 'visible');
-
-          return {
-            ...location,
-            search: newQueryParams.toString(),
-          };
-        }}
-      >
-        <GoInfo size={18} />
-      </NavLink>
     </div>
   );
 };

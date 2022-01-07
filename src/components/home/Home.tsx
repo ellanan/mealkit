@@ -50,7 +50,7 @@ export const Home = () => {
         </span>
       </div>
 
-      <div className='flex items-center justify-between my-6 mx-28'>
+      <div className='flex items-center justify-between my-16 mx-28'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Plan meals for the week
@@ -67,7 +67,7 @@ export const Home = () => {
         />
       </div>
 
-      <div className='flex items-center justify-between my-6 mx-28'>
+      <div className='flex items-center justify-between my-16 mx-28'>
         <img
           className='mt-6 w-6/12 rounded-xl'
           src={require('../../images/groceries-list-example.jpg').default}
@@ -84,7 +84,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-between my-6 mx-28'>
+      <div className='flex items-center justify-between my-16 mx-28'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Collaborate with family and friends
@@ -101,40 +101,41 @@ export const Home = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center min-h-[240px] bg-29 mt-24 relative'>
+      <div className='flex flex-col items-center bg-29 mt-24 pb-4 relative text-[#b06537]'>
         <img
           src={require('../../images/footer-wave.svg').default}
           alt=''
           className='transform -translate-y-full absolute top-[1px]'
         />
-        <h1 className='text-14 text-sm font-semibold mt-10'>ATTRIBUTIONS</h1>
-        <div className='flex items-center justify-start'>
-          <ul className='p-2 text-xs text-14'>
-            <li className='flex items-center'>
+        <h1 className='text-sm font-semibold mt-5'>
+          MealKit is created by Ella Nan
+        </h1>
+        <div className='flex items-center'>
+          <ul className='p-2 text-xs leading-5 flex flex-col items-center'>
+            <li className='flex '>
               <a
-                className='text-14 px-4 py-2 hover:text-25 hover:underline'
+                className='px-4 hover:text-25 hover:underline'
                 href='https://icon-library.com/840638.svg.html'
                 target='_blank'
                 rel='noreferrer'
               >
-                1. Carrot logo created by Free ICONS Library
+                Carrot logo created by Free ICONS Library
               </a>
             </li>
             <li className='flex items-center'>
               <a
-                className='text-14 px-4 py-2 hover:text-25 hover:underline'
+                className='px-4 hover:text-25 hover:underline'
                 href='https://www.freepik.com/photos/background'
               >
-                2. Healthy vegetables created by jcomp - www.freepik.com
+                Healthy vegetables created by jcomp - www.freepik.com
               </a>
             </li>
             <li className='flex items-center'>
               <a
-                className='text-14 px-4 py-2 hover:text-25 hover:underline'
+                className='px-4 hover:text-25 hover:underline'
                 href='https://www.freepik.com/vectors/food'
               >
-                3. Family cooking together created by pch.vector -
-                www.freepik.com
+                Family cooking together created by pch.vector - www.freepik.com
               </a>
             </li>
           </ul>
