@@ -4,7 +4,7 @@ import Typewritter from 'typewriter-effect';
 
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
-import { ReactComponent as MainBlob } from '../../images/mainblob.svg';
+import { ReactComponent as MainBlob } from './images/mainblob.svg';
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();
@@ -35,7 +35,7 @@ export const Home = () => {
         <MainBlob className='absolute w-3/4 -top-[-16.5rem]' />
         <img
           className='w-5/12 relative'
-          src={require('../../images/healthy-vegetables.png').default}
+          src={require('./images/healthy-vegetables.png').default}
           alt='healthy vegetables'
         />
         <span className='absolute text-14 text-3xl top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/4'>
@@ -96,14 +96,14 @@ export const Home = () => {
         </div>
         <img
           className='mt-6 w-6/12 rounded-xl'
-          src={require('../../images/share-plan-example.svg').default}
+          src={require('./images/share-plan-example.svg').default}
           alt=''
         />
       </div>
 
       <div className='flex flex-col items-center bg-29 mt-24 pb-4 relative text-[#b06537]'>
         <img
-          src={require('../../images/footer-wave.svg').default}
+          src={require('./images/footer-wave.svg').default}
           alt=''
           className='transform -translate-y-full absolute top-[1px]'
         />

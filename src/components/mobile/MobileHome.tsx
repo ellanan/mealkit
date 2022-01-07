@@ -4,7 +4,7 @@ import Typewritter from 'typewriter-effect';
 
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
-import { ReactComponent as MainBlob } from '../../images/mainblob.svg';
+import { ReactComponent as MainBlob } from '../home/images/mainblob.svg';
 
 export const MobileHome = () => {
   const { loginWithRedirect } = useAuth0();
@@ -35,7 +35,7 @@ export const MobileHome = () => {
         <MainBlob className='absolute w-3/4 -top-[-16.5rem]' />
         <img
           className='w-9/12 relative'
-          src={require('../../images/healthy-vegetables.png').default}
+          src={require('../home/images/healthy-vegetables.png').default}
           alt='healthy vegetables'
         />
         <span className='absolute text-14 text-base top-2/4 left-2/4 -translate-x-2/4 -translate-y-1/4'>
@@ -62,7 +62,7 @@ export const MobileHome = () => {
         </div>
         <img
           className='mt-6 w-10/12 rounded-xl'
-          src={require('../../images/meal-plan-example.jpg').default}
+          src={require('../home/images/meal-plan-example.jpg').default}
           alt=''
         />
       </div>
@@ -79,7 +79,7 @@ export const MobileHome = () => {
         </div>
         <img
           className='mt-6 w-10/12 rounded-xl'
-          src={require('../../images/groceries-list-example.jpg').default}
+          src={require('../home/images/groceries-list-example.jpg').default}
           alt=''
         />
       </div>
@@ -96,14 +96,14 @@ export const MobileHome = () => {
         </div>
         <img
           className='mt-6 w-10/12 rounded-xl'
-          src={require('../../images/share-plan-example.svg').default}
+          src={require('../home/images/share-plan-example.svg').default}
           alt=''
         />
       </div>
 
       <div className='flex flex-col items-center min-h-[240px] bg-29 mt-24 relative'>
         <img
-          src={require('../../images/footer-wave.svg').default}
+          src={require('../home/images/footer-wave.svg').default}
           alt=''
           className='transform -translate-y-full absolute top-[1px]'
         />

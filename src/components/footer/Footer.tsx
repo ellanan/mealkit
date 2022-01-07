@@ -1,8 +1,6 @@
 import { GoMarkGithub } from 'react-icons/go';
 import { FaTwitter } from 'react-icons/fa';
 import { GrLinkedin } from 'react-icons/gr';
-import { GoInfo } from 'react-icons/go';
-import { NavLink } from 'react-router-dom';
 
 export const Footer = () => {
   return (
