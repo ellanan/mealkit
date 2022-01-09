@@ -12,7 +12,6 @@ import { SingleRecipeModal } from './components/recipe/SingleRecipeModal';
 import { CreateRecipeModal } from './components/recipe/CreateRecipeModal';
 import { ShoppingListModal } from './components/groceries/ShoppingListModal';
 import { ShareMealPlanModal } from './components/shareMealPlan/ShareMealPlanModal';
-import { AttributionModal } from './components/footer/AttributionModal';
 import { MobileAppWrapper } from './components/mobile/MobileAppWrapper';
 import { MobileMealPlan } from './components/mobile/MobileMealPlan';
 import { MobileTopNavbar } from './components/mobile/MobileTopNavbar';
@@ -61,7 +60,6 @@ const App = () => {
           <>
             <CreateRecipeModal />
             <ShoppingListModal />
-            <AttributionModal />
             <SplitPane
               split='vertical'
               defaultSize={200}
