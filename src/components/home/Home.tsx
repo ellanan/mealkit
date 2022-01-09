@@ -67,7 +67,7 @@ export const Home = () => {
         />
       </div>
 
-      <div className='flex items-center justify-between my-16 mx-28'>
+      <div className='flex items-center justify-between my-16 mx-44'>
         <img
           className='mt-6 w-3/12 rounded-xl'
           src={require('./images/groceries-list-example.png').default}

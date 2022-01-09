@@ -67,7 +67,7 @@ export const MobileHome = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center justify-center my-6 mx-10'>
+      <div className='flex flex-col items-center justify-center my-16 mx-10'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-2xl font-bold pb-4'>
             Auto generate grocery list
@@ -84,7 +84,7 @@ export const MobileHome = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center justify-center my-6 mx-10'>
+      <div className='flex flex-col items-center justify-center my-16 mx-10'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-2xl font-bold pb-4'>
             Collaborate with family and friends
@@ -101,7 +101,7 @@ export const MobileHome = () => {
         />
       </div>
 
-      <div className='flex flex-col items-center min-h-[240px] bg-29 mt-24 relative text-[#b06537]'>
+      <div className='flex flex-col items-center min-h-[270px] bg-29 mt-10 relative text-[#b06537]'>
         <img
           src={require('../home/images/footer-wave.svg').default}
           alt=''
@@ -136,6 +136,15 @@ export const MobileHome = () => {
                 href='https://www.freepik.com/vectors/food'
               >
                 Family cooking together created by pch.vector - www.freepik.com
+              </a>
+            </li>
+
+            <li className='flex items-center'>
+              <a
+                className='px-4 py-2 hover:text-25 hover:underline'
+                href='https://www.freepik.com/vectors/food'
+              >
+                Background vegetables created by macrovector - www.freepik.com
               </a>
             </li>
           </ul>
