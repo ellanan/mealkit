@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+
 import { useAuth0 } from '@auth0/auth0-react';
 import { NavLink } from 'react-router-dom';
 import Typewritter from 'typewriter-effect';
@@ -31,10 +34,10 @@ export const Home = () => {
         Don't let food be something that "happens to you"
       </h1>
 
-      <div className='flex items-center justify-center relative text-center mb-20'>
+      <div className='relative flex items-center justify-center  text-center mb-20'>
         <MainBlob className='absolute w-3/4 -top-[-16.5rem]' />
         <img
-          className='w-5/12 relative'
+          className='relative w-5/12'
           src={require('./images/healthy-vegetables.png').default}
           alt='healthy vegetables'
         />
@@ -50,7 +53,7 @@ export const Home = () => {
         </span>
       </div>
 
-      <div className='flex items-center justify-between my-16 mx-28'>
+      <div className='flex items-center justify-center my-28 mb-16 mx-auto w-full'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Plan meals for the week
@@ -61,19 +64,35 @@ export const Home = () => {
           </p>
         </div>
         <img
-          className='mt-6 w-7/12 rounded-xl'
+          className='mt-6 w-7/12 max-w-[800px] rounded-xl'
           src={require('./images/meal-plan-example-mobile.png').default}
           alt=''
         />
       </div>
 
-      <div className='flex items-center justify-between my-16 mx-44'>
-        <img
-          className='mt-6 w-3/12 rounded-xl'
-          src={require('./images/groceries-list-example.png').default}
-          alt=''
-        />
-        <div className='max-w-[320px]'>
+      <div className='relative flex items-center justify-center gap-[20vw] mt-52 mb-16 mx-auto w-full'>
+        <div className='relative mt-6 w-[300px] pr-4 rounded-xl translate-x-[120px] xl:translate-x-0'>
+          <img
+            className='absolute w-11/12 right-0 transform translate-x-[83%] translate-y-[-15%]'
+            css={css`
+              @media (max-width: 1280px) {
+                && {
+                  transform: rotateY(180deg) translateX(55%) translateY(-15%);
+                  right: auto;
+                  left: 0;
+                }
+              }
+            `}
+            src={require('./images/bg-veggies/veggies1.png').default}
+            alt=''
+          />
+          <img
+            className='relative md:translate-x-[14%]'
+            src={require('./images/groceries-list-example.png').default}
+            alt=''
+          />
+        </div>
+        <div className='relative max-w-[320px] backdrop-filter brightness-150 md:ml-14'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Auto generate grocery list
           </h1>
@@ -84,7 +103,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-between my-16 mx-28'>
+      <div className='flex items-center justify-center my-16 mb-16 mx-auto w-full'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Collaborate with family and friends
@@ -95,7 +114,7 @@ export const Home = () => {
           </p>
         </div>
         <img
-          className='mt-6 w-6/12 rounded-xl'
+          className='mt-6 w-6/12 max-w-[800px] rounded-xl'
           src={require('./images/share-plan-example.svg').default}
           alt=''
         />
@@ -136,6 +155,15 @@ export const Home = () => {
                 href='https://www.freepik.com/vectors/food'
               >
                 Family cooking together created by pch.vector - www.freepik.com
+              </a>
+            </li>
+
+            <li className='flex items-center'>
+              <a
+                className='px-4 hover:text-25 hover:underline'
+                href='https://www.freepik.com/vectors/food'
+              >
+                Background vegetables created by macrovector - www.freepik.com
               </a>
             </li>
           </ul>
