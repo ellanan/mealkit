@@ -7,7 +7,7 @@ export const Footer = () => {
     <div className='flex items-center justify-center py-1 px-0'>
       <a
         className='p-3 text-22 hover:text-21'
-        href='https://github.com/ellanan'
+        href='https://github.com/ellanan/mealkit'
         target='_blank'
         rel='noreferrer'
       >
