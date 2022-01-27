@@ -18,29 +18,6 @@ https://mealkit.ellanan.com/
 - Snappy/instantaneous user interactions using Apollo Client to provide optimistic responses by manipulating client-side data cache
 - Tailored responsive UI that looks great on both mobile and desktop
 
-## Technologies used
-
-Frontend:
-
-- React
-- TypeScript
-- HTML
-- Tailwind
-
-Backend:
-
-- PostgreSQL
-- Heroku
-
-Others:
-
-- GraphQL
-- Prisma
-
-Authentication:
-
-- Auth0
-
 ## Screenshots
 
 Home Page:
@@ -53,12 +30,35 @@ Meal Plan Page (desktop):
 
 Meal Plan Page (mobile):
 
-![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/mealPlanMobile.png)
+![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/mealPlanMobile2.png)
 
 Groceries Page:
 
-![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/groceryList.png)
+![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/groceryList2.png)
 
 Recipes Page:
 
 ![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/recipesPage.png)
+
+## Technologies used
+
+Frontend:
+
+- React
+- TypeScript
+- HTML
+- Tailwind
+
+Backend:
+
+- PostgreSQL
+- Prisma
+- Heroku
+
+Others:
+
+- GraphQL
+
+Authentication:
+
+- Auth0
