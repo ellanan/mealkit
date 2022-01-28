@@ -18,6 +18,10 @@ https://mealkit.ellanan.com/
 - Snappy/instantaneous user interactions using Apollo Client to provide optimistic responses by manipulating client-side data cache
 - Tailored responsive UI that looks great on both mobile and desktop
 
+## Flow Chart
+
+![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/mealKitFlowChart.jpg)
+
 ## Screenshots
 
 Home Page:
