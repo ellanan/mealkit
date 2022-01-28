@@ -20,7 +20,7 @@ https://mealkit.ellanan.com/
 
 ## Flow Chart
 
-![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/mealKitFlowChart.jpg)
+![This is an image](https://github.com/ellanan/mealkit/blob/main/src/images/readme/mealKitFlowChart2.jpg)
 
 ## Screenshots
 
