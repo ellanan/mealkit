@@ -5,8 +5,6 @@
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
 
-const path = require('path');
-
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
 
@@ -39,9 +37,7 @@ const createWindow = () => {
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(
-    isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+    isDev ? 'http://localhost:3000/login' : `https://mealkit.ellanan.com/login`
   );
 
   // Open the DevTools.
