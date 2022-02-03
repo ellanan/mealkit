@@ -1,7 +1,9 @@
 {
-  "name": "meal-planner",
+  "name": "MealKit",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
   "scripts": {
     "start": "vercel dev",
     "dev": "TAILWIND_MODE=watch craco start",
@@ -15,56 +17,18 @@
     "postinstall": "prisma generate",
     "rebuild-schema": "ts-node --transpile-only api/_helpers/makeSchema.ts",
     "check-heroku-connections": "heroku pg:psql -c 'select usename, application_name, backend_start, query, wait_event, backend_type from pg_stat_activity;' --app meal-kit-app | grep dlvlnllqztaxbz | wc -l",
-    "kill-heroku-connections": "heroku pg:killall"
+    "kill-heroku-connections": "heroku pg:killall",
+    "electron": "wait-on tcp:3000 && electron-forge start",
+    "dev-electron": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+    "package": "react-scripts build && electron-forge package",
+    "make": "react-scripts build && electron-forge make"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.4.15",
-    "@auth0/auth0-react": "^1.8.0",
-    "@chakra-ui/icons": "^1.0.16",
-    "@chakra-ui/react": "^1.6.10",
-    "@craco/craco": "^6.4.0",
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@graphql-codegen/cli": "^2.2.0",
-    "@prisma/client": "^3.5.0",
-    "@sentry/node": "^6.13.3",
-    "@sentry/react": "^6.15.0",
-    "@sentry/tracing": "^6.13.3",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@tinymce/tinymce-react": "^3.13.0",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "apollo-server": "^3.4.0",
-    "apollo-server-cloud-functions": "^3.4.0",
-    "classnames": "^2.3.1",
-    "constate": "^3.3.0",
-    "graphql": "^15.6.0",
-    "graphql-iso-date": "^3.6.1",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.21",
-    "luxon": "^2.0.2",
-    "next": "^11.1.2",
-    "nexus": "^1.1.0",
-    "react": "^17.0.2",
-    "react-date-range": "^1.4.0",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.3.1",
-    "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
-    "react-select": "^5.1.0",
-    "react-split-pane": "^0.1.92",
-    "typescript": "^4.4.3",
-    "typewriter-effect": "^2.18.2",
-    "use-persisted-state": "^0.3.3",
-    "web-vitals": "^1.0.1",
-    "winston": "^3.3.3"
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0"
   },
   "eslintConfig": {
     "extends": [
@@ -85,30 +49,111 @@
     ]
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.2.0",
+    "@apollo/client": "^3.4.15",
+    "@auth0/auth0-react": "^1.8.0",
+    "@chakra-ui/icons": "^1.0.16",
+    "@chakra-ui/react": "^1.6.10",
+    "@craco/craco": "^6.4.0",
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@graphql-codegen/cli": "^2.2.0",
     "@graphql-codegen/typescript": "2.2.2",
     "@graphql-codegen/typescript-document-nodes": "2.1.4",
     "@graphql-codegen/typescript-operations": "2.1.6",
     "@graphql-codegen/typescript-react-apollo": "^2.1.4",
+    "@prisma/client": "^3.5.0",
+    "@sentry/node": "^6.13.3",
+    "@sentry/react": "^6.15.0",
+    "@sentry/tracing": "^6.13.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@tinymce/tinymce-react": "^3.13.0",
     "@types/graphql-iso-date": "^3.4.0",
+    "@types/jest": "^26.0.15",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/lodash": "^4.14.175",
     "@types/luxon": "^2.0.5",
     "@types/micro-cors": "^0.1.2",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
     "@types/react-date-range": "^1.4.0",
+    "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.3.0",
     "@types/stylis": "^4.0.2",
     "@types/use-persisted-state": "^0.3.0",
+    "apollo-server": "^3.4.0",
+    "apollo-server-cloud-functions": "^3.4.0",
     "autoprefixer": "^9.8.8",
-    "concurrently": "^6.3.0",
+    "classnames": "^2.3.1",
+    "concurrently": "^6.5.1",
+    "constate": "^3.3.0",
+    "electron": "^17.0.0",
+    "electron-devtools-installer": "^3.2.0",
+    "graphql": "^15.6.0",
+    "graphql-iso-date": "^3.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "luxon": "^2.0.2",
+    "next": "^11.1.2",
+    "nexus": "^1.1.0",
     "postcss": "^7.0.39",
     "prisma": "^3.5.0",
+    "react": "^17.0.2",
+    "react-date-range": "^1.4.0",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "4.0.3",
+    "react-select": "^5.1.0",
+    "react-split-pane": "^0.1.92",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
     "ts-node": "^10.2.1",
-    "vercel": "^23.1.2"
+    "typescript": "^4.4.3",
+    "typewriter-effect": "^2.18.2",
+    "use-persisted-state": "^0.3.3",
+    "vercel": "^23.1.2",
+    "wait-on": "^6.0.0",
+    "web-vitals": "^1.0.1",
+    "winston": "^3.3.3"
   },
   "volta": {
     "node": "16.13.0",
     "npm": "8.1.4"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "src/icons/mac/icon.icns",
+        "name": "Mealkit"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "meal_planner"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin", "win32"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
