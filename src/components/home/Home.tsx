@@ -127,7 +127,7 @@ export const Home = () => {
       </div>
 
       {(isMac || isWindows) && (
-        <div className='flex flex-col items-center justify-center mx-auto w-full text-15 font-Montserrat'>
+        <div className='flex flex-col items-center justify-center mx-auto w-full text-15 font-Montserrat mt-10'>
           {isMac ? (
             <>
               <a
