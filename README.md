@@ -17,6 +17,7 @@ https://mealkit.ellanan.com/
 - Populate popular recipes based on frequncy from the last 30 days
 - Snappy/instantaneous user interactions using Apollo Client to provide optimistic responses by manipulating client-side data cache
 - Tailored responsive UI that looks great on both mobile and desktop
+- App is available to download on Mac or Windows
 
 ## Flow Chart
 
@@ -62,6 +63,7 @@ Backend:
 Others:
 
 - GraphQL
+- Electron
 
 Authentication:
 
