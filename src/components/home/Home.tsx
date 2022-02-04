@@ -8,9 +8,15 @@ import Typewritter from 'typewriter-effect';
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 import { ReactComponent as MainBlob } from './images/mainblob.svg';
+import { MdDownload } from 'react-icons/md';
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();
+  const platform =
+    navigator?.platform ?? (navigator as any).userAgentData.platform;
+
+  const isMac = platform.indexOf('Mac') > -1;
+  const isWindows = platform.indexOf('Win') > -1;
 
   return (
     <div className='flex flex-col h-full w-full font-Montserrat'>
@@ -103,7 +109,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div className='flex items-center justify-center my-16 mb-16 mx-auto w-full'>
+      <div className='flex items-center justify-center my-16 mx-auto w-full'>
         <div className='max-w-[320px]'>
           <h1 className='text-14 text-4xl font-bold pb-5'>
             Collaborate with family and friends
@@ -119,6 +125,62 @@ export const Home = () => {
           alt=''
         />
       </div>
+
+      {(isMac || isWindows) && (
+        <div className='flex flex-col items-center justify-center mx-auto w-full text-15 font-Montserrat'>
+          {isMac ? (
+            <>
+              <a
+                className='text-white text-lg font-bold min-h-[60px] px-8 rounded-md bg-17 flex justify-center items-center ease-out duration-[400ms] active:bg-[#ffe9df] active:text-[#b5b0ad]'
+                css={css`
+                  &:hover {
+                    box-shadow: inset 0 0 0 2px #ffffff;
+                  }
+                `}
+                href='https://github.com/ellanan/mealkit/releases/download/0.1.0/MealKit-0.1.0.dmg'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <MdDownload className='inline-block -ml-1 mr-1' size='28' />
+                Download for Mac
+              </a>
+              <a
+                className='text-14 mt-4 text-sm font-bold mb-[1px] hover:mb-0 border-b-1 hover:border-b-2 border-14'
+                href='https://github.com/ellanan/mealkit/releases/download/0.1.0/MealKit.0.1.0.exe'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Also available on Windows
+              </a>
+            </>
+          ) : (
+            <>
+              <a
+                className='text-white text-lg font-bold min-h-[60px] px-8 rounded-md bg-17 flex justify-center items-center ease-out duration-[400ms] active:bg-[#ffe9df] active:text-[#b5b0ad]'
+                css={css`
+                  &:hover {
+                    box-shadow: inset 0 0 0 2px #ffffff;
+                  }
+                `}
+                href='https://github.com/ellanan/mealkit/releases/download/0.1.0/MealKit.0.1.0.exe'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <MdDownload className='inline-block -ml-1 mr-1' size='28' />{' '}
+                Download for Windows
+              </a>
+              <a
+                className='text-14 mt-4 text-sm font-bold mb-[1px] hover:mb-0 border-b-1 hover:border-b-2 border-14'
+                href='https://github.com/ellanan/mealkit/releases/download/0.1.0/MealKit-0.1.0.dmg'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Also available on Mac
+              </a>
+            </>
+          )}
+        </div>
+      )}
 
       <div className='flex flex-col items-center bg-29 mt-24 pb-4 relative text-[#b06537]'>
         <img
