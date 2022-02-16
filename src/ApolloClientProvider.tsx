@@ -18,7 +18,11 @@ export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const apolloClient = useMemo(() => {
     const httpLink = createHttpLink({
-      uri: '/api/graphql',
+      uri: (operation) => {
+        return `/api/graphql?operationName=${encodeURIComponent(
+          operation.operationName
+        )}`;
+      },
     });
 
     const authLink = setContext((__, { headers }) => {
