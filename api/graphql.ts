@@ -52,7 +52,7 @@ const server = new ApolloServer({
           });
         } catch (e) {
           if (
-            e instanceof PrismaClientKnownRequestError &&
+            e instanceof Error &&
             e.message.includes(
               'Unique constraint failed on the fields: (`authProviderId`)'
             )
