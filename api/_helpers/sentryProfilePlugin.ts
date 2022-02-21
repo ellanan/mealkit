@@ -1,7 +1,7 @@
 // referenced https://blog.sentry.io/2021/08/31/guest-post-performance-monitoring-in-graphql
 
 import { ApolloServerPlugin } from 'apollo-server-plugin-base';
-import { Context } from '../contextModule';
+import { Context } from './contextModule';
 
 export const sentryProfilePlugin: ApolloServerPlugin<Context> = {
   // @ts-ignore

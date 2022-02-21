@@ -4,7 +4,7 @@
  */
 
 import type * as PrismaClient from ".prisma/client"
-import type { Context as ContextModule } from "./../api/contextModule"
+import type { Context as ContextModule } from "./../api/_helpers/contextModule"
 
 
 

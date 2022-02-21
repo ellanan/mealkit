@@ -23,7 +23,7 @@ export const schema = makeSchema({
     modules: [{ module: '.prisma/client', alias: 'PrismaClient' }],
   },
   contextType: {
-    module: join(process.cwd(), 'api', 'contextModule.ts'),
+    module: join(process.cwd(), 'api', '_helpers', 'contextModule.ts'),
     alias: 'ContextModule',
     export: 'Context',
   },
