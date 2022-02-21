@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import { useMediaQuery } from '@chakra-ui/react';
@@ -24,7 +25,6 @@ import { Home } from './components/home/Home';
 import { MobileHome } from './components/mobile/MobileHome';
 import { ReactComponent as CarrotLogo } from './images/logo-carrot.svg';
 import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
-import { useEffect } from 'react';
 
 const App = () => {
   const { isAuthenticated } = useAuth0();
@@ -124,9 +124,11 @@ const App = () => {
 
 const Login = () => {
   const { loginWithRedirect } = useAuth0();
+
   useEffect(() => {
     loginWithRedirect();
   }, [loginWithRedirect]);
+
   return null;
 };
 

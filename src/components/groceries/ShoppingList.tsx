@@ -1,5 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useMemo } from 'react';
+import createPersistedState from 'use-persisted-state';
+import { DateRange } from 'react-date-range';
+import Creatable from 'react-select/creatable';
 import _ from 'lodash';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
@@ -15,19 +19,18 @@ import {
   PopoverArrow,
   PopoverFooter,
   PopoverCloseButton,
+  Editable,
+  EditableInput,
+  useEditableControls,
+  useMediaQuery,
 } from '@chakra-ui/react';
-import { Editable, EditableInput, useEditableControls } from '@chakra-ui/react';
 import { EditIcon } from '@chakra-ui/icons';
-import createPersistedState from 'use-persisted-state';
-import { DateRange } from 'react-date-range';
-import Creatable from 'react-select/creatable';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { useMemo } from 'react';
-import { useMediaQuery } from '@chakra-ui/react';
 
 const useRawShoppingListPersistedState = createPersistedState('shopping list');
 
+// persists the state (startDate & endDate) to localStorage, syncs between tabs and/or browser windows
 const useShoppingListPersistedState = () => {
   const [rawState, setRawState] = useRawShoppingListPersistedState<{
     startDate: string | null;
@@ -45,6 +48,7 @@ const useShoppingListPersistedState = () => {
     const endDate = rawState.endDate
       ? new Date(rawState.endDate)
       : DateTime.now().plus({ weeks: 1 }).toJSDate();
+
     return [
       {
         startDate,
@@ -61,6 +65,7 @@ const useShoppingListPersistedState = () => {
   }, [rawState, setRawState]);
 };
 
+// ChakraUI: use custom controls to toggle the edit mode
 const EditableControls = ({ text }: { text: string }) => {
   const { getEditButtonProps, isEditing } = useEditableControls();
 
@@ -544,6 +549,7 @@ export const ShoppingList = () => {
                                 },
                                 update(cache, response) {
                                   if (!data?.currentUser?.mealPlan) return;
+                                  // update mealplan ingredientTypes to include new ingredientType
                                   cache.modify({
                                     id: cache.identify(
                                       data?.currentUser?.mealPlan
@@ -556,6 +562,8 @@ export const ShoppingList = () => {
                                       },
                                     },
                                   });
+
+                                  // update this ingredient to reference new ingredientType
                                   cache.modify({
                                     id: cache.identify(
                                       ingredientQuantities[0].ingredient

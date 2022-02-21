@@ -1,7 +1,7 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { useAuthAccessTokenContext } from '../../useAuthAccessTokenContext';
 import { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthAccessTokenContext } from '../../useAuthAccessTokenContext';
 
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 
