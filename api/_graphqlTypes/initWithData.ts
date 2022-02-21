@@ -1,5 +1,5 @@
 import { nonNull, stringArg } from 'nexus';
-import { MealType } from '@prisma/client';
+import { IngredientType, MealType } from '@prisma/client';
 import { DateTime } from 'luxon';
 
 import { prisma } from '../_helpers/prismaClient';
@@ -12,7 +12,11 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       startDate: nonNull(stringArg()),
     },
     resolve: async (_parent, args, context) => {
-      const mealPlanId = context.currentUser?.mealPlanId;
+      const currentUser = context.currentUser;
+      if (!currentUser) {
+        throw new Error('User must be logged in');
+      }
+      const mealPlanId = currentUser.mealPlanId;
       if (!mealPlanId) {
         throw new Error('Current user does not have a meal plan');
       }
@@ -63,36 +67,106 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           }),
         ]);
 
-      const [rice, yogurt, mushroom] = await Promise.all([
-        prisma.ingredient.create({
+      const createIngredient = ({
+        name,
+        ingredientType,
+      }: {
+        name: string;
+        ingredientType: IngredientType;
+      }) => {
+        return prisma.ingredient.create({
           data: {
-            name: 'rice',
+            name,
             ingredientType: {
               connect: {
-                id: riceGrain.id,
+                id: ingredientType.id,
+              },
+            },
+            user: {
+              connect: {
+                id: currentUser.id,
               },
             },
           },
+        });
+      };
+
+      const [
+        rice,
+        yogurt,
+        mixedFruits,
+        granola,
+        egg,
+        spinach,
+        mushroom,
+        strawberries,
+        bread,
+        hummus,
+        steak,
+        mixedVeggies,
+        pici,
+        tacoWrap,
+        grilledChicken,
+      ] = await Promise.all([
+        createIngredient({
+          name: 'rice',
+          ingredientType: riceGrain,
         }),
-        prisma.ingredient.create({
-          data: {
-            name: 'yogurt',
-            ingredientType: {
-              connect: {
-                id: dairy.id,
-              },
-            },
-          },
+        createIngredient({
+          name: 'yogurt',
+          ingredientType: dairy,
         }),
-        prisma.ingredient.create({
-          data: {
-            name: 'mushroom',
-            ingredientType: {
-              connect: {
-                id: vegetable.id,
-              },
-            },
-          },
+        createIngredient({
+          name: 'mixed fruits',
+          ingredientType: fruit,
+        }),
+        createIngredient({
+          name: 'granola',
+          ingredientType: other,
+        }),
+        createIngredient({
+          name: 'egg',
+          ingredientType: dairy,
+        }),
+        createIngredient({
+          name: 'spinach',
+          ingredientType: vegetable,
+        }),
+        createIngredient({
+          name: 'mushroom',
+          ingredientType: vegetable,
+        }),
+        createIngredient({
+          name: 'strawberries',
+          ingredientType: fruit,
+        }),
+        createIngredient({
+          name: 'bread',
+          ingredientType: bakery,
+        }),
+        createIngredient({
+          name: 'hummus',
+          ingredientType: other,
+        }),
+        createIngredient({
+          name: 'steak',
+          ingredientType: meat,
+        }),
+        createIngredient({
+          name: 'mixed veggies',
+          ingredientType: vegetable,
+        }),
+        createIngredient({
+          name: 'pici',
+          ingredientType: pasta,
+        }),
+        createIngredient({
+          name: 'taco wrap',
+          ingredientType: bakery,
+        }),
+        createIngredient({
+          name: 'grilled chicken',
+          ingredientType: meat,
         }),
       ]);
 
@@ -128,13 +202,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'Mixed Fruits',
-                      ingredientType: {
-                        connect: {
-                          id: fruit.id,
-                        },
-                      },
+                    connect: {
+                      id: mixedFruits.id,
                     },
                   },
                 },
@@ -142,8 +211,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1 / 2,
                   ingredient: {
-                    create: {
-                      name: 'Granola',
+                    connect: {
+                      id: granola.id,
                     },
                   },
                 },
@@ -164,13 +233,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'units',
                   amount: 2,
                   ingredient: {
-                    create: {
-                      name: 'egg',
-                      ingredientType: {
-                        connect: {
-                          id: dairy.id,
-                        },
-                      },
+                    connect: {
+                      id: egg.id,
                     },
                   },
                 },
@@ -178,13 +242,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'g',
                   amount: 50,
                   ingredient: {
-                    create: {
-                      name: 'spinach',
-                      ingredientType: {
-                        connect: {
-                          id: vegetable.id,
-                        },
-                      },
+                    connect: {
+                      id: spinach.id,
                     },
                   },
                 },
@@ -214,13 +273,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'yogurt',
-                      ingredientType: {
-                        connect: {
-                          id: dairy.id,
-                        },
-                      },
+                    connect: {
+                      id: yogurt.id,
                     },
                   },
                 },
@@ -228,13 +282,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'strawberries',
-                      ingredientType: {
-                        connect: {
-                          id: fruit.id,
-                        },
-                      },
+                    connect: {
+                      id: strawberries.id,
                     },
                   },
                 },
@@ -255,13 +304,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'slices',
                   amount: 2,
                   ingredient: {
-                    create: {
-                      name: 'bread',
-                      ingredientType: {
-                        connect: {
-                          id: bakery.id,
-                        },
-                      },
+                    connect: {
+                      id: bread.id,
                     },
                   },
                 },
@@ -282,13 +326,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'hummus',
-                      ingredientType: {
-                        connect: {
-                          id: other.id,
-                        },
-                      },
+                    connect: {
+                      id: hummus.id,
                     },
                   },
                 },
@@ -309,13 +348,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'oz',
                   amount: 6,
                   ingredient: {
-                    create: {
-                      name: 'steak',
-                      ingredientType: {
-                        connect: {
-                          id: meat.id,
-                        },
-                      },
+                    connect: {
+                      id: steak.id,
                     },
                   },
                 },
@@ -323,13 +357,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'mixed veggies',
-                      ingredientType: {
-                        connect: {
-                          id: vegetable.id,
-                        },
-                      },
+                    connect: {
+                      id: mixedVeggies.id,
                     },
                   },
                 },
@@ -350,13 +379,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'oz',
                   amount: 6,
                   ingredient: {
-                    create: {
-                      name: 'pasta',
-                      ingredientType: {
-                        connect: {
-                          id: pasta.id,
-                        },
-                      },
+                    connect: {
+                      id: pici.id,
                     },
                   },
                 },
@@ -364,13 +388,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'mushroom',
-                      ingredientType: {
-                        connect: {
-                          id: vegetable.id,
-                        },
-                      },
+                    connect: {
+                      id: mushroom.id,
                     },
                   },
                 },
@@ -391,13 +410,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'oz',
                   amount: 10,
                   ingredient: {
-                    create: {
-                      name: 'beef',
-                      ingredientType: {
-                        connect: {
-                          id: meat.id,
-                        },
-                      },
+                    connect: {
+                      id: steak.id,
                     },
                   },
                 },
@@ -427,13 +441,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'slice',
                   amount: 6,
                   ingredient: {
-                    create: {
-                      name: 'taco wrap',
-                      ingredientType: {
-                        connect: {
-                          id: bakery.id,
-                        },
-                      },
+                    connect: {
+                      id: tacoWrap.id,
                     },
                   },
                 },
@@ -441,13 +450,8 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   unit: 'cup',
                   amount: 1,
                   ingredient: {
-                    create: {
-                      name: 'grilled chicken',
-                      ingredientType: {
-                        connect: {
-                          id: meat.id,
-                        },
-                      },
+                    connect: {
+                      id: grilledChicken.id,
                     },
                   },
                 },

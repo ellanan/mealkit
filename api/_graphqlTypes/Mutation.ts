@@ -396,6 +396,7 @@ export const Mutation = mutationType({
         return results.count;
       },
     });
+
     initWithData(t);
   },
 });
