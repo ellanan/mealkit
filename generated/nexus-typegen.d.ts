@@ -258,6 +258,7 @@ export interface NexusGenArgTypes {
       name: string; // String!
     }
     createIngredientType: { // args
+      ingredients?: string[] | null; // [ID!]
       name: string; // String!
     }
     createRecipe: { // args

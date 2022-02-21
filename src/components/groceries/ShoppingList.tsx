@@ -155,8 +155,8 @@ export const ShoppingList = () => {
       GraphQLTypes.CreateIngredientTypeMutation,
       GraphQLTypes.CreateIngredientTypeMutationVariables
     >(gql`
-      mutation CreateIngredientType($name: String!) {
-        createIngredientType(name: $name) {
+      mutation CreateIngredientType($name: String!, $ingredients: [ID!]) {
+        createIngredientType(name: $name, ingredients: $ingredients) {
           id
           name
         }
@@ -546,6 +546,9 @@ export const ShoppingList = () => {
                               await createIngredientType({
                                 variables: {
                                   name: newValue.value.toUpperCase(),
+                                  ingredients: [
+                                    ingredientQuantities[0].ingredient.id,
+                                  ],
                                 },
                                 update(cache, response) {
                                   if (!data?.currentUser?.mealPlan) return;
@@ -604,41 +607,40 @@ export const ShoppingList = () => {
                                 .createIngredientType.id;
                           } else {
                             ingredientTypeId = newValue.value;
-                          }
-
-                          await updateIngredient({
-                            variables: {
-                              ingredientId:
-                                ingredientQuantities[0].ingredient.id,
-                              ingredientTypeId: ingredientTypeId,
-                            },
-                            update(cache, { data }) {
-                              cache.modify({
-                                id: cache.identify(
-                                  ingredientQuantities[0].ingredient
-                                ),
-                                fields: {
-                                  type(existingType, { toReference }) {
-                                    return toReference({
-                                      __typename: 'IngredientType',
-                                      id: data?.updateIngredient?.type?.id,
-                                    });
+                            await updateIngredient({
+                              variables: {
+                                ingredientId:
+                                  ingredientQuantities[0].ingredient.id,
+                                ingredientTypeId: ingredientTypeId,
+                              },
+                              update(cache, { data }) {
+                                cache.modify({
+                                  id: cache.identify(
+                                    ingredientQuantities[0].ingredient
+                                  ),
+                                  fields: {
+                                    type(existingType, { toReference }) {
+                                      return toReference({
+                                        __typename: 'IngredientType',
+                                        id: data?.updateIngredient?.type?.id,
+                                      });
+                                    },
+                                  },
+                                });
+                              },
+                              optimisticResponse: {
+                                updateIngredient: {
+                                  __typename: 'Ingredient',
+                                  id: ingredientQuantities[0].ingredient.id,
+                                  name: ingredientQuantities[0].ingredient.name,
+                                  type: {
+                                    id: newValue.value,
+                                    name: newValue.label,
                                   },
                                 },
-                              });
-                            },
-                            optimisticResponse: {
-                              updateIngredient: {
-                                __typename: 'Ingredient',
-                                id: ingredientQuantities[0].ingredient.id,
-                                name: ingredientQuantities[0].ingredient.name,
-                                type: {
-                                  id: newValue.value,
-                                  name: newValue.label,
-                                },
                               },
-                            },
-                          });
+                            });
+                          }
                         }}
                       />
                     </div>

@@ -86,13 +86,34 @@ export const Mutation = mutationType({
       type: 'IngredientType',
       args: {
         name: nonNull(stringArg()),
+        ingredients: nullable(
+          list(
+            nonNull(
+              idArg({
+                description:
+                  'Ingredient ids of ingredients to update to this IngredientType',
+              })
+            )
+          )
+        ),
       },
       resolve: async (_parent, args) => {
-        return prisma.ingredientType.create({
-          data: {
-            name: args.name,
-          },
-        });
+        if (args.ingredients) {
+          return prisma.ingredientType.create({
+            data: {
+              name: args.name,
+              ingredients: {
+                connect: args.ingredients.map((id) => ({ id })),
+              },
+            },
+          });
+        } else {
+          return prisma.ingredientType.create({
+            data: {
+              name: args.name,
+            },
+          });
+        }
       },
     });
 

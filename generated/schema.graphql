@@ -56,7 +56,11 @@ type Mutation {
   addIngredientQuantityToRecipe(ingredientQuantity: IngredientQuantityInput!, recipeId: ID!): Recipe
   addRecipeToMealPlan(date: String!, mealPlanId: ID!, mealType: MealType!, recipeId: ID!): MealPlanEntry
   createIngredient(ingredientTypeId: ID, name: String!): Ingredient!
-  createIngredientType(name: String!): IngredientType
+  createIngredientType(
+    """Ingredient ids of ingredients to update to this IngredientType"""
+    ingredients: [ID!]
+    name: String!
+  ): IngredientType
   createRecipe(content: String, imageUrl: String, ingredientQuantities: [IngredientQuantityInput!]!, name: String!): Recipe
   deleteAllMealPlanEntries(mealPlanId: ID!): Int
   deleteIngredientType(ingredientTypeId: ID!): IngredientType

@@ -131,6 +131,7 @@ export type MutationCreateIngredientArgs = {
 
 
 export type MutationCreateIngredientTypeArgs = {
+  ingredients?: Maybe<Array<Scalars['ID']>>;
   name: Scalars['String'];
 };
 
@@ -246,7 +247,7 @@ export type RecipeCategory = {
 
 export type RecipeIngredientQuantity = {
   __typename?: 'RecipeIngredientQuantity';
-  amount: Scalars['Int'];
+  amount: Scalars['Float'];
   ingredient: Ingredient;
   recipe: Recipe;
   unit: Scalars['String'];
@@ -276,6 +277,7 @@ export type ShoppingListQuery = { __typename?: 'Query', currentUser?: { __typena
 
 export type CreateIngredientTypeMutationVariables = Exact<{
   name: Scalars['String'];
+  ingredients?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
 }>;
 
 
@@ -549,8 +551,8 @@ export type ShoppingListQueryHookResult = ReturnType<typeof useShoppingListQuery
 export type ShoppingListLazyQueryHookResult = ReturnType<typeof useShoppingListLazyQuery>;
 export type ShoppingListQueryResult = Apollo.QueryResult<ShoppingListQuery, ShoppingListQueryVariables>;
 export const CreateIngredientTypeDocument = gql`
-    mutation CreateIngredientType($name: String!) {
-  createIngredientType(name: $name) {
+    mutation CreateIngredientType($name: String!, $ingredients: [ID!]) {
+  createIngredientType(name: $name, ingredients: $ingredients) {
     id
     name
   }
@@ -572,6 +574,7 @@ export type CreateIngredientTypeMutationFn = Apollo.MutationFunction<CreateIngre
  * const [createIngredientTypeMutation, { data, loading, error }] = useCreateIngredientTypeMutation({
  *   variables: {
  *      name: // value for 'name'
+ *      ingredients: // value for 'ingredients'
  *   },
  * });
  */
