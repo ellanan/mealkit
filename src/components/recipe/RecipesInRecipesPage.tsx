@@ -1,14 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
-import { NavLink } from 'react-router-dom';
 import { Spinner } from '@chakra-ui/spinner';
-import { useState } from 'react';
 import { Search2Icon } from '@chakra-ui/icons';
+import { Button, useMediaQuery } from '@chakra-ui/react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
-import { Button } from '@chakra-ui/react';
-import { useMediaQuery } from '@chakra-ui/react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
@@ -105,7 +104,7 @@ export const RecipesInRecipesPage = () => {
             }
           />
           <Input
-            type='tel'
+            type=''
             placeholder='Search for recipe'
             borderRadius='20px'
             focusBorderColor='orange.300'
@@ -184,6 +183,7 @@ export const RecipesInRecipesPage = () => {
             </NavLink>
           ))}
       </div>
+
       <div className='flex items-center justify-center mb-10'>
         <Button
           className={
@@ -203,12 +203,15 @@ export const RecipesInRecipesPage = () => {
               },
               updateQuery: (prev, { fetchMoreResult }) => {
                 if (!fetchMoreResult) return prev;
+
                 if (
                   (fetchMoreResult.currentUser?.mealPlan?.recipes?.length ??
                     0) < pageSize
                 ) {
                   setHasMore(false);
                 }
+                // The Object.assign() method copies all enumerable own properties from one or
+                // more source objects to a target object. It returns the modified target object.
                 return Object.assign({}, prev, {
                   ...prev,
                   currentUser: {

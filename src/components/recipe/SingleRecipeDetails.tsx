@@ -1,3 +1,5 @@
+import { useState, useRef } from 'react';
+import { Editor } from '@tinymce/tinymce-react';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import type * as GraphQLTypes from '../../generated/graphql';
 import Creatable from 'react-select/creatable';
@@ -14,12 +16,10 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { SmallCloseIcon, EditIcon } from '@chakra-ui/icons';
 import { HiOutlineTrash } from 'react-icons/hi';
-import { Editor } from '@tinymce/tinymce-react';
-import { useState, useRef } from 'react';
-import { useMediaQuery } from '@chakra-ui/react';
 
 export const SingleRecipeDetails = ({
   recipeId,

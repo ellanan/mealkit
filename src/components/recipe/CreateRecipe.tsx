@@ -1,11 +1,16 @@
+import { useState } from 'react';
+import { useHistory } from 'react-router';
 import { useMutation, gql, useQuery } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
 import Creatable from 'react-select/creatable';
 import { Editor } from '@tinymce/tinymce-react';
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useMediaQuery } from '@chakra-ui/react';
-import { useHistory } from 'react-router';
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  useMediaQuery,
+} from '@chakra-ui/react';
 
 interface CreateRecipeForm {
   recipeName: string;

@@ -1,3 +1,7 @@
+import { useQuery, useMutation, gql } from '@apollo/client';
+import * as GraphQLTypes from '../../generated/graphql';
+import { useState, useMemo } from 'react';
+import { DateTime } from 'luxon';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
   Modal,
@@ -10,10 +14,6 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
-import { useState, useMemo } from 'react';
-import { DateTime } from 'luxon';
 
 export const InheritRecipesModal = () => {
   const { isAuthenticated } = useAuth0();
@@ -66,6 +66,8 @@ export const InheritRecipesModal = () => {
     throw errorLoadingInheritRecipes;
   }
 
+  // useDisclosure is a custom hook used to help handle common open, close, or toggle scenarios.
+  // It can be used to control feedback component such as Modal, AlertDialog, Drawer, etc.
   const { isOpen, onClose } = useDisclosure({
     isOpen:
       !deniedInheritence &&

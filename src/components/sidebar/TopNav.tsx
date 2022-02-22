@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
+import { Tooltip } from '@chakra-ui/react';
 import { MdCreate } from 'react-icons/md';
 import { GoSearch } from 'react-icons/go';
 import { AiOutlineHome } from 'react-icons/ai';
-import { Tooltip } from '@chakra-ui/react';
 
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 

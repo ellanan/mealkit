@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-
 import { useAuth0 } from '@auth0/auth0-react';
 import { NavLink } from 'react-router-dom';
 import Typewritter from 'typewriter-effect';
+import { MdDownload } from 'react-icons/md';
 
 import { Footer } from '../footer/Footer';
 import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
 import { ReactComponent as MainBlob } from './images/mainblob.svg';
-import { MdDownload } from 'react-icons/md';
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();
+
+  // Electron
   const platform =
     navigator?.platform ?? (navigator as any).userAgentData.platform;
-
   const isMac = platform.indexOf('Mac') > -1;
   const isWindows = platform.indexOf('Win') > -1;
 

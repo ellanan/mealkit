@@ -91,7 +91,6 @@ export const MealPlan = () => {
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
-
   const mealPlan = data?.currentUser?.mealPlan;
 
   return (

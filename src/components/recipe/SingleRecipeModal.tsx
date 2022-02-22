@@ -12,6 +12,7 @@ export const SingleRecipeModal = () => {
   const location = useLocation();
   const currentQueryParameters = new URLSearchParams(location.search);
   const modalRecipeId = currentQueryParameters.get('modalRecipeId');
+
   const { isOpen, onClose } = useDisclosure({
     isOpen: !!modalRecipeId,
     onClose: () => {

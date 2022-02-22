@@ -1,6 +1,6 @@
+import { useLocation, useHistory } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
-import { useLocation, useHistory } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 
 export const InviteLoggedIn = () => {

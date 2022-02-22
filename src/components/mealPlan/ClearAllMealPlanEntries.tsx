@@ -15,6 +15,7 @@ import { useState, useRef } from 'react';
 export const ClearAllMealPlanEntries = () => {
   const [isDeleteMealEntriesOpen, setIsDeleteMealEntriesOpen] =
     useState<boolean>(false);
+
   const cancelDeleteMealEntrieseRef = useRef<any>();
 
   const { data, error: errorLoadingCurrentUserMealPlan } =
@@ -76,7 +77,7 @@ export const ClearAllMealPlanEntries = () => {
               <Button
                 ref={cancelDeleteMealEntrieseRef}
                 size={'sm'}
-                onClick={(e) => setIsDeleteMealEntriesOpen(false)}
+                onClick={() => setIsDeleteMealEntriesOpen(false)}
               >
                 Cancel
               </Button>

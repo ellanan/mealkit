@@ -1,3 +1,4 @@
+import { useHistory, useLocation } from 'react-router';
 import {
   Modal,
   ModalCloseButton,
@@ -5,7 +6,6 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useHistory, useLocation } from 'react-router';
 
 import { ShareMealPlanDetails } from '../../components/shareMealPlan/ShareMealPlanDetails';
 
