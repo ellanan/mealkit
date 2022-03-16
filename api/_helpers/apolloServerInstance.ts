@@ -7,7 +7,7 @@ import {
 import jwt from 'jsonwebtoken';
 import { schema } from './makeSchema';
 import { prisma } from './prismaClient';
-import { sentryProfilePlugin } from './sentryProfilePlugin';
+import { sentryPlugin } from './sentryPlugin';
 
 export const apolloServerInstance = new ApolloServer({
   schema,
@@ -69,7 +69,7 @@ export const apolloServerInstance = new ApolloServer({
   },
   plugins: [
     ApolloServerPluginLandingPageGraphQLPlayground,
-    sentryProfilePlugin,
+    sentryPlugin,
   ].concat(
     process.env.TRACE_GRAPHQL === 'true' ? ApolloServerPluginInlineTrace() : []
   ),
