@@ -40,7 +40,7 @@ export const Home = () => {
         Don't let food be something that "happens to you"
       </h1>
 
-      <div className='relative flex items-center justify-center  text-center mb-20'>
+      <div className='relative flex items-center justify-center text-center mb-20'>
         <MainBlob className='absolute w-3/4 -top-[-16.5rem]' />
         <img
           className='relative w-5/12'
@@ -166,7 +166,7 @@ export const Home = () => {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                <MdDownload className='inline-block -ml-1 mr-1' size='28' />{' '}
+                <MdDownload className='inline-block -ml-1 mr-1' size='28' />
                 Download for Windows
               </a>
               <a

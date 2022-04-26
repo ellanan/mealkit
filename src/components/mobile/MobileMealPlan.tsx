@@ -22,7 +22,6 @@ export const MobileMealPlan = () => {
   const initRef = useRef<any>();
 
   const today = useMemo(() => DateTime.now(), []);
-
   const [startDate, setStartDate] = useState<DateTime>(today.startOf('day'));
   const endDate = useMemo(() => startDate.plus({ days: 7 }), [startDate]);
 
@@ -160,7 +159,7 @@ export const MobileMealPlan = () => {
                           closeOnBlur={true}
                           initialFocusRef={initRef}
                         >
-                          {({ isOpen, onClose }) => (
+                          {({ onClose }) => (
                             <>
                               <PopoverTrigger>
                                 <Button

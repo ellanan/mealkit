@@ -23,8 +23,8 @@ export const MealPlan = () => {
   const initRef = useRef<any>();
 
   const today = useMemo(() => DateTime.now(), []);
-
   const [startDate, setStartDate] = useState<DateTime>(today.startOf('week'));
+  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
 
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
@@ -33,8 +33,6 @@ export const MealPlan = () => {
     mealType: null,
     date: null,
   });
-
-  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
 
   const interval = Interval.fromDateTimes(startDate, endDate)
     .splitBy({ days: 1 })
@@ -149,7 +147,7 @@ export const MealPlan = () => {
                       closeOnBlur={true}
                       initialFocusRef={initRef}
                     >
-                      {({ isOpen, onClose }) => (
+                      {({ onClose }) => (
                         <>
                           <PopoverTrigger>
                             <Button
