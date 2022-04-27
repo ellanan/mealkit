@@ -1,6 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import constate from 'constate';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  createContext,
+  useContext,
+} from 'react';
 
 const useAuthAccessToken = () => {
   const {
@@ -47,5 +52,31 @@ const useAuthAccessToken = () => {
   };
 };
 
-export const [AuthAccessTokenProvider, useAuthAccessTokenContext] =
-  constate(useAuthAccessToken);
+const AuthAccessTokenContext = createContext<ReturnType<
+  typeof useAuthAccessToken
+> | null>(null);
+
+export const AuthAccessTokenProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const { accessToken, isGettingAccessToken } = useAuthAccessToken();
+  return (
+    <AuthAccessTokenContext.Provider
+      value={{ accessToken, isGettingAccessToken }}
+    >
+      {children}
+    </AuthAccessTokenContext.Provider>
+  );
+};
+
+export const useAuthAccessTokenContext = () => {
+  const context = useContext(AuthAccessTokenContext);
+  if (context === null) {
+    throw new Error(
+      'useAuthAccessTokenContext must be used within a AuthAccessTokenProvider'
+    );
+  }
+  return context;
+};

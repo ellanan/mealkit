@@ -88,7 +88,6 @@
     "autoprefixer": "^9.8.8",
     "classnames": "^2.3.1",
     "concurrently": "^6.5.1",
-    "constate": "^3.3.0",
     "electron": "^17.0.0",
     "electron-builder": "^22.14.5",
     "electron-devtools-installer": "^3.2.0",
