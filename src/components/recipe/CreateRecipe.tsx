@@ -76,10 +76,15 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         content: $content
         ingredientQuantities: $ingredientQuantities
       ) {
-        ...RecipeInList
+        id
+        name
+        imageUrl
+        category {
+          id
+          name
+        }
       }
     }
-    ${GraphQLTypes.RecipeInListFragmentDoc}
   `);
   if (errorCreatingRecipe) {
     throw errorCreatingRecipe;
