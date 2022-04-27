@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { PrismaClient } from '@prisma/client';
 import { idArg, nonNull, queryType } from 'nexus';
+import { prisma } from '../_helpers/prismaClient';
 
 export * from './Ingredient';
 export * from './IngredientType';
@@ -9,8 +9,6 @@ export * from './RecipeCategory';
 export * from './RecipeIngredientQuantity';
 export * from './User';
 export * from './MealPlan';
-
-const prisma = new PrismaClient();
 
 export const Query = queryType({
   definition(t) {

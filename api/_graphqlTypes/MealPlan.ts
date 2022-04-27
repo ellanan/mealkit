@@ -1,4 +1,4 @@
-import { MealType, PrismaClient } from '@prisma/client';
+import { MealType } from '@prisma/client';
 import {
   arg,
   idArg,
@@ -8,8 +8,7 @@ import {
   objectType,
   stringArg,
 } from 'nexus';
-
-const prisma = new PrismaClient();
+import { prisma } from '../_helpers/prismaClient';
 
 export const NexusMealType = enumType({
   name: 'MealType',
