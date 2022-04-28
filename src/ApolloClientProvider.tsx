@@ -19,6 +19,8 @@ export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
   const apolloClient = useMemo(() => {
     const httpLink = createHttpLink({
       uri: (operation) => {
+        // encodeURIComponent: a standard JavaScript function that encodes
+        // special characters in a URL, preventing a possible injection attack vector
         return `/api/graphql?operationName=${encodeURIComponent(
           operation.operationName
         )}`;
