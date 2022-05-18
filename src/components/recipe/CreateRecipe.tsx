@@ -347,11 +347,11 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
               {formData.ingredientQuantities.map(
                 ({ unit, amount, ingredient }) => {
                   return (
-                    <div
+                    <li
                       className='flex flex-row items-center ml-4 mt-1'
                       key={ingredient.id}
                     >
-                      <li className='flex flex-row max-w-xs mr-1'>
+                      <div className='flex flex-row max-w-xs mr-1'>
                         <input
                           className='max-w-[1.2rem] mr-1'
                           type='number'
@@ -403,7 +403,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                           }}
                         />
                         {ingredient.name}
-                      </li>
+                      </div>
                       <Button
                         className=''
                         onClick={(e) => {
@@ -421,7 +421,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       >
                         x
                       </Button>
-                    </div>
+                    </li>
                   );
                 }
               )}
