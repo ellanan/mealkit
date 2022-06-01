@@ -60,7 +60,32 @@ export const InheritRecipesModal = () => {
           }
         }
       }
-    `
+    `,
+    {
+      refetchQueries: [
+        {
+          query: gql`
+            query RecipesAvailable {
+              currentUser {
+                id
+                mealPlan {
+                  id
+                  recipes {
+                    id
+                    name
+                    imageUrl
+                    category {
+                      id
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          `,
+        },
+      ],
+    }
   );
   if (errorLoadingInheritRecipes) {
     throw errorLoadingInheritRecipes;
