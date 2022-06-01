@@ -473,19 +473,7 @@ export type JoinMealPlanMutationVariables = Exact<{
 
 export type JoinMealPlanMutation = { __typename?: 'Mutation', joinMealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined };
 
-export type RecipeInListFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined };
 
-export const RecipeInListFragmentDoc = gql`
-    fragment RecipeInList on Recipe {
-  id
-  name
-  imageUrl
-  category {
-    id
-    name
-  }
-}
-    `;
 export const ShoppingListDocument = gql`
     query ShoppingList($startDate: String!, $endDate: String!) {
   currentUser {
@@ -988,10 +976,16 @@ export const CreateRecipeDocument = gql`
     content: $content
     ingredientQuantities: $ingredientQuantities
   ) {
-    ...RecipeInList
+    id
+    name
+    imageUrl
+    category {
+      id
+      name
+    }
   }
 }
-    ${RecipeInListFragmentDoc}`;
+    `;
 export type CreateRecipeMutationFn = Apollo.MutationFunction<CreateRecipeMutation, CreateRecipeMutationVariables>;
 
 /**
