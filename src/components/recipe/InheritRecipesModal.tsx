@@ -16,6 +16,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { gqlRecipeFragment } from '../mealPlan/AddRecipeToMealPlanForm';
+import { gqlMealPlanScheduleFragment } from '../mealPlan/MealPlan';
 
 export const InheritRecipesModal = () => {
   const { isAuthenticated } = useAuth0();
@@ -51,9 +52,7 @@ export const InheritRecipesModal = () => {
         initWithData(startDate: $startDate) {
           id
           schedule(startDate: $startDate, endDate: $endDate) {
-            id
-            date
-            mealType
+            ...MealPlanScheduleFragment
             recipe {
               ...RecipeFragment
             }
@@ -61,6 +60,7 @@ export const InheritRecipesModal = () => {
         }
       }
       ${gqlRecipeFragment}
+      ${gqlMealPlanScheduleFragment}
     `
   );
   if (errorLoadingInheritRecipes) {
