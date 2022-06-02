@@ -11,10 +11,6 @@ export const gqlRecipeFragment = gql`
     id
     name
     imageUrl
-    category {
-      id
-      name
-    }
   }
 `;
 
