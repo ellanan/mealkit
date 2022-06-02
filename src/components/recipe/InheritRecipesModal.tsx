@@ -14,6 +14,7 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react';
+import { gqlRecipiesAvailableQuery } from '../mealPlan/AddRecipeToMealPlanForm';
 
 export const InheritRecipesModal = () => {
   const { isAuthenticated } = useAuth0();
@@ -64,25 +65,7 @@ export const InheritRecipesModal = () => {
     {
       refetchQueries: [
         {
-          query: gql`
-            query RecipesAvailable {
-              currentUser {
-                id
-                mealPlan {
-                  id
-                  recipes {
-                    id
-                    name
-                    imageUrl
-                    category {
-                      id
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          `,
+          query: gqlRecipiesAvailableQuery,
         },
       ],
     }

@@ -6,6 +6,26 @@ import { MutableRefObject, useState } from 'react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
+export const gqlRecipiesAvailableQuery = gql`
+  query RecipesAvailable {
+    currentUser {
+      id
+      mealPlan {
+        id
+        recipes {
+          id
+          name
+          imageUrl
+          category {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const AddRecipeToMealPlanForm = ({
   mealPlan,
   date,
@@ -24,25 +44,7 @@ export const AddRecipeToMealPlanForm = ({
   const [searchRecipe, setSearchRecipe] = useState<String>('');
 
   const { data: recipesData, error: errorLoadingRecipes } =
-    useQuery<GraphQLTypes.RecipesAvailableQuery>(gql`
-      query RecipesAvailable {
-        currentUser {
-          id
-          mealPlan {
-            id
-            recipes {
-              id
-              name
-              imageUrl
-              category {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    `);
+    useQuery<GraphQLTypes.RecipesAvailableQuery>(gqlRecipiesAvailableQuery);
   if (errorLoadingRecipes) {
     throw errorLoadingRecipes;
   }
