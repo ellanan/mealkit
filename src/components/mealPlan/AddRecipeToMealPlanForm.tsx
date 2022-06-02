@@ -6,24 +6,31 @@ import { MutableRefObject, useState } from 'react';
 
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
-export const gqlRecipiesAvailableQuery = gql`
+export const gqlRecipeFragment = gql`
+  fragment RecipeFragment on Recipe {
+    id
+    name
+    imageUrl
+    category {
+      id
+      name
+    }
+  }
+`;
+
+const gqlRecipiesAvailableQuery = gql`
   query RecipesAvailable {
     currentUser {
       id
       mealPlan {
         id
         recipes {
-          id
-          name
-          imageUrl
-          category {
-            id
-            name
-          }
+          ...RecipeFragment
         }
       }
     }
   }
+  ${gqlRecipeFragment}
 `;
 
 export const AddRecipeToMealPlanForm = ({

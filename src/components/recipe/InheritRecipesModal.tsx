@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
 import { useState, useMemo } from 'react';
@@ -14,7 +15,7 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react';
-import { gqlRecipiesAvailableQuery } from '../mealPlan/AddRecipeToMealPlanForm';
+import { gqlRecipeFragment } from '../mealPlan/AddRecipeToMealPlanForm';
 
 export const InheritRecipesModal = () => {
   const { isAuthenticated } = useAuth0();
@@ -54,21 +55,13 @@ export const InheritRecipesModal = () => {
             date
             mealType
             recipe {
-              id
-              name
-              imageUrl
+              ...RecipeFragment
             }
           }
         }
       }
-    `,
-    {
-      refetchQueries: [
-        {
-          query: gqlRecipiesAvailableQuery,
-        },
-      ],
-    }
+      ${gqlRecipeFragment}
+    `
   );
   if (errorLoadingInheritRecipes) {
     throw errorLoadingInheritRecipes;
@@ -119,6 +112,16 @@ export const InheritRecipesModal = () => {
                       schedule(existingSchedule) {
                         return existingSchedule.concat(
                           response.data?.initWithData?.schedule
+                        );
+                      },
+                      recipes(existingRecipes) {
+                        return existingRecipes.concat(
+                          _.uniqBy(
+                            response.data?.initWithData?.schedule.map(
+                              ({ recipe }) => recipe
+                            ),
+                            'id'
+                          )
                         );
                       },
                     },
