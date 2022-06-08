@@ -20,7 +20,7 @@ import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
 const defaultImg = require('../../images/defaultImg.jpg').default;
 
 export const gqlMealPlanScheduleFragment = gql`
-  fragment MealPlanScheduleFragment on MealPlanSchedule {
+  fragment MealPlanScheduleFragment on MealPlanEntry {
     id
     date
     mealType
