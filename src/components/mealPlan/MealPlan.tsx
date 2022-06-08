@@ -98,9 +98,6 @@ export const MealPlan = () => {
   }
   const mealPlan = data?.currentUser?.mealPlan;
 
-  const mealPlanEntries = mealPlan?.schedule;
-  console.log(mealPlanEntries);
-
   return (
     <div className='ml-2 h-full flex flex-col'>
       <MealPlanTopBar
