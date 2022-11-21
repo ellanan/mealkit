@@ -4,8 +4,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["dataProxy"]
+  provider = "prisma-client-js"
 }
 
 // run 'prisma generate' to re-generate Prisma Client to ensure the code
