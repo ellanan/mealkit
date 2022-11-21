@@ -254,7 +254,7 @@ export const MealPlan = () => {
                             />
                           </div>
 
-                          <div className='text-14 text-center leading-tight text-xs ml-2 pb-1'>
+                          <div className='text-14 text-center leading-tight text-xs mx-2 pb-1'>
                             {entry.recipe.name}
                           </div>
 
