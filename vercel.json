@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/**/**": {
+      "includeFiles": "tsconfig.json"
+    }
+  }
+}
