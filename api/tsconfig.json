@@ -1,9 +1,10 @@
 {
-  "extends": "../tsconfig.json",
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true
   }
 }
