@@ -16,7 +16,7 @@ import { useMemo, useState, useRef } from 'react';
 import { MobileMealPlanSubNavbar } from './MobileMealPlanSubNavbar';
 import { AddRecipeToMealPlanForm } from '../mealPlan/AddRecipeToMealPlanForm';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const MobileMealPlan = () => {
   const initRef = useRef<any>();

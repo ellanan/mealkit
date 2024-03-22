@@ -5,7 +5,7 @@ import { useQuery, gql } from '@apollo/client';
 import * as GraphQLTypes from '../../generated/graphql';
 import { Spinner } from '@chakra-ui/spinner';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const RecentRecipes = () => {
   const { data, error: errorLoadingRecipes } = useQuery<

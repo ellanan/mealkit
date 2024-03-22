@@ -17,7 +17,7 @@ import { MealPlanTopBar } from './MealPlanTopBar';
 import { MealPlanDates } from './MealPlanDates';
 import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const gqlMealPlanScheduleFragment = gql`
   fragment MealPlanScheduleFragment on MealPlanEntry {

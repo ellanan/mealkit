@@ -1,5 +1,5 @@
-@import-normalize;
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Raleway:wght@400;500&family=Vollkorn:wght@600;700&display=swap');
+/* @import-normalize; */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

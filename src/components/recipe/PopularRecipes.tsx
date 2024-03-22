@@ -9,7 +9,7 @@ import { Tooltip } from '@chakra-ui/react';
 import { Spinner } from '@chakra-ui/spinner';
 import { BsInfoCircle as InfoIcon } from 'react-icons/bs';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const PopularRecipes = () => {
   const today = useMemo(() => DateTime.now().endOf('day'), []);

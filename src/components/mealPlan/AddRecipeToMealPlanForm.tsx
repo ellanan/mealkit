@@ -4,7 +4,7 @@ import { Button } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { MutableRefObject, useState } from 'react';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const gqlRecipeFragment = gql`
   fragment RecipeFragment on Recipe {

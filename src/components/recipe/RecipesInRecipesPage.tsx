@@ -9,7 +9,7 @@ import { Search2Icon } from '@chakra-ui/icons';
 import { Button, useMediaQuery } from '@chakra-ui/react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from '../../images/defaultImg.jpg';
 
 const pageSize = 12;
 

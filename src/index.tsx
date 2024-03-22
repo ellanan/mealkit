@@ -23,7 +23,7 @@ Sentry.init({
   // of transactions for performance monitoring.
   // We recommend adjusting this value in production
   tracesSampleRate: 1.0,
-  environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+  environment: import.meta.env.REACT_APP_SENTRY_ENVIRONMENT,
 });
 
 ReactDOM.render(
@@ -31,10 +31,10 @@ ReactDOM.render(
     <React.StrictMode>
       <CustomEmotionCacheProvider>
         <Auth0Provider
-          domain={process.env.REACT_APP_AUTH0_DOMAIN as string}
-          clientId={process.env.REACT_APP_AUTH0_CLIENT_ID as string}
+          domain={import.meta.env.REACT_APP_AUTH0_DOMAIN as string}
+          clientId={import.meta.env.REACT_APP_AUTH0_CLIENT_ID as string}
           redirectUri={window.location.origin}
-          audience={process.env.REACT_APP_AUTH0_AUDIENCE}
+          audience={import.meta.env.REACT_APP_AUTH0_AUDIENCE}
           cacheLocation='localstorage'
         >
           <AuthAccessTokenProvider>
