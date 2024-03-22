@@ -15,16 +15,16 @@ import { Integrations } from "@sentry/tracing";
 import App from "./App";
 import { AuthAccessTokenProvider } from "./useAuthAccessTokenContext";
 
-Sentry.init({
-  dsn: "https://167a2028956748cc8305c55cb9f948e8@o1044934.ingest.sentry.io/6081450",
-  integrations: [new Integrations.BrowserTracing()],
+// Sentry.init({
+//   dsn: "https://167a2028956748cc8305c55cb9f948e8@o1044934.ingest.sentry.io/6081450",
+//   integrations: [new Integrations.BrowserTracing()],
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-  environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
-});
+//   // Set tracesSampleRate to 1.0 to capture 100%
+//   // of transactions for performance monitoring.
+//   // We recommend adjusting this value in production
+//   tracesSampleRate: 1.0,
+//   environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
+// });
 
 ReactDOM.render(
   <BrowserRouter>
