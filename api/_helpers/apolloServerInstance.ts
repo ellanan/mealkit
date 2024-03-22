@@ -1,9 +1,10 @@
 import * as Sentry from "@sentry/node";
 import { ApolloServer } from "@apollo/server";
-
+import type { Headers } from "undici";
 import jwt from "jsonwebtoken";
 import { schema } from "./makeSchema";
 import { prisma } from "./prismaClient";
+
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 
 export const apolloServerInstance = new ApolloServer({
@@ -15,7 +16,16 @@ export const apolloServerHandler = startServerAndCreateNextHandler(
   {
     context: async (req) => {
       let currentUser = undefined;
-      const token = req.headers.authorization?.split(" ")[1];
+
+      /**
+       * XXX: the req that's actually returned at runtime is a Map of `HeadersList`,
+       * but since we're using @as-integrations/next, it's returning the wrong type.
+       * Should either migrate the project to next.js, or make an apollo-server integration
+       * specifically for Vercel
+       */
+      const headers = req.headers as unknown as Headers;
+
+      const token = headers.get("authorization")?.split(" ")[1];
       const tokenContents =
         token && jwt.verify(token, process.env.AUTH0_PEM as string);
       const authProviderId = tokenContents?.sub as string;
