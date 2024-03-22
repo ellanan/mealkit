@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { useMutation, gql, useQuery } from '@apollo/client';
-import type * as GraphQLTypes from '../../generated/graphql';
-import Creatable from 'react-select/creatable';
+import { useState, useRef } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { useMutation, gql, useQuery } from "@apollo/client";
+import type * as GraphQLTypes from "../../generated/graphql";
+import Creatable from "react-select/creatable";
 import {
   Button,
   Editable,
@@ -17,9 +17,9 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   useMediaQuery,
-} from '@chakra-ui/react';
-import { SmallCloseIcon, EditIcon } from '@chakra-ui/icons';
-import { HiOutlineTrash } from 'react-icons/hi';
+} from "@chakra-ui/react";
+import { SmallCloseIcon, EditIcon } from "@chakra-ui/icons";
+import { HiOutlineTrash } from "react-icons/hi";
 
 export const SingleRecipeDetails = ({
   recipeId,
@@ -31,12 +31,12 @@ export const SingleRecipeDetails = ({
   const [isEditingRecipeContent, setIsEditingRecipeContent] =
     useState<boolean>(false);
 
-  const [recipeContent, setRecipeContent] = useState<string>('');
+  const [recipeContent, setRecipeContent] = useState<string>("");
 
   const [isDeleteRecipeOpen, setIsDeleteRecipeOpen] = useState<boolean>(false);
   const cancelDeleteRecipeRef = useRef<any>();
 
-  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+  const [isLargerThan850] = useMediaQuery("(min-width: 850px)");
 
   const {
     data: recipeDetails,
@@ -259,13 +259,13 @@ export const SingleRecipeDetails = ({
 
   if (loadingRecipeDetails) {
     return (
-      <div className='flex justify-center items-center flex-grow'>
+      <div className="flex justify-center items-center flex-grow">
         <Spinner
-          thickness='4px'
-          speed='0.65s'
-          emptyColor='gray.200'
-          color='orange'
-          size='xl'
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="orange"
+          size="xl"
         />
       </div>
     );
@@ -273,33 +273,33 @@ export const SingleRecipeDetails = ({
 
   return (
     <>
-      <ul className='mb-4 text-14 flex-grow h-full'>
-        <li className='w-full'>
+      <ul className="mb-4 text-14 flex-grow h-full">
+        <li className="w-full">
           {recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl && (
             <img
-              className='h-[20rem] w-full object-cover mb-2'
+              className="h-[20rem] w-full object-cover mb-2"
               src={recipeDetails?.currentUser?.mealPlan?.recipe?.imageUrl}
-              alt=''
+              alt=""
             />
           )}
           <input
-            className='mb-4 text-xs text-transparent mx-4 mt-4'
-            type='file'
-            name='test'
+            className="mb-4 text-xs text-transparent mx-4 mt-4"
+            type="file"
+            name="test"
             onChange={async (e) => {
               const fileToUpload = e.target.files?.[0];
               if (!fileToUpload) return;
 
               const formdata = new FormData();
-              formdata.append('image', fileToUpload, fileToUpload.name);
+              formdata.append("image", fileToUpload, fileToUpload.name);
 
-              const response = await fetch('https://api.imgur.com/3/image', {
-                method: 'POST',
+              const response = await fetch("https://api.imgur.com/3/image", {
+                method: "POST",
                 headers: {
-                  Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
+                  Authorization: `Client-ID ${process.env.VITE_IMGUR_CLIENT_ID}`,
                 },
                 body: formdata,
-                redirect: 'follow',
+                redirect: "follow",
               }).then((response) => response.json());
 
               editRecipe({
@@ -312,15 +312,15 @@ export const SingleRecipeDetails = ({
           />
         </li>
 
-        <li className='flex items-center mb-4 mx-4'>
+        <li className="flex items-center mb-4 mx-4">
           <label>
             {recipeDetails?.currentUser?.mealPlan?.recipe?.name && (
               <Editable
                 defaultValue={
                   recipeDetails?.currentUser?.mealPlan?.recipe?.name
                 }
-                fontSize={'1.6rem'}
-                fontWeight={'500'}
+                fontSize={"1.6rem"}
+                fontWeight={"500"}
                 onSubmit={(newName) => {
                   editRecipe({
                     variables: {
@@ -336,11 +336,11 @@ export const SingleRecipeDetails = ({
             )}
           </label>
           <Button
-            className='ml-4'
-            type='button'
-            variant='ghost'
-            colorScheme='orange'
-            size={'sm'}
+            className="ml-4"
+            type="button"
+            variant="ghost"
+            colorScheme="orange"
+            size={"sm"}
             onClick={() => setIsDeleteRecipeOpen(true)}
           >
             <HiOutlineTrash width={12} height={12} />
@@ -352,7 +352,7 @@ export const SingleRecipeDetails = ({
           >
             <AlertDialogOverlay>
               <AlertDialogContent>
-                <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
                   Delete Recipe
                 </AlertDialogHeader>
 
@@ -363,14 +363,14 @@ export const SingleRecipeDetails = ({
                 <AlertDialogFooter>
                   <Button
                     ref={cancelDeleteRecipeRef}
-                    size={'sm'}
+                    size={"sm"}
                     onClick={(e) => setIsDeleteRecipeOpen(false)}
                   >
                     Cancel
                   </Button>
                   <Button
-                    colorScheme='red'
-                    size={'sm'}
+                    colorScheme="red"
+                    size={"sm"}
                     ml={3}
                     onClick={(e) => {
                       e.preventDefault();
@@ -389,13 +389,13 @@ export const SingleRecipeDetails = ({
                               recipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField('id', existingRecipe) !== recipeId
+                                    readField("id", existingRecipe) !== recipeId
                                 );
                               },
                               popularRecipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField('id', existingRecipe) !== recipeId
+                                    readField("id", existingRecipe) !== recipeId
                                 );
                               },
                             },
@@ -410,8 +410,8 @@ export const SingleRecipeDetails = ({
                                 return existingSchedule.filter(
                                   (entry: any) =>
                                     readField(
-                                      'id',
-                                      readField('recipe', entry)
+                                      "id",
+                                      readField("recipe", entry)
                                     ) !== recipeId
                                 );
                               },
@@ -420,7 +420,7 @@ export const SingleRecipeDetails = ({
                         },
                         optimisticResponse: {
                           deleteRecipe: {
-                            __typename: 'Recipe',
+                            __typename: "Recipe",
                             id: recipeId,
                           },
                         },
@@ -437,7 +437,7 @@ export const SingleRecipeDetails = ({
           </AlertDialog>
         </li>
 
-        <li className='mb-4 mx-4'>
+        <li className="mb-4 mx-4">
           <form
             onSubmit={async (e) => {
               e.preventDefault();
@@ -451,7 +451,7 @@ export const SingleRecipeDetails = ({
             }}
           >
             <label
-              className='relative'
+              className="relative"
               tabIndex={0}
               onClick={() => {
                 if (!isEditingRecipeContent) {
@@ -459,17 +459,17 @@ export const SingleRecipeDetails = ({
                 }
               }}
             >
-              <span className='font-semibold'>
-                Content <EditIcon w='3' h='3' />
+              <span className="font-semibold">
+                Content <EditIcon w="3" h="3" />
                 <br />
               </span>
-              <div className='ml-2'>
+              <div className="ml-2">
                 {!isEditingRecipeContent && (
                   <div
                     dangerouslySetInnerHTML={{
                       __html:
                         recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
-                        '',
+                        "",
                     }}
                   />
                 )}
@@ -477,41 +477,41 @@ export const SingleRecipeDetails = ({
               {isEditingRecipeContent && (
                 <div>
                   <Editor
-                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                    apiKey={process.env.VITE_TINYMCE_API_KEY}
                     initialValue={
                       recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
-                      ''
+                      ""
                     }
                     init={{
                       height: 200,
                       menubar: false,
-                      plugins: ['wordcount'],
+                      plugins: ["wordcount"],
                       toolbar:
-                        'undo redo | formatselect | ' +
-                        'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
+                        "undo redo | formatselect | " +
+                        "fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor " +
+                        "alignright alignjustify | bullist numlist outdent indent | " +
+                        "removeformat | help",
                       content_style:
-                        'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
                     }}
                     onEditorChange={(newcontent) => {
                       setRecipeContent(newcontent);
                     }}
                   />
                   <Button
-                    size='sm'
-                    margin='0.5rem'
+                    size="sm"
+                    margin="0.5rem"
                     onClick={() => {
                       setIsEditingRecipeContent(false);
                       setRecipeContent(
                         recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
-                          ''
+                          ""
                       );
                     }}
                   >
                     Cancel
                   </Button>
-                  <Button size='sm' margin='0.5rem' type='submit'>
+                  <Button size="sm" margin="0.5rem" type="submit">
                     Save
                   </Button>
                 </div>
@@ -519,9 +519,9 @@ export const SingleRecipeDetails = ({
             </label>
           </form>
         </li>
-        <li className='mx-4'>
+        <li className="mx-4">
           <label>
-            <span className='font-semibold'>
+            <span className="font-semibold">
               Ingredients <br />
             </span>
             <Creatable
@@ -538,7 +538,7 @@ export const SingleRecipeDetails = ({
 
                 let newIngredientId = newValue.value;
 
-                if (actionMeta.action === 'create-option') {
+                if (actionMeta.action === "create-option") {
                   const createIngredientResponse = await createIngredient({
                     variables: {
                       name: newValue.value,
@@ -559,7 +559,7 @@ export const SingleRecipeDetails = ({
                   variables: {
                     ingredientQuantity: {
                       amount: 1,
-                      unit: 'g',
+                      unit: "g",
                       ingredientId: newIngredientId,
                     },
                     recipeId,
@@ -572,8 +572,8 @@ export const SingleRecipeDetails = ({
                 )
               }
               isSearchable
-              menuPlacement='top'
-              placeholder='add ingredient'
+              menuPlacement="top"
+              placeholder="add ingredient"
             />
           </label>
 
@@ -581,13 +581,13 @@ export const SingleRecipeDetails = ({
             {loadingIngredientQuantity ? (
               <>
                 <Spinner
-                  thickness='2px'
-                  speed='0.65s'
-                  emptyColor='gray.200'
-                  color='orange'
-                  size='xs'
+                  thickness="2px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="orange"
+                  size="xs"
                 />
-                <i className='text-sm ml-1'>adding ingredient</i>
+                <i className="text-sm ml-1">adding ingredient</i>
               </>
             ) : null}
           </div>
@@ -596,11 +596,11 @@ export const SingleRecipeDetails = ({
             ({ unit, amount, ingredient }) => {
               return (
                 <div
-                  className='flex flex-row items-center group px-1'
+                  className="flex flex-row items-center group px-1"
                   key={ingredient.id}
                 >
                   <Editable
-                    className='pr-1'
+                    className="pr-1"
                     defaultValue={`${amount}`}
                     onSubmit={(newValue) => {
                       updateIngredientQuantityInRecipe({
@@ -613,10 +613,10 @@ export const SingleRecipeDetails = ({
                     }}
                   >
                     <EditablePreview />
-                    <EditableInput type='number' />
+                    <EditableInput type="number" />
                   </Editable>
                   <Editable
-                    className='pr-1'
+                    className="pr-1"
                     defaultValue={unit}
                     onSubmit={(newValue) => {
                       updateIngredientQuantityInRecipe({
@@ -629,14 +629,14 @@ export const SingleRecipeDetails = ({
                     }}
                   >
                     <EditablePreview />
-                    <EditableInput type='text' />
+                    <EditableInput type="text" />
                   </Editable>
                   {ingredient.name}
                   <button
                     className={
                       isLargerThan850
-                        ? 'flex items-center opacity-0 group-hover:opacity-100'
-                        : 'flex items-center'
+                        ? "flex items-center opacity-0 group-hover:opacity-100"
+                        : "flex items-center"
                     }
                     onClick={() => {
                       removeIngredientFromRecipe({
@@ -650,21 +650,21 @@ export const SingleRecipeDetails = ({
                     {removingIngredient ? (
                       <>
                         <Spinner
-                          className='ml-1'
-                          thickness='2px'
-                          speed='0.65s'
-                          emptyColor='gray.200'
-                          color='orange'
-                          size='xs'
+                          className="ml-1"
+                          thickness="2px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="orange"
+                          size="xs"
                         />
-                        <i className='text-sm ml-1'>removing ingredient</i>
+                        <i className="text-sm ml-1">removing ingredient</i>
                       </>
                     ) : (
                       <SmallCloseIcon
-                        w='4'
-                        h='4'
-                        color='#ebaf55'
-                        margin='0px 3px'
+                        w="4"
+                        h="4"
+                        color="#ebaf55"
+                        margin="0px 3px"
                       />
                     )}
                   </button>
@@ -674,7 +674,7 @@ export const SingleRecipeDetails = ({
           )}
         </li>
       </ul>
-      <ModalCloseButton className='bg-white text-14 rounded-full hover:bg-12' />
+      <ModalCloseButton className="bg-white text-14 rounded-full hover:bg-12" />
     </>
   );
 };

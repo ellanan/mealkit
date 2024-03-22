@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router';
-import { useMutation, gql, useQuery } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
-import Creatable from 'react-select/creatable';
-import { Editor } from '@tinymce/tinymce-react';
+import { useState } from "react";
+import { useHistory } from "react-router";
+import { useMutation, gql, useQuery } from "@apollo/client";
+import * as GraphQLTypes from "../../generated/graphql";
+import Creatable from "react-select/creatable";
+import { Editor } from "@tinymce/tinymce-react";
 import {
   Button,
   FormControl,
   FormLabel,
   Input,
   useMediaQuery,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 interface CreateRecipeForm {
   recipeName: string;
@@ -24,17 +24,17 @@ interface CreateRecipeForm {
 }
 
 const initalFormDataState: CreateRecipeForm = {
-  recipeName: '',
+  recipeName: "",
   imageUrl: null,
   ingredientQuantities: [],
-  content: '',
+  content: "",
 };
 
 export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
   const [formData, setFormData] =
     useState<CreateRecipeForm>(initalFormDataState);
 
-  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+  const [isLargerThan850] = useMediaQuery("(min-width: 850px)");
 
   const history = useHistory();
 
@@ -109,14 +109,14 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
     <div
       className={
         isLargerThan850
-          ? 'flex flex-col flex-shrink flex-grow m-4 text-14 overflow-y-auto'
-          : 'flex flex-col flex-shrink flex-grow m-4 h-full text-14 py-12'
+          ? "flex flex-col flex-shrink flex-grow m-4 text-14 overflow-y-auto"
+          : "flex flex-col flex-shrink flex-grow m-4 h-full text-14 py-12"
       }
     >
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          history.push('/recipes');
+          history.push("/recipes");
           createRecipe({
             variables: {
               name: formData.recipeName,
@@ -143,14 +143,14 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
             },
             optimisticResponse: {
               createRecipe: {
-                __typename: 'Recipe',
+                __typename: "Recipe",
                 id: `temp-id:${formData.recipeName}`,
                 name: formData.recipeName,
                 imageUrl: formData.imageUrl,
                 category: {
-                  __typename: 'RecipeCategory',
-                  id: 'temp-id:category',
-                  name: 'temp-name:category',
+                  __typename: "RecipeCategory",
+                  id: "temp-id:category",
+                  name: "temp-name:category",
                 },
               },
             },
@@ -160,13 +160,13 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
         }}
       >
         <ul>
-          <li className='font-semibold mb-4'>
-            <FormControl id='recipeName'>
+          <li className="font-semibold mb-4">
+            <FormControl id="recipeName">
               <FormLabel fontWeight={600}>Recipe Name</FormLabel>
               <Input
-                className='ml-[1px]'
-                type='text'
-                width='45%'
+                className="ml-[1px]"
+                type="text"
+                width="45%"
                 value={formData.recipeName}
                 autoFocus={true}
                 onChange={(e) => {
@@ -178,37 +178,37 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
               />
             </FormControl>
           </li>
-          <li className='font-semibold mb-4'>
+          <li className="font-semibold mb-4">
             <label>
               Image <br />
               <img
-                className='max-h-72 max-w-72 object-cover mb-2 rounded-md'
-                src={formData.imageUrl ?? ''}
-                alt=''
+                className="max-h-72 max-w-72 object-cover mb-2 rounded-md"
+                src={formData.imageUrl ?? ""}
+                alt=""
               />
               <input
-                className='text-xs text-transparent'
-                type='file'
+                className="text-xs text-transparent"
+                type="file"
                 onChange={async (e) => {
                   const fileToUpload = e.target.files?.[0];
                   if (!fileToUpload) return;
 
                   const formdata = new FormData();
-                  formdata.append('image', fileToUpload, fileToUpload.name);
+                  formdata.append("image", fileToUpload, fileToUpload.name);
 
                   const response = await fetch(
-                    'https://api.imgur.com/3/image',
+                    "https://api.imgur.com/3/image",
                     {
-                      method: 'POST',
+                      method: "POST",
                       headers: {
-                        Authorization: `Client-ID ${process.env.REACT_APP_IMGUR_CLIENT_ID}`,
+                        Authorization: `Client-ID ${process.env.VITE_IMGUR_CLIENT_ID}`,
                       },
                       body: formdata,
-                      redirect: 'follow',
+                      redirect: "follow",
                     }
                   )
                     .then((response) => response.json())
-                    .catch((error) => console.log('error', error));
+                    .catch((error) => console.log("error", error));
                   console.log(response);
 
                   setFormData((prev) => ({
@@ -219,24 +219,24 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
               />
             </label>
           </li>
-          <li className='font-semibold mb-4 relative'>
+          <li className="font-semibold mb-4 relative">
             <label>
               Content <br />
               <Editor
-                apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                apiKey={process.env.VITE_TINYMCE_API_KEY}
                 value={formData.content}
                 init={{
                   height: 200,
-                  display: 'none',
+                  display: "none",
                   menubar: false,
-                  plugins: ['wordcount'],
+                  plugins: ["wordcount"],
                   toolbar:
-                    'undo redo | formatselect | ' +
-                    'fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
+                    "undo redo | formatselect | " +
+                    "fontsizeselect bold italic underline forecolor backcolor | alignleft aligncenter | textcolor " +
+                    "alignright alignjustify | bullist numlist outdent indent | " +
+                    "removeformat | help",
                   content_style:
-                    'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+                    "body { font-family:Helvetica,Arial,sans-serif; font-size:16px }",
                 }}
                 onEditorChange={(newcontent) => {
                   setFormData((prev) => {
@@ -246,9 +246,9 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
               />
             </label>
           </li>
-          <li className='mb-4'>
+          <li className="mb-4">
             <label>
-              <span className='font-semibold'>Ingredients</span>
+              <span className="font-semibold">Ingredients</span>
               <Creatable
                 options={dataForCreateRecipe?.currentUser?.mealPlan?.ingredients?.map(
                   (ingredient) => {
@@ -258,20 +258,20 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 isOptionDisabled={({ value }) =>
                   formData.ingredientQuantities.some(
                     ({ ingredient }) => ingredient.id === value
-                  ) || value.startsWith('temp-id:')
+                  ) || value.startsWith("temp-id:")
                 }
                 isSearchable
-                menuPlacement='top'
+                menuPlacement="top"
                 isLoading={isLoadingDataForCreateRecipe}
-                placeholder='add ingredient'
-                className='mx-[1px]'
+                placeholder="add ingredient"
+                className="mx-[1px]"
                 onChange={async (newValue, actionMeta) => {
                   if (!newValue || !newValue.value) {
                     console.log(`no newValue`, actionMeta);
                     return;
                   }
 
-                  if (actionMeta.action === 'create-option') {
+                  if (actionMeta.action === "create-option") {
                     const createIngredientResponse = await createIngredient({
                       variables: {
                         name: newValue.value,
@@ -293,7 +293,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       },
                       optimisticResponse: {
                         createIngredient: {
-                          __typename: 'Ingredient',
+                          __typename: "Ingredient",
                           id: `temp-id:${newValue.value}`,
                           name: newValue.value,
                         },
@@ -315,7 +315,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       ingredientQuantities: prev.ingredientQuantities.concat({
                         ingredient: newIngredient,
                         amount: 1,
-                        unit: 'g',
+                        unit: "g",
                       }),
                     }));
                     return;
@@ -337,7 +337,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                     ingredientQuantities: prev.ingredientQuantities.concat({
                       ingredient: newIngredient,
                       amount: 1,
-                      unit: 'g',
+                      unit: "g",
                     }),
                   }));
                 }}
@@ -348,13 +348,13 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 ({ unit, amount, ingredient }) => {
                   return (
                     <li
-                      className='flex flex-row items-center ml-4 mt-1'
+                      className="flex flex-row items-center ml-4 mt-1"
                       key={ingredient.id}
                     >
-                      <div className='flex flex-row max-w-xs mr-1'>
+                      <div className="flex flex-row max-w-xs mr-1">
                         <input
-                          className='max-w-[1.2rem] mr-1'
-                          type='number'
+                          className="max-w-[1.2rem] mr-1"
+                          type="number"
                           value={amount}
                           onChange={(e) => {
                             setFormData((prev) => ({
@@ -378,8 +378,8 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                           }}
                         />
                         <input
-                          className='max-w-[1.2rem] mr-1'
-                          type='text'
+                          className="max-w-[1.2rem] mr-1"
+                          type="text"
                           value={unit}
                           onChange={(e) => {
                             setFormData((prev) => ({
@@ -405,7 +405,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                         {ingredient.name}
                       </div>
                       <Button
-                        className=''
+                        className=""
                         onClick={(e) => {
                           e.preventDefault();
                           setFormData((prev) => ({
@@ -416,8 +416,8 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                               ),
                           }));
                         }}
-                        size={'xs'}
-                        variant={'ghost'}
+                        size={"xs"}
+                        variant={"ghost"}
                       >
                         x
                       </Button>
@@ -429,11 +429,11 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
           </li>
         </ul>
         <Button
-          className={isLargerThan850 ? 'ml-1 hover:bg-23 mb-2' : 'ml-1 mb-20'}
-          size={'sm'}
-          type='submit'
-          backgroundColor={'#f3ac83'}
-          color={'#fff'}
+          className={isLargerThan850 ? "ml-1 hover:bg-23 mb-2" : "ml-1 mb-20"}
+          size={"sm"}
+          type="submit"
+          backgroundColor={"#f3ac83"}
+          color={"#fff"}
         >
           Create Recipe
         </Button>
