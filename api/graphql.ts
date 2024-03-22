@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/node";
 // Importing @sentry/tracing patches the global hub for tracing to work.
 import "@sentry/tracing";
-import { Handler } from "express-serve-static-core";
 import { apolloServerInstance } from "./_helpers/apolloServerInstance";
 import { instanceId, logger } from "./_helpers/logger";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 Sentry.init({
   dsn: "https://0a2d5cbd59aa44cbbde11aa7b1950e86@o1044934.ingest.sentry.io/6261009",
@@ -23,9 +23,9 @@ export const config = {
 
 const apolloServerHandler = apolloServerInstance.createHandler();
 
-const handler: Handler = (req, res, next) => {
+const handler = (req: VercelRequest, res: VercelResponse, next) => {
   logger.info(`${instanceId}: Handling request ${req.url}`);
-  apolloServerHandler(req, res, next);
+  apolloServerHandler(req as any, res as any, next);
 };
 
 export default handler;
