@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import {
   useCallback,
   useEffect,
@@ -6,6 +5,8 @@ import {
   createContext,
   useContext,
 } from 'react';
+
+import { useAuth0 } from '@auth0/auth0-react';
 
 const useAuthAccessToken = () => {
   const {
@@ -39,7 +40,7 @@ const useAuthAccessToken = () => {
         }
       }
     },
-    [getAccessTokenSilently, isAuthenticated, loginWithRedirect]
+    [getAccessTokenSilently, isAuthenticated, loginWithRedirect],
   );
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export const useAuthAccessTokenContext = () => {
   const context = useContext(AuthAccessTokenContext);
   if (context === null) {
     throw new Error(
-      'useAuthAccessTokenContext must be used within a AuthAccessTokenProvider'
+      'useAuthAccessTokenContext must be used within a AuthAccessTokenProvider',
     );
   }
   return context;

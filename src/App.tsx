@@ -1,29 +1,30 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-import { Allotment } from "allotment";
-import { useMediaQuery } from "@chakra-ui/react";
-import { useAuth0 } from "@auth0/auth0-react";
 
-import { Sidebar } from "./components/sidebar/Sidebar";
-import { SingleRecipeDetails } from "./components/recipe/SingleRecipeDetails";
-import { MealPlan } from "./components/mealPlan/MealPlan";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useMediaQuery } from "@chakra-ui/react";
+import { Allotment } from "allotment";
+import { Route, Switch, Redirect } from "react-router-dom";
+
 import { ShoppingList } from "./components/groceries/ShoppingList";
-import { RecipesInRecipesPage } from "./components/recipe/RecipesInRecipesPage";
-import { SingleRecipeModal } from "./components/recipe/SingleRecipeModal";
-import { CreateRecipeModal } from "./components/recipe/CreateRecipeModal";
 import { ShoppingListModal } from "./components/groceries/ShoppingListModal";
-import { ShareMealPlanModal } from "./components/shareMealPlan/ShareMealPlanModal";
+import { Home } from "./components/home/Home";
+import { MealPlan } from "./components/mealPlan/MealPlan";
 import { MobileAppWrapper } from "./components/mobile/MobileAppWrapper";
+import { MobileBottomNavbar } from "./components/mobile/MobileBottomNavbar";
+import { MobileHome } from "./components/mobile/MobileHome";
 import { MobileMealPlan } from "./components/mobile/MobileMealPlan";
 import { MobileTopNavbar } from "./components/mobile/MobileTopNavbar";
-import { MobileBottomNavbar } from "./components/mobile/MobileBottomNavbar";
 import { CreateRecipe } from "./components/recipe/CreateRecipe";
-import { InviteLoggedOut } from "./components/shareMealPlan/InviteLoggedOut";
-import { InviteLoggedIn } from "./components/shareMealPlan/InviteLoggedIn";
+import { CreateRecipeModal } from "./components/recipe/CreateRecipeModal";
 import { InheritRecipesModal } from "./components/recipe/InheritRecipesModal";
-import { Home } from "./components/home/Home";
-import { MobileHome } from "./components/mobile/MobileHome";
+import { RecipesInRecipesPage } from "./components/recipe/RecipesInRecipesPage";
+import { SingleRecipeDetails } from "./components/recipe/SingleRecipeDetails";
+import { SingleRecipeModal } from "./components/recipe/SingleRecipeModal";
+import { InviteLoggedIn } from "./components/shareMealPlan/InviteLoggedIn";
+import { InviteLoggedOut } from "./components/shareMealPlan/InviteLoggedOut";
+import { ShareMealPlanModal } from "./components/shareMealPlan/ShareMealPlanModal";
+import { Sidebar } from "./components/sidebar/Sidebar";
 import CarrotLogo from "./images/logo-carrot.svg?react";
 import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
 

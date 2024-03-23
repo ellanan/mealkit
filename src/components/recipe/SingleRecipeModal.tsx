@@ -5,6 +5,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useHistory, useLocation } from 'react-router';
+
 import { SingleRecipeDetails } from './SingleRecipeDetails';
 
 export const SingleRecipeModal = () => {

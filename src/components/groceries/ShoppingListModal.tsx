@@ -1,10 +1,10 @@
-import { useHistory, useLocation } from 'react-router';
 import {
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
 } from '@chakra-ui/react';
+import { useHistory, useLocation } from 'react-router';
 
 import { ShoppingList } from './ShoppingList';
 

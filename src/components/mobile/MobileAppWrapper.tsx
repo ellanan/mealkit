@@ -5,6 +5,7 @@ import {
   useState,
   PropsWithChildren,
 } from 'react';
+
 import classNames from 'classnames';
 
 export const MobileAppWrapper = (props: PropsWithChildren<{}>) => {
@@ -15,7 +16,7 @@ export const MobileAppWrapper = (props: PropsWithChildren<{}>) => {
   const handleScroll = useCallback(() => {
     const currentScroll = window.scrollY;
     setIsScrollingDown(
-      prevScrollRef.current < currentScroll && currentScroll > 5
+      prevScrollRef.current < currentScroll && currentScroll > 5,
     );
     prevScrollRef.current = currentScroll;
   }, []);
@@ -29,7 +30,7 @@ export const MobileAppWrapper = (props: PropsWithChildren<{}>) => {
     <div
       className={classNames(
         'flex flex-col h-full',
-        isScrollingDown && 'scrolling-down'
+        isScrollingDown && 'scrolling-down',
       )}
     >
       {props.children}

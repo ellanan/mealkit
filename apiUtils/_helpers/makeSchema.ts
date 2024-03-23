@@ -1,6 +1,8 @@
-import { enumType, makeSchema } from "nexus";
-import { GraphQLDate, GraphQLDateTime } from "@ellanan/graphql-iso-date";
 import { join } from "path";
+
+import { GraphQLDate, GraphQLDateTime } from "@ellanan/graphql-iso-date";
+import { enumType, makeSchema } from "nexus";
+
 import * as mutationTypes from "../_graphqlTypes/Mutation";
 import * as queryTypes from "../_graphqlTypes/Query";
 

@@ -2,15 +2,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { NavLink } from "react-router-dom";
 import Typewritter from "typewriter-effect";
 
-import { Footer } from "../footer/Footer";
 import CarrotLogo from "../../images/logo-carrot.svg?react";
+import { Footer } from "../footer/Footer";
 import MainBlob from "../home/images/mainblob.svg?react";
 
+import footerWaveImage from "../home/images/footer-wave.svg";
+import groceriesListExampleImage from "../home/images/groceries-list-example.png";
 import healthyVegImage from "../home/images/healthy-vegetables.png";
 import mealPlanExampleMobileImage from "../home/images/meal-plan-example-mobile.png";
-import groceriesListExampleImage from "../home/images/groceries-list-example.png";
 import sharePlanExampleImage from "../home/images/share-plan-example.svg";
-import footerWaveImage from "../home/images/footer-wave.svg";
 
 export const MobileHome = () => {
   const { loginWithRedirect } = useAuth0();

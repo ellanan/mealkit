@@ -1,12 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Popover, PopoverTrigger, PopoverContent } from '@chakra-ui/react';
-import { VscAccount } from 'react-icons/vsc';
-import { RiUserSettingsLine } from 'react-icons/ri';
 import { useMediaQuery } from '@chakra-ui/react';
+import { RiUserSettingsLine } from 'react-icons/ri';
+import { VscAccount } from 'react-icons/vsc';
 
-import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
-import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
 import { SignOut } from '../login/SignOut';
+import { ClearAllMealPlanEntries } from '../mealPlan/ClearAllMealPlanEntries';
+import { ShareMealPlan } from '../shareMealPlan/ShareMealPlan';
 
 export const Setting = () => {
   const { user } = useAuth0();

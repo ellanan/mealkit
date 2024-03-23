@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { useHistory } from "react-router";
+
 import { useMutation, gql, useQuery } from "@apollo/client";
-import * as GraphQLTypes from "../../generated/graphql";
-import Creatable from "react-select/creatable";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   Button,
   FormControl,
@@ -11,6 +8,12 @@ import {
   Input,
   useMediaQuery,
 } from "@chakra-ui/react";
+import { Editor } from "@tinymce/tinymce-react";
+import { useHistory } from "react-router";
+import Creatable from "react-select/creatable";
+
+import * as GraphQLTypes from "../../generated/graphql";
+
 
 interface CreateRecipeForm {
   recipeName: string;
@@ -127,7 +130,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                   amount,
                   unit,
                   ingredientId: ingredient.id,
-                })
+                }),
               ),
             },
             update: (cache, { data }) => {
@@ -205,7 +208,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       },
                       body: formdata,
                       redirect: "follow",
-                    }
+                    },
                   )
                     .then((response) => response.json())
                     .catch((error) => console.log("error", error));
@@ -253,11 +256,11 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 options={dataForCreateRecipe?.currentUser?.mealPlan?.ingredients?.map(
                   (ingredient) => {
                     return { value: ingredient.id, label: ingredient.name };
-                  }
+                  },
                 )}
                 isOptionDisabled={({ value }) =>
                   formData.ingredientQuantities.some(
-                    ({ ingredient }) => ingredient.id === value
+                    ({ ingredient }) => ingredient.id === value,
                   ) || value.startsWith("temp-id:")
                 }
                 isSearchable
@@ -280,12 +283,12 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                         if (!dataForCreateRecipe?.currentUser?.mealPlan) return;
                         cache.modify({
                           id: cache.identify(
-                            dataForCreateRecipe.currentUser.mealPlan
+                            dataForCreateRecipe.currentUser.mealPlan,
                           ),
                           fields: {
                             ingredients(existingIngredients) {
                               return [data?.createIngredient].concat(
-                                existingIngredients
+                                existingIngredients,
                               );
                             },
                           },
@@ -303,7 +306,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                     if (!createIngredientResponse.data?.createIngredient) {
                       console.log(
                         `failed to create ingredient`,
-                        createIngredientResponse
+                        createIngredientResponse,
                       );
                       return;
                     }
@@ -324,7 +327,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                   const newIngredientId = newValue.value;
                   const newIngredient =
                     dataForCreateRecipe?.currentUser?.mealPlan?.ingredients?.find(
-                      ({ id }) => id === newIngredientId
+                      ({ id }) => id === newIngredientId,
                     );
 
                   if (!newIngredient) {
@@ -372,7 +375,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                                       ...prevIngredientQuantity,
                                       amount: Number(e.target.value),
                                     };
-                                  }
+                                  },
                                 ),
                             }));
                           }}
@@ -397,7 +400,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                                       ...prevIngredientQuantity,
                                       unit: e.target.value,
                                     };
-                                  }
+                                  },
                                 ),
                             }));
                           }}
@@ -412,7 +415,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                             ...prev,
                             ingredientQuantities:
                               prev.ingredientQuantities.filter(
-                                ({ ingredient: { id } }) => ingredient.id !== id
+                                ({ ingredient: { id } }) => ingredient.id !== id,
                               ),
                           }));
                         }}
@@ -423,7 +426,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                       </Button>
                     </li>
                   );
-                }
+                },
               )}
             </ul>
           </li>

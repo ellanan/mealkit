@@ -1,9 +1,9 @@
-import { nonNull, stringArg } from "nexus";
 import { IngredientType, MealType } from "@prisma/client";
 import { DateTime } from "luxon";
+import { nonNull, stringArg } from "nexus";
+import { ObjectDefinitionBlock } from "nexus/dist/blocks";
 
 import { prisma } from "../_helpers/prismaClient";
-import { ObjectDefinitionBlock } from "nexus/dist/blocks";
 
 export const initWithData = (t: ObjectDefinitionBlock<"Mutation">) => {
   t.field("initWithData", {

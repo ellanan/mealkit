@@ -1,8 +1,11 @@
-import { useQuery, useMutation, gql } from '@apollo/client';
-import type * as GraphQLTypes from '../../generated/graphql';
-import { Button } from '@chakra-ui/react';
-import { Search2Icon } from '@chakra-ui/icons';
 import { MutableRefObject, useState } from 'react';
+
+import { useQuery, useMutation, gql } from '@apollo/client';
+import { Search2Icon } from '@chakra-ui/icons';
+import { Button } from '@chakra-ui/react';
+
+import type * as GraphQLTypes from '../../generated/graphql';
+
 
 import defaultImg from "../../images/defaultImg.jpg";
 
@@ -44,7 +47,7 @@ export const AddRecipeToMealPlanForm = ({
   onClose: () => void;
   recipesToDisable: Array<{ id: string }>;
 }) => {
-  const [searchRecipe, setSearchRecipe] = useState<String>('');
+  const [searchRecipe, setSearchRecipe] = useState<string>('');
 
   const { data: recipesData, error: errorLoadingRecipes } =
     useQuery<GraphQLTypes.RecipesAvailableQuery>(gqlRecipiesAvailableQuery);
@@ -73,7 +76,7 @@ export const AddRecipeToMealPlanForm = ({
       <div className='mb-3'>
         {recipesData?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
-            recipe.name.toLowerCase().includes(searchRecipe.toLowerCase())
+            recipe.name.toLowerCase().includes(searchRecipe.toLowerCase()),
           )
           .map((recipe) => (
             <RecipeOption
@@ -136,7 +139,7 @@ const RecipeOption = ({
             }
           }
         }
-      `
+      `,
     );
   if (errorAddingRecipeToMealPlan) {
     throw errorAddingRecipeToMealPlan;
@@ -148,7 +151,7 @@ const RecipeOption = ({
       size={'xs'}
       borderRadius='none'
       isDisabled={recipesToDisable.some(
-        (recipeAlreadyInMealPlan) => recipeAlreadyInMealPlan.id === recipe.id
+        (recipeAlreadyInMealPlan) => recipeAlreadyInMealPlan.id === recipe.id,
       )}
       onClick={(e) => {
         e.preventDefault();
@@ -169,7 +172,7 @@ const RecipeOption = ({
               fields: {
                 schedule(existingEntriesInSchedule = []) {
                   return existingEntriesInSchedule.concat(
-                    data?.addRecipeToMealPlan
+                    data?.addRecipeToMealPlan,
                   );
                 },
               },

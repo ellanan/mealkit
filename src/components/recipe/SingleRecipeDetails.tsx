@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
-import { Editor } from "@tinymce/tinymce-react";
+
 import { useMutation, gql, useQuery } from "@apollo/client";
-import type * as GraphQLTypes from "../../generated/graphql";
-import Creatable from "react-select/creatable";
+import { SmallCloseIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Editable,
@@ -18,8 +17,11 @@ import {
   AlertDialogOverlay,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { SmallCloseIcon, EditIcon } from "@chakra-ui/icons";
+import { Editor } from "@tinymce/tinymce-react";
 import { HiOutlineTrash } from "react-icons/hi";
+import Creatable from "react-select/creatable";
+
+import type * as GraphQLTypes from "../../generated/graphql";
 
 export const SingleRecipeDetails = ({
   recipeId,
@@ -78,7 +80,7 @@ export const SingleRecipeDetails = ({
       variables: {
         recipeId,
       },
-    }
+    },
   );
   if (errorLoandingRecipeDetails) {
     throw errorLoandingRecipeDetails;
@@ -126,7 +128,7 @@ export const SingleRecipeDetails = ({
           content
         }
       }
-    `
+    `,
   );
   if (errorEditingRecipe) {
     throw errorEditingRecipe;
@@ -383,19 +385,19 @@ export const SingleRecipeDetails = ({
 
                           cache.modify({
                             id: cache.identify(
-                              recipeDetails.currentUser.mealPlan
+                              recipeDetails.currentUser.mealPlan,
                             ),
                             fields: {
                               recipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField("id", existingRecipe) !== recipeId
+                                    readField("id", existingRecipe) !== recipeId,
                                 );
                               },
                               popularRecipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField("id", existingRecipe) !== recipeId
+                                    readField("id", existingRecipe) !== recipeId,
                                 );
                               },
                             },
@@ -403,7 +405,7 @@ export const SingleRecipeDetails = ({
 
                           cache.modify({
                             id: cache.identify(
-                              recipeDetails.currentUser.mealPlan
+                              recipeDetails.currentUser.mealPlan,
                             ),
                             fields: {
                               schedule(existingSchedule, { readField }) {
@@ -411,8 +413,8 @@ export const SingleRecipeDetails = ({
                                   (entry: any) =>
                                     readField(
                                       "id",
-                                      readField("recipe", entry)
-                                    ) !== recipeId
+                                      readField("recipe", entry),
+                                    ) !== recipeId,
                                 );
                               },
                             },
@@ -505,7 +507,7 @@ export const SingleRecipeDetails = ({
                       setIsEditingRecipeContent(false);
                       setRecipeContent(
                         recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
-                          ""
+                          "",
                       );
                     }}
                   >
@@ -528,7 +530,7 @@ export const SingleRecipeDetails = ({
               options={ingredientsData?.currentUser?.mealPlan?.ingredients?.map(
                 (ingredient) => {
                   return { value: ingredient.id, label: ingredient.name };
-                }
+                },
               )}
               onChange={async (newValue, actionMeta) => {
                 if (!newValue || !newValue.value) {
@@ -547,7 +549,7 @@ export const SingleRecipeDetails = ({
                   if (!createIngredientResponse.data?.createIngredient) {
                     console.log(
                       `failed to create ingredient`,
-                      createIngredientResponse
+                      createIngredientResponse,
                     );
                     return;
                   }
@@ -568,7 +570,7 @@ export const SingleRecipeDetails = ({
               }}
               isOptionDisabled={({ value }) =>
                 !!recipeDetails?.currentUser?.mealPlan?.recipe?.ingredientQuantities?.some(
-                  ({ ingredient }) => ingredient.id === value
+                  ({ ingredient }) => ingredient.id === value,
                 )
               }
               isSearchable
@@ -670,7 +672,7 @@ export const SingleRecipeDetails = ({
                   </button>
                 </div>
               );
-            }
+            },
           )}
         </li>
       </ul>

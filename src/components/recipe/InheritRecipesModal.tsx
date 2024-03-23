@@ -1,8 +1,6 @@
-import _ from 'lodash';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
 import { useState, useMemo } from 'react';
-import { DateTime } from 'luxon';
+
+import { useQuery, useMutation, gql } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
 import {
   Modal,
@@ -15,6 +13,10 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react';
+import _ from 'lodash';
+import { DateTime } from 'luxon';
+
+import * as GraphQLTypes from '../../generated/graphql';
 import { gqlRecipeFragment } from '../mealPlan/AddRecipeToMealPlanForm';
 import { gqlMealPlanScheduleFragment } from '../mealPlan/MealPlan';
 
@@ -61,7 +63,7 @@ export const InheritRecipesModal = () => {
       }
       ${gqlRecipeFragment}
       ${gqlMealPlanScheduleFragment}
-    `
+    `,
   );
   if (errorLoadingInheritRecipes) {
     throw errorLoadingInheritRecipes;
@@ -111,17 +113,17 @@ export const InheritRecipesModal = () => {
                     fields: {
                       schedule(existingSchedule) {
                         return existingSchedule.concat(
-                          response.data?.initWithData?.schedule
+                          response.data?.initWithData?.schedule,
                         );
                       },
                       recipes(existingRecipes) {
                         return existingRecipes.concat(
                           _.uniqBy(
                             response.data?.initWithData?.schedule.map(
-                              ({ recipe }) => recipe
+                              ({ recipe }) => recipe,
                             ),
-                            'id'
-                          )
+                            'id',
+                          ),
                         );
                       },
                     },

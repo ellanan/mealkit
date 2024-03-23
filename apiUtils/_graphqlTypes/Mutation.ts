@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   arg,
   idArg,
@@ -9,12 +10,11 @@ import {
   inputObjectType,
   intArg,
 } from "nexus";
-import _ from "lodash";
 
+import { initWithData } from "./initWithData";
 import { NexusMealType } from "./MealPlan";
 import { prisma } from "../_helpers/prismaClient";
 
-import { initWithData } from "./initWithData";
 
 export const Mutation = mutationType({
   definition(t) {
@@ -92,9 +92,9 @@ export const Mutation = mutationType({
               idArg({
                 description:
                   "Ingredient ids of ingredients to update to this IngredientType",
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
       },
       resolve: async (_parent, args) => {
@@ -160,9 +160,9 @@ export const Mutation = mutationType({
             nonNull(
               arg({
                 type: nonNull(IngredientQuantityInput),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
       },
       resolve: async (_parent, args, context) => {
@@ -183,7 +183,7 @@ export const Mutation = mutationType({
                     unit,
                     amount,
                     ingredientId,
-                  })
+                  }),
                 ),
               },
             },
@@ -211,7 +211,7 @@ export const Mutation = mutationType({
               imageUrl: args.imageUrl,
               content: args.content,
             },
-            _.isNil
+            _.isNil,
           ),
         });
       },
@@ -307,7 +307,7 @@ export const Mutation = mutationType({
                     amount: args.amount,
                     unit: args.unit,
                   },
-                  _.isNil
+                  _.isNil,
                 ),
               },
             },

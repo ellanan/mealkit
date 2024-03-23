@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { useMemo } from "react";
-import { useLocalStorage } from "usehooks-ts";
-import { DateRange } from "react-date-range";
-import Creatable from "react-select/creatable";
-import _ from "lodash";
+
 import { useQuery, useMutation, gql } from "@apollo/client";
-import * as GraphQLTypes from "../../generated/graphql";
-import { DateTime } from "luxon";
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Spinner,
@@ -24,9 +19,16 @@ import {
   useEditableControls,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { EditIcon } from "@chakra-ui/icons";
-import { HiOutlineTrash } from "react-icons/hi";
+import { css } from "@emotion/react";
+import _ from "lodash";
+import { DateTime } from "luxon";
+import { DateRange } from "react-date-range";
 import { FiAlertTriangle } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
+import Creatable from "react-select/creatable";
+import { useLocalStorage } from "usehooks-ts";
+
+import * as GraphQLTypes from "../../generated/graphql";
 
 // persists the state (startDate & endDate) to localStorage, syncs between tabs and/or browser windows
 const useShoppingListPersistedState = () => {
@@ -142,7 +144,7 @@ export const ShoppingList = () => {
         endDate: range.endDate.toISOString(),
       },
       skip: !range.startDate || !range.endDate,
-    }
+    },
   );
   if (errorGeneratingShoppingList) {
     throw errorGeneratingShoppingList;
@@ -287,8 +289,8 @@ export const ShoppingList = () => {
         Object.values(
           _.groupBy(
             ingredientQuantities,
-            (ingredientQuantity) => ingredientQuantity.ingredient.type?.name
-          )
+            (ingredientQuantity) => ingredientQuantity.ingredient.type?.name,
+          ),
         ).map((ingredientQuantities) => (
           <div
             className={isLargerThan850 ? "last:pb-0" : "last:pb-16"}
@@ -340,7 +342,7 @@ export const ShoppingList = () => {
                                     };
                                   }
                                   return ingredientType;
-                                }
+                                },
                               );
                             },
                           },
@@ -420,18 +422,18 @@ export const ShoppingList = () => {
                                 if (!data?.currentUser?.mealPlan) return;
                                 cache.modify({
                                   id: cache.identify(
-                                    data?.currentUser?.mealPlan
+                                    data?.currentUser?.mealPlan,
                                   ),
                                   fields: {
                                     ingredientTypes: (
                                       ingredientTypes,
-                                      { readField }
+                                      { readField },
                                     ) => {
                                       return data?.currentUser?.mealPlan?.ingredientTypes.filter(
                                         (ingredientType: any) =>
                                           readField("id", ingredientType) !==
                                           ingredientQuantities[0].ingredient
-                                            .type?.id
+                                            .type?.id,
                                       );
                                     },
                                   },
@@ -446,7 +448,7 @@ export const ShoppingList = () => {
                                         },
                                       },
                                     });
-                                  }
+                                  },
                                 );
                               },
                               optimisticResponse: {
@@ -473,8 +475,8 @@ export const ShoppingList = () => {
                 _.groupBy(
                   ingredientQuantities,
                   (ingredientQuantity) =>
-                    ingredientQuantity.ingredient.id + ingredientQuantity.unit
-                )
+                    ingredientQuantity.ingredient.id + ingredientQuantity.unit,
+                ),
               ).map((ingredientQuantities) => {
                 return (
                   <li
@@ -525,7 +527,7 @@ export const ShoppingList = () => {
                               id.startsWith("temp-id:") ||
                               id ===
                                 ingredientQuantities[0].ingredient.type?.id,
-                          })
+                          }),
                         )}
                         isSearchable={true}
                         isClearable={true}
@@ -553,12 +555,12 @@ export const ShoppingList = () => {
                                   // update mealplan ingredientTypes to include new ingredientType
                                   cache.modify({
                                     id: cache.identify(
-                                      data?.currentUser?.mealPlan
+                                      data?.currentUser?.mealPlan,
                                     ),
                                     fields: {
                                       ingredientTypes: (ingredientTypes) => {
                                         return ingredientTypes.concat(
-                                          response.data?.createIngredientType
+                                          response.data?.createIngredientType,
                                         );
                                       },
                                     },
@@ -567,7 +569,7 @@ export const ShoppingList = () => {
                                   // update this ingredient to reference new ingredientType
                                   cache.modify({
                                     id: cache.identify(
-                                      ingredientQuantities[0].ingredient
+                                      ingredientQuantities[0].ingredient,
                                     ),
                                     fields: {
                                       type(existingType, { toReference }) {
@@ -595,7 +597,7 @@ export const ShoppingList = () => {
                             ) {
                               console.log(
                                 "failed to create ingredient type",
-                                createIngredientTypeResult
+                                createIngredientTypeResult,
                               );
                               return;
                             }
@@ -614,7 +616,7 @@ export const ShoppingList = () => {
                               update(cache, { data }) {
                                 cache.modify({
                                   id: cache.identify(
-                                    ingredientQuantities[0].ingredient
+                                    ingredientQuantities[0].ingredient,
                                   ),
                                   fields: {
                                     type(existingType, { toReference }) {

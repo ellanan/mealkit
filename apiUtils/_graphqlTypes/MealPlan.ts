@@ -8,6 +8,7 @@ import {
   objectType,
   stringArg,
 } from "nexus";
+
 import { prisma } from "../_helpers/prismaClient";
 
 export const NexusMealType = enumType({
@@ -38,7 +39,7 @@ export const MealPlanEntry = objectType({
         });
         if (!recipe) {
           throw new Error(
-            `Could not find recipe for ${JSON.stringify(parent)}`
+            `Could not find recipe for ${JSON.stringify(parent)}`,
           );
         }
         return recipe;
@@ -168,7 +169,7 @@ export const MealPlan = objectType({
             enumType({
               name: "RecipeOrderBy",
               members: ["createdAt", "updatedAt"],
-            })
+            }),
           ),
           default: "createdAt",
         }),
@@ -177,7 +178,7 @@ export const MealPlan = objectType({
           arg({
             type: "Order",
             default: "desc",
-          })
+          }),
         ),
 
         limit: nonNull(intArg({ default: 10 })),

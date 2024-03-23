@@ -2,8 +2,8 @@
 // otherwise tailwind's styles won't be able to override chakra's styles
 // references https://emotion.sh/docs/cache-provider
 
-import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import { prefixer } from 'stylis';
 
 const myCache = createCache({

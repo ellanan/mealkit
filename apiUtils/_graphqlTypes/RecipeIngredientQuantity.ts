@@ -1,4 +1,5 @@
 import { objectType } from "nexus";
+
 import { prisma } from "../_helpers/prismaClient";
 
 export const RecipeIngredientQuantity = objectType({
@@ -33,7 +34,7 @@ export const RecipeIngredientQuantity = objectType({
 
         if (!ingredient) {
           throw new Error(
-            `Couldn't find ingredient for ${JSON.stringify(parent)}`
+            `Couldn't find ingredient for ${JSON.stringify(parent)}`,
           );
         }
 

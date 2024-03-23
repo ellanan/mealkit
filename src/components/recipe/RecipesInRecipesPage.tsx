@@ -1,13 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+
 import { useQuery, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
-import { Spinner } from '@chakra-ui/spinner';
 import { Search2Icon } from '@chakra-ui/icons';
-import { Button, useMediaQuery } from '@chakra-ui/react';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
+import { Button, useMediaQuery } from '@chakra-ui/react';
+import { Spinner } from '@chakra-ui/spinner';
+import { css } from '@emotion/react';
+import { NavLink } from 'react-router-dom';
+
+import * as GraphQLTypes from '../../generated/graphql';
 
 import defaultImg from '../../images/defaultImg.jpg';
 
@@ -64,7 +66,7 @@ export const RecipesInRecipesPage = () => {
         orderBy: GraphQLTypes.RecipeOrderBy.UpdatedAt,
         search: search || undefined,
       },
-    }
+    },
   );
   if (error) {
     throw error;
@@ -133,7 +135,7 @@ export const RecipesInRecipesPage = () => {
       >
         {data?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
-            recipe.name.toLowerCase().includes(search.toLowerCase())
+            recipe.name.toLowerCase().includes(search.toLowerCase()),
           )
           .map((recipe) => (
             <NavLink

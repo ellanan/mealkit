@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { css } from "@emotion/react";
+import { MdDownload } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Typewritter from "typewriter-effect";
-import { MdDownload } from "react-icons/md";
 
-import { Footer } from "../footer/Footer";
-import CarrotLogo from "../../images/logo-carrot.svg?react";
 import MainBlob from "./images/mainblob.svg?react";
+import CarrotLogo from "../../images/logo-carrot.svg?react";
+import { Footer } from "../footer/Footer";
 
+import veggies1Image from "./images/bg-veggies/veggies1.png";
+import footerWaveImage from "./images/footer-wave.svg";
+import groceriesListExampleImage from "./images/groceries-list-example.png";
 import healthyVegImage from "./images/healthy-vegetables.png";
 import mealPlanExampleMobileImage from "./images/meal-plan-example-mobile.png";
-import veggies1Image from "./images/bg-veggies/veggies1.png";
-import groceriesListExampleImage from "./images/groceries-list-example.png";
 import sharePlanExampleImage from "./images/share-plan-example.svg";
-import footerWaveImage from "./images/footer-wave.svg";
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();

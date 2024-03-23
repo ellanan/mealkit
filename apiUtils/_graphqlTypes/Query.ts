@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { idArg, nonNull, queryType } from "nexus";
+
 import { prisma } from "../_helpers/prismaClient";
 
 export * from "./Ingredient";

@@ -1,5 +1,5 @@
-import { GoMarkGithub } from 'react-icons/go';
 import { FaTwitter } from 'react-icons/fa';
+import { GoMarkGithub } from 'react-icons/go';
 import { GrLinkedin } from 'react-icons/gr';
 
 export const Footer = () => {

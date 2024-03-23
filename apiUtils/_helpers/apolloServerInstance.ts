@@ -1,11 +1,12 @@
-import * as Sentry from "@sentry/node";
 import { ApolloServer } from "@apollo/server";
-import type { Headers } from "undici";
+import { startServerAndCreateNextHandler } from "@as-integrations/next";
+import * as Sentry from "@sentry/node";
 import jwt from "jsonwebtoken";
+import type { Headers } from "undici";
+
 import { schema } from "./makeSchema";
 import { prisma } from "./prismaClient";
 
-import { startServerAndCreateNextHandler } from "@as-integrations/next";
 
 export const apolloServerInstance = new ApolloServer({
   schema,
@@ -54,7 +55,7 @@ export const apolloServerHandler = startServerAndCreateNextHandler(
             if (
               e instanceof Error &&
               e.message.includes(
-                "Unique constraint failed on the fields: (`authProviderId`)"
+                "Unique constraint failed on the fields: (`authProviderId`)",
               )
             ) {
               // user.create threw an error because another request already created a user with the same authProviderId and email
@@ -79,5 +80,5 @@ export const apolloServerHandler = startServerAndCreateNextHandler(
         }),
       };
     },
-  }
+  },
 );
