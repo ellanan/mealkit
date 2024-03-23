@@ -21,7 +21,9 @@
     "kill-heroku-connections": "heroku pg:killall",
     "electron": "electron .",
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-pack": "./node_modules/.bin/electron-builder -c.extraMetadata.main=build/electron.js -mw"
+    "electron-pack": "./node_modules/.bin/electron-builder -c.extraMetadata.main=build/electron.js -mw",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -55,6 +57,7 @@
     "@auth0/auth0-react": "^1.8.0",
     "@chakra-ui/icons": "^1.0.16",
     "@chakra-ui/react": "^1.6.10",
+    "@ellanan/graphql-iso-date": "3.6.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@graphql-codegen/cli": "^3.3.1",
@@ -82,6 +85,8 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.3.0",
     "@types/stylis": "^4.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "@vercel/node": "^3.0.24",
     "@vitejs/plugin-react": "^4.2.1",
     "allotment": "^1.20.0",
@@ -92,9 +97,11 @@
     "electron": "^17.0.0",
     "electron-builder": "^22.14.5",
     "electron-devtools-installer": "^3.2.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.1",
     "framer-motion": "^4.1.17",
     "graphql": "^16.8.1",
-    "@ellanan/graphql-iso-date": "3.6.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
