@@ -8,25 +8,25 @@ import {
   list,
   inputObjectType,
   intArg,
-} from 'nexus';
-import _ from 'lodash';
+} from "nexus";
+import _ from "lodash";
 
-import { NexusMealType } from './MealPlan';
-import { prisma } from '../_helpers/prismaClient';
+import { NexusMealType } from "./MealPlan";
+import { prisma } from "../_helpers/prismaClient";
 
-import { initWithData } from './initWithData';
+import { initWithData } from "./initWithData";
 
 export const Mutation = mutationType({
   definition(t) {
-    t.field('joinMealPlan', {
-      type: 'MealPlan',
+    t.field("joinMealPlan", {
+      type: "MealPlan",
       args: {
         mealPlanId: nonNull(idArg()),
       },
       resolve: async (_, { mealPlanId }, context) => {
         const user = context.currentUser;
         if (!user) {
-          throw new Error('User not found');
+          throw new Error("User not found");
         }
 
         const mealPlan = await prisma.mealPlan.findUnique({
@@ -35,7 +35,7 @@ export const Mutation = mutationType({
           },
         });
         if (!mealPlan) {
-          throw new Error('MealPlan not found');
+          throw new Error("MealPlan not found");
         }
 
         return prisma.mealPlan.update({
@@ -53,8 +53,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('createIngredient', {
-      type: nonNull('Ingredient'),
+    t.field("createIngredient", {
+      type: nonNull("Ingredient"),
       args: {
         name: nonNull(stringArg()),
         ingredientTypeId: nullable(idArg()),
@@ -82,8 +82,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('createIngredientType', {
-      type: 'IngredientType',
+    t.field("createIngredientType", {
+      type: "IngredientType",
       args: {
         name: nonNull(stringArg()),
         ingredients: nullable(
@@ -91,7 +91,7 @@ export const Mutation = mutationType({
             nonNull(
               idArg({
                 description:
-                  'Ingredient ids of ingredients to update to this IngredientType',
+                  "Ingredient ids of ingredients to update to this IngredientType",
               })
             )
           )
@@ -117,8 +117,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('editIngredientType', {
-      type: 'IngredientType',
+    t.field("editIngredientType", {
+      type: "IngredientType",
       args: {
         ingredientTypeId: nonNull(idArg()),
         name: nonNull(stringArg()),
@@ -135,8 +135,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('deleteIngredientType', {
-      type: 'IngredientType',
+    t.field("deleteIngredientType", {
+      type: "IngredientType",
       args: {
         ingredientTypeId: nonNull(idArg()),
       },
@@ -149,8 +149,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('createRecipe', {
-      type: 'Recipe',
+    t.field("createRecipe", {
+      type: "Recipe",
       args: {
         name: nonNull(stringArg()),
         imageUrl: stringArg(),
@@ -192,8 +192,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('editRecipe', {
-      type: 'Recipe',
+    t.field("editRecipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(stringArg()),
         name: nullable(stringArg()),
@@ -217,8 +217,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('deleteRecipe', {
-      type: 'Recipe',
+    t.field("deleteRecipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(idArg()),
       },
@@ -231,8 +231,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('addIngredientQuantityToRecipe', {
-      type: 'Recipe',
+    t.field("addIngredientQuantityToRecipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(idArg()),
         ingredientQuantity: nonNull(IngredientQuantityInput),
@@ -255,8 +255,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('removeIngredientFromRecipe', {
-      type: 'Recipe',
+    t.field("removeIngredientFromRecipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(idArg()),
         ingredientId: nonNull(idArg()),
@@ -280,8 +280,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('updateIngredientQuantityInRecipe', {
-      type: 'Recipe',
+    t.field("updateIngredientQuantityInRecipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(idArg()),
         ingredientId: nonNull(idArg()),
@@ -316,8 +316,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('updateIngredient', {
-      type: 'Ingredient',
+    t.field("updateIngredient", {
+      type: "Ingredient",
       args: {
         ingredientId: nonNull(idArg()),
         ingredientTypeId: nonNull(idArg()),
@@ -338,8 +338,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('addRecipeToMealPlan', {
-      type: 'MealPlanEntry',
+    t.field("addRecipeToMealPlan", {
+      type: "MealPlanEntry",
       args: {
         mealPlanId: nonNull(idArg()),
         recipeId: nonNull(idArg()),
@@ -368,8 +368,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('deleteMealPlanEntry', {
-      type: 'MealPlanEntry',
+    t.field("deleteMealPlanEntry", {
+      type: "MealPlanEntry",
       args: {
         mealPlanEntryId: nonNull(idArg()),
       },
@@ -382,8 +382,8 @@ export const Mutation = mutationType({
       },
     });
 
-    t.field('deleteAllMealPlanEntries', {
-      type: 'Int',
+    t.field("deleteAllMealPlanEntries", {
+      type: "Int",
       args: {
         mealPlanId: nonNull(idArg()),
       },
@@ -402,10 +402,10 @@ export const Mutation = mutationType({
 });
 
 export const IngredientQuantityInput = inputObjectType({
-  name: 'IngredientQuantityInput',
+  name: "IngredientQuantityInput",
   definition(t) {
-    t.nonNull.string('unit');
-    t.nonNull.int('amount');
-    t.nonNull.string('ingredientId');
+    t.nonNull.string("unit");
+    t.nonNull.int("amount");
+    t.nonNull.string("ingredientId");
   },
 });

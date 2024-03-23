@@ -1,14 +1,14 @@
-import { objectType } from 'nexus';
-import { prisma } from '../_helpers/prismaClient';
+import { objectType } from "nexus";
+import { prisma } from "../_helpers/prismaClient";
 
 export const User = objectType({
-  name: 'User',
+  name: "User",
   definition(t) {
-    t.nonNull.id('id');
-    t.string('username');
-    t.string('email');
-    t.nonNull.list.field('recipes', {
-      type: 'Recipe',
+    t.nonNull.id("id");
+    t.string("username");
+    t.string("email");
+    t.nonNull.list.field("recipes", {
+      type: "Recipe",
       async resolve(parent) {
         const userId = parent.id;
         return prisma.recipe.findMany({
@@ -22,8 +22,8 @@ export const User = objectType({
         });
       },
     });
-    t.field('mealPlan', {
-      type: 'MealPlan',
+    t.field("mealPlan", {
+      type: "MealPlan",
       resolve(parent) {
         return prisma.user
           .findUnique({

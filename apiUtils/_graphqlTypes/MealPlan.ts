@@ -1,4 +1,4 @@
-import { MealType } from '@prisma/client';
+import { MealType } from "@prisma/client";
 import {
   arg,
   idArg,
@@ -7,29 +7,29 @@ import {
   nonNull,
   objectType,
   stringArg,
-} from 'nexus';
-import { prisma } from '../_helpers/prismaClient';
+} from "nexus";
+import { prisma } from "../_helpers/prismaClient";
 
 export const NexusMealType = enumType({
-  name: 'MealType',
+  name: "MealType",
   members: MealType,
 });
 
 export const MealPlanEntry = objectType({
-  name: 'MealPlanEntry',
+  name: "MealPlanEntry",
   definition(t) {
-    t.nonNull.id('id');
-    t.nonNull.field('date', {
-      type: 'String',
+    t.nonNull.id("id");
+    t.nonNull.field("date", {
+      type: "String",
       resolve(parent) {
         return parent.date.toISOString();
       },
     });
-    t.nonNull.field('mealType', {
-      type: 'MealType',
+    t.nonNull.field("mealType", {
+      type: "MealType",
     });
-    t.nonNull.field('recipe', {
-      type: 'Recipe',
+    t.nonNull.field("recipe", {
+      type: "Recipe",
       resolve: async (parent) => {
         const recipe = await prisma.recipe.findUnique({
           where: {
@@ -48,11 +48,11 @@ export const MealPlanEntry = objectType({
 });
 
 export const MealPlan = objectType({
-  name: 'MealPlan',
+  name: "MealPlan",
   definition(t) {
-    t.nonNull.id('id');
-    t.nonNull.list.nonNull.field('schedule', {
-      type: 'MealPlanEntry',
+    t.nonNull.id("id");
+    t.nonNull.list.nonNull.field("schedule", {
+      type: "MealPlanEntry",
       args: {
         startDate: nonNull(stringArg()),
         endDate: nonNull(stringArg()),
@@ -73,8 +73,8 @@ export const MealPlan = objectType({
       },
     });
 
-    t.nonNull.list.nonNull.field('popularRecipes', {
-      type: 'Recipe',
+    t.nonNull.list.nonNull.field("popularRecipes", {
+      type: "Recipe",
       args: {
         startDate: nonNull(stringArg()),
         endDate: nonNull(stringArg()),
@@ -82,7 +82,7 @@ export const MealPlan = objectType({
       },
       async resolve(parent, args) {
         const groupByResults = await prisma.mealPlanEntry.groupBy({
-          by: ['recipeId'],
+          by: ["recipeId"],
           _count: {
             recipeId: true,
           },
@@ -97,7 +97,7 @@ export const MealPlan = objectType({
           },
           orderBy: {
             _count: {
-              recipeId: 'desc',
+              recipeId: "desc",
             },
           },
           take: args.limit,
@@ -113,8 +113,8 @@ export const MealPlan = objectType({
       },
     });
 
-    t.nonNull.list.nonNull.field('ingredients', {
-      type: 'Ingredient',
+    t.nonNull.list.nonNull.field("ingredients", {
+      type: "Ingredient",
       resolve: (parent) =>
         prisma.ingredient.findMany({
           where: {
@@ -125,8 +125,8 @@ export const MealPlan = objectType({
         }),
     });
 
-    t.nonNull.list.nonNull.field('ingredientTypes', {
-      type: 'IngredientType',
+    t.nonNull.list.nonNull.field("ingredientTypes", {
+      type: "IngredientType",
       resolve: (parent) =>
         prisma.ingredientType.findMany({
           where: {
@@ -141,8 +141,8 @@ export const MealPlan = objectType({
         }),
     });
 
-    t.field('recipe', {
-      type: 'Recipe',
+    t.field("recipe", {
+      type: "Recipe",
       args: {
         recipeId: nonNull(idArg()),
       },
@@ -160,23 +160,23 @@ export const MealPlan = objectType({
         }),
     });
 
-    t.nonNull.list.nonNull.field('recipes', {
-      type: 'Recipe',
+    t.nonNull.list.nonNull.field("recipes", {
+      type: "Recipe",
       args: {
         orderBy: arg({
           type: nonNull(
             enumType({
-              name: 'RecipeOrderBy',
-              members: ['createdAt', 'updatedAt'],
+              name: "RecipeOrderBy",
+              members: ["createdAt", "updatedAt"],
             })
           ),
-          default: 'createdAt',
+          default: "createdAt",
         }),
 
         order: nonNull(
           arg({
-            type: 'Order',
-            default: 'desc',
+            type: "Order",
+            default: "desc",
           })
         ),
 
@@ -190,7 +190,7 @@ export const MealPlan = objectType({
             name: args.search
               ? {
                   contains: args.search,
-                  mode: 'insensitive',
+                  mode: "insensitive",
                 }
               : undefined,
             user: {

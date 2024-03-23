@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/node";
 // Importing @sentry/tracing patches the global hub for tracing to work.
 import "@sentry/tracing";
-import { apolloServerHandler } from "./_helpers/apolloServerInstance";
+import { apolloServerHandler } from "../apiUtils/_helpers/apolloServerInstance";
 
 Sentry.init({
   dsn: "https://0a2d5cbd59aa44cbbde11aa7b1950e86@o1044934.ingest.sentry.io/6261009",
