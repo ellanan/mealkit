@@ -1,22 +1,24 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { DateTime, Interval } from 'luxon';
+import { useMemo, useState, useRef } from 'react';
+
 import { useQuery, gql, useMutation } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
+import { AddIcon, CloseIcon } from '@chakra-ui/icons';
 import {
   Button,
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '@chakra-ui/react';
-import { AddIcon, CloseIcon } from '@chakra-ui/icons';
+import { css } from '@emotion/react';
+import { DateTime, Interval } from 'luxon';
 import { NavLink } from 'react-router-dom';
-import { useMemo, useState, useRef } from 'react';
+
 
 import { MobileMealPlanSubNavbar } from './MobileMealPlanSubNavbar';
+import * as GraphQLTypes from '../../generated/graphql';
 import { AddRecipeToMealPlanForm } from '../mealPlan/AddRecipeToMealPlanForm';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const MobileMealPlan = () => {
   const initRef = useRef<any>();
@@ -66,7 +68,7 @@ export const MobileMealPlan = () => {
         startDate: startDate.toISO(),
         endDate: endDate.toISO(),
       },
-    }
+    },
   );
   if (error) {
     throw error;
@@ -83,7 +85,7 @@ export const MobileMealPlan = () => {
             id
           }
         }
-      `
+      `,
     );
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
@@ -148,7 +150,7 @@ export const MobileMealPlan = () => {
                               setZone: true,
                             }).toISODate()
                         );
-                      }
+                      },
                     );
                     return (
                       <div key={mealType} className='px-2'>
@@ -193,7 +195,7 @@ export const MobileMealPlan = () => {
                                       mealType={mealTypeAndDate.mealType}
                                       recipesToDisable={
                                         mealPlanEntries?.map(
-                                          (entry) => entry.recipe
+                                          (entry) => entry.recipe,
                                         ) ?? []
                                       }
                                       autoFocusRef={initRef}
@@ -211,11 +213,11 @@ export const MobileMealPlan = () => {
                               className='block shadow-sm hover:shadow-md overflow-hidden rounded-xl'
                               to={(location) => {
                                 const newQueryParams = new URLSearchParams(
-                                  location.search
+                                  location.search,
                                 );
                                 newQueryParams.set(
                                   'modalRecipeId',
-                                  entry.recipe.id
+                                  entry.recipe.id,
                                 );
 
                                 return {
@@ -255,14 +257,14 @@ export const MobileMealPlan = () => {
                                         fields: {
                                           schedule(
                                             existingEntriesInSchedule,
-                                            { readField }
+                                            { readField },
                                           ) {
                                             return existingEntriesInSchedule.filter(
                                               (existingEntry: any) =>
                                                 readField(
                                                   'id',
-                                                  existingEntry
-                                                ) !== entry.id
+                                                  existingEntry,
+                                                ) !== entry.id,
                                             );
                                           },
                                         },

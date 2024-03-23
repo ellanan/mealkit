@@ -1,23 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { DateTime, Interval } from 'luxon';
+import { useMemo, useState, useRef } from 'react';
+
 import { useQuery, gql, useMutation } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
+import { AddIcon, CloseIcon } from '@chakra-ui/icons';
 import {
   Button,
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '@chakra-ui/react';
-import { AddIcon, CloseIcon } from '@chakra-ui/icons';
+import { css } from '@emotion/react';
+import { DateTime, Interval } from 'luxon';
 import { NavLink } from 'react-router-dom';
-import { useMemo, useState, useRef } from 'react';
 
-import { MealPlanTopBar } from './MealPlanTopBar';
-import { MealPlanDates } from './MealPlanDates';
+
 import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
+import { MealPlanDates } from './MealPlanDates';
+import { MealPlanTopBar } from './MealPlanTopBar';
+import * as GraphQLTypes from '../../generated/graphql';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const gqlMealPlanScheduleFragment = gql`
   fragment MealPlanScheduleFragment on MealPlanEntry {
@@ -74,7 +76,7 @@ export const MealPlan = () => {
         startDate: startDate.toISO(),
         endDate: endDate.toISO(),
       },
-    }
+    },
   );
   if (error) {
     throw error;
@@ -91,7 +93,7 @@ export const MealPlan = () => {
             id
           }
         }
-      `
+      `,
     );
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
@@ -192,7 +194,7 @@ export const MealPlan = () => {
                                   mealType={mealTypeAndDate.mealType}
                                   recipesToDisable={
                                     mealPlanEntries?.map(
-                                      (entry) => entry.recipe
+                                      (entry) => entry.recipe,
                                     ) ?? []
                                   }
                                   autoFocusRef={initRef}
@@ -233,11 +235,11 @@ export const MealPlan = () => {
                           className='block shadow-sm hover:shadow-md overflow-hidden rounded-xl transition-all duration-150 hover:scale-105'
                           to={(location) => {
                             const newQueryParams = new URLSearchParams(
-                              location.search
+                              location.search,
                             );
                             newQueryParams.set(
                               'modalRecipeId',
-                              entry.recipe.id
+                              entry.recipe.id,
                             );
 
                             return {
@@ -284,12 +286,12 @@ export const MealPlan = () => {
                                     fields: {
                                       schedule(
                                         existingEntriesInSchedule,
-                                        { readField }
+                                        { readField },
                                       ) {
                                         return existingEntriesInSchedule.filter(
                                           (existingEntry: any) =>
                                             readField('id', existingEntry) !==
-                                            entry.id
+                                            entry.id,
                                         );
                                       },
                                     },

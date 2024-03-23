@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
 import { BiShareAlt } from 'react-icons/bi';
+import { NavLink } from 'react-router-dom';
 
 export const ShareMealPlan = () => {
   return (

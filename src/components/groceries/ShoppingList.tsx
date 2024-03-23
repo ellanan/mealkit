@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { useMemo } from 'react';
-import createPersistedState from 'use-persisted-state';
-import { DateRange } from 'react-date-range';
-import Creatable from 'react-select/creatable';
-import _ from 'lodash';
-import { useQuery, useMutation, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
-import { DateTime } from 'luxon';
+import { useMemo } from "react";
+
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
   Spinner,
@@ -23,19 +18,24 @@ import {
   EditableInput,
   useEditableControls,
   useMediaQuery,
-} from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons';
-import { HiOutlineTrash } from 'react-icons/hi';
-import { FiAlertTriangle } from 'react-icons/fi';
+} from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import _ from "lodash";
+import { DateTime } from "luxon";
+import { DateRange } from "react-date-range";
+import { FiAlertTriangle } from "react-icons/fi";
+import { HiOutlineTrash } from "react-icons/hi";
+import Creatable from "react-select/creatable";
+import { useLocalStorage } from "usehooks-ts";
 
-const useRawShoppingListPersistedState = createPersistedState('shopping list');
+import * as GraphQLTypes from "../../generated/graphql";
 
 // persists the state (startDate & endDate) to localStorage, syncs between tabs and/or browser windows
 const useShoppingListPersistedState = () => {
-  const [rawState, setRawState] = useRawShoppingListPersistedState<{
+  const [rawState, setRawState] = useLocalStorage<{
     startDate: string | null;
     endDate: string | null;
-  }>({
+  }>("shopping list", {
     startDate: null,
     endDate: null,
   });
@@ -53,7 +53,7 @@ const useShoppingListPersistedState = () => {
       {
         startDate,
         endDate,
-        key: 'shopping list range',
+        key: "shopping list range",
       },
       ({ startDate, endDate }: { startDate?: Date; endDate?: Date }) => {
         setRawState({
@@ -74,7 +74,7 @@ const EditableControls = ({ text }: { text: string }) => {
   return (
     <button
       {...getEditButtonProps()}
-      className='bg-transparent'
+      className="bg-transparent"
       css={css`
         &:hover {
           .edit-icon {
@@ -85,7 +85,7 @@ const EditableControls = ({ text }: { text: string }) => {
       `}
     >
       {text}
-      <EditIcon w='2.5' h='2.5' className='opacity-0 edit-icon' />
+      <EditIcon w="2.5" h="2.5" className="opacity-0 edit-icon" />
     </button>
   );
 };
@@ -93,7 +93,7 @@ const EditableControls = ({ text }: { text: string }) => {
 export const ShoppingList = () => {
   const [range, setRange] = useShoppingListPersistedState();
 
-  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+  const [isLargerThan850] = useMediaQuery("(min-width: 850px)");
 
   const {
     data,
@@ -144,7 +144,7 @@ export const ShoppingList = () => {
         endDate: range.endDate.toISOString(),
       },
       skip: !range.startDate || !range.endDate,
-    }
+    },
   );
   if (errorGeneratingShoppingList) {
     throw errorGeneratingShoppingList;
@@ -229,8 +229,8 @@ export const ShoppingList = () => {
     <div
       className={
         isLargerThan850
-          ? 'flex flex-col flex-shrink flex-grow m-6 text-14'
-          : 'flex flex-col flex-shrink flex-grow h-full ml-6 pt-20 pr-4 text-14'
+          ? "flex flex-col flex-shrink flex-grow m-6 text-14"
+          : "flex flex-col flex-shrink flex-grow h-full ml-6 pt-20 pr-4 text-14"
       }
       css={css`
         scrollbar-width: thin;
@@ -251,7 +251,7 @@ export const ShoppingList = () => {
       `}
     >
       <DateRange
-        className='flex items-center -mt-6'
+        className="flex items-center -mt-6"
         css={css`
           .rdrNextPrevButton {
             background-color: transparent;
@@ -267,44 +267,44 @@ export const ShoppingList = () => {
         ranges={[range]}
         showMonthAndYearPickers={false}
         showDateDisplay={false}
-        rangeColors={['#f7af90']}
+        rangeColors={["#f7af90"]}
         onChange={(item) => {
           setRange(item[range.key]);
         }}
       />
 
       {loadingShoppingList ? (
-        <div className='flex items-center justify-center italic text-base mt-4'>
-          <Spinner className='text-sm mr-2' color='orange' size='md' />
+        <div className="flex items-center justify-center italic text-base mt-4">
+          <Spinner className="text-sm mr-2" color="orange" size="md" />
           loading groceries...
         </div>
       ) : null}
 
       {ingredientQuantities?.length === 0 && !loadingShoppingList ? (
-        <span className='flex items-center justify-center mt-4'>
-          <FiAlertTriangle className='mr-2' color='orange' size='20' />
+        <span className="flex items-center justify-center mt-4">
+          <FiAlertTriangle className="mr-2" color="orange" size="20" />
           No meals planned on the selected dates.
         </span>
       ) : (
         Object.values(
           _.groupBy(
             ingredientQuantities,
-            (ingredientQuantity) => ingredientQuantity.ingredient.type?.name
-          )
+            (ingredientQuantity) => ingredientQuantity.ingredient.type?.name,
+          ),
         ).map((ingredientQuantities) => (
           <div
-            className={isLargerThan850 ? 'last:pb-0' : 'last:pb-16'}
-            key={ingredientQuantities[0].ingredient.type?.id ?? 'uncategorized'}
+            className={isLargerThan850 ? "last:pb-0" : "last:pb-16"}
+            key={ingredientQuantities[0].ingredient.type?.id ?? "uncategorized"}
           >
             <div
               className={
                 isLargerThan850
-                  ? 'group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'
-                  : 'group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1'
+                  ? "group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1"
+                  : "group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1"
               }
             >
               {!ingredientQuantities[0].ingredient.type?.name ? (
-                'uncategorized'
+                "uncategorized"
               ) : (
                 <Editable
                   defaultValue={ingredientQuantities[0].ingredient.type?.name.toUpperCase()}
@@ -322,7 +322,7 @@ export const ShoppingList = () => {
 
                       update: (cache) => {
                         cache.modify({
-                          id: cache.identify({ __typename: 'Query' }),
+                          id: cache.identify({ __typename: "Query" }),
                           fields: {
                             ingredientTypes: (existingIngredientTypes) => {
                               return existingIngredientTypes.map(
@@ -342,7 +342,7 @@ export const ShoppingList = () => {
                                     };
                                   }
                                   return ingredientType;
-                                }
+                                },
                               );
                             },
                           },
@@ -351,7 +351,7 @@ export const ShoppingList = () => {
 
                       optimisticResponse: {
                         editIngredientType: {
-                          __typename: 'IngredientType',
+                          __typename: "IngredientType",
                           id: ingredientQuantities[0].ingredient.type?.id,
                           name: newIngredientName.toUpperCase(),
                         },
@@ -371,46 +371,46 @@ export const ShoppingList = () => {
                   <>
                     <PopoverTrigger>
                       <Button
-                        className='text-xs absolute right-0 opacity-0 disabled:opacity-0 disabled:bg-transparent group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2'
-                        variant='ghost'
+                        className="text-xs absolute right-0 opacity-0 disabled:opacity-0 disabled:bg-transparent group-hover:opacity-100 hover:bg-transparent hover:text-yellow-600 px-2"
+                        variant="ghost"
                         isDisabled={
                           !ingredientQuantities[0].ingredient.type?.id
                             ? true
                             : false
                         }
                       >
-                        <HiOutlineTrash className='w-5' />
+                        <HiOutlineTrash className="w-5" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent marginRight={2}>
                       <PopoverHeader
-                        fontWeight='semibold'
-                        textTransform='initial'
+                        fontWeight="semibold"
+                        textTransform="initial"
                       >
                         Delete Ingredient Type
                       </PopoverHeader>
                       <PopoverArrow />
                       <PopoverCloseButton />
-                      <PopoverBody textTransform='initial'>
+                      <PopoverBody textTransform="initial">
                         Are you sure you want to permanently delete the
                         ingredient type?
                       </PopoverBody>
                       <PopoverFooter
-                        border='0'
-                        d='flex'
-                        alignItems='center'
-                        justifyContent='flex-end'
+                        border="0"
+                        d="flex"
+                        alignItems="center"
+                        justifyContent="flex-end"
                         pt={3}
                         pb={3}
                       >
-                        <Button className='text-xs' size='sm' onClick={onClose}>
+                        <Button className="text-xs" size="sm" onClick={onClose}>
                           Cancel
                         </Button>
                         <Button
-                          className='text-xs'
-                          colorScheme='red'
+                          className="text-xs"
+                          colorScheme="red"
                           ml={3}
-                          size='sm'
+                          size="sm"
                           onClick={(e) => {
                             e.preventDefault();
                             deleteIngredientType({
@@ -422,18 +422,18 @@ export const ShoppingList = () => {
                                 if (!data?.currentUser?.mealPlan) return;
                                 cache.modify({
                                   id: cache.identify(
-                                    data?.currentUser?.mealPlan
+                                    data?.currentUser?.mealPlan,
                                   ),
                                   fields: {
                                     ingredientTypes: (
                                       ingredientTypes,
-                                      { readField }
+                                      { readField },
                                     ) => {
                                       return data?.currentUser?.mealPlan?.ingredientTypes.filter(
                                         (ingredientType: any) =>
-                                          readField('id', ingredientType) !==
+                                          readField("id", ingredientType) !==
                                           ingredientQuantities[0].ingredient
-                                            .type?.id
+                                            .type?.id,
                                       );
                                     },
                                   },
@@ -448,12 +448,12 @@ export const ShoppingList = () => {
                                         },
                                       },
                                     });
-                                  }
+                                  },
                                 );
                               },
                               optimisticResponse: {
                                 deleteIngredientType: {
-                                  __typename: 'IngredientType',
+                                  __typename: "IngredientType",
                                   id: ingredientQuantities[0].ingredient.type
                                     ?.id,
                                 },
@@ -470,53 +470,53 @@ export const ShoppingList = () => {
               </Popover>
             </div>
 
-            <ul className='mb-2 text-base list-disc'>
+            <ul className="mb-2 text-base list-disc">
               {Object.values(
                 _.groupBy(
                   ingredientQuantities,
                   (ingredientQuantity) =>
-                    ingredientQuantity.ingredient.id + ingredientQuantity.unit
-                )
+                    ingredientQuantity.ingredient.id + ingredientQuantity.unit,
+                ),
               ).map((ingredientQuantities) => {
                 return (
                   <li
-                    className='flex flex-row w-full group list-disc text-sm leading-loose px-1 font-Raleway'
+                    className="flex flex-row w-full group list-disc text-sm leading-loose px-1 font-Raleway"
                     key={
                       ingredientQuantities[0].ingredient.id +
                       ingredientQuantities[0].unit
                     }
                   >
                     <span>
-                      <span className='capitalize'>
+                      <span className="capitalize">
                         {ingredientQuantities[0].ingredient.name}
                       </span>
                       <small>
-                        <span className='ml-1'>
+                        <span className="ml-1">
                           {_.sumBy(ingredientQuantities, (x) => x.amount)}
                         </span>
-                        <span className='ml-1'>
+                        <span className="ml-1">
                           {ingredientQuantities[0].unit}
                         </span>
                       </small>
                     </span>
-                    <div className='ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 relative cursor-pointer'>
-                      <span className='uppercase text-xs'>
+                    <div className="ml-auto opacity-0 group-hover:opacity-100 focus-within:opacity-100 relative cursor-pointer">
+                      <span className="uppercase text-xs">
                         set ingredient type
                       </span>
                       <Creatable
-                        className='min-w-[150px] absolute top-0 right-0 leading-tight opacity-0 focus-within:opacity-100 '
+                        className="min-w-[150px] absolute top-0 right-0 leading-tight opacity-0 focus-within:opacity-100 "
                         styles={{
                           control: (base: any) => ({
                             ...base,
-                            minHeight: 'auto',
-                            cursor: 'pointer',
+                            minHeight: "auto",
+                            cursor: "pointer",
                           }),
                           indicatorSeparator: (base: any) => ({
-                            display: 'none',
+                            display: "none",
                           }),
                           dropdownIndicator: (base: any) => ({
                             ...base,
-                            padding: '0 4px',
+                            padding: "0 4px",
                           }),
                         }}
                         options={data?.currentUser?.mealPlan?.ingredientTypes.map(
@@ -524,15 +524,15 @@ export const ShoppingList = () => {
                             value: id,
                             label: name,
                             isDisabled:
-                              id.startsWith('temp-id:') ||
+                              id.startsWith("temp-id:") ||
                               id ===
                                 ingredientQuantities[0].ingredient.type?.id,
-                          })
+                          }),
                         )}
                         isSearchable={true}
                         isClearable={true}
-                        placeholder='type'
-                        menuPlacement='top'
+                        placeholder="type"
+                        menuPlacement="top"
                         onChange={async (newValue, actionMeta) => {
                           if (!newValue || !newValue.value) {
                             console.log(`no newValue`, actionMeta);
@@ -541,7 +541,7 @@ export const ShoppingList = () => {
 
                           let ingredientTypeId;
 
-                          if (actionMeta.action === 'create-option') {
+                          if (actionMeta.action === "create-option") {
                             const createIngredientTypeResult =
                               await createIngredientType({
                                 variables: {
@@ -555,12 +555,12 @@ export const ShoppingList = () => {
                                   // update mealplan ingredientTypes to include new ingredientType
                                   cache.modify({
                                     id: cache.identify(
-                                      data?.currentUser?.mealPlan
+                                      data?.currentUser?.mealPlan,
                                     ),
                                     fields: {
                                       ingredientTypes: (ingredientTypes) => {
                                         return ingredientTypes.concat(
-                                          response.data?.createIngredientType
+                                          response.data?.createIngredientType,
                                         );
                                       },
                                     },
@@ -569,12 +569,12 @@ export const ShoppingList = () => {
                                   // update this ingredient to reference new ingredientType
                                   cache.modify({
                                     id: cache.identify(
-                                      ingredientQuantities[0].ingredient
+                                      ingredientQuantities[0].ingredient,
                                     ),
                                     fields: {
                                       type(existingType, { toReference }) {
                                         return toReference({
-                                          __typename: 'IngredientType',
+                                          __typename: "IngredientType",
                                           id: response.data
                                             ?.createIngredientType?.id,
                                         });
@@ -584,7 +584,7 @@ export const ShoppingList = () => {
                                 },
                                 optimisticResponse: {
                                   createIngredientType: {
-                                    __typename: 'IngredientType',
+                                    __typename: "IngredientType",
                                     id: `temp-id:${newValue.value}`,
                                     name: newValue.value.toUpperCase(),
                                   },
@@ -596,8 +596,8 @@ export const ShoppingList = () => {
                                 ?.createIngredientType
                             ) {
                               console.log(
-                                'failed to create ingredient type',
-                                createIngredientTypeResult
+                                "failed to create ingredient type",
+                                createIngredientTypeResult,
                               );
                               return;
                             }
@@ -616,12 +616,12 @@ export const ShoppingList = () => {
                               update(cache, { data }) {
                                 cache.modify({
                                   id: cache.identify(
-                                    ingredientQuantities[0].ingredient
+                                    ingredientQuantities[0].ingredient,
                                   ),
                                   fields: {
                                     type(existingType, { toReference }) {
                                       return toReference({
-                                        __typename: 'IngredientType',
+                                        __typename: "IngredientType",
                                         id: data?.updateIngredient?.type?.id,
                                       });
                                     },
@@ -630,7 +630,7 @@ export const ShoppingList = () => {
                               },
                               optimisticResponse: {
                                 updateIngredient: {
-                                  __typename: 'Ingredient',
+                                  __typename: "Ingredient",
                                   id: ingredientQuantities[0].ingredient.id,
                                   name: ingredientQuantities[0].ingredient.name,
                                   type: {

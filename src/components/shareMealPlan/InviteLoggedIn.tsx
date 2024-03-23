@@ -1,7 +1,9 @@
-import { useLocation, useHistory } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
 import { Button } from '@chakra-ui/react';
+import { useLocation, useHistory } from 'react-router-dom';
+
+import * as GraphQLTypes from '../../generated/graphql';
+
 
 export const InviteLoggedIn = () => {
   const location = useLocation();
@@ -24,7 +26,7 @@ export const InviteLoggedIn = () => {
       variables: {
         mealPlanId: mealPlanId as string,
       },
-    }
+    },
   );
 
   return (

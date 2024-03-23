@@ -1,5 +1,6 @@
+import { useState, useRef } from 'react';
+
 import { useQuery, useMutation, gql } from '@apollo/client';
-import type * as GraphQLTypes from '../../generated/graphql';
 import {
   Button,
   AlertDialog,
@@ -10,7 +11,8 @@ import {
   AlertDialogOverlay,
 } from '@chakra-ui/react';
 import { MdNoMealsOuline } from 'react-icons/md';
-import { useState, useRef } from 'react';
+
+import type * as GraphQLTypes from '../../generated/graphql';
 
 export const ClearAllMealPlanEntries = () => {
   const [isDeleteMealEntriesOpen, setIsDeleteMealEntriesOpen] =
@@ -44,7 +46,7 @@ export const ClearAllMealPlanEntries = () => {
       mutation DeleteAllMealPlanEntries($mealPlanId: ID!) {
         deleteAllMealPlanEntries(mealPlanId: $mealPlanId)
       }
-    `
+    `,
   );
   if (errorDeletingAllMealPlanEntries) {
     throw errorDeletingAllMealPlanEntries;

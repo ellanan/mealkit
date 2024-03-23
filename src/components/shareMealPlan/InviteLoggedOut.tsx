@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useAuthAccessTokenContext } from '../../useAuthAccessTokenContext';
+import { useEffect } from "react";
 
-import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useLocation, useHistory } from "react-router-dom";
+
+import CarrotLogo from "../../images/logo-carrot.svg?react";
+import { useAuthAccessTokenContext } from "../../useAuthAccessTokenContext";
 
 export const InviteLoggedOut = () => {
   const { isGettingAccessToken } = useAuthAccessTokenContext();
@@ -11,7 +12,7 @@ export const InviteLoggedOut = () => {
   const location = useLocation();
   const history = useHistory();
   const queryParams = new URLSearchParams(location.search);
-  const mealPlanId = queryParams.get('mealPlanId');
+  const mealPlanId = queryParams.get("mealPlanId");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -32,8 +33,8 @@ export const InviteLoggedOut = () => {
   ]);
 
   return (
-    <div className='w-full h-full flex items-center justify-center motion-safe:animate-bounce'>
-      <CarrotLogo className='w-16' />
+    <div className="w-full h-full flex items-center justify-center motion-safe:animate-bounce">
+      <CarrotLogo className="w-16" />
     </div>
   );
 };

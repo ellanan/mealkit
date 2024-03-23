@@ -1,21 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useMemo } from 'react';
-import { NavLink } from 'react-router-dom';
-import { DateTime } from 'luxon';
+
 import { useQuery, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
 import { Tooltip } from '@chakra-ui/react';
 import { Spinner } from '@chakra-ui/spinner';
+import { css } from '@emotion/react';
+import { DateTime } from 'luxon';
 import { BsInfoCircle as InfoIcon } from 'react-icons/bs';
+import { NavLink } from 'react-router-dom';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import * as GraphQLTypes from '../../generated/graphql';
+
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const PopularRecipes = () => {
   const today = useMemo(() => DateTime.now().endOf('day'), []);
   const startDate = useMemo(
     () => today.minus({ days: 30 }).startOf('day'),
-    [today]
+    [today],
   );
 
   const { data, error: errorLoadingMonthlyPlannedMeals } = useQuery<
@@ -42,7 +44,7 @@ export const PopularRecipes = () => {
         startDate: startDate.toISO(),
         endDate: today.toISO(),
       },
-    }
+    },
   );
   if (errorLoadingMonthlyPlannedMeals) {
     throw errorLoadingMonthlyPlannedMeals;

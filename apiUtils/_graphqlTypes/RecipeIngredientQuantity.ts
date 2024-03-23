@@ -1,13 +1,14 @@
-import { objectType } from 'nexus';
-import { prisma } from '../_helpers/prismaClient';
+import { objectType } from "nexus";
+
+import { prisma } from "../_helpers/prismaClient";
 
 export const RecipeIngredientQuantity = objectType({
-  name: 'RecipeIngredientQuantity',
+  name: "RecipeIngredientQuantity",
   definition(t) {
-    t.nonNull.string('unit');
-    t.nonNull.float('amount');
-    t.nonNull.field('recipe', {
-      type: 'Recipe',
+    t.nonNull.string("unit");
+    t.nonNull.float("amount");
+    t.nonNull.field("recipe", {
+      type: "Recipe",
       resolve: async (parent) => {
         const recipe = await prisma.recipe.findUnique({
           where: {
@@ -22,8 +23,8 @@ export const RecipeIngredientQuantity = objectType({
         return recipe;
       },
     });
-    t.nonNull.field('ingredient', {
-      type: 'Ingredient',
+    t.nonNull.field("ingredient", {
+      type: "Ingredient",
       resolve: async (parent) => {
         const ingredient = await prisma.ingredient.findUnique({
           where: {
@@ -33,7 +34,7 @@ export const RecipeIngredientQuantity = objectType({
 
         if (!ingredient) {
           throw new Error(
-            `Couldn't find ingredient for ${JSON.stringify(parent)}`
+            `Couldn't find ingredient for ${JSON.stringify(parent)}`,
           );
         }
 

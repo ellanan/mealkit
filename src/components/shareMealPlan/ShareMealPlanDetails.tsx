@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+
 import { useQuery, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
 import { FiLink2 } from 'react-icons/fi';
+
+import * as GraphQLTypes from '../../generated/graphql';
 
 export const ShareMealPlanDetails = () => {
   const [copySuccessMessage, setCopySuccessMessage] = useState('');

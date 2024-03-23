@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
+
 import {
   ApolloClient,
   ApolloProvider,
@@ -7,6 +7,8 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import _ from 'lodash';
+
 import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
 
 export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -22,7 +24,7 @@ export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
         // encodeURIComponent: a standard JavaScript function that encodes
         // special characters in a URL, preventing a possible injection attack vector
         return `/api/graphql?operationName=${encodeURIComponent(
-          operation.operationName
+          operation.operationName,
         )}`;
       },
     });
@@ -35,7 +37,7 @@ export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
             ...headers,
             authorization: token ? `Bearer ${token}` : undefined,
           },
-          _.isNil
+          _.isNil,
         ),
       };
     });

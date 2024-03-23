@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
+import { useQuery, gql } from '@apollo/client';
+import { Spinner } from '@chakra-ui/spinner';
 import { css } from '@emotion/react';
 import { NavLink } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
-import * as GraphQLTypes from '../../generated/graphql';
-import { Spinner } from '@chakra-ui/spinner';
 
-const defaultImg = require('../../images/defaultImg.jpg').default;
+import * as GraphQLTypes from '../../generated/graphql';
+
+
+import defaultImg from '../../images/defaultImg.jpg';
 
 export const RecentRecipes = () => {
   const { data, error: errorLoadingRecipes } = useQuery<
@@ -37,7 +39,7 @@ export const RecentRecipes = () => {
         order: GraphQLTypes.Order.Desc,
         limit: 3,
       },
-    }
+    },
   );
   if (errorLoadingRecipes) {
     throw errorLoadingRecipes;

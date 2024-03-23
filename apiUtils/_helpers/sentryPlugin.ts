@@ -6,12 +6,13 @@ import {
   ApolloServerPlugin,
   GraphQLRequestListener,
 } from 'apollo-server-plugin-base';
+
 import { Context } from './contextModule';
 
 export const sentryPlugin: ApolloServerPlugin<Context> = {
   // @ts-ignore
   requestDidStart({ request, context }) {
-    if (!!request.operationName) {
+    if (request.operationName) {
       // set the transaction Name if we have named queries
       context.transaction.setName(request.operationName!);
     }

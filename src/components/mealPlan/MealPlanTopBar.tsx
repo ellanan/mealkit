@@ -1,5 +1,5 @@
-import { Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Button } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 

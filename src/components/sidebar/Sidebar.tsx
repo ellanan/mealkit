@@ -1,7 +1,7 @@
+import { Setting } from './Setting';
 import { TopNav } from './TopNav';
 import { PopularRecipes } from '../recipe/PopularRecipes';
 import { RecentRecipes } from '../recipe/RecentRecipes';
-import { Setting } from './Setting';
 
 export const Sidebar = () => {
   return (

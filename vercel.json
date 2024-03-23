@@ -3,5 +3,7 @@
     "api/**/**": {
       "includeFiles": "api/tsconfig.json"
     }
-  }
+  },
+  "installCommand": "npm install --legacy-peer-deps",
+  "devCommand": "npm run dev"
 }

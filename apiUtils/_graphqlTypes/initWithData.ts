@@ -1,24 +1,24 @@
-import { nonNull, stringArg } from 'nexus';
-import { IngredientType, MealType } from '@prisma/client';
-import { DateTime } from 'luxon';
+import { IngredientType, MealType } from "@prisma/client";
+import { DateTime } from "luxon";
+import { nonNull, stringArg } from "nexus";
+import { ObjectDefinitionBlock } from "nexus/dist/blocks";
 
-import { prisma } from '../_helpers/prismaClient';
-import { ObjectDefinitionBlock } from 'nexus/dist/blocks';
+import { prisma } from "../_helpers/prismaClient";
 
-export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
-  t.field('initWithData', {
-    type: 'MealPlan',
+export const initWithData = (t: ObjectDefinitionBlock<"Mutation">) => {
+  t.field("initWithData", {
+    type: "MealPlan",
     args: {
       startDate: nonNull(stringArg()),
     },
     resolve: async (_parent, args, context) => {
       const currentUser = context.currentUser;
       if (!currentUser) {
-        throw new Error('User must be logged in');
+        throw new Error("User must be logged in");
       }
       const mealPlanId = currentUser.mealPlanId;
       if (!mealPlanId) {
-        throw new Error('Current user does not have a meal plan');
+        throw new Error("Current user does not have a meal plan");
       }
       const startDate = DateTime.fromISO(args.startDate).plus({ days: 1 });
       const endDate = startDate.plus({ days: 6 });
@@ -27,42 +27,42 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
         await Promise.all([
           prisma.ingredientType.create({
             data: {
-              name: 'Bakery',
+              name: "Bakery",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Vegetable',
+              name: "Vegetable",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Pasta',
+              name: "Pasta",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Dairy',
+              name: "Dairy",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Fruit',
+              name: "Fruit",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Meat',
+              name: "Meat",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Rice and Grain',
+              name: "Rice and Grain",
             },
           }),
           prisma.ingredientType.create({
             data: {
-              name: 'Other',
+              name: "Other",
             },
           }),
         ]);
@@ -109,63 +109,63 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
         grilledChicken,
       ] = await Promise.all([
         createIngredient({
-          name: 'rice',
+          name: "rice",
           ingredientType: riceGrain,
         }),
         createIngredient({
-          name: 'yogurt',
+          name: "yogurt",
           ingredientType: dairy,
         }),
         createIngredient({
-          name: 'mixed fruits',
+          name: "mixed fruits",
           ingredientType: fruit,
         }),
         createIngredient({
-          name: 'granola',
+          name: "granola",
           ingredientType: other,
         }),
         createIngredient({
-          name: 'egg',
+          name: "egg",
           ingredientType: dairy,
         }),
         createIngredient({
-          name: 'spinach',
+          name: "spinach",
           ingredientType: vegetable,
         }),
         createIngredient({
-          name: 'mushroom',
+          name: "mushroom",
           ingredientType: vegetable,
         }),
         createIngredient({
-          name: 'strawberries',
+          name: "strawberries",
           ingredientType: fruit,
         }),
         createIngredient({
-          name: 'bread',
+          name: "bread",
           ingredientType: bakery,
         }),
         createIngredient({
-          name: 'hummus',
+          name: "hummus",
           ingredientType: other,
         }),
         createIngredient({
-          name: 'steak',
+          name: "steak",
           ingredientType: meat,
         }),
         createIngredient({
-          name: 'mixed veggies',
+          name: "mixed veggies",
           ingredientType: vegetable,
         }),
         createIngredient({
-          name: 'pici',
+          name: "pici",
           ingredientType: pasta,
         }),
         createIngredient({
-          name: 'taco wrap',
+          name: "taco wrap",
           ingredientType: bakery,
         }),
         createIngredient({
-          name: 'grilled chicken',
+          name: "grilled chicken",
           ingredientType: meat,
         }),
       ]);
@@ -183,14 +183,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
       ] = await Promise.all([
         prisma.recipe.create({
           data: {
-            name: 'Smoothie Bowl',
+            name: "Smoothie Bowl",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/breakfast-smoothieBowl.jpg',
+              "https://mealkit.vercel.app/recipeImages/breakfast-smoothieBowl.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -199,7 +199,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -208,7 +208,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1 / 2,
                   ingredient: {
                     connect: {
@@ -223,14 +223,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Omelette',
+            name: "Omelette",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/breakfast-omelette.jpg',
+              "https://mealkit.vercel.app/recipeImages/breakfast-omelette.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'units',
+                  unit: "units",
                   amount: 2,
                   ingredient: {
                     connect: {
@@ -239,7 +239,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'g',
+                  unit: "g",
                   amount: 50,
                   ingredient: {
                     connect: {
@@ -248,7 +248,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'g',
+                  unit: "g",
                   amount: 50,
                   ingredient: {
                     connect: {
@@ -263,14 +263,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Yogurt & Fruit Salad',
+            name: "Yogurt & Fruit Salad",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/breakfast-yogurtFruits.jpg',
+              "https://mealkit.vercel.app/recipeImages/breakfast-yogurtFruits.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -279,7 +279,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -294,14 +294,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Veggie Toast',
+            name: "Veggie Toast",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/lunch-veggieToast.jpg',
+              "https://mealkit.vercel.app/recipeImages/lunch-veggieToast.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'slices',
+                  unit: "slices",
                   amount: 2,
                   ingredient: {
                     connect: {
@@ -316,14 +316,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Hummus Bowl',
+            name: "Hummus Bowl",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/lunch-hummusBowl.jpg',
+              "https://mealkit.vercel.app/recipeImages/lunch-hummusBowl.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -338,14 +338,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Steak with Veggies',
+            name: "Steak with Veggies",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/dinner-steakWithVeggie.jpg',
+              "https://mealkit.vercel.app/recipeImages/dinner-steakWithVeggie.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'oz',
+                  unit: "oz",
                   amount: 6,
                   ingredient: {
                     connect: {
@@ -354,7 +354,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -369,14 +369,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Mushroom Pasta',
+            name: "Mushroom Pasta",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/dinner-mushroomPasta.jpg',
+              "https://mealkit.vercel.app/recipeImages/dinner-mushroomPasta.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'oz',
+                  unit: "oz",
                   amount: 6,
                   ingredient: {
                     connect: {
@@ -385,7 +385,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -400,14 +400,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Beef Don',
+            name: "Beef Don",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/lunch-beefDon.jpg',
+              "https://mealkit.vercel.app/recipeImages/lunch-beefDon.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'oz',
+                  unit: "oz",
                   amount: 10,
                   ingredient: {
                     connect: {
@@ -416,7 +416,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -431,14 +431,14 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
 
         prisma.recipe.create({
           data: {
-            name: 'Tacos',
+            name: "Tacos",
             userId: context.currentUser?.id,
             imageUrl:
-              'https://mealkit.vercel.app/recipeImages/dinner-tacos.jpg',
+              "https://mealkit.vercel.app/recipeImages/dinner-tacos.jpg",
             ingredientQuantities: {
               create: [
                 {
-                  unit: 'slice',
+                  unit: "slice",
                   amount: 6,
                   ingredient: {
                     connect: {
@@ -447,7 +447,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
                   },
                 },
                 {
-                  unit: 'cup',
+                  unit: "cup",
                   amount: 1,
                   ingredient: {
                     connect: {
@@ -604,7 +604,7 @@ export const initWithData = (t: ObjectDefinitionBlock<'Mutation'>) => {
           where: {
             date: {
               gte: startDate.toISO(),
-              lte: endDate.endOf('day').toISO(),
+              lte: endDate.endOf("day").toISO(),
             },
             mealPlan: {
               id: mealPlanId,
