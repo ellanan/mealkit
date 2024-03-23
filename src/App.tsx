@@ -1,7 +1,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 import { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import SplitPane from "react-split-pane";
+import { Allotment } from "allotment";
 import { useMediaQuery } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -24,8 +24,10 @@ import { InviteLoggedIn } from "./components/shareMealPlan/InviteLoggedIn";
 import { InheritRecipesModal } from "./components/recipe/InheritRecipesModal";
 import { Home } from "./components/home/Home";
 import { MobileHome } from "./components/mobile/MobileHome";
-import { ReactComponent as CarrotLogo } from "./images/logo-carrot.svg";
+import CarrotLogo from "./images/logo-carrot.svg?react";
 import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
+
+import "allotment/dist/style.css";
 
 const App = () => {
   const { isAuthenticated } = useAuth0();
@@ -64,35 +66,37 @@ const App = () => {
           <>
             <CreateRecipeModal />
             <ShoppingListModal />
-            <SplitPane
-              split="vertical"
-              defaultSize={200}
-              maxSize={Math.min(window.innerWidth / 3, 500)}
-              minSize={200}
-            >
-              <Sidebar />
-              <div className="flex flex-col h-full">
-                <Switch>
-                  <Route path="/invite" component={InviteLoggedIn} />
+            <Allotment>
+              <Allotment.Pane
+                minSize={200}
+                maxSize={Math.min(window.innerWidth / 3, 500)}
+              >
+                <Sidebar />
+              </Allotment.Pane>
+              <Allotment.Pane>
+                <div className="flex flex-col h-full">
+                  <Switch>
+                    <Route path="/invite" component={InviteLoggedIn} />
 
-                  <Redirect exact from="/" to="/mealplanner" />
-                  <Route path="/mealplanner" component={MealPlan} />
-                  <Route
-                    exact
-                    path="/recipes/:recipeId"
-                    render={({ match }) => (
-                      <SingleRecipeDetails recipeId={match.params.recipeId} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/recipes"
-                    component={RecipesInRecipesPage}
-                  />
-                  <Route exact path="/grocerylist" component={ShoppingList} />
-                </Switch>
-              </div>
-            </SplitPane>
+                    <Redirect exact from="/" to="/mealplanner" />
+                    <Route path="/mealplanner" component={MealPlan} />
+                    <Route
+                      exact
+                      path="/recipes/:recipeId"
+                      render={({ match }) => (
+                        <SingleRecipeDetails recipeId={match.params.recipeId} />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/recipes"
+                      component={RecipesInRecipesPage}
+                    />
+                    <Route exact path="/grocerylist" component={ShoppingList} />
+                  </Switch>
+                </div>
+              </Allotment.Pane>
+            </Allotment>
           </>
         )
       ) : !isAuthenticated ? (

@@ -1,41 +1,41 @@
-import { NavLink } from 'react-router-dom';
-import { Tooltip } from '@chakra-ui/react';
-import { MdCreate } from 'react-icons/md';
-import { GoSearch } from 'react-icons/go';
-import { AiOutlineHome } from 'react-icons/ai';
+import { NavLink } from "react-router-dom";
+import { Tooltip } from "@chakra-ui/react";
+import { MdCreate } from "react-icons/md";
+import { GoSearch } from "react-icons/go";
+import { AiOutlineHome } from "react-icons/ai";
 
-import { ReactComponent as CarrotLogo } from '../../images/logo-carrot.svg';
+import CarrotLogo from "../../images/logo-carrot.svg?react";
 
 export const TopNav = () => {
   return (
-    <div className='flex flex-col items-center justify-center h-full pt-4 font-Raleway'>
+    <div className="flex flex-col items-center justify-center h-full pt-4 font-Raleway">
       <NavLink
-        to='/mealplanner'
-        className='text-lg font-medium text-23 font-Montserrat flex mb-8 h-5'
+        to="/mealplanner"
+        className="text-lg font-medium text-23 font-Montserrat flex mb-8 h-5"
       >
-        <CarrotLogo className='w-5 h-5 mr-1.5' />
+        <CarrotLogo className="w-5 h-5 mr-1.5" />
         MealKit
       </NavLink>
 
-      <div className='flex items-center justify-center'>
+      <div className="flex items-center justify-center">
         <NavLink
-          className='mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
-          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          className="mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110"
+          activeStyle={{ backgroundColor: "#fa9d6e" }}
           exact
-          to='/mealplanner'
+          to="/mealplanner"
         >
           <AiOutlineHome size={20} />
         </NavLink>
 
         <NavLink
-          className='mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
-          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          className="mr-5 rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110"
+          activeStyle={{ backgroundColor: "#fa9d6e" }}
           exact
-          to='/recipes'
+          to="/recipes"
         >
           <Tooltip
-            label='search for recipes'
-            className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
+            label="search for recipes"
+            className="bg-gray-400 bg-opacity-90 p-2 font-Raleway"
           >
             <span>
               <GoSearch size={20} />
@@ -44,14 +44,14 @@ export const TopNav = () => {
         </NavLink>
 
         <NavLink
-          className='rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110'
-          activeStyle={{ backgroundColor: '#fa9d6e' }}
+          className="rounded-full text-white py-2 px-2 bg-28 transition-all duration-150 hover:scale-110"
+          activeStyle={{ backgroundColor: "#fa9d6e" }}
           isActive={(match, location) => {
-            return location.search.includes('modalCreateRecipe=visible');
+            return location.search.includes("modalCreateRecipe=visible");
           }}
           to={(location) => {
             const newQueryParams = new URLSearchParams(location.search);
-            newQueryParams.append('modalCreateRecipe', 'visible');
+            newQueryParams.append("modalCreateRecipe", "visible");
 
             return {
               ...location,
@@ -60,8 +60,8 @@ export const TopNav = () => {
           }}
         >
           <Tooltip
-            label='create a new recipe'
-            className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
+            label="create a new recipe"
+            className="bg-gray-400 bg-opacity-90 p-2 font-Raleway"
           >
             <span>
               <MdCreate size={20} />

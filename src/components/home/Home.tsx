@@ -6,8 +6,8 @@ import Typewritter from "typewriter-effect";
 import { MdDownload } from "react-icons/md";
 
 import { Footer } from "../footer/Footer";
-import { ReactComponent as CarrotLogo } from "../../images/logo-carrot.svg";
-import { ReactComponent as MainBlob } from "./images/mainblob.svg";
+import CarrotLogo from "../../images/logo-carrot.svg?react";
+import MainBlob from "./images/mainblob.svg?react";
 
 import healthyVegImage from "./images/healthy-vegetables.png";
 import mealPlanExampleMobileImage from "./images/meal-plan-example-mobile.png";
