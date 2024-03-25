@@ -8,8 +8,15 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "prettier",
+    "plugin:react/jsx-runtime",
+    "plugin:prettier/recommended",
   ],
+  plugins: ["@typescript-eslint", "import", "react"],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
   overrides: [
     {
       env: {
@@ -26,7 +33,6 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "react"],
   rules: {
     "comma-dangle": ["error", "always-multiline"],
     "no-undef": "error",
@@ -61,5 +67,4 @@ module.exports = {
     ],
     "no-dupe-keys": "error",
   },
-  plugins: ["import"],
 };
