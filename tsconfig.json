@@ -27,7 +27,8 @@
     "generated/nexus-typegen.d.ts",
     "api/**/*",
     "src",
-    "apiHelpers/**/*"
+    "apiUtils/**/*",
+    "types/**/*.d.ts"
   ],
   "types": ["vite/client", "vite-plugin-svgr/client"]
 }
