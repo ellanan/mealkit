@@ -1,4 +1,4 @@
-import { prisma } from "../api/_helpers/prismaClient";
+import { prisma } from "../apiUtils/_helpers/prismaClient";
 
 async function main() {
   const alice = await prisma.user.upsert({
