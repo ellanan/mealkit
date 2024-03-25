@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useMemo, useRef } from "react";
+import { ReactNode, useEffect, useMemo, useRef } from "react";
 
 import {
   ApolloClient,
@@ -11,7 +11,7 @@ import _ from "lodash";
 
 import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
 
-export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
+export const ApolloClientProvider = ({ children }: { children: ReactNode }) => {
   const { accessToken } = useAuthAccessTokenContext();
   const accessTokenRef = useRef<string | undefined>();
   useEffect(() => {
