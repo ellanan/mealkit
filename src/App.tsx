@@ -25,8 +25,9 @@ import { InviteLoggedIn } from "./components/shareMealPlan/InviteLoggedIn";
 import { InviteLoggedOut } from "./components/shareMealPlan/InviteLoggedOut";
 import { ShareMealPlanModal } from "./components/shareMealPlan/ShareMealPlanModal";
 import { Sidebar } from "./components/sidebar/Sidebar";
-import CarrotLogo from "./images/logo-carrot.svg?react";
 import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
+
+import CarrotLogo from "./images/logo-carrot.svg";
 
 import "allotment/dist/style.css";
 

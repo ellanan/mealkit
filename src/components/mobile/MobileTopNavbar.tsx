@@ -2,8 +2,9 @@
 import { css } from "@emotion/react";
 import { NavLink } from "react-router-dom";
 
-import CarrotLogo from "../../images/logo-carrot.svg?react";
 import { Setting } from "../sidebar/Setting";
+
+import CarrotLogo from "../../images/logo-carrot.svg";
 
 export const MobileTopNavbar = () => {
   return (

@@ -5,16 +5,16 @@ import { MdDownload } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import Typewritter from "typewriter-effect";
 
-import MainBlob from "./images/mainblob.svg?react";
-import CarrotLogo from "../../images/logo-carrot.svg?react";
 import { Footer } from "../footer/Footer";
 
 import veggies1Image from "./images/bg-veggies/veggies1.png";
 import footerWaveImage from "./images/footer-wave.svg";
 import groceriesListExampleImage from "./images/groceries-list-example.png";
 import healthyVegImage from "./images/healthy-vegetables.png";
+import MainBlob from "./images/mainblob.svg";
 import mealPlanExampleMobileImage from "./images/meal-plan-example-mobile.png";
 import sharePlanExampleImage from "./images/share-plan-example.svg";
+import CarrotLogo from "../../images/logo-carrot.svg";
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();

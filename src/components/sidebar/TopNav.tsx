@@ -4,7 +4,7 @@ import { GoSearch } from "react-icons/go";
 import { MdCreate } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-import CarrotLogo from "../../images/logo-carrot.svg?react";
+import CarrotLogo from "../../images/logo-carrot.svg";
 
 export const TopNav = () => {
   return (

@@ -98,13 +98,9 @@ export const RecipesInRecipesPage = () => {
     >
       <div className="flex items-center justify-center">
         <InputGroup borderColor="#ebb59c" mx="6" my="10" w="inherit">
-          <InputLeftElement
-            pointerEvents="none"
-            ml="1"
-            children={
-              <Search2Icon className="flex items-center justify-center h-4 w-4 mr-2 left-0 text-17" />
-            }
-          />
+          <InputLeftElement pointerEvents="none" ml="1">
+            <Search2Icon className="flex items-center justify-center h-4 w-4 mr-2 left-0 text-17" />
+          </InputLeftElement>
           <Input
             type=""
             placeholder="Search for recipe"

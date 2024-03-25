@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation, useHistory } from "react-router-dom";
 
-import CarrotLogo from "../../images/logo-carrot.svg?react";
 import { useAuthAccessTokenContext } from "../../useAuthAccessTokenContext";
+
+import CarrotLogo from "../../images/logo-carrot.svg";
 
 export const InviteLoggedOut = () => {
   const { isGettingAccessToken } = useAuthAccessTokenContext();
