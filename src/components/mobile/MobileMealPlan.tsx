@@ -20,7 +20,7 @@ import { AddRecipeToMealPlanForm } from "../mealPlan/AddRecipeToMealPlanForm";
 import defaultImg from "../../images/defaultImg.jpg";
 
 export const MobileMealPlan = () => {
-  const initRef = useRef<any>();
+  const initRef = useRef<HTMLInputElement>(null);
 
   const today = useMemo(() => DateTime.now(), []);
   const [startDate, setStartDate] = useState<DateTime>(today.startOf("day"));
