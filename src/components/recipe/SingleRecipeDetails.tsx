@@ -364,7 +364,7 @@ export const SingleRecipeDetails = ({
                   <Button
                     ref={cancelDeleteRecipeRef}
                     size={"sm"}
-                    onClick={(e) => setIsDeleteRecipeOpen(false)}
+                    onClick={() => setIsDeleteRecipeOpen(false)}
                   >
                     Cancel
                   </Button>
