@@ -4,7 +4,7 @@
       "includeFiles": "api/tsconfig.json"
     }
   },
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "npm install",
   "devCommand": "npm run dev",
   "rewrites": [{ "source": "/((?!@vite|src|@react-refresh|node_modules).*)", "destination": "/index.html" }]
 }
