@@ -10,7 +10,7 @@ import {
 import { Context } from "./contextModule";
 
 export const sentryPlugin: ApolloServerPlugin<Context> = {
-  // @ts-ignore
+  // @ts-expect-error Type 'GraphQLRequestListener<Context>' is missing the following properties from type 'Promise<void | GraphQLRequestListener<Context>>': then, catch, finally,
   requestDidStart({ request, context }) {
     if (request.operationName) {
       // set the transaction Name if we have named queries
@@ -23,7 +23,6 @@ export const sentryPlugin: ApolloServerPlugin<Context> = {
       },
       async executionDidStart() {
         return {
-          // @ts-ignore
           willResolveField({ context, info }) {
             // hook for each new resolver
             const span = context.transaction.startChild({
