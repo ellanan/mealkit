@@ -220,7 +220,7 @@ export const ShoppingList = () => {
   }
 
   const ingredientQuantities = data?.currentUser?.mealPlan?.schedule
-    .map((scheduledItem: any) => {
+    .map((scheduledItem) => {
       return scheduledItem?.recipe?.ingredientQuantities ?? [];
     })
     .flat();
@@ -313,6 +313,7 @@ export const ShoppingList = () => {
                   }
                   isPreviewFocusable={false}
                   onSubmit={(newIngredientName) => {
+                    if (!ingredientQuantities[0].ingredient.type?.id) return;
                     editIngredientType({
                       variables: {
                         ingredientTypeId:
@@ -326,7 +327,9 @@ export const ShoppingList = () => {
                           fields: {
                             ingredientTypes: (existingIngredientTypes) => {
                               return existingIngredientTypes.map(
-                                (ingredientType: any) => {
+                                (
+                                  ingredientType: GraphQLTypes.IngredientType,
+                                ) => {
                                   if (
                                     !ingredientQuantities[0].ingredient.type?.id
                                   ) {
@@ -413,6 +416,9 @@ export const ShoppingList = () => {
                           size="sm"
                           onClick={(e) => {
                             e.preventDefault();
+                            if (!ingredientQuantities[0].ingredient.type?.id)
+                              return;
+
                             deleteIngredientType({
                               variables: {
                                 ingredientTypeId:
@@ -429,8 +435,13 @@ export const ShoppingList = () => {
                                       ingredientTypes,
                                       { readField },
                                     ) => {
+                                      if (
+                                        !data?.currentUser?.mealPlan
+                                          ?.ingredientTypes
+                                      )
+                                        return ingredientTypes;
                                       return data?.currentUser?.mealPlan?.ingredientTypes.filter(
-                                        (ingredientType: any) =>
+                                        (ingredientType) =>
                                           readField("id", ingredientType) !==
                                           ingredientQuantities[0].ingredient
                                             .type?.id,
@@ -506,15 +517,15 @@ export const ShoppingList = () => {
                       <Creatable
                         className="min-w-[150px] absolute top-0 right-0 leading-tight opacity-0 focus-within:opacity-100 "
                         styles={{
-                          control: (base: any) => ({
+                          control: (base) => ({
                             ...base,
                             minHeight: "auto",
                             cursor: "pointer",
                           }),
-                          indicatorSeparator: (base: any) => ({
+                          indicatorSeparator: () => ({
                             display: "none",
                           }),
-                          dropdownIndicator: (base: any) => ({
+                          dropdownIndicator: (base) => ({
                             ...base,
                             padding: "0 4px",
                           }),
@@ -573,6 +584,11 @@ export const ShoppingList = () => {
                                     ),
                                     fields: {
                                       type(existingType, { toReference }) {
+                                        if (
+                                          !response.data?.createIngredientType
+                                            ?.id
+                                        )
+                                          return existingType;
                                         return toReference({
                                           __typename: "IngredientType",
                                           id: response.data
@@ -620,6 +636,8 @@ export const ShoppingList = () => {
                                   ),
                                   fields: {
                                     type(existingType, { toReference }) {
+                                      if (!data?.updateIngredient?.type?.id)
+                                        return existingType;
                                       return toReference({
                                         __typename: "IngredientType",
                                         id: data?.updateIngredient?.type?.id,
