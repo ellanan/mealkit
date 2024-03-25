@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // reference https://dev.to/mandiwise/electron-apps-made-easy-with-create-react-app-and-electron-forge-560e
 
 // The app module, which controls your application's event lifecycle.
