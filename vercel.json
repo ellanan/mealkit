@@ -6,5 +6,5 @@
   },
   "installCommand": "npm install --legacy-peer-deps",
   "devCommand": "npm run dev",
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [{ "source": "/((?!@vite|src|@react-refresh|node_modules).*)", "destination": "/index.html" }]
 }
