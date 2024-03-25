@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
 
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   Modal,
   ModalHeader,
@@ -12,13 +12,13 @@ import {
   ModalFooter,
   useDisclosure,
   Button,
-} from '@chakra-ui/react';
-import _ from 'lodash';
-import { DateTime } from 'luxon';
+} from "@chakra-ui/react";
+import _ from "lodash";
+import { DateTime } from "luxon";
 
-import * as GraphQLTypes from '../../generated/graphql';
-import { gqlRecipeFragment } from '../mealPlan/AddRecipeToMealPlanForm';
-import { gqlMealPlanScheduleFragment } from '../mealPlan/MealPlan';
+import * as GraphQLTypes from "../../generated/graphql";
+import { gqlRecipeFragment } from "../mealPlan/AddRecipeToMealPlanForm";
+import { gqlMealPlanScheduleFragment } from "../mealPlan/MealPlan";
 
 export const InheritRecipesModal = () => {
   const { isAuthenticated } = useAuth0();
@@ -48,23 +48,21 @@ export const InheritRecipesModal = () => {
   const [inheritRecipes, { error: errorLoadingInheritRecipes }] = useMutation<
     GraphQLTypes.InitWithDataMutation,
     GraphQLTypes.InitWithDataMutationVariables
-  >(
-    gql`
-      mutation InitWithData($startDate: String!, $endDate: String!) {
-        initWithData(startDate: $startDate) {
-          id
-          schedule(startDate: $startDate, endDate: $endDate) {
-            ...MealPlanScheduleFragment
-            recipe {
-              ...RecipeFragment
-            }
+  >(gql`
+    mutation InitWithData($startDate: String!, $endDate: String!) {
+      initWithData(startDate: $startDate) {
+        id
+        schedule(startDate: $startDate, endDate: $endDate) {
+          ...MealPlanScheduleFragment
+          recipe {
+            ...RecipeFragment
           }
         }
       }
-      ${gqlRecipeFragment}
-      ${gqlMealPlanScheduleFragment}
-    `,
-  );
+    }
+    ${gqlRecipeFragment}
+    ${gqlMealPlanScheduleFragment}
+  `);
   if (errorLoadingInheritRecipes) {
     throw errorLoadingInheritRecipes;
   }
@@ -84,21 +82,21 @@ export const InheritRecipesModal = () => {
   return (
     <Modal onClose={onClose} isOpen={isOpen} autoFocus={false}>
       <ModalOverlay />
-      <ModalContent minHeight='20vh' minWidth='40vw' overflow='auto'>
+      <ModalContent minHeight="20vh" minWidth="40vw" overflow="auto">
         <ModalHeader>
-          <h1 className='text-14 text-xl'>Welcome</h1>
+          <h1 className="text-14 text-xl">Welcome</h1>
         </ModalHeader>
         <ModalCloseButton />
 
         <ModalBody>
-          <p className='text-14 text-lg'>
+          <p className="text-14 text-lg">
             Would you like to add starter recipes?
           </p>
         </ModalBody>
 
         <ModalFooter>
           <Button
-            className='text-white rounded-2xl min-w-[60px] mr-2 bg-23 hover:bg-25 hover:text-white'
+            className="text-white rounded-2xl min-w-[60px] mr-2 bg-23 hover:bg-25 hover:text-white"
             onClick={(e) => {
               e.preventDefault();
               inheritRecipes({
@@ -122,7 +120,7 @@ export const InheritRecipesModal = () => {
                             response.data?.initWithData?.schedule.map(
                               ({ recipe }) => recipe,
                             ),
-                            'id',
+                            "id",
                           ),
                         );
                       },
@@ -136,7 +134,7 @@ export const InheritRecipesModal = () => {
             Yes
           </Button>
           <Button
-            className='text-14 rounded-2xl min-w-[60px] ml-2 '
+            className="text-14 rounded-2xl min-w-[60px] ml-2 "
             onClick={onClose}
           >
             No

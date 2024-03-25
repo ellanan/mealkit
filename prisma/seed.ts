@@ -1,13 +1,13 @@
-import { prisma } from '../api/_helpers/prismaClient';
+import { prisma } from "../api/_helpers/prismaClient";
 
 async function main() {
   const alice = await prisma.user.upsert({
-    where: { id: 'ckuk47cjl0000u7rzs57upv7s' },
+    where: { id: "ckuk47cjl0000u7rzs57upv7s" },
     update: {},
     create: {
-      id: 'ckuk47cjl0000u7rzs57upv7s',
-      authProviderId: 'seed|0',
-      password: 'password123',
+      id: "ckuk47cjl0000u7rzs57upv7s",
+      authProviderId: "seed|0",
+      password: "password123",
       mealPlan: {
         create: {},
       },
@@ -22,20 +22,20 @@ async function main() {
   const [seasoning, deli] = await Promise.all([
     prisma.ingredientType.upsert({
       where: {
-        id: 'ckuk47d080000u7rz2dpwgqah',
+        id: "ckuk47d080000u7rz2dpwgqah",
       },
       update: {},
       create: {
-        name: 'seasoning',
+        name: "seasoning",
       },
     }),
     prisma.ingredientType.upsert({
       where: {
-        id: 'ckuk47d090001u7rz16qi19sl',
+        id: "ckuk47d090001u7rz16qi19sl",
       },
       update: {},
       create: {
-        name: 'deli',
+        name: "deli",
       },
     }),
   ]);
@@ -44,49 +44,49 @@ async function main() {
     prisma.ingredient.upsert({
       update: {},
       create: {
-        id: 'salt',
-        name: 'salt',
+        id: "salt",
+        name: "salt",
         ingredientTypeId: seasoning.id,
       },
       where: {
-        id: 'salt',
+        id: "salt",
       },
     }),
     prisma.ingredient.upsert({
       update: {},
       create: {
-        id: 'slicedTurkey',
-        name: 'sliced turkey',
+        id: "slicedTurkey",
+        name: "sliced turkey",
         ingredientTypeId: deli.id,
       },
       where: {
-        id: 'slicedTurkey',
+        id: "slicedTurkey",
       },
     }),
   ]);
 
   const recipeCategoryIds = {
-    american: 'ckuk47dte0003u7rz15wvhr1c',
-    chinese: 'ckuk47dte0004u7rzhc1vfist',
+    american: "ckuk47dte0003u7rz15wvhr1c",
+    chinese: "ckuk47dte0004u7rzhc1vfist",
   };
 
   const recipeCategories = await prisma.recipeCategory.createMany({
     data: [
       {
         id: recipeCategoryIds.american,
-        name: 'american',
+        name: "american",
       },
       {
         id: recipeCategoryIds.chinese,
-        name: 'chinese',
+        name: "chinese",
       },
     ],
     skipDuplicates: true,
   });
 
   const saltedSlicedTurkeyRecipeData = {
-    name: 'salted sliced turkey',
-    content: 'some contents here',
+    name: "salted sliced turkey",
+    content: "some contents here",
     category: {
       connect: {
         id: recipeCategoryIds.chinese,
@@ -106,13 +106,13 @@ async function main() {
                 id: salt.id,
               },
             },
-            unit: 'tsp',
+            unit: "tsp",
             amount: 2,
           },
           where: {
             ingredientId_recipeId: {
               ingredientId: salt.id,
-              recipeId: 'ckuk47dyc0029u7rz8ojx9u8b',
+              recipeId: "ckuk47dyc0029u7rz8ojx9u8b",
             },
           },
         },
@@ -123,13 +123,13 @@ async function main() {
                 id: slicedTurkey.id,
               },
             },
-            unit: 'gram',
+            unit: "gram",
             amount: 200,
           },
           where: {
             ingredientId_recipeId: {
               ingredientId: slicedTurkey.id,
-              recipeId: 'ckuk47dyc0029u7rz8ojx9u8b',
+              recipeId: "ckuk47dyc0029u7rz8ojx9u8b",
             },
           },
         },
@@ -139,7 +139,7 @@ async function main() {
 
   const saltedSlicedTurkeyRecipe = await prisma.recipe.upsert({
     where: {
-      id: 'ckuk47dyc0029u7rz8ojx9u8b',
+      id: "ckuk47dyc0029u7rz8ojx9u8b",
     },
     update: saltedSlicedTurkeyRecipeData,
     create: saltedSlicedTurkeyRecipeData,
@@ -147,12 +147,12 @@ async function main() {
 
   const mealPlanEntry = await prisma.mealPlanEntry.upsert({
     where: {
-      id: 'somemealplanid',
+      id: "somemealplanid",
     },
     update: {},
     create: {
-      date: new Date('2021-01-01').toISOString(),
-      mealType: 'BREAKFAST',
+      date: new Date("2021-01-01").toISOString(),
+      mealType: "BREAKFAST",
       mealPlan: {
         connect: {
           id: alice.mealPlanId,

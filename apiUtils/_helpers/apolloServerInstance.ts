@@ -7,7 +7,6 @@ import type { Headers } from "undici";
 import { schema } from "./makeSchema";
 import { prisma } from "./prismaClient";
 
-
 export const apolloServerInstance = new ApolloServer({
   schema,
 });

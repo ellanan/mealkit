@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from "@apollo/client";
 import {
   Button,
   AlertDialog,
@@ -9,10 +9,10 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-} from '@chakra-ui/react';
-import { MdNoMealsOuline } from 'react-icons/md';
+} from "@chakra-ui/react";
+import { MdNoMealsOuline } from "react-icons/md";
 
-import type * as GraphQLTypes from '../../generated/graphql';
+import type * as GraphQLTypes from "../../generated/graphql";
 
 export const ClearAllMealPlanEntries = () => {
   const [isDeleteMealEntriesOpen, setIsDeleteMealEntriesOpen] =
@@ -41,13 +41,11 @@ export const ClearAllMealPlanEntries = () => {
   ] = useMutation<
     GraphQLTypes.DeleteAllMealPlanEntriesMutation,
     GraphQLTypes.DeleteAllMealPlanEntriesMutationVariables
-  >(
-    gql`
-      mutation DeleteAllMealPlanEntries($mealPlanId: ID!) {
-        deleteAllMealPlanEntries(mealPlanId: $mealPlanId)
-      }
-    `,
-  );
+  >(gql`
+    mutation DeleteAllMealPlanEntries($mealPlanId: ID!) {
+      deleteAllMealPlanEntries(mealPlanId: $mealPlanId)
+    }
+  `);
   if (errorDeletingAllMealPlanEntries) {
     throw errorDeletingAllMealPlanEntries;
   }
@@ -55,10 +53,10 @@ export const ClearAllMealPlanEntries = () => {
   return (
     <>
       <button
-        className='flex items-center justify-center text-14 text-sm py-2 hover:bg-12'
+        className="flex items-center justify-center text-14 text-sm py-2 hover:bg-12"
         onClick={() => setIsDeleteMealEntriesOpen(true)}
       >
-        <MdNoMealsOuline size={12} className='min-w-[20px] mr-2' />
+        <MdNoMealsOuline size={12} className="min-w-[20px] mr-2" />
         Clear Meal Plan
       </button>
 
@@ -69,7 +67,7 @@ export const ClearAllMealPlanEntries = () => {
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Clear Meal Plan
             </AlertDialogHeader>
             <AlertDialogBody>
@@ -78,14 +76,14 @@ export const ClearAllMealPlanEntries = () => {
             <AlertDialogFooter>
               <Button
                 ref={cancelDeleteMealEntrieseRef}
-                size={'sm'}
+                size={"sm"}
                 onClick={() => setIsDeleteMealEntriesOpen(false)}
               >
                 Cancel
               </Button>
               <Button
-                colorScheme='red'
-                size={'sm'}
+                colorScheme="red"
+                size={"sm"}
                 ml={3}
                 disabled={loading}
                 onClick={async (e) => {

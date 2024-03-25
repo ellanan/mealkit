@@ -108,28 +108,26 @@ export const SingleRecipeDetails = ({
   const [editRecipe, { error: errorEditingRecipe }] = useMutation<
     GraphQLTypes.EditRecipeMutation,
     GraphQLTypes.EditRecipeMutationVariables
-  >(
-    gql`
-      mutation EditRecipe(
-        $recipeId: String!
-        $name: String
-        $imageUrl: String
-        $content: String
+  >(gql`
+    mutation EditRecipe(
+      $recipeId: String!
+      $name: String
+      $imageUrl: String
+      $content: String
+    ) {
+      editRecipe(
+        recipeId: $recipeId
+        name: $name
+        imageUrl: $imageUrl
+        content: $content
       ) {
-        editRecipe(
-          recipeId: $recipeId
-          name: $name
-          imageUrl: $imageUrl
-          content: $content
-        ) {
-          id
-          name
-          imageUrl
-          content
-        }
+        id
+        name
+        imageUrl
+        content
       }
-    `,
-  );
+    }
+  `);
   if (errorEditingRecipe) {
     throw errorEditingRecipe;
   }
@@ -391,13 +389,15 @@ export const SingleRecipeDetails = ({
                               recipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField("id", existingRecipe) !== recipeId,
+                                    readField("id", existingRecipe) !==
+                                    recipeId,
                                 );
                               },
                               popularRecipes(existingRecipes, { readField }) {
                                 return existingRecipes.filter(
                                   (existingRecipe: any) =>
-                                    readField("id", existingRecipe) !== recipeId,
+                                    readField("id", existingRecipe) !==
+                                    recipeId,
                                 );
                               },
                             },

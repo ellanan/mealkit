@@ -4,9 +4,9 @@ import {
   useState,
   createContext,
   useContext,
-} from 'react';
+} from "react";
 
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const useAuthAccessToken = () => {
   const {
@@ -29,9 +29,9 @@ const useAuthAccessToken = () => {
           setAccessToken(token);
           setIsGettingAccessToken(false);
         } catch (e) {
-          if (e === 'login_required') {
+          if (e === "login_required") {
             loginWithRedirect();
-          } else if (e === 'consent_required') {
+          } else if (e === "consent_required") {
             loginWithRedirect();
           } else {
             setAccessToken(undefined);
@@ -76,7 +76,7 @@ export const useAuthAccessTokenContext = () => {
   const context = useContext(AuthAccessTokenContext);
   if (context === null) {
     throw new Error(
-      'useAuthAccessTokenContext must be used within a AuthAccessTokenProvider',
+      "useAuthAccessTokenContext must be used within a AuthAccessTokenProvider",
     );
   }
   return context;

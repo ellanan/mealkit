@@ -14,7 +14,6 @@ import Creatable from "react-select/creatable";
 
 import * as GraphQLTypes from "../../generated/graphql";
 
-
 interface CreateRecipeForm {
   recipeName: string;
   imageUrl: string | null;
@@ -415,7 +414,8 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                             ...prev,
                             ingredientQuantities:
                               prev.ingredientQuantities.filter(
-                                ({ ingredient: { id } }) => ingredient.id !== id,
+                                ({ ingredient: { id } }) =>
+                                  ingredient.id !== id,
                               ),
                           }));
                         }}

@@ -1,11 +1,10 @@
-import { MutableRefObject, useState } from 'react';
+import { MutableRefObject, useState } from "react";
 
-import { useQuery, useMutation, gql } from '@apollo/client';
-import { Search2Icon } from '@chakra-ui/icons';
-import { Button } from '@chakra-ui/react';
+import { useQuery, useMutation, gql } from "@apollo/client";
+import { Search2Icon } from "@chakra-ui/icons";
+import { Button } from "@chakra-ui/react";
 
-import type * as GraphQLTypes from '../../generated/graphql';
-
+import type * as GraphQLTypes from "../../generated/graphql";
 
 import defaultImg from "../../images/defaultImg.jpg";
 
@@ -40,14 +39,14 @@ export const AddRecipeToMealPlanForm = ({
   onClose,
   recipesToDisable,
 }: {
-  mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
+  mealPlan: Pick<GraphQLTypes.MealPlan, "id" | "__typename">;
   date: string;
   mealType: GraphQLTypes.MealType;
   autoFocusRef: MutableRefObject<any>;
   onClose: () => void;
   recipesToDisable: Array<{ id: string }>;
 }) => {
-  const [searchRecipe, setSearchRecipe] = useState<string>('');
+  const [searchRecipe, setSearchRecipe] = useState<string>("");
 
   const { data: recipesData, error: errorLoadingRecipes } =
     useQuery<GraphQLTypes.RecipesAvailableQuery>(gqlRecipiesAvailableQuery);
@@ -57,13 +56,13 @@ export const AddRecipeToMealPlanForm = ({
 
   return (
     <div>
-      <div className='flex flex-row items-center m-3 h-10 px-3 rounded-2xl shadow-addRecipeToMealPlanFormSearchbox'>
-        <Search2Icon className='flex items-center justify-center h-4 w-4 mr-3 text-17' />
+      <div className="flex flex-row items-center m-3 h-10 px-3 rounded-2xl shadow-addRecipeToMealPlanFormSearchbox">
+        <Search2Icon className="flex items-center justify-center h-4 w-4 mr-3 text-17" />
         <input
-          className='outline-none'
-          type='text'
-          aria-label='Search for a recipe'
-          placeholder='search recipe'
+          className="outline-none"
+          type="text"
+          aria-label="Search for a recipe"
+          placeholder="search recipe"
           size={20}
           onChange={(e) => {
             e.preventDefault();
@@ -73,7 +72,7 @@ export const AddRecipeToMealPlanForm = ({
         />
       </div>
 
-      <div className='mb-3'>
+      <div className="mb-3">
         {recipesData?.currentUser?.mealPlan?.recipes
           .filter((recipe) =>
             recipe.name.toLowerCase().includes(searchRecipe.toLowerCase()),
@@ -103,9 +102,9 @@ const RecipeOption = ({
   recipesToDisable,
 }: {
   recipe: NonNullable<
-    NonNullable<GraphQLTypes.RecipesAvailableQuery['currentUser']>['mealPlan']
-  >['recipes'][0];
-  mealPlan: Pick<GraphQLTypes.MealPlan, 'id' | '__typename'>;
+    NonNullable<GraphQLTypes.RecipesAvailableQuery["currentUser"]>["mealPlan"]
+  >["recipes"][0];
+  mealPlan: Pick<GraphQLTypes.MealPlan, "id" | "__typename">;
   date: string;
   mealType: GraphQLTypes.MealType;
   onClose: () => void;
@@ -115,41 +114,39 @@ const RecipeOption = ({
     useMutation<
       GraphQLTypes.AddRecipeToMealPlanMutationMutation,
       GraphQLTypes.AddRecipeToMealPlanMutationMutationVariables
-    >(
-      gql`
-        mutation AddRecipeToMealPlanMutation(
-          $mealPlanId: ID!
-          $recipeId: ID!
-          $date: String!
-          $mealType: MealType!
+    >(gql`
+      mutation AddRecipeToMealPlanMutation(
+        $mealPlanId: ID!
+        $recipeId: ID!
+        $date: String!
+        $mealType: MealType!
+      ) {
+        addRecipeToMealPlan(
+          mealPlanId: $mealPlanId
+          recipeId: $recipeId
+          date: $date
+          mealType: $mealType
         ) {
-          addRecipeToMealPlan(
-            mealPlanId: $mealPlanId
-            recipeId: $recipeId
-            date: $date
-            mealType: $mealType
-          ) {
+          id
+          date
+          mealType
+          recipe {
             id
-            date
-            mealType
-            recipe {
-              id
-              name
-              imageUrl
-            }
+            name
+            imageUrl
           }
         }
-      `,
-    );
+      }
+    `);
   if (errorAddingRecipeToMealPlan) {
     throw errorAddingRecipeToMealPlan;
   }
 
   return (
     <Button
-      className='flex flex-row justify-start bg-white p-4 w-full hover:bg-18 hover:text-19'
-      size={'xs'}
-      borderRadius='none'
+      className="flex flex-row justify-start bg-white p-4 w-full hover:bg-18 hover:text-19"
+      size={"xs"}
+      borderRadius="none"
       isDisabled={recipesToDisable.some(
         (recipeAlreadyInMealPlan) => recipeAlreadyInMealPlan.id === recipe.id,
       )}
@@ -180,7 +177,7 @@ const RecipeOption = ({
           },
           optimisticResponse: {
             addRecipeToMealPlan: {
-              __typename: 'MealPlanEntry',
+              __typename: "MealPlanEntry",
               id: `temp-id:${recipe.id}:${date}:${mealType}`,
               date,
               mealType,
@@ -191,11 +188,11 @@ const RecipeOption = ({
       }}
     >
       <img
-        className='w-6 h-6 rounded-xl object-cover'
+        className="w-6 h-6 rounded-xl object-cover"
         src={recipe.imageUrl ?? defaultImg}
-        alt=''
+        alt=""
       />
-      <span className='ml-4 text-sm font-normal'>{recipe.name}</span>
+      <span className="ml-4 text-sm font-normal">{recipe.name}</span>
     </Button>
   );
 };

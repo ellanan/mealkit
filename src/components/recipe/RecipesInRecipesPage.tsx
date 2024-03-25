@@ -1,25 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from 'react';
+import { useState } from "react";
 
-import { useQuery, gql } from '@apollo/client';
-import { Search2Icon } from '@chakra-ui/icons';
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
-import { Button, useMediaQuery } from '@chakra-ui/react';
-import { Spinner } from '@chakra-ui/spinner';
-import { css } from '@emotion/react';
-import { NavLink } from 'react-router-dom';
+import { useQuery, gql } from "@apollo/client";
+import { Search2Icon } from "@chakra-ui/icons";
+import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
+import { Button, useMediaQuery } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/spinner";
+import { css } from "@emotion/react";
+import { NavLink } from "react-router-dom";
 
-import * as GraphQLTypes from '../../generated/graphql';
+import * as GraphQLTypes from "../../generated/graphql";
 
-import defaultImg from '../../images/defaultImg.jpg';
+import defaultImg from "../../images/defaultImg.jpg";
 
 const pageSize = 12;
 
 export const RecipesInRecipesPage = () => {
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const [isLargerThan850] = useMediaQuery('(min-width: 850px)');
+  const [isLargerThan850] = useMediaQuery("(min-width: 850px)");
 
   const {
     data,
@@ -76,8 +76,8 @@ export const RecipesInRecipesPage = () => {
     <div
       className={
         isLargerThan850
-          ? 'flex flex-col overflow-auto text-14 h-full'
-          : 'flex flex-col text-14 h-full pt-12'
+          ? "flex flex-col overflow-auto text-14 h-full"
+          : "flex flex-col text-14 h-full pt-12"
       }
       css={css`
         scrollbar-width: thin;
@@ -96,22 +96,22 @@ export const RecipesInRecipesPage = () => {
         }
       `}
     >
-      <div className='flex items-center justify-center'>
-        <InputGroup borderColor='#ebb59c' mx='6' my='10' w='inherit'>
+      <div className="flex items-center justify-center">
+        <InputGroup borderColor="#ebb59c" mx="6" my="10" w="inherit">
           <InputLeftElement
-            pointerEvents='none'
-            ml='1'
+            pointerEvents="none"
+            ml="1"
             children={
-              <Search2Icon className='flex items-center justify-center h-4 w-4 mr-2 left-0 text-17' />
+              <Search2Icon className="flex items-center justify-center h-4 w-4 mr-2 left-0 text-17" />
             }
           />
           <Input
-            type=''
-            placeholder='Search for recipe'
-            borderRadius='20px'
-            focusBorderColor='orange.300'
+            type=""
+            placeholder="Search for recipe"
+            borderRadius="20px"
+            focusBorderColor="orange.300"
             autoFocus={true}
-            inputMode='search'
+            inputMode="search"
             onChange={(e) => {
               e.preventDefault();
               setSearch(e.target.value);
@@ -121,16 +121,16 @@ export const RecipesInRecipesPage = () => {
       </div>
 
       {loadingRecipes ? (
-        <div className='flex items-center justify-center w-full h-full absolute'>
-          <Spinner size='xl' color='#f88c5a' />
+        <div className="flex items-center justify-center w-full h-full absolute">
+          <Spinner size="xl" color="#f88c5a" />
         </div>
       ) : null}
 
       <div
         className={
           isLargerThan850
-            ? 'flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8'
-            : 'flex-grow flex flex-row flex-wrap justify-evenly'
+            ? "flex-grow grid md:grid-cols-4 sm:grid-cols-3 gap-2 mb-8 mx-8"
+            : "flex-grow flex flex-row flex-wrap justify-evenly"
         }
       >
         {data?.currentUser?.mealPlan?.recipes
@@ -141,13 +141,13 @@ export const RecipesInRecipesPage = () => {
             <NavLink
               className={
                 isLargerThan850
-                  ? 'flex flex-col py-1 px-4 text-sm hover:opacity-70'
-                  : 'flex flex-col items-center justify-center text-sm hover:opacity-70 mb-6'
+                  ? "flex flex-col py-1 px-4 text-sm hover:opacity-70"
+                  : "flex flex-col items-center justify-center text-sm hover:opacity-70 mb-6"
               }
               key={recipe.id}
               to={(location) => {
                 const newQueryParams = new URLSearchParams(location.search);
-                newQueryParams.append('modalRecipeId', recipe.id);
+                newQueryParams.append("modalRecipeId", recipe.id);
 
                 return {
                   ...location,
@@ -158,26 +158,26 @@ export const RecipesInRecipesPage = () => {
               <div
                 className={
                   isLargerThan850
-                    ? 'lg:h-48 relative overflow-hidden flex-shrink-0'
-                    : 'h-36 w-36 relative overflow-hidden flex-shrink-0'
+                    ? "lg:h-48 relative overflow-hidden flex-shrink-0"
+                    : "h-36 w-36 relative overflow-hidden flex-shrink-0"
                 }
               >
                 <img
-                  className='object-cover w-full h-full rounded-2xl'
+                  className="object-cover w-full h-full rounded-2xl"
                   src={recipe.imageUrl ?? defaultImg}
-                  alt=''
+                  alt=""
                 />
-                {recipe.id.startsWith('temp-id') && (
-                  <div className='flex items-center justify-center w-full h-full absolute'>
-                    <Spinner size='sm' color='#f88c5a' />
+                {recipe.id.startsWith("temp-id") && (
+                  <div className="flex items-center justify-center w-full h-full absolute">
+                    <Spinner size="sm" color="#f88c5a" />
                   </div>
                 )}
               </div>
               <span
                 className={
                   isLargerThan850
-                    ? 'text-14 text-lg text-center uppercase font-medium min-h-[2em] leading-none mt-2'
-                    : 'text-14 text-md font-medium text-center uppercase'
+                    ? "text-14 text-lg text-center uppercase font-medium min-h-[2em] leading-none mt-2"
+                    : "text-14 text-md font-medium text-center uppercase"
                 }
               >
                 {recipe.name}
@@ -186,12 +186,12 @@ export const RecipesInRecipesPage = () => {
           ))}
       </div>
 
-      <div className='flex items-center justify-center mb-10'>
+      <div className="flex items-center justify-center mb-10">
         <Button
           className={
             isLargerThan850
-              ? 'object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-6 bg-22 hover:bg-25 disabled:hover:bg-11'
-              : 'object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-20 bg-22 w-32'
+              ? "object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-6 bg-22 hover:bg-25 disabled:hover:bg-11"
+              : "object-contain rounded-full text-white text-base font-medium py-1 px-3 mb-20 bg-22 w-32"
           }
           disabled={
             !hasMore ||

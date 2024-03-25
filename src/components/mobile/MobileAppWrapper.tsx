@@ -4,9 +4,9 @@ import {
   useRef,
   useState,
   PropsWithChildren,
-} from 'react';
+} from "react";
 
-import classNames from 'classnames';
+import classNames from "classnames";
 
 export const MobileAppWrapper = (props: PropsWithChildren<{}>) => {
   const [isScrollingDown, setIsScrollingDown] = useState(false);
@@ -22,15 +22,15 @@ export const MobileAppWrapper = (props: PropsWithChildren<{}>) => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
   return (
     <div
       className={classNames(
-        'flex flex-col h-full',
-        isScrollingDown && 'scrolling-down',
+        "flex flex-col h-full",
+        isScrollingDown && "scrolling-down",
       )}
     >
       {props.children}

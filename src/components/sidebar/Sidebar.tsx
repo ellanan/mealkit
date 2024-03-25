@@ -1,14 +1,14 @@
-import { Setting } from './Setting';
-import { TopNav } from './TopNav';
-import { PopularRecipes } from '../recipe/PopularRecipes';
-import { RecentRecipes } from '../recipe/RecentRecipes';
+import { Setting } from "./Setting";
+import { TopNav } from "./TopNav";
+import { PopularRecipes } from "../recipe/PopularRecipes";
+import { RecentRecipes } from "../recipe/RecentRecipes";
 
 export const Sidebar = () => {
   return (
     <div
-      className='flex flex-col items-center justify-start h-full font-Raleway'
+      className="flex flex-col items-center justify-start h-full font-Raleway"
       style={{
-        backgroundColor: '#fff1ea',
+        backgroundColor: "#fff1ea",
         backgroundImage: `linear-gradient(45deg, #fa9d6e33, transparent)`,
       }}
     >
@@ -16,12 +16,12 @@ export const Sidebar = () => {
         <TopNav />
       </div>
 
-      <div className='flex flex-col overflow-hidden mt-4 w-full'>
+      <div className="flex flex-col overflow-hidden mt-4 w-full">
         <PopularRecipes />
         <RecentRecipes />
       </div>
 
-      <div className='flex flex-col items-center justify-center mt-auto w-full'>
+      <div className="flex flex-col items-center justify-center mt-auto w-full">
         <Setting />
       </div>
     </div>

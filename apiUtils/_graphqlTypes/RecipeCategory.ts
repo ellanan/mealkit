@@ -1,9 +1,9 @@
-import { objectType } from 'nexus';
+import { objectType } from "nexus";
 
 export const RecipeCategory = objectType({
-  name: 'RecipeCategory',
+  name: "RecipeCategory",
   definition(t) {
-    t.nonNull.id('id');
-    t.nonNull.string('name');
+    t.nonNull.id("id");
+    t.nonNull.string("name");
   },
 });

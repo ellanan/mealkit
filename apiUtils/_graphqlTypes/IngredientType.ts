@@ -1,9 +1,9 @@
-import { objectType } from 'nexus';
+import { objectType } from "nexus";
 
 export const IngredientType = objectType({
-  name: 'IngredientType',
+  name: "IngredientType",
   definition(t) {
-    t.nonNull.id('id');
-    t.nonNull.string('name');
+    t.nonNull.id("id");
+    t.nonNull.string("name");
   },
 });

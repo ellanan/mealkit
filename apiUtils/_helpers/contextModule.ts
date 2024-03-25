@@ -1,4 +1,4 @@
-import { Transaction } from '@sentry/types';
+import { Transaction } from "@sentry/types";
 
 export type Context = {
   currentUser: {

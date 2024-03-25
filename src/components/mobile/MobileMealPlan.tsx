@@ -1,30 +1,29 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef } from "react";
 
-import { useQuery, gql, useMutation } from '@apollo/client';
-import { AddIcon, CloseIcon } from '@chakra-ui/icons';
+import { useQuery, gql, useMutation } from "@apollo/client";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Button,
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import { DateTime, Interval } from 'luxon';
-import { NavLink } from 'react-router-dom';
+} from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import { DateTime, Interval } from "luxon";
+import { NavLink } from "react-router-dom";
 
+import { MobileMealPlanSubNavbar } from "./MobileMealPlanSubNavbar";
+import * as GraphQLTypes from "../../generated/graphql";
+import { AddRecipeToMealPlanForm } from "../mealPlan/AddRecipeToMealPlanForm";
 
-import { MobileMealPlanSubNavbar } from './MobileMealPlanSubNavbar';
-import * as GraphQLTypes from '../../generated/graphql';
-import { AddRecipeToMealPlanForm } from '../mealPlan/AddRecipeToMealPlanForm';
-
-import defaultImg from '../../images/defaultImg.jpg';
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const MobileMealPlan = () => {
   const initRef = useRef<any>();
 
   const today = useMemo(() => DateTime.now(), []);
-  const [startDate, setStartDate] = useState<DateTime>(today.startOf('day'));
+  const [startDate, setStartDate] = useState<DateTime>(today.startOf("day"));
   const endDate = useMemo(() => startDate.plus({ days: 7 }), [startDate]);
 
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
@@ -78,15 +77,13 @@ export const MobileMealPlan = () => {
     useMutation<
       GraphQLTypes.DeleteMealPlanEntryMutationMutation,
       GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
-    >(
-      gql`
-        mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
-          deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
-            id
-          }
+    >(gql`
+      mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
+        deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
+          id
         }
-      `,
-    );
+      }
+    `);
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
@@ -103,7 +100,7 @@ export const MobileMealPlan = () => {
       />
 
       <div
-        className='flex flex-col items-center flex-shrink flex-grow pt-24 pb-16'
+        className="flex flex-col items-center flex-shrink flex-grow pt-24 pb-16"
         css={css`
           scrollbar-width: thin;
           scrollbar-color: #e7a47a60 transparent;
@@ -125,16 +122,16 @@ export const MobileMealPlan = () => {
           return (
             <div
               key={day.toISO()}
-              className='flex flex-col items-center justify-center max-w-min'
+              className="flex flex-col items-center justify-center max-w-min"
             >
-              <div className='text-14'>
-                <span className='flex items-center justify-center p-2 text-sm font-medium'>
+              <div className="text-14">
+                <span className="flex items-center justify-center p-2 text-sm font-medium">
                   {`${day.weekdayLong.toUpperCase()}, ${day.monthLong
                     .slice(0, 3)
                     .toUpperCase()} ${day.day}`}
                 </span>
 
-                <div className='flex flex-row items-start justify-center min-h-[90px]'>
+                <div className="flex flex-row items-start justify-center min-h-[90px]">
                   {[
                     GraphQLTypes.MealType.Breakfast,
                     GraphQLTypes.MealType.Lunch,
@@ -153,9 +150,9 @@ export const MobileMealPlan = () => {
                       },
                     );
                     return (
-                      <div key={mealType} className='px-2'>
+                      <div key={mealType} className="px-2">
                         <Popover
-                          placement={'auto-start'}
+                          placement={"auto-start"}
                           isLazy={true}
                           autoFocus={true}
                           closeOnBlur={true}
@@ -165,9 +162,9 @@ export const MobileMealPlan = () => {
                             <>
                               <PopoverTrigger>
                                 <Button
-                                  className='group focus:shadow-none w-24'
-                                  size='xs'
-                                  variant='unstyled'
+                                  className="group focus:shadow-none w-24"
+                                  size="xs"
+                                  variant="unstyled"
                                   aria-label={`add recipe to ${mealType}`}
                                   onClick={() => {
                                     setMealTypeAndDate({
@@ -177,14 +174,14 @@ export const MobileMealPlan = () => {
                                   }}
                                 >
                                   {mealType}
-                                  <AddIcon className='ml-1' w={2} h={2} />
+                                  <AddIcon className="ml-1" w={2} h={2} />
                                 </Button>
                               </PopoverTrigger>
                               <PopoverContent
-                                width='100'
-                                border='none'
-                                shadow='lg'
-                                borderRadius='20px'
+                                width="100"
+                                border="none"
+                                shadow="lg"
+                                borderRadius="20px"
                               >
                                 {data?.currentUser?.mealPlan?.id &&
                                   mealTypeAndDate?.date &&
@@ -208,15 +205,15 @@ export const MobileMealPlan = () => {
                         </Popover>
 
                         {mealPlanEntries?.map((entry) => (
-                          <div key={entry.id} className='relative my-4 w-full'>
+                          <div key={entry.id} className="relative my-4 w-full">
                             <NavLink
-                              className='block shadow-sm hover:shadow-md overflow-hidden rounded-xl'
+                              className="block shadow-sm hover:shadow-md overflow-hidden rounded-xl"
                               to={(location) => {
                                 const newQueryParams = new URLSearchParams(
                                   location.search,
                                 );
                                 newQueryParams.set(
-                                  'modalRecipeId',
+                                  "modalRecipeId",
                                   entry.recipe.id,
                                 );
 
@@ -226,22 +223,22 @@ export const MobileMealPlan = () => {
                                 };
                               }}
                             >
-                              <div className='pt-[100%] relative overflow-hidden'>
+                              <div className="pt-[100%] relative overflow-hidden">
                                 <img
-                                  className='absolute top-0 w-full h-full object-cover'
+                                  className="absolute top-0 w-full h-full object-cover"
                                   src={entry.recipe.imageUrl ?? defaultImg}
-                                  alt=''
+                                  alt=""
                                 />
                               </div>
 
-                              <div className='text-14 text-center text-xs pb-1'>
+                              <div className="text-14 text-center text-xs pb-1">
                                 {entry.recipe.name}
                               </div>
 
                               <Button
-                                className='absolute top-0 right-0 flex content-center items-center pl-0.5 pb-0.5'
-                                size='xs'
-                                variant='unstyled'
+                                className="absolute top-0 right-0 flex content-center items-center pl-0.5 pb-0.5"
+                                size="xs"
+                                variant="unstyled"
                                 aria-label={`delete ${entry.recipe.name} from meal plan`}
                                 disabled={!mealPlan}
                                 onClick={(e) => {
@@ -262,7 +259,7 @@ export const MobileMealPlan = () => {
                                             return existingEntriesInSchedule.filter(
                                               (existingEntry: any) =>
                                                 readField(
-                                                  'id',
+                                                  "id",
                                                   existingEntry,
                                                 ) !== entry.id,
                                             );
@@ -272,7 +269,7 @@ export const MobileMealPlan = () => {
                                     },
                                     optimisticResponse: {
                                       deleteMealPlanEntry: {
-                                        __typename: 'MealPlanEntry',
+                                        __typename: "MealPlanEntry",
                                         id: entry.id,
                                       },
                                     },
@@ -280,16 +277,16 @@ export const MobileMealPlan = () => {
                                 }}
                               >
                                 <div
-                                  className='absolute top-0 right-0 w-full h-full bg-black bg-opacity-20 rounded-tr-xl'
+                                  className="absolute top-0 right-0 w-full h-full bg-black bg-opacity-20 rounded-tr-xl"
                                   css={css`
                                     border-bottom-left-radius: 22px;
                                   `}
                                 />
                                 <CloseIcon
-                                  position='relative'
+                                  position="relative"
                                   w={2}
                                   h={2}
-                                  color='#fff'
+                                  color="#fff"
                                 />
                               </Button>
                             </NavLink>

@@ -1,15 +1,15 @@
-import { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useRef } from "react";
 
 import {
   ApolloClient,
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import _ from 'lodash';
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import _ from "lodash";
 
-import { useAuthAccessTokenContext } from './useAuthAccessTokenContext';
+import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
 
 export const ApolloClientProvider = ({ children }: PropsWithChildren<{}>) => {
   const { accessToken } = useAuthAccessTokenContext();

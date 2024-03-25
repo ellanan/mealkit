@@ -1,22 +1,22 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import { useQuery, gql } from '@apollo/client';
-import { Tooltip } from '@chakra-ui/react';
-import { Spinner } from '@chakra-ui/spinner';
-import { css } from '@emotion/react';
-import { DateTime } from 'luxon';
-import { BsInfoCircle as InfoIcon } from 'react-icons/bs';
-import { NavLink } from 'react-router-dom';
+import { useQuery, gql } from "@apollo/client";
+import { Tooltip } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/spinner";
+import { css } from "@emotion/react";
+import { DateTime } from "luxon";
+import { BsInfoCircle as InfoIcon } from "react-icons/bs";
+import { NavLink } from "react-router-dom";
 
-import * as GraphQLTypes from '../../generated/graphql';
+import * as GraphQLTypes from "../../generated/graphql";
 
-import defaultImg from '../../images/defaultImg.jpg';
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const PopularRecipes = () => {
-  const today = useMemo(() => DateTime.now().endOf('day'), []);
+  const today = useMemo(() => DateTime.now().endOf("day"), []);
   const startDate = useMemo(
-    () => today.minus({ days: 30 }).startOf('day'),
+    () => today.minus({ days: 30 }).startOf("day"),
     [today],
   );
 
@@ -52,18 +52,18 @@ export const PopularRecipes = () => {
 
   return (
     <>
-      <h1 className='text-xs text-25 font-medium mb-1 py-1 px-4 uppercase opacity-70'>
+      <h1 className="text-xs text-25 font-medium mb-1 py-1 px-4 uppercase opacity-70">
         <Tooltip
-          label='Based on frequency from the last 30 days'
-          className='bg-gray-400 bg-opacity-90 p-2 font-Raleway'
+          label="Based on frequency from the last 30 days"
+          className="bg-gray-400 bg-opacity-90 p-2 font-Raleway"
         >
           <span>
-            Popular Recipes <InfoIcon className='inline-block w-2' />
+            Popular Recipes <InfoIcon className="inline-block w-2" />
           </span>
         </Tooltip>
       </h1>
       <div
-        className='flex flex-col overflow-auto'
+        className="flex flex-col overflow-auto"
         css={css`
           scrollbar-width: thin;
           scrollbar-color: #e7a47a60 transparent;
@@ -83,11 +83,11 @@ export const PopularRecipes = () => {
       >
         {data?.currentUser?.mealPlan?.popularRecipes.map((recipe) => (
           <NavLink
-            className='flex items-center py-1 px-4 text-14 text-sm font-medium'
+            className="flex items-center py-1 px-4 text-14 text-sm font-medium"
             key={recipe.id}
             to={(location) => {
               const newQueryParams = new URLSearchParams(location.search);
-              newQueryParams.set('modalRecipeId', recipe.id);
+              newQueryParams.set("modalRecipeId", recipe.id);
 
               return {
                 ...location,
@@ -105,15 +105,15 @@ export const PopularRecipes = () => {
               }
             `}
           >
-            <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0'>
+            <div className="w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0">
               <img
-                className='object-cover w-full h-full'
+                className="object-cover w-full h-full"
                 src={recipe.imageUrl ?? defaultImg}
-                alt=''
+                alt=""
               />
-              {recipe.id.startsWith('temp-id') && (
-                <div className='flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm'>
-                  <Spinner size='sm' color='#f88c5a' />
+              {recipe.id.startsWith("temp-id") && (
+                <div className="flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm">
+                  <Spinner size="sm" color="#f88c5a" />
                 </div>
               )}
             </div>

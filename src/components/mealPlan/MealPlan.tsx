@@ -1,23 +1,22 @@
 /** @jsxImportSource @emotion/react */
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef } from "react";
 
-import { useQuery, gql, useMutation } from '@apollo/client';
-import { AddIcon, CloseIcon } from '@chakra-ui/icons';
+import { useQuery, gql, useMutation } from "@apollo/client";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Button,
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import { DateTime, Interval } from 'luxon';
-import { NavLink } from 'react-router-dom';
+} from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import { DateTime, Interval } from "luxon";
+import { NavLink } from "react-router-dom";
 
-
-import { AddRecipeToMealPlanForm } from './AddRecipeToMealPlanForm';
-import { MealPlanDates } from './MealPlanDates';
-import { MealPlanTopBar } from './MealPlanTopBar';
-import * as GraphQLTypes from '../../generated/graphql';
+import { AddRecipeToMealPlanForm } from "./AddRecipeToMealPlanForm";
+import { MealPlanDates } from "./MealPlanDates";
+import { MealPlanTopBar } from "./MealPlanTopBar";
+import * as GraphQLTypes from "../../generated/graphql";
 
 import defaultImg from "../../images/defaultImg.jpg";
 
@@ -38,8 +37,8 @@ export const MealPlan = () => {
   const initRef = useRef<any>();
 
   const today = useMemo(() => DateTime.now(), []);
-  const [startDate, setStartDate] = useState<DateTime>(today.startOf('week'));
-  const endDate = useMemo(() => startDate.endOf('week'), [startDate]);
+  const [startDate, setStartDate] = useState<DateTime>(today.startOf("week"));
+  const endDate = useMemo(() => startDate.endOf("week"), [startDate]);
 
   const [mealTypeAndDate, setMealTypeAndDate] = useState<{
     mealType: GraphQLTypes.MealType | null;
@@ -86,22 +85,20 @@ export const MealPlan = () => {
     useMutation<
       GraphQLTypes.DeleteMealPlanEntryMutationMutation,
       GraphQLTypes.DeleteMealPlanEntryMutationMutationVariables
-    >(
-      gql`
-        mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
-          deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
-            id
-          }
+    >(gql`
+      mutation DeleteMealPlanEntryMutation($mealPlanEntryId: ID!) {
+        deleteMealPlanEntry(mealPlanEntryId: $mealPlanEntryId) {
+          id
         }
-      `,
-    );
+      }
+    `);
   if (errorDeletingMealPlanEntry) {
     throw errorDeletingMealPlanEntry;
   }
   const mealPlan = data?.currentUser?.mealPlan;
 
   return (
-    <div className='ml-2 h-full flex flex-col'>
+    <div className="ml-2 h-full flex flex-col">
       <MealPlanTopBar
         today={today}
         interval={interval}
@@ -111,18 +108,18 @@ export const MealPlan = () => {
 
       <MealPlanDates today={today} interval={interval} />
 
-      <div className='flex overflow-x-hidden overflow-y-scroll flex-shrink flex-grow mb-5'>
+      <div className="flex overflow-x-hidden overflow-y-scroll flex-shrink flex-grow mb-5">
         {interval.map((day) => {
           return (
             <div
               key={day.toISO()}
               className={[
-                'flex-grow relative px-5 md:px-0 py-3 text-14 w-[calc(100%/7)]',
-                'after:block after:w-[1px] after:h-full after:absolute after:top-0 after:right-0',
-              ].join(' ')}
+                "flex-grow relative px-5 md:px-0 py-3 text-14 w-[calc(100%/7)]",
+                "after:block after:w-[1px] after:h-full after:absolute after:top-0 after:right-0",
+              ].join(" ")}
               css={css`
                 &:not(:last-child):after {
-                  content: '';
+                  content: "";
                   background-image: linear-gradient(
                     #fff0,
                     #f1e6e2 10%,
@@ -150,7 +147,7 @@ export const MealPlan = () => {
                 return (
                   <div key={mealType}>
                     <Popover
-                      placement={'auto-start'}
+                      placement={"auto-start"}
                       isLazy={true}
                       autoFocus={true}
                       closeOnBlur={true}
@@ -160,9 +157,9 @@ export const MealPlan = () => {
                         <>
                           <PopoverTrigger>
                             <Button
-                              className='group focus:shadow-none mx-2'
-                              size='xs'
-                              variant='unstyled'
+                              className="group focus:shadow-none mx-2"
+                              size="xs"
+                              variant="unstyled"
                               aria-label={`add recipe to ${mealType}`}
                               onClick={() => {
                                 setMealTypeAndDate({
@@ -173,17 +170,17 @@ export const MealPlan = () => {
                             >
                               {mealType}
                               <AddIcon
-                                className='opacity-0 group-hover:opacity-100 ml-1'
+                                className="opacity-0 group-hover:opacity-100 ml-1"
                                 w={2}
                                 h={2}
                               />
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
-                            width='100'
-                            border='none'
-                            shadow='lg'
-                            borderRadius='20px'
+                            width="100"
+                            border="none"
+                            shadow="lg"
+                            borderRadius="20px"
                           >
                             {data?.currentUser?.mealPlan?.id &&
                               mealTypeAndDate?.date &&
@@ -209,7 +206,7 @@ export const MealPlan = () => {
                     {mealPlanEntries?.map((entry) => (
                       <div
                         key={entry.id}
-                        className='relative my-2 mx-4 mb-2'
+                        className="relative my-2 mx-4 mb-2"
                         css={css`
                           .deleteIndicator {
                             opacity: 0;
@@ -232,13 +229,13 @@ export const MealPlan = () => {
                         `}
                       >
                         <NavLink
-                          className='block shadow-sm hover:shadow-md overflow-hidden rounded-xl transition-all duration-150 hover:scale-105'
+                          className="block shadow-sm hover:shadow-md overflow-hidden rounded-xl transition-all duration-150 hover:scale-105"
                           to={(location) => {
                             const newQueryParams = new URLSearchParams(
                               location.search,
                             );
                             newQueryParams.set(
-                              'modalRecipeId',
+                              "modalRecipeId",
                               entry.recipe.id,
                             );
 
@@ -248,20 +245,20 @@ export const MealPlan = () => {
                             };
                           }}
                         >
-                          <div className='pt-[100%] relative overflow-hidden'>
+                          <div className="pt-[100%] relative overflow-hidden">
                             <img
-                              className='absolute top-0 w-full h-full object-cover'
+                              className="absolute top-0 w-full h-full object-cover"
                               src={entry.recipe.imageUrl ?? defaultImg}
-                              alt=''
+                              alt=""
                             />
                           </div>
 
-                          <div className='text-14 text-center leading-tight text-xs mx-2 pb-1'>
+                          <div className="text-14 text-center leading-tight text-xs mx-2 pb-1">
                             {entry.recipe.name}
                           </div>
 
                           <Button
-                            className='deleteIndicator absolute top-[-1px] right-[-1px] flex content-center items-center'
+                            className="deleteIndicator absolute top-[-1px] right-[-1px] flex content-center items-center"
                             css={css`
                               &:hover {
                                 .closeIconBackdrop {
@@ -269,8 +266,8 @@ export const MealPlan = () => {
                                 }
                               }
                             `}
-                            size='xs'
-                            variant='unstyled'
+                            size="xs"
+                            variant="unstyled"
                             aria-label={`delete ${entry.recipe.name} from meal plan`}
                             disabled={!mealPlan}
                             onClick={(e) => {
@@ -290,7 +287,7 @@ export const MealPlan = () => {
                                       ) {
                                         return existingEntriesInSchedule.filter(
                                           (existingEntry: any) =>
-                                            readField('id', existingEntry) !==
+                                            readField("id", existingEntry) !==
                                             entry.id,
                                         );
                                       },
@@ -299,7 +296,7 @@ export const MealPlan = () => {
                                 },
                                 optimisticResponse: {
                                   deleteMealPlanEntry: {
-                                    __typename: 'MealPlanEntry',
+                                    __typename: "MealPlanEntry",
                                     id: entry.id,
                                   },
                                 },
@@ -307,16 +304,16 @@ export const MealPlan = () => {
                             }}
                           >
                             <div
-                              className='closeIconBackdrop absolute top-[1px] right-[1px] w-full h-full bg-black bg-opacity-20 rounded-tr-xl transition-all duration-100'
+                              className="closeIconBackdrop absolute top-[1px] right-[1px] w-full h-full bg-black bg-opacity-20 rounded-tr-xl transition-all duration-100"
                               css={css`
                                 border-bottom-left-radius: 22px;
                               `}
                             />
                             <CloseIcon
-                              position='relative'
+                              position="relative"
                               w={2}
                               h={2}
-                              color='#fff'
+                              color="#fff"
                             />
                           </Button>
                         </NavLink>

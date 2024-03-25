@@ -1,13 +1,13 @@
 // referenced https://blog.sentry.io/2021/08/31/guest-post-performance-monitoring-in-graphql
 // and https://codesandbox.io/s/graphql-errors-sentry-apollo-5s8yu?file=/index.ts
-import * as Sentry from '@sentry/node';
-import { ApolloError } from 'apollo-server-cloud-functions';
+import * as Sentry from "@sentry/node";
+import { ApolloError } from "apollo-server-cloud-functions";
 import {
   ApolloServerPlugin,
   GraphQLRequestListener,
-} from 'apollo-server-plugin-base';
+} from "apollo-server-plugin-base";
 
-import { Context } from './contextModule';
+import { Context } from "./contextModule";
 
 export const sentryPlugin: ApolloServerPlugin<Context> = {
   // @ts-ignore
@@ -27,7 +27,7 @@ export const sentryPlugin: ApolloServerPlugin<Context> = {
           willResolveField({ context, info }) {
             // hook for each new resolver
             const span = context.transaction.startChild({
-              op: 'resolver',
+              op: "resolver",
               description: `${info.parentType.name}.${info.fieldName}`,
             });
             return () => {
@@ -54,23 +54,23 @@ export const sentryPlugin: ApolloServerPlugin<Context> = {
           // Add scoped report details and send to Sentry
           Sentry.withScope((scope) => {
             // Annotate whether failing operation was query/mutation/subscription
-            scope.setTag('kind', ctx.operation?.operation);
+            scope.setTag("kind", ctx.operation?.operation);
 
             // Log query and variables as extras (make sure to strip out sensitive data!)
-            scope.setExtra('query', ctx.request.query);
-            scope.setExtra('variables', ctx.request.variables);
+            scope.setExtra("query", ctx.request.query);
+            scope.setExtra("variables", ctx.request.variables);
 
             if (err.path) {
               // We can also add the path as breadcrumb
               scope.addBreadcrumb({
-                category: 'query-path',
-                message: err.path.join(' > '),
+                category: "query-path",
+                message: err.path.join(" > "),
                 level: Sentry.Severity.Debug,
               });
             }
 
             const transactionId =
-              ctx.request.http?.headers.get('x-transaction-id');
+              ctx.request.http?.headers.get("x-transaction-id");
             if (transactionId) {
               scope.setTransactionName(transactionId);
             }

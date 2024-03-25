@@ -2,12 +2,14 @@
 // otherwise tailwind's styles won't be able to override chakra's styles
 // references https://emotion.sh/docs/cache-provider
 
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
-import { prefixer } from 'stylis';
+import type { PropsWithChildren } from "react";
+
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { prefixer } from "stylis";
 
 const myCache = createCache({
-  key: 'mk',
+  key: "mk",
   prepend: true,
   stylisPlugins: [
     // has to be included manually when customizing `stylisPlugins` if you want to have vendor prefixes added automatically
@@ -16,6 +18,8 @@ const myCache = createCache({
   ],
 });
 
-export const CustomEmotionCacheProvider: React.FC = ({ children }) => (
+export const CustomEmotionCacheProvider: React.FC = ({
+  children,
+}: PropsWithChildren<{}>) => (
   <CacheProvider value={myCache}>{children}</CacheProvider>
 );

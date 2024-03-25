@@ -15,7 +15,6 @@ import { initWithData } from "./initWithData";
 import { NexusMealType } from "./MealPlan";
 import { prisma } from "../_helpers/prismaClient";
 
-
 export const Mutation = mutationType({
   definition(t) {
     t.field("joinMealPlan", {

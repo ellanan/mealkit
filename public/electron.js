@@ -2,25 +2,25 @@
 
 // The app module, which controls your application's event lifecycle.
 // The BrowserWindow module, which creates and manages application windows.
-const { app, BrowserWindow } = require('electron');
-const isDev = require('electron-is-dev');
+const { app, BrowserWindow } = require("electron");
+const isDev = require("electron-is-dev");
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS;
 
 if (isDev) {
-  const devTools = require('electron-devtools-installer');
+  const devTools = require("electron-devtools-installer");
   installExtension = devTools.default;
   REACT_DEVELOPER_TOOLS = devTools.REACT_DEVELOPER_TOOLS;
 }
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
@@ -37,19 +37,19 @@ const createWindow = () => {
   // and load the index.html of the app.
   // win.loadFile("index.html");
   win.loadURL(
-    isDev ? 'http://localhost:3000/login' : `https://mealkit.ellanan.com/login`,
+    isDev ? "http://localhost:3000/login" : `https://mealkit.ellanan.com/login`,
   );
 
   // Open the DevTools.
   if (isDev) {
-    win.webContents.openDevTools({ mode: 'detach' });
+    win.webContents.openDevTools({ mode: "detach" });
   }
 };
 
 // Manges window's lifecycle.
 // Quit the app when all windows are closed (Windows & Linux), except on macOS.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });
 
 // Open a window if none are open (macOS)
@@ -62,7 +62,7 @@ app.whenReady().then(() => {
       .catch((error) => console.log(`An error occurred: , ${error}`));
   }
 
-  app.on('activate', () => {
+  app.on("activate", () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

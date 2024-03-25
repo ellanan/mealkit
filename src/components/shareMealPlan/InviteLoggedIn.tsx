@@ -1,15 +1,14 @@
-import { useMutation, gql } from '@apollo/client';
-import { Button } from '@chakra-ui/react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useMutation, gql } from "@apollo/client";
+import { Button } from "@chakra-ui/react";
+import { useLocation, useHistory } from "react-router-dom";
 
-import * as GraphQLTypes from '../../generated/graphql';
-
+import * as GraphQLTypes from "../../generated/graphql";
 
 export const InviteLoggedIn = () => {
   const location = useLocation();
   const history = useHistory();
   const queryParams = new URLSearchParams(location.search);
-  const mealPlanId = queryParams.get('mealPlanId');
+  const mealPlanId = queryParams.get("mealPlanId");
 
   const [joinMealPlan] = useMutation<
     GraphQLTypes.JoinMealPlanMutation,
@@ -30,33 +29,33 @@ export const InviteLoggedIn = () => {
   );
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full text-14'>
-      {location.pathname === '/invite' &&
-      mealPlanId !== 'null' &&
+    <div className="flex flex-col items-center justify-center w-full h-full text-14">
+      {location.pathname === "/invite" &&
+      mealPlanId !== "null" &&
       mealPlanId?.length === 25 &&
       window.location.search.length === 37 ? (
         <div>
-          <span className='text-xl'>
+          <span className="text-xl">
             Your friend invited you to a meal plan. Would you like to join?
           </span>
-          <div className='flex flex-col items-center justify-center'>
+          <div className="flex flex-col items-center justify-center">
             <Button
-              className='mt-8 mb-3 bg-green-400 text-white hover:bg-green-500'
+              className="mt-8 mb-3 bg-green-400 text-white hover:bg-green-500"
               onClick={() => {
                 joinMealPlan().then(() => {
-                  history.push('/mealplanner');
+                  history.push("/mealplanner");
                 });
                 if (mealPlanId === undefined || mealPlanId === null) {
-                  throw new Error('mealPlanId is undefined');
+                  throw new Error("mealPlanId is undefined");
                 }
               }}
             >
               Yes, join meal plan
             </Button>
             <Button
-              className='mb-3'
+              className="mb-3"
               onClick={() => {
-                return history.push('/mealplanner');
+                return history.push("/mealplanner");
               }}
             >
               No, start my own meal plan
@@ -64,14 +63,14 @@ export const InviteLoggedIn = () => {
           </div>
         </div>
       ) : (
-        <div className='flex flex-col items-center justify-center'>
-          <span className='text-xl mb-8'>
+        <div className="flex flex-col items-center justify-center">
+          <span className="text-xl mb-8">
             It does not look like you were invited to a valid meal plan.
           </span>
           <Button
-            className='mb-2 bg-green-400 text-white hover:bg-green-500'
+            className="mb-2 bg-green-400 text-white hover:bg-green-500"
             onClick={() => {
-              return history.push('/mealplanner');
+              return history.push("/mealplanner");
             }}
           >
             Go back to my meal plan

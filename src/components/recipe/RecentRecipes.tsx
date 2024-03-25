@@ -1,13 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useQuery, gql } from '@apollo/client';
-import { Spinner } from '@chakra-ui/spinner';
-import { css } from '@emotion/react';
-import { NavLink } from 'react-router-dom';
+import { useQuery, gql } from "@apollo/client";
+import { Spinner } from "@chakra-ui/spinner";
+import { css } from "@emotion/react";
+import { NavLink } from "react-router-dom";
 
-import * as GraphQLTypes from '../../generated/graphql';
+import * as GraphQLTypes from "../../generated/graphql";
 
-
-import defaultImg from '../../images/defaultImg.jpg';
+import defaultImg from "../../images/defaultImg.jpg";
 
 export const RecentRecipes = () => {
   const { data, error: errorLoadingRecipes } = useQuery<
@@ -47,11 +46,11 @@ export const RecentRecipes = () => {
 
   return (
     <>
-      <h1 className='text-xs text-25 font-medium mb-1 py-1 px-4 mt-3 uppercase opacity-70'>
+      <h1 className="text-xs text-25 font-medium mb-1 py-1 px-4 mt-3 uppercase opacity-70">
         <span>Recently Added</span>
       </h1>
       <div
-        className='flex flex-col overflow-auto'
+        className="flex flex-col overflow-auto"
         css={css`
           scrollbar-width: thin;
           scrollbar-color: #e7a47a60 transparent;
@@ -71,11 +70,11 @@ export const RecentRecipes = () => {
       >
         {data?.currentUser?.mealPlan?.recipes.map((recipe) => (
           <NavLink
-            className='flex items-center py-1 px-4 text-14 text-sm font-medium'
+            className="flex items-center py-1 px-4 text-14 text-sm font-medium"
             key={recipe.id}
             to={(location) => {
               const newQueryParams = new URLSearchParams(location.search);
-              newQueryParams.set('modalRecipeId', recipe.id);
+              newQueryParams.set("modalRecipeId", recipe.id);
 
               return {
                 ...location,
@@ -93,15 +92,15 @@ export const RecentRecipes = () => {
               }
             `}
           >
-            <div className='w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0'>
+            <div className="w-12 h-12 rounded-full mr-2 relative overflow-hidden flex-shrink-0">
               <img
-                className='object-cover w-full h-full'
+                className="object-cover w-full h-full"
                 src={recipe.imageUrl ?? defaultImg}
-                alt=''
+                alt=""
               />
-              {recipe.id.startsWith('temp-id') && (
-                <div className='flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm'>
-                  <Spinner size='sm' color='#f88c5a' />
+              {recipe.id.startsWith("temp-id") && (
+                <div className="flex items-center justify-center w-full h-full absolute top-0 bottom-0 backdrop-filter backdrop-blur-sm">
+                  <Spinner size="sm" color="#f88c5a" />
                 </div>
               )}
             </div>
