@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
 } from "react";
+import type { ReactNode } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -60,7 +61,7 @@ const AuthAccessTokenContext = createContext<ReturnType<
 export const AuthAccessTokenProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const { accessToken, isGettingAccessToken } = useAuthAccessToken();
   return (
