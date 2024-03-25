@@ -16,6 +16,11 @@ module.exports = {
     react: {
       version: "detect",
     },
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   overrides: [
     {
@@ -36,12 +41,8 @@ module.exports = {
   rules: {
     "comma-dangle": ["error", "always-multiline"],
     "no-undef": "error",
-    "no-unused-vars": [
-      "error",
-      {
-        argsIgnorePattern: "^_",
-      },
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "import/no-unresolved": "error",
     "import/order": [
       "error",
@@ -66,5 +67,6 @@ module.exports = {
       },
     ],
     "no-dupe-keys": "error",
+    "react/no-unknown-property": ["error", { ignore: ["css"] }],
   },
 };
