@@ -479,7 +479,7 @@ export const SingleRecipeDetails = ({
               {isEditingRecipeContent && (
                 <div>
                   <Editor
-                    apiKey={process.env.VITE_TINYMCE_API_KEY}
+                    apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                     initialValue={
                       recipeDetails?.currentUser?.mealPlan?.recipe?.content ??
                       ""

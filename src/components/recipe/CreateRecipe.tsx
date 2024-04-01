@@ -225,7 +225,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
             <label>
               Content <br />
               <Editor
-                apiKey={process.env.VITE_TINYMCE_API_KEY}
+                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                 value={formData.content}
                 init={{
                   height: 200,
