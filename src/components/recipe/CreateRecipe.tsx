@@ -203,7 +203,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                     {
                       method: "POST",
                       headers: {
-                        Authorization: `Client-ID ${process.env.VITE_IMGUR_CLIENT_ID}`,
+                        Authorization: `Client-ID ${import.meta.env.VITE_IMGUR_CLIENT_ID}`,
                       },
                       body: formdata,
                       redirect: "follow",
