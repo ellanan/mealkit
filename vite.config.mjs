@@ -8,6 +8,6 @@ export default defineConfig(() => {
     build: {
       outDir: "build",
     },
-    plugins: [vercel(), react(), svgr({ include: "**/*.svg" })],
+    plugins: [vercel(), react(), svgr()],
   };
 });

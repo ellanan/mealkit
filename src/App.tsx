@@ -27,7 +27,7 @@ import { ShareMealPlanModal } from "./components/shareMealPlan/ShareMealPlanModa
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { useAuthAccessTokenContext } from "./useAuthAccessTokenContext";
 
-import CarrotLogo from "./images/logo-carrot.svg";
+import carrotLogo from "./images/logo-carrot.svg";
 
 import "allotment/dist/style.css";
 
@@ -40,7 +40,7 @@ const App = () => {
   if (isGettingAccessToken) {
     return (
       <div className="w-full h-full flex items-center justify-center motion-safe:animate-bounce">
-        <CarrotLogo className="w-16" />
+        <img src={carrotLogo} className="w-16" />
       </div>
     );
   }

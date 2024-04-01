@@ -11,10 +11,12 @@ import veggies1Image from "./images/bg-veggies/veggies1.png";
 import footerWaveImage from "./images/footer-wave.svg";
 import groceriesListExampleImage from "./images/groceries-list-example.png";
 import healthyVegImage from "./images/healthy-vegetables.png";
-import MainBlob from "./images/mainblob.svg";
+import mainBlob from "./images/mainblob.svg";
 import mealPlanExampleMobileImage from "./images/meal-plan-example-mobile.png";
 import sharePlanExampleImage from "./images/share-plan-example.svg";
-import CarrotLogo from "../../images/logo-carrot.svg";
+import carrotLogo from "../../images/logo-carrot.svg";
+
+console.log({ sharePlanExampleImage });
 
 export const Home = () => {
   const { loginWithRedirect } = useAuth0();
@@ -32,7 +34,7 @@ export const Home = () => {
           to="/mealplanner"
           className="text-3xl font-medium text-23 font-Montserrat flex"
         >
-          <CarrotLogo className="w-7 h-7 mr-1.5" />
+          <img src={carrotLogo} className="w-7 h-7 mr-1.5" />
           MealKit
         </NavLink>
         <button
@@ -48,7 +50,7 @@ export const Home = () => {
       </h1>
 
       <div className="relative flex items-center justify-center text-center mb-20">
-        <MainBlob className="absolute w-3/4" />
+        <img className="absolute w-3/4" src={mainBlob} />
         <img
           className="relative w-5/12"
           src={healthyVegImage}

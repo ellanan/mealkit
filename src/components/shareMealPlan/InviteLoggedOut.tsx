@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import { useAuthAccessTokenContext } from "../../useAuthAccessTokenContext";
 
-import CarrotLogo from "../../images/logo-carrot.svg";
+import carrotLogo from "../../images/logo-carrot.svg";
 
 export const InviteLoggedOut = () => {
   const { isGettingAccessToken } = useAuthAccessTokenContext();
@@ -35,7 +35,7 @@ export const InviteLoggedOut = () => {
 
   return (
     <div className="w-full h-full flex items-center justify-center motion-safe:animate-bounce">
-      <CarrotLogo className="w-16" />
+      <img src={carrotLogo} className="w-16" />
     </div>
   );
 };

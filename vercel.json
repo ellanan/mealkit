@@ -6,5 +6,10 @@
   },
   "installCommand": "npm install",
   "devCommand": "npm run dev",
-  "rewrites": [{ "source": "/((?!@vite|src|@react-refresh|node_modules).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!@vite|src|@react-refresh|node_modules|public|manifest|logo).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

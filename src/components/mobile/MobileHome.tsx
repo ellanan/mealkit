@@ -4,11 +4,11 @@ import Typewritter from "typewriter-effect";
 
 import { Footer } from "../footer/Footer";
 
-import CarrotLogo from "../../images/logo-carrot.svg";
+import carrotLogo from "../../images/logo-carrot.svg";
 import footerWaveImage from "../home/images/footer-wave.svg";
 import groceriesListExampleImage from "../home/images/groceries-list-example.png";
 import healthyVegImage from "../home/images/healthy-vegetables.png";
-import MainBlob from "../home/images/mainblob.svg";
+import mainBlob from "../home/images/mainblob.svg";
 import mealPlanExampleMobileImage from "../home/images/meal-plan-example-mobile.png";
 import sharePlanExampleImage from "../home/images/share-plan-example.svg";
 
@@ -22,7 +22,7 @@ export const MobileHome = () => {
           to="/mealplanner"
           className="text-3xl font-medium text-23 font-Montserrat flex"
         >
-          <CarrotLogo className="w-7 h-7 mr-1.5" />
+          <img src={carrotLogo} className="w-7 h-7 mr-1.5" />
           MealKit
         </NavLink>
         <button
@@ -38,7 +38,7 @@ export const MobileHome = () => {
       </h1>
 
       <div className="flex items-center justify-center relative text-center mb-20">
-        <MainBlob className="absolute w-3/4 -top-[-16.5rem]" />
+        <img src={mainBlob} className="absolute w-3/4 -top-[-16.5rem]" />
         <img
           className="w-9/12 relative"
           src={healthyVegImage}

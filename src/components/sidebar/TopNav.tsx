@@ -4,7 +4,7 @@ import { GoSearch } from "react-icons/go";
 import { MdCreate } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-import CarrotLogo from "../../images/logo-carrot.svg";
+import carrotLogo from "../../images/logo-carrot.svg";
 
 export const TopNav = () => {
   return (
@@ -13,7 +13,7 @@ export const TopNav = () => {
         to="/mealplanner"
         className="text-lg font-medium text-23 font-Montserrat flex mb-8 h-5"
       >
-        <CarrotLogo className="w-5 h-5 mr-1.5" />
+        <img src={carrotLogo} className="w-5 h-5 mr-1.5" />
         MealKit
       </NavLink>
 

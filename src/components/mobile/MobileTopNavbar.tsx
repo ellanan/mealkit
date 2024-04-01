@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 import { Setting } from "../sidebar/Setting";
 
-import CarrotLogo from "../../images/logo-carrot.svg";
+import carrotLogo from "../../images/logo-carrot.svg";
 
 export const MobileTopNavbar = () => {
   return (
@@ -20,7 +20,7 @@ export const MobileTopNavbar = () => {
         to="/mealplanner"
         className="text-lg font-medium text-23 font-Montserrat flex h-5"
       >
-        <CarrotLogo className="w-5 h-5 mr-1.5" />
+        <img src={carrotLogo} className="w-5 h-5 mr-1.5" />
         MealKit
       </NavLink>
       <Setting />
