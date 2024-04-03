@@ -298,9 +298,7 @@ export const ShoppingList = () => {
           >
             <div
               className={
-                isLargerThan850
-                  ? "group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1"
-                  : "group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1"
+                "group flex items-center justify-center font-normal text-sm relative bg-27 uppercase py-1"
               }
             >
               {!ingredientQuantities[0].ingredient.type?.name ? (
