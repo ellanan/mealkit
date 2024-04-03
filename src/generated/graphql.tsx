@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -62,11 +63,11 @@ export type MealPlanRecipeArgs = {
 
 
 export type MealPlanRecipesArgs = {
-  cursor?: Maybe<Scalars['ID']>;
+  cursor?: InputMaybe<Scalars['ID']>;
   limit?: Scalars['Int'];
   order?: Order;
   orderBy?: RecipeOrderBy;
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -125,20 +126,20 @@ export type MutationAddRecipeToMealPlanArgs = {
 
 
 export type MutationCreateIngredientArgs = {
-  ingredientTypeId?: Maybe<Scalars['ID']>;
+  ingredientTypeId?: InputMaybe<Scalars['ID']>;
   name: Scalars['String'];
 };
 
 
 export type MutationCreateIngredientTypeArgs = {
-  ingredients?: Maybe<Array<Scalars['ID']>>;
+  ingredients?: InputMaybe<Array<Scalars['ID']>>;
   name: Scalars['String'];
 };
 
 
 export type MutationCreateRecipeArgs = {
-  content?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
   ingredientQuantities: Array<IngredientQuantityInput>;
   name: Scalars['String'];
 };
@@ -171,9 +172,9 @@ export type MutationEditIngredientTypeArgs = {
 
 
 export type MutationEditRecipeArgs = {
-  content?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   recipeId: Scalars['String'];
 };
 
@@ -201,10 +202,10 @@ export type MutationUpdateIngredientArgs = {
 
 
 export type MutationUpdateIngredientQuantityInRecipeArgs = {
-  amount?: Maybe<Scalars['Int']>;
+  amount?: InputMaybe<Scalars['Int']>;
   ingredientId: Scalars['ID'];
   recipeId: Scalars['ID'];
-  unit?: Maybe<Scalars['String']>;
+  unit?: InputMaybe<Scalars['String']>;
 };
 
 export enum Order {
@@ -273,15 +274,15 @@ export type ShoppingListQueryVariables = Exact<{
 }>;
 
 
-export type ShoppingListQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredientTypes: Array<{ __typename?: 'IngredientType', id: string, name: string }>, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined } }> } }> } | null | undefined } | null | undefined };
+export type ShoppingListQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredientTypes: Array<{ __typename?: 'IngredientType', id: string, name: string }>, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null } }> } }> } | null } | null };
 
 export type CreateIngredientTypeMutationVariables = Exact<{
   name: Scalars['String'];
-  ingredients?: Maybe<Array<Scalars['ID']> | Scalars['ID']>;
+  ingredients?: InputMaybe<Array<Scalars['ID']> | Scalars['ID']>;
 }>;
 
 
-export type CreateIngredientTypeMutation = { __typename?: 'Mutation', createIngredientType?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined };
+export type CreateIngredientTypeMutation = { __typename?: 'Mutation', createIngredientType?: { __typename?: 'IngredientType', id: string, name: string } | null };
 
 export type UpdateIngredientMutationVariables = Exact<{
   ingredientId: Scalars['ID'];
@@ -289,7 +290,7 @@ export type UpdateIngredientMutationVariables = Exact<{
 }>;
 
 
-export type UpdateIngredientMutation = { __typename?: 'Mutation', updateIngredient?: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined } | null | undefined };
+export type UpdateIngredientMutation = { __typename?: 'Mutation', updateIngredient?: { __typename?: 'Ingredient', id: string, name: string, type?: { __typename?: 'IngredientType', id: string, name: string } | null } | null };
 
 export type EditIngredientTypeMutationVariables = Exact<{
   ingredientTypeId: Scalars['ID'];
@@ -297,19 +298,21 @@ export type EditIngredientTypeMutationVariables = Exact<{
 }>;
 
 
-export type EditIngredientTypeMutation = { __typename?: 'Mutation', editIngredientType?: { __typename?: 'IngredientType', id: string, name: string } | null | undefined };
+export type EditIngredientTypeMutation = { __typename?: 'Mutation', editIngredientType?: { __typename?: 'IngredientType', id: string, name: string } | null };
 
 export type DeleteIngredientTypeMutationVariables = Exact<{
   ingredientTypeId: Scalars['ID'];
 }>;
 
 
-export type DeleteIngredientTypeMutation = { __typename?: 'Mutation', deleteIngredientType?: { __typename?: 'IngredientType', id: string } | null | undefined };
+export type DeleteIngredientTypeMutation = { __typename?: 'Mutation', deleteIngredientType?: { __typename?: 'IngredientType', id: string } | null };
+
+export type RecipeFragmentFragment = { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null };
 
 export type RecipesAvailableQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RecipesAvailableQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined }> } | null | undefined } | null | undefined };
+export type RecipesAvailableQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null }> } | null } | null };
 
 export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
@@ -319,19 +322,21 @@ export type AddRecipeToMealPlanMutationMutationVariables = Exact<{
 }>;
 
 
-export type AddRecipeToMealPlanMutationMutation = { __typename?: 'Mutation', addRecipeToMealPlan?: { __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } } | null | undefined };
+export type AddRecipeToMealPlanMutationMutation = { __typename?: 'Mutation', addRecipeToMealPlan?: { __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null } } | null };
 
 export type CurrentUserMealPlanQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentUserMealPlanQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined } | null | undefined };
+export type CurrentUserMealPlanQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string } | null } | null };
 
 export type DeleteAllMealPlanEntriesMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
 }>;
 
 
-export type DeleteAllMealPlanEntriesMutation = { __typename?: 'Mutation', deleteAllMealPlanEntries?: number | null | undefined };
+export type DeleteAllMealPlanEntriesMutation = { __typename?: 'Mutation', deleteAllMealPlanEntries?: number | null };
+
+export type MealPlanScheduleFragmentFragment = { __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null } };
 
 export type MealScheduleQueryVariables = Exact<{
   startDate: Scalars['String'];
@@ -339,29 +344,37 @@ export type MealScheduleQueryVariables = Exact<{
 }>;
 
 
-export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } }> } | null | undefined } | null | undefined };
+export type MealScheduleQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null } }> } | null } | null };
 
 export type DeleteMealPlanEntryMutationMutationVariables = Exact<{
   mealPlanEntryId: Scalars['ID'];
 }>;
 
 
-export type DeleteMealPlanEntryMutationMutation = { __typename?: 'Mutation', deleteMealPlanEntry?: { __typename?: 'MealPlanEntry', id: string } | null | undefined };
+export type DeleteMealPlanEntryMutationMutation = { __typename?: 'Mutation', deleteMealPlanEntry?: { __typename?: 'MealPlanEntry', id: string } | null };
+
+export type MealScheduleMobileQueryVariables = Exact<{
+  startDate: Scalars['String'];
+  endDate: Scalars['String'];
+}>;
+
+
+export type MealScheduleMobileQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null } }> } | null } | null };
 
 export type DataForCreateRecipeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DataForCreateRecipeQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredients: Array<{ __typename?: 'Ingredient', id: string, name: string }> } | null | undefined } | null | undefined };
+export type DataForCreateRecipeQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredients: Array<{ __typename?: 'Ingredient', id: string, name: string }> } | null } | null };
 
 export type CreateRecipeMutationVariables = Exact<{
   name: Scalars['String'];
-  imageUrl?: Maybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
   content: Scalars['String'];
   ingredientQuantities: Array<IngredientQuantityInput> | IngredientQuantityInput;
 }>;
 
 
-export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined } | null | undefined };
+export type CreateRecipeMutation = { __typename?: 'Mutation', createRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null } | null };
 
 export type CreateIngredientMutationVariables = Exact<{
   name: Scalars['String'];
@@ -373,7 +386,7 @@ export type CreateIngredientMutation = { __typename?: 'Mutation', createIngredie
 export type CheckUserRecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CheckUserRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string }> } | null | undefined } | null | undefined };
+export type CheckUserRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string }> } | null } | null };
 
 export type InitWithDataMutationVariables = Exact<{
   startDate: Scalars['String'];
@@ -381,7 +394,7 @@ export type InitWithDataMutationVariables = Exact<{
 }>;
 
 
-export type InitWithDataMutation = { __typename?: 'Mutation', initWithData?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined } }> } | null | undefined };
+export type InitWithDataMutation = { __typename?: 'Mutation', initWithData?: { __typename?: 'MealPlan', id: string, schedule: Array<{ __typename?: 'MealPlanEntry', id: string, date: string, mealType: MealType, recipe: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null } }> } | null };
 
 export type MonthlyPlannedMealsQueryVariables = Exact<{
   startDate: Scalars['String'];
@@ -389,7 +402,7 @@ export type MonthlyPlannedMealsQueryVariables = Exact<{
 }>;
 
 
-export type MonthlyPlannedMealsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, popularRecipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> } | null | undefined } | null | undefined };
+export type MonthlyPlannedMealsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, popularRecipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null }> } | null } | null };
 
 export type SortedRecipesQueryVariables = Exact<{
   orderBy: RecipeOrderBy;
@@ -398,47 +411,47 @@ export type SortedRecipesQueryVariables = Exact<{
 }>;
 
 
-export type SortedRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined }> } | null | undefined } | null | undefined };
+export type SortedRecipesQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null }> } | null } | null };
 
 export type RecipesInRecipesPageQueryVariables = Exact<{
-  cursor?: Maybe<Scalars['ID']>;
+  cursor?: InputMaybe<Scalars['ID']>;
   limit: Scalars['Int'];
   order: Order;
   orderBy: RecipeOrderBy;
-  search?: Maybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type RecipesInRecipesPageQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, createdAt: any, updatedAt: any }> } | null | undefined } | null | undefined };
+export type RecipesInRecipesPageQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipes: Array<{ __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null, createdAt: any, updatedAt: any }> } | null } | null };
 
 export type SingleRecipeQueryVariables = Exact<{
   recipeId: Scalars['ID'];
 }>;
 
 
-export type SingleRecipeQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null | undefined, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined } | null | undefined } | null | undefined };
+export type SingleRecipeQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, recipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null, content?: string | null, category?: { __typename?: 'RecipeCategory', id: string, name: string } | null, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', unit: string, amount: number, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null } | null } | null };
 
 export type IngredientsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IngredientsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredients: Array<{ __typename?: 'Ingredient', id: string, name: string }> } | null | undefined } | null | undefined };
+export type IngredientsQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, mealPlan?: { __typename?: 'MealPlan', id: string, ingredients: Array<{ __typename?: 'Ingredient', id: string, name: string }> } | null } | null };
 
 export type EditRecipeMutationVariables = Exact<{
   recipeId: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
-  imageUrl?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  imageUrl?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type EditRecipeMutation = { __typename?: 'Mutation', editRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null | undefined, content?: string | null | undefined } | null | undefined };
+export type EditRecipeMutation = { __typename?: 'Mutation', editRecipe?: { __typename?: 'Recipe', id: string, name: string, imageUrl?: string | null, content?: string | null } | null };
 
 export type DeleteRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
 }>;
 
 
-export type DeleteRecipeMutation = { __typename?: 'Mutation', deleteRecipe?: { __typename?: 'Recipe', id: string } | null | undefined };
+export type DeleteRecipeMutation = { __typename?: 'Mutation', deleteRecipe?: { __typename?: 'Recipe', id: string } | null };
 
 export type AddIngredientQuantityToRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -446,7 +459,7 @@ export type AddIngredientQuantityToRecipeMutationVariables = Exact<{
 }>;
 
 
-export type AddIngredientQuantityToRecipeMutation = { __typename?: 'Mutation', addIngredientQuantityToRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null | undefined };
+export type AddIngredientQuantityToRecipeMutation = { __typename?: 'Mutation', addIngredientQuantityToRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string, name: string } }> } | null };
 
 export type RemoveIngredientFromRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
@@ -454,26 +467,44 @@ export type RemoveIngredientFromRecipeMutationVariables = Exact<{
 }>;
 
 
-export type RemoveIngredientFromRecipeMutation = { __typename?: 'Mutation', removeIngredientFromRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', ingredient: { __typename?: 'Ingredient', id: string } }> } | null | undefined };
+export type RemoveIngredientFromRecipeMutation = { __typename?: 'Mutation', removeIngredientFromRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', ingredient: { __typename?: 'Ingredient', id: string } }> } | null };
 
 export type UpdateIngredientQuantityInRecipeMutationVariables = Exact<{
   recipeId: Scalars['ID'];
   ingredientId: Scalars['ID'];
-  amount?: Maybe<Scalars['Int']>;
-  unit?: Maybe<Scalars['String']>;
+  amount?: InputMaybe<Scalars['Int']>;
+  unit?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null | undefined };
+export type UpdateIngredientQuantityInRecipeMutation = { __typename?: 'Mutation', updateIngredientQuantityInRecipe?: { __typename?: 'Recipe', id: string, ingredientQuantities: Array<{ __typename?: 'RecipeIngredientQuantity', amount: number, unit: string, ingredient: { __typename?: 'Ingredient', id: string }, recipe: { __typename?: 'Recipe', id: string } }> } | null };
 
 export type JoinMealPlanMutationVariables = Exact<{
   mealPlanId: Scalars['ID'];
 }>;
 
 
-export type JoinMealPlanMutation = { __typename?: 'Mutation', joinMealPlan?: { __typename?: 'MealPlan', id: string } | null | undefined };
+export type JoinMealPlanMutation = { __typename?: 'Mutation', joinMealPlan?: { __typename?: 'MealPlan', id: string } | null };
 
-
+export const RecipeFragmentFragmentDoc = gql`
+    fragment RecipeFragment on Recipe {
+  id
+  name
+  imageUrl
+}
+    `;
+export const MealPlanScheduleFragmentFragmentDoc = gql`
+    fragment MealPlanScheduleFragment on MealPlanEntry {
+  id
+  date
+  mealType
+  recipe {
+    id
+    name
+    imageUrl
+  }
+}
+    `;
 export const ShoppingListDocument = gql`
     query ShoppingList($startDate: String!, $endDate: String!) {
   currentUser {
@@ -690,18 +721,12 @@ export const RecipesAvailableDocument = gql`
     mealPlan {
       id
       recipes {
-        id
-        name
-        imageUrl
-        category {
-          id
-          name
-        }
+        ...RecipeFragment
       }
     }
   }
 }
-    `;
+    ${RecipeFragmentFragmentDoc}`;
 
 /**
  * __useRecipesAvailableQuery__
@@ -852,19 +877,12 @@ export const MealScheduleDocument = gql`
     mealPlan {
       id
       schedule(startDate: $startDate, endDate: $endDate) {
-        id
-        date
-        mealType
-        recipe {
-          id
-          name
-          imageUrl
-        }
+        ...MealPlanScheduleFragment
       }
     }
   }
 }
-    `;
+    ${MealPlanScheduleFragmentFragmentDoc}`;
 
 /**
  * __useMealScheduleQuery__
@@ -927,6 +945,55 @@ export function useDeleteMealPlanEntryMutationMutation(baseOptions?: Apollo.Muta
 export type DeleteMealPlanEntryMutationMutationHookResult = ReturnType<typeof useDeleteMealPlanEntryMutationMutation>;
 export type DeleteMealPlanEntryMutationMutationResult = Apollo.MutationResult<DeleteMealPlanEntryMutationMutation>;
 export type DeleteMealPlanEntryMutationMutationOptions = Apollo.BaseMutationOptions<DeleteMealPlanEntryMutationMutation, DeleteMealPlanEntryMutationMutationVariables>;
+export const MealScheduleMobileDocument = gql`
+    query MealScheduleMobile($startDate: String!, $endDate: String!) {
+  currentUser {
+    id
+    mealPlan {
+      id
+      schedule(startDate: $startDate, endDate: $endDate) {
+        id
+        date
+        mealType
+        recipe {
+          id
+          name
+          imageUrl
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMealScheduleMobileQuery__
+ *
+ * To run a query within a React component, call `useMealScheduleMobileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMealScheduleMobileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMealScheduleMobileQuery({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *   },
+ * });
+ */
+export function useMealScheduleMobileQuery(baseOptions: Apollo.QueryHookOptions<MealScheduleMobileQuery, MealScheduleMobileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MealScheduleMobileQuery, MealScheduleMobileQueryVariables>(MealScheduleMobileDocument, options);
+      }
+export function useMealScheduleMobileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MealScheduleMobileQuery, MealScheduleMobileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MealScheduleMobileQuery, MealScheduleMobileQueryVariables>(MealScheduleMobileDocument, options);
+        }
+export type MealScheduleMobileQueryHookResult = ReturnType<typeof useMealScheduleMobileQuery>;
+export type MealScheduleMobileLazyQueryHookResult = ReturnType<typeof useMealScheduleMobileLazyQuery>;
+export type MealScheduleMobileQueryResult = Apollo.QueryResult<MealScheduleMobileQuery, MealScheduleMobileQueryVariables>;
 export const DataForCreateRecipeDocument = gql`
     query DataForCreateRecipe {
   currentUser {
@@ -1095,18 +1162,15 @@ export const InitWithDataDocument = gql`
   initWithData(startDate: $startDate) {
     id
     schedule(startDate: $startDate, endDate: $endDate) {
-      id
-      date
-      mealType
+      ...MealPlanScheduleFragment
       recipe {
-        id
-        name
-        imageUrl
+        ...RecipeFragment
       }
     }
   }
 }
-    `;
+    ${MealPlanScheduleFragmentFragmentDoc}
+${RecipeFragmentFragmentDoc}`;
 export type InitWithDataMutationFn = Apollo.MutationFunction<InitWithDataMutation, InitWithDataMutationVariables>;
 
 /**

@@ -39,11 +39,11 @@ export const MobileMealPlan = () => {
     .map((d: Interval) => d.start);
 
   const { data, error } = useQuery<
-    GraphQLTypes.MealScheduleQuery,
-    GraphQLTypes.MealScheduleQueryVariables
+    GraphQLTypes.MealScheduleMobileQuery,
+    GraphQLTypes.MealScheduleMobileQueryVariables
   >(
     gql`
-      query MealSchedule($startDate: String!, $endDate: String!) {
+      query MealScheduleMobile($startDate: String!, $endDate: String!) {
         currentUser {
           id
           mealPlan {
