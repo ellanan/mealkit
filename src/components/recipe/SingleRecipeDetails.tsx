@@ -336,10 +336,9 @@ export const SingleRecipeDetails = ({
             )}
           </label>
           <Button
-            className="ml-4"
+            className="ml-4 bg-orange-200 text-white"
             type="button"
             variant="ghost"
-            colorScheme="orange"
             size={"sm"}
             onClick={() => setIsDeleteRecipeOpen(true)}
           >
@@ -369,7 +368,7 @@ export const SingleRecipeDetails = ({
                     Cancel
                   </Button>
                   <Button
-                    colorScheme="red"
+                    className={"bg-red-400 text-white"}
                     size={"sm"}
                     ml={3}
                     onClick={(e) => {

@@ -345,6 +345,7 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
                 }}
               />
             </label>
+
             <ul>
               {formData.ingredientQuantities.map(
                 ({ unit, amount, ingredient }) => {
@@ -431,11 +432,13 @@ export const CreateRecipe = ({ onClose }: { onClose?: () => void }) => {
             </ul>
           </li>
         </ul>
+
         <Button
-          className={isLargerThan850 ? "ml-1 hover:bg-23 mb-2" : "ml-1 mb-20"}
+          className={
+            isLargerThan850 ? "ml-1 hover:bg-23 mb-2 bg-22" : "ml-1 mb-20 bg-22"
+          }
           size={"sm"}
           type="submit"
-          backgroundColor={"#f3ac83"}
           color={"#fff"}
         >
           Create Recipe

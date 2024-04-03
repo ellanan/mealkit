@@ -410,8 +410,7 @@ export const ShoppingList = () => {
                           Cancel
                         </Button>
                         <Button
-                          className="text-xs"
-                          colorScheme="red"
+                          className="text-xs bg-red-400 text-white"
                           ml={3}
                           size="sm"
                           onClick={(e) => {

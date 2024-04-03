@@ -82,7 +82,7 @@ export const ClearAllMealPlanEntries = () => {
                 Cancel
               </Button>
               <Button
-                colorScheme="red"
+                className={"bg-red-400 text-white"}
                 size={"sm"}
                 ml={3}
                 disabled={loading}
