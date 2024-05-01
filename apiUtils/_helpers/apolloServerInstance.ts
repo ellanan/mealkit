@@ -1,6 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import * as Sentry from "@sentry/node";
+import { InigoPlugin } from "inigo.js";
 import jwt from "jsonwebtoken";
 import type { Headers } from "undici";
 
@@ -9,6 +10,7 @@ import { prisma } from "./prismaClient";
 
 export const apolloServerInstance = new ApolloServer({
   schema,
+  plugins: [InigoPlugin()],
 });
 
 export const apolloServerHandler = startServerAndCreateNextHandler(
