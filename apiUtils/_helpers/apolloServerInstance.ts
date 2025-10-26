@@ -9,7 +9,6 @@ import { prisma } from "./prismaClient";
 
 export const apolloServerInstance = new ApolloServer({
   schema,
-  plugins: [],
 });
 
 export const apolloServerHandler = startServerAndCreateNextHandler(

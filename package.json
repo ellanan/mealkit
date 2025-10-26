@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "undici": "^7.16.0"
   },
   "eslintConfig": {
     "extends": [
