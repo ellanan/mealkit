@@ -136,7 +136,7 @@
     "winston": "^3.3.3"
   },
   "engines": {
-    "node": "22.x"
+    "node": "20.x"
   },
   "packageManager": "pnpm@10.19.0",
   "volta": {
