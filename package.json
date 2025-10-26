@@ -30,10 +30,7 @@
   },
   "dependencies": {
     "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0",
-    "inigo-darwin-arm64": "^0.30.1",
-    "inigo-linux-amd64": "^0.30.1",
-    "inigo.js": "^0.30.1"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "eslintConfig": {
     "extends": [
@@ -59,7 +56,9 @@
     "@as-integrations/next": "^3.0.0",
     "@auth0/auth0-react": "^1.8.0",
     "@chakra-ui/icons": "^1.0.16",
+    "@chakra-ui/input": "^2.1.2",
     "@chakra-ui/react": "^1.6.10",
+    "@chakra-ui/spinner": "^2.1.0",
     "@ellanan/graphql-iso-date": "3.6.1",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.4.1",

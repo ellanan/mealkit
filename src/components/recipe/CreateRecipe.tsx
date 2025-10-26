@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { Editor } from "@tinymce/tinymce-react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import Creatable from "react-select/creatable";
 
 import * as GraphQLTypes from "../../generated/graphql";

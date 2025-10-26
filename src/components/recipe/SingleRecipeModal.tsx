@@ -4,7 +4,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { SingleRecipeDetails } from "./SingleRecipeDetails";
 
