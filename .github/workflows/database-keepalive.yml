@@ -1,0 +1,45 @@
+name: Database Keep-Alive
+
+on:
+  # Run every Monday and Thursday at 12:00 PM Eastern Time
+  # Note: GitHub Actions uses UTC, so this is 16:00 UTC (noon EDT)
+  # During EST (winter), this will run at 11:00 AM instead
+  schedule:
+    - cron: '0 16 * * 1'  # Monday at 12:00 PM EDT / 11:00 AM EST
+    - cron: '0 16 * * 4'  # Thursday at 12:00 PM EDT / 11:00 AM EST
+
+  # Allow manual triggering from GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  keep-database-active:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          echo "🔄 Updating GroceryList to keep database active..."
+          echo "Timestamp: $TIMESTAMP"
+
+          RESPONSE=$(curl -X PATCH 'https://oocgjxhyejuxqkxbetpg.supabase.co/rest/v1/GroceryList?id=eq.test' \
+            -H "apikey: ${{ secrets.SB_API_SECRET_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SB_API_SECRET_KEY }}" \
+            -H "Content-Type: application/json" \
+            -H "Prefer: return=representation" \
+            -d "{\"name\": \"Keep-alive: $TIMESTAMP\"}" \
+            -s -w "\nHTTP_STATUS:%{http_code}")
+
+          HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d: -f2)
+          BODY=$(echo "$RESPONSE" | sed '/HTTP_STATUS/d')
+
+          echo "Response: $BODY"
+          echo "HTTP Status: $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "✅ Database keep-alive successful!"
+          else
+            echo "❌ Database keep-alive failed with status $HTTP_STATUS"
+            exit 1
+          fi
