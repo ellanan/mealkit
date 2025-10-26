@@ -29,3 +29,4 @@ yarn-error.log*
 
 .vercel
 ngrok.log
+.env*.local
